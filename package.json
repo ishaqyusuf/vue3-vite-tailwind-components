@@ -1,0 +1,34 @@
+{
+  "name": "vite-wind",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --debug"
+  },
+  "dependencies": {
+    "css-pro-layout": "^1.0.2",
+    "lodash": "^4.17.21",
+    "require-context": "^1.1.0",
+    "vue": "^3.0.7",
+    "vue-router": "^4.0.2",
+    "vue3-router-tree": "^0.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss7-compat": "^2.0.3",
+    "@tailwindcss/typography": "^0.3.1",
+    "@types/lodash": "^4.14.168",
+    "@vitejs/plugin-vue": "^1.0.4",
+    "@vitejs/plugin-vue-jsx": "^1.1.2",
+    "@vue/compiler-sfc": "^3.0.7",
+    "@vuedx/typecheck": "^0.4.1",
+    "@vuedx/typescript-plugin-vue": "^0.4.1",
+    "autoprefixer": "^9.8.6",
+    "axios": "^0.21.1",
+    "postcss": "^7.0.35",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
+    "typescript": "^4.1.3",
+    "vite": "^2.0.5",
+    "vite-tsconfig-paths": "^2.1.0",
+    "webpack-bundle-analyzer": "^3.6.1"
+  }
+}
