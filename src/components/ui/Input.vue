@@ -15,7 +15,7 @@
   >
     <div
       class="p-2 border-b hover:bg-purple-700 hover:text-white"
-      v-for="item in 5"
+      v-for="item in searchItems"
       :key="item"
     >
       Item {{ item }}
@@ -37,9 +37,13 @@ export default defineComponent({
   data() {
     return {
       focused: false,
+      items: [1, 2, 3],
     };
   },
   computed: {
+    searchItems() {
+      return this.items;
+    },
     inputWidth() {
       return this.$refs.input?.clientWidth;
     },
@@ -58,7 +62,6 @@ export default defineComponent({
   methods: {
     toggleFocus(focus = true) {
       this.focused = focus;
-      console.log(focus);
     },
   },
   setup() {

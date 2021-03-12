@@ -57,8 +57,11 @@ module.exports = {
         ...heights,
       },
       colors: {
+        a_primary: "",
+        a_secondary: "",
+        a_accent: "",
         emerald: colors.emerald,
-        primary: "#fed300",
+        primary: colors.purple[700],
         secondary: "#212223",
         cyan: "#9cdbff",
         black: {

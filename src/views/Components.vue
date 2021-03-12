@@ -1,6 +1,7 @@
 <template>
   <v-page class="space-y-2" title="Components">
     <v-input dense placeholder="Hello"></v-input>
+    <v-button>Hello</v-button>
     <v-date></v-date>
   </v-page>
 </template>
