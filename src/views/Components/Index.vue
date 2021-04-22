@@ -1,8 +1,15 @@
 <template>
-  <div class="max-w-4xl my-4 mx-auto">
-    <Table :structure="structure" checkable action deletable :data="data">
-      <!-- <template v-slot:after_parcel="{ item }"> </template> -->
-    </Table>
+  <div class="inline-flex w-full">
+    <!-- <side-navigation>
+      <menu-item dark>Form</menu-item>
+      <menu-item dark>Table</menu-item>
+    </side-navigation> -->
+    <div class="m-4 min-h-screen w-full">
+      <span class="text-4xl block leading-loose font-bold">{{
+        $route.params.title
+      }}</span>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 

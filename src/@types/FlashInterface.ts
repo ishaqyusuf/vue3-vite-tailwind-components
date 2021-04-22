@@ -1,5 +1,5 @@
 export default interface FlashInterface {
-    level: string,
-    message: string,
-    id?: string
+  level: string;
+  message: string;
+  id?: string;
 }

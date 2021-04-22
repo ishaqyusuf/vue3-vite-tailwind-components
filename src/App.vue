@@ -1,19 +1,18 @@
 <template>
-  <app-header></app-header>
-  <router-view></router-view>
+  <div class="bg-gray-100">
+    <Header></Header>
+    <!-- <SharedBtn>Hello</SharedBtn> -->
+    <!-- <SharedCheckbox label="SharedL"></SharedCheckbox> -->
+    <router-view></router-view>
+  </div>
 </template>
 
-<script>
+<script type="ts">
 import Header from "@components/navs/Header.vue";
 export default {
-  data() {
-    return {};
-  },
-  computed: {},
   components: {
-    "app-header": Header,
+     Header,
   },
-  mounted() {},
 };
 </script>
 

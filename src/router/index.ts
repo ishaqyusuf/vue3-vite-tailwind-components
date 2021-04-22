@@ -1,8 +1,14 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "../views/Home.vue";
 import NotFound from "../views/NotFound.vue";
+import auth from "./auth.routes";
+import basic from "./basic.routes";
+import component from "./component.routes";
 
 export const routes: Array<RouteRecordRaw> = [
+  ...auth.routes,
+  ...basic.routes,
+  ...component.routes,
   {
     path: "/",
     name: "Home",
@@ -11,10 +17,30 @@ export const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/components",
-    name: "Components",
-    component: () => import("../views/Components.vue"),
+    name: "components",
+    component: () => import("../views/Components/Index.vue"),
     meta: {
       title: "Components",
+    },
+    children: [
+      {
+        path: "form",
+        name: "form",
+        component: () => import("../views/Components/Form.vue"),
+      },
+      {
+        path: "table",
+        name: "table",
+        component: () => import("../views/Components/TableComponent.vue"),
+      },
+    ],
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("../views/Auth/Login.vue"),
+    meta: {
+      beforeEach: (to, from, next) => {},
     },
   },
   {
