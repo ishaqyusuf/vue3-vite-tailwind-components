@@ -1,14 +1,22 @@
-import { createApp, defineAsyncComponent } from "vue";
 import App from "./App.vue";
 import "./styles.css";
 import router from "./router";
-
-// import { utils } from "@utils/index";
+import { ViteSSG } from "vite-ssg";
+// import { utils } from "@core/utils/index";
 import { clientApiPlugin } from "@services/client";
+import { createApp } from "vue";
 let app = createApp(App);
 
 app
   .use(router)
+  .use((ctx) => {
+    Object.values(import.meta.globEager("./modules/*.ts")).map((i) =>
+      i.install?.(ctx, router)
+    );
+  })
   .use(clientApiPlugin)
   // .use(utils)
   .mount("#app");
+// export const createApp = ViteSSG(App, { }, (ctx) => {
+//   ctx.use(clientAppPlugin);
+// });

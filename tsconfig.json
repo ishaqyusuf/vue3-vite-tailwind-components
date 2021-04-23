@@ -13,13 +13,15 @@
     "types": ["vite/client"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "@components/*": ["./components/*"],
-      "@views/*": ["./views/*"],
-      "@use/*": ["./use/*"],
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@views/*": ["./src/views/*"],
+      "@use/*": ["./src/use/*"],
       "@services/*": ["./src/core/services/*"],
-      "@utils/*": ["./src/core/utils/*"],
-      "@locales": ["./src/locales"]
+      "@utils/*": ["./src/utils/*"],
+      "@locales": ["./src/locales/*"],
+      "@core": ["./src/core/*"],
+      "@mixins": ["./src/mixins/*"]
     },
     "plugins": [{ "name": "@vuedx/typescript-plugin-vue" }]
   },

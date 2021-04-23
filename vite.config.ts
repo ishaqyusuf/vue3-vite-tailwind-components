@@ -23,8 +23,10 @@ export default defineConfig({
       "@views": resolve(__dirname, "src/views"),
       "@services": resolve(__dirname, "src/core/services"),
       "@use": resolve(__dirname, "src/use"),
-      "@utils": resolve(__dirname, "src/core/utils"),
+      "@utils": resolve(__dirname, "src/utils"),
       "@locales": resolve(__dirname, "src/locales"),
+      "@mixins": resolve(__dirname, "src/mixins"),
+      "@core": resolve(__dirname, "src/core"),
     },
   },
   plugins: [
@@ -42,4 +44,8 @@ export default defineConfig({
       // options are passed on to @vue/babel-plugin-jsx
     }),
   ],
+  ssgOptions: {
+    script: "async",
+    formatting: "minify",
+  },
 });

@@ -1,0 +1,23 @@
+export const btnMixins = {
+  props: {
+    tile: Boolean,
+    fab: Boolean,
+    icon: { type: [Boolean] },
+    dense: Boolean,
+    secondary: Boolean,
+    tertiary: Boolean,
+    xLarge: Boolean,
+    large: Boolean,
+    small: Boolean,
+    xSmall: [Boolean, Object],
+    disabled: {},
+    to: {},
+    loading: [Boolean, Object],
+    prependIcon: {},
+    appendIcon: {},
+    color: { default: "default" },
+    textColor: { default: "gray" },
+    dark: Boolean,
+    text: Boolean,
+  },
+};

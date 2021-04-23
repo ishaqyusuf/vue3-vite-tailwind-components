@@ -1,24 +1,104 @@
-<template>
-  <!-- :class="[sm && 'p-1 px-4', lg && 'p-2 px-4', block && 'block w-full']" -->
-  <button
-    class="bg-primary text-white focus:ring-2 rounded-lg border-primary focus:outline-none"
-  >
-    <i-mdi-account-box style="font-size: 2em; color: red" />
-    <slot></slot>
-  </button>
-</template>
-
 <script lang="ts">
-export default {
-  props: {
-    block: Boolean,
-    sm: Boolean,
-    md: Boolean,
-    lg: Boolean,
-    xl: Boolean,
+import {
+  defineComponent,
+  defineAsyncComponent,
+  resolveComponent,
+  resolveDynamicComponent,
+  h,
+  ref,
+  computed,
+} from "vue";
+import { btnMixins } from "@mixins/btn";
+import Spinner from "@/components/shared/Spinner.vue";
+export default defineComponent({
+  mixins: [btnMixins],
+  components: { Spinner },
+  setup(props, { slots }) {
+    const objectValue = (object) =>
+      typeof object === "object" ? object.value : object;
+    const loading = computed(() => objectValue(props.loading)).value;
+    const disabled = computed(() => objectValue(props.disabled)).value;
+    const { fab, dense, icon, tile, large, xLarge, small, text } = props;
+    const _class = [
+      disabled && "gray-scale",
+      { "cursor-default": loading },
+      { "border focus:ring-2 font-poppins shadow-lg": !text && !icon },
+      { "rounded-full w-9 h-9": fab },
+
+      { "text-base focus:outline-none border-separate relative": true },
+      { "rounded-lg": !tile },
+      { "text-lg h-12": large },
+      { "text-lg h-14": xLarge },
+      { "text-sm h-7": small },
+    ];
+    const prefix = (value) => (slots.prefix ? slots.prefix(value) : []);
+    const suffix = (value) => (slots.suffix ? slots.suffix(value) : []);
+    const defaultSlot = () => (slots.default ? slots.default() : []);
+    const loadingSlot = () => (slots.loadingSlot ? slots.loadingSlot() : []);
+
+    const pathAttrs = {
+      d: "M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z",
+    };
+    const svgAttrs = {
+      fill: "currentColor",
+      width: "1.2em",
+      height: "1.2em",
+      viewBox: "0 0 24 24",
+      xmlns: "http://www.w3.org/2000/svg",
+    };
+    const loader = h(
+      "div",
+      {
+        class: [
+          {
+            "absolute left-0 inline-flex items-center justify-center top-0 bottom-0 text-gray-900  right-0": true,
+            "opacity-0": !loading,
+          },
+        ],
+      },
+      [
+        h(
+          "svg",
+          {
+            ...svgAttrs,
+            class: ["animate-spin"],
+          },
+          [
+            h("path", {
+              ...pathAttrs,
+            }),
+          ]
+        ),
+      ]
+    );
+    const button = h(
+      "button",
+      {
+        onClick: ($event) => this.$emit("click"),
+        id: "a",
+        class: _class,
+      },
+      [
+        loading && loader,
+        h(
+          "div",
+          {
+            class: [
+              { "inline-flex items-center w-full space-x-2": true },
+              { "opacity-0": loading },
+              { "px-4 h-9": !dense && !fab && !icon },
+              { "px-2": dense },
+            ],
+          },
+          [prefix({ foo: "bar" }), defaultSlot(), suffix({ foo: "bar" })]
+        ),
+      ]
+    );
+    const url = props.to ?? props.href;
+    return () =>
+      url ? h(resolveComponent("router-link"), { to: url }, [button]) : button;
   },
-  setup() {},
-};
+});
 </script>
 
 <style></style>

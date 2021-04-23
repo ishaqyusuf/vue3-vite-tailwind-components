@@ -7,13 +7,21 @@
   </div>
 </template>
 
-<script type="ts">
+<script lang="ts">
+import { ref, onMounted } from "vue";
 import Header from "@components/navs/Header.vue";
 export default {
+  props: {},
   components: {
-     Header,
+    Header,
+  },
+  setup(props, { emit }) {
+    onMounted(() => {
+      // NProgress.start();
+    });
+    return {};
   },
 };
 </script>
 
-<style></style>
+<style scoped></style>

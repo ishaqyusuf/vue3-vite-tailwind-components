@@ -1,5 +1,5 @@
 import { $clientApi } from "@services/client";
-import { $dev } from "@utils/functions";
+import { $dev } from "@core/utils/functions";
 import qs from "qs";
 
 const fetchMany = async (query) => {
