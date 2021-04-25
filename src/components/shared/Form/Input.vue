@@ -2,6 +2,9 @@
   <input
     :placeholder="placeholder"
     v-model="value"
+    :required="required"
+    :pattern="pattern"
+    :oninvalid="oninvalid"
     @focus="toggleFocus()"
     @blur="toggleFocus(false)"
     ref="input"
@@ -25,15 +28,10 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-
+import { inputMixins } from "@/mixins/input";
 export default defineComponent({
-  props: {
-    placeholder: {},
-    modelValue: {},
-    dense: { type: Boolean },
-    loader: {},
-    loading: { type: Boolean },
-  },
+  mixins: [inputMixins],
+  props: {},
   data() {
     return {
       focused: false,

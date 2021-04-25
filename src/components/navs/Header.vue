@@ -7,12 +7,11 @@
         <Link :class="{ hidden: loggedIn }" :to="{ name: 'components' }"
           >Components</Link
         >
-        <button @click="login">Login</button>
+        <Link :to="{ name: 'login' }">Home</Link>
       </div>
     </div>
   </div>
 </template>
-
 <script lang="ts">
 import { computed } from "vue";
 import user from "@use/user";
@@ -20,7 +19,6 @@ export default {
   setup(props, { emit }) {
     const loggedIn = computed(() => user.value);
     const login = () => {
-      user.user.value = { id: 1 };
     };
     return { ...user, login };
   },

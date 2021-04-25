@@ -1,11 +1,8 @@
 <template>
-  <Btn :to="{ name: 'login' }">
-    <!-- <template #prefix><i-mdi-loading class="animate-spin" /></template> -->
+  <Btn color="blue">
     <span>Hello</span>
-    <!-- <template #suffix><i-mdi-cog /></template> -->
   </Btn>
   <Btn :to="{ name: 'login' }" loading>
-    <!-- <template #prefix><i-mdi-loading class="animate-spin" /></template> -->
     <span>Hello</span>
   </Btn>
   <Table :structure="structure" checkable action deletable :data="data">

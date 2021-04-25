@@ -15,7 +15,7 @@ export const btnMixins = {
     loading: [Boolean, Object],
     prependIcon: {},
     appendIcon: {},
-    color: { default: "default" },
+    color: { default: "blue" },
     textColor: { default: "gray" },
     dark: Boolean,
     text: Boolean,

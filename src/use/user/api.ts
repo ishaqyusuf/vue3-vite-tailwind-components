@@ -1,44 +1,24 @@
 import { $clientApi } from "@services/client";
-import { $dev } from "@core/utils/functions";
-import qs from "qs";
-
-const fetchMany = async (query) => {
+import { $dev } from "@/core/utils/functions";
+const login = async (form) => {
   try {
-    const { data } = await $clientApi.get(`/parcels?${qs.stringify(query)}`);
+    const { data } = await $clientApi.post("/user", form);
     return data;
   } catch (err) {
     $dev.error(err);
   }
 };
-const fetchOne = async (id, query = {}) => {
+const validate = async (token) => {
   try {
-    const { data } = await $clientApi.get(
-      `/parcels/${id}?${qs.stringify(query)}`
-    );
+    const { data } = await $clientApi.get(`/user/validate/${token}`);
     return data;
   } catch (err) {
     $dev.error(err);
   }
 };
-const createOne = async (form) => {
+const deactivate = async (password) => {
   try {
-    const { data } = await $clientApi.post("/parcels", form);
-    return data;
-  } catch (err) {
-    $dev.error(err);
-  }
-};
-const updateOne = async (id, form) => {
-  try {
-    const { data } = await $clientApi.put(`/parcels/${id}`, form);
-    return data;
-  } catch (err) {
-    $dev.error(err);
-  }
-};
-const deleteOne = async (id) => {
-  try {
-    const { data } = await $clientApi.delete(`/parcels/${id}`);
+    const { data } = await $clientApi.get(`/deactivate/${password}`);
     return data;
   } catch (err) {
     $dev.error(err);
@@ -46,9 +26,7 @@ const deleteOne = async (id) => {
 };
 
 export default {
-  fetchParcels: fetchMany,
-  fetchParcel: fetchOne,
-  createParcel: createOne,
-  updateParcel: updateOne,
-  deleteParcel: deleteOne,
+  login,
+  validate,
+  deactivate,
 };

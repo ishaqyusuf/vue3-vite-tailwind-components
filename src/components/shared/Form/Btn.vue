@@ -1,40 +1,44 @@
 <script lang="ts">
-import {
-  defineComponent,
-  defineAsyncComponent,
-  resolveComponent,
-  resolveDynamicComponent,
-  h,
-  ref,
-  computed,
-} from "vue";
-import { btnMixins } from "@mixins/btn";
+import { defineComponent, resolveComponent, h, computed } from "vue";
+import { btnMixins } from "@/mixins/btn";
 import Spinner from "@/components/shared/Spinner.vue";
 export default defineComponent({
   mixins: [btnMixins],
   components: { Spinner },
-  setup(props, { slots }) {
+  setup(props, { slots, emit }) {
     const objectValue = (object) =>
       typeof object === "object" ? object.value : object;
     const loading = computed(() => objectValue(props.loading)).value;
     const disabled = computed(() => objectValue(props.disabled)).value;
-    const { fab, dense, icon, tile, large, xLarge, small, text } = props;
+    const {
+      fab,
+      dense,
+      icon,
+      secondary,
+      tertiary,
+      color,
+      tile,
+      large,
+      xLarge,
+      small,
+    } = props;
+    const primary = !icon && !secondary && !tertiary;
     const _class = [
       disabled && "gray-scale",
       { "cursor-default": loading },
-      { "border focus:ring-2 font-poppins shadow-lg": !text && !icon },
+      { "border focus:ring-2 font-poppins shadow-lg": !tertiary && !icon },
       { "rounded-full w-9 h-9": fab },
-
       { "text-base focus:outline-none border-separate relative": true },
       { "rounded-lg": !tile },
       { "text-lg h-12": large },
       { "text-lg h-14": xLarge },
       { "text-sm h-7": small },
+      primary && `bg-${color}-600 text-white hover:bg-${color}-700`,
+      { "bg-white text-gray-700 hover:bg-gray-50": secondary },
     ];
     const prefix = (value) => (slots.prefix ? slots.prefix(value) : []);
     const suffix = (value) => (slots.suffix ? slots.suffix(value) : []);
     const defaultSlot = () => (slots.default ? slots.default() : []);
-    const loadingSlot = () => (slots.loadingSlot ? slots.loadingSlot() : []);
 
     const pathAttrs = {
       d: "M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z",
@@ -51,8 +55,10 @@ export default defineComponent({
       {
         class: [
           {
-            "absolute left-0 inline-flex items-center justify-center top-0 bottom-0 text-gray-900  right-0": true,
+            "absolute left-0 inline-flex items-center justify-center top-0 bottom-0  right-0": true,
             "opacity-0": !loading,
+            " text-gray-900": !primary,
+            "text-white": primary,
           },
         ],
       },
@@ -74,8 +80,7 @@ export default defineComponent({
     const button = h(
       "button",
       {
-        onClick: ($event) => this.$emit("click"),
-        id: "a",
+        onClick: ($event) => emit("click"),
         class: _class,
       },
       [
