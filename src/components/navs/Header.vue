@@ -7,7 +7,7 @@
         <Link :class="{ hidden: loggedIn }" :to="{ name: 'components' }"
           >Components</Link
         >
-        <Link :to="{ name: 'login' }">Home</Link>
+        <Link :to="{ name: 'login' }">Login</Link>
       </div>
     </div>
   </div>
@@ -18,8 +18,7 @@ import user from "@use/user";
 export default {
   setup(props, { emit }) {
     const loggedIn = computed(() => user.value);
-    const login = () => {
-    };
+    const login = () => {};
     return { ...user, login };
   },
 };

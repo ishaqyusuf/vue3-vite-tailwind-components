@@ -1,14 +1,17 @@
 <template>
   <div class="h-screen">
-    <form @submit.prevent="login">
-      <InputA name="user" pattern=".*\S*.*" required></InputA>
-      <InputA
-        type="password"
-        required
-        pattern=".*\S*.*"
-        name="password"
-      ></InputA>
-    </form>
+    <Card class="max-w-lg mx-auto">
+      <card-content>
+        <form @submit.prevent="login" class="space-y-2">
+          <InputA name="user" pattern=".*\S*.*" required></InputA>
+          <InputA
+            type="password"
+            required
+            pattern=".*\S*.*"
+            name="password"
+          ></InputA></form
+      ></card-content>
+    </Card>
   </div>
 </template>
 
@@ -21,12 +24,13 @@ export default {
     const user = ref();
     const password = ref();
 
-    const submit = (event)  => {
-      const fd : HTMLFormElement = event.target;
+    const submit = (event) => {
+      const fd: HTMLFormElement = event.target;
       // const {user,password } = Object.fromEntries(new FormData(fd));
 
-    return {
-      ...useUser,
+      return {
+        ...useUser,
+      };
     };
   },
 };
