@@ -2,8 +2,8 @@ describe("User Login", function () {
   beforeEach(() => {});
 
   const login = (username, password, assert) => {
-    cy.getBySelLike("username").clear().type("ishaqyusuf024@gmail.com");
-    cy.getBySelLike("password").clear().type("admin");
+    cy.getBySelLike("username").clear().type(username);
+    cy.getBySelLike("password").clear().type(password);
 
     cy.getBySelLike("submit").should("not.be.disabled");
     cy.getBySelLike("submit").click();
