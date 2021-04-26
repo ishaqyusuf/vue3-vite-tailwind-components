@@ -1,8 +1,13 @@
 <template>
   <div class="h-screen">
     <form @submit.prevent="login">
-      <InputA name="user"  pattern=".*\S*.*"  required></InputA>
-      <InputA type="password" required pattern=".*\S*.*" name="password"></InputA>
+      <InputA name="user" pattern=".*\S*.*" required></InputA>
+      <InputA
+        type="password"
+        required
+        pattern=".*\S*.*"
+        name="password"
+      ></InputA>
     </form>
   </div>
 </template>
@@ -18,7 +23,7 @@ export default {
 
     const submit = (event)  => {
       const fd : HTMLFormElement = event.target;
-      const {user,password } = Object.fromEntries(new FormData(fd));
+      // const {user,password } = Object.fromEntries(new FormData(fd));
 
     return {
       ...useUser,
