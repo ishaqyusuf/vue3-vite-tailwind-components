@@ -27,7 +27,7 @@ export default {
     const submit = (event) => {
       const fd: HTMLFormElement = event.target;
       // const {user,password } = Object.fromEntries(new FormData(fd));
-
+      useUser.login(fd).then((result) => {});
       return {
         ...useUser,
       };

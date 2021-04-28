@@ -1,12 +1,15 @@
 import { $clientApi } from "@services/client";
 import { $dev } from "@/core/utils/functions";
-const login = async (form) => {
+import userState from "./state";
+const login = async (form, redirect = { name: "home" }) => {
   try {
-    const { data } = await $clientApi.post("/user", form);
-    return data;
+    const { user, token, error } = (await $clientApi.post("/user", form)).data;
+    if (token) userState.initializeUser(token, user);
+    return { error, token };
   } catch (err) {
     $dev.error(err);
   }
+  return {};
 };
 const validate = async (token) => {
   try {
