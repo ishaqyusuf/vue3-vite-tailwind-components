@@ -1,24 +1,24 @@
 const prefix = "eaftrack";
-function name(name) {
-  return [prefix, name].join("_");
+function getName(_name) {
+  return [prefix, _name].join("_");
 }
 function set(name, value) {
   localStorage.setItem(
-    name(name),
+    getName(name),
     JSON.stringify({
       value: value,
     })
   );
 }
 function remove(name) {
-  localStorage.removeItem(name(name));
+  localStorage.removeItem(getName(name));
 }
 function clear() {
   localStorage.clear();
 }
-function get(name) {
-  let val = JSON.parse(localStorage.getItem(name(name)) ?? "{}");
-  return val?.value;
+function get(name, _default = null) {
+  let val = JSON.parse(localStorage.getItem(getName(name)) ?? "{}");
+  return val?.value ?? _default;
 }
 export default {
   set,

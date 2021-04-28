@@ -10,6 +10,10 @@ const loadToken = () => {
     token.value = _token;
   }
 };
+const getToken = () => {
+  loadToken();
+  return token.value;
+};
 const saveToken = (tok) => {
   storage.set("authorized_user_token", tok);
   loadToken();
@@ -27,6 +31,7 @@ const authenticate = async () => {
 };
 export default {
   token,
+  getToken,
   user,
   authenticate,
   initializeUser,

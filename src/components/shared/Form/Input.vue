@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <slot name="label">
-      <x-label v-if="label">{{ label }}</x-label>
+      <Label v-if="label">{{ label }}</Label>
     </slot>
     <div
       ref="inputParent"

@@ -1,6 +1,6 @@
 <template>
   <span
-    class="font-poppins"
+    class="font-poppins text-gray-800"
     :class="[
       block && 'block',
       sm && 'text-sm',

@@ -28,6 +28,7 @@
 <script lang="ts">
 import { ref } from "vue";
 import useUser from "@/use/user";
+import device from "@/hooks/device";
 export default {
   props: {},
   setup(props, { emit }) {
@@ -41,6 +42,7 @@ export default {
         loading.value = true;
       });
     };
+    console.log(useUser.getToken());
     return {
       ...useUser,
       submit,
