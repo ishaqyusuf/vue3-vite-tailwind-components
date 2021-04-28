@@ -17,6 +17,7 @@ export const btnMixins = {
     appendIcon: {},
     color: { default: "blue" },
     textColor: { default: "gray" },
+    type: { default: "button" },
     dark: Boolean,
     text: Boolean,
   },

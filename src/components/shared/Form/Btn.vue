@@ -21,6 +21,7 @@ export default defineComponent({
       large,
       xLarge,
       small,
+      type,
     } = props;
     const primary = !icon && !secondary && !tertiary;
     const _class = [
@@ -82,6 +83,7 @@ export default defineComponent({
       {
         onClick: ($event) => emit("click"),
         class: _class,
+        type: type,
       },
       [
         loading && loader,
@@ -89,13 +91,15 @@ export default defineComponent({
           "div",
           {
             class: [
-              { "inline-flex items-center w-full space-x-2": true },
+              {
+                "inline-flex items-center justify-center w-full space-x-2": true,
+              },
               { "opacity-0": loading },
               { "px-4 h-9": !dense && !fab && !icon },
               { "px-2": dense },
             ],
           },
-          [prefix({ foo: "bar" }), defaultSlot(), suffix({ foo: "bar" })]
+          [prefix({}), defaultSlot(), suffix({})]
         ),
       ]
     );

@@ -7,10 +7,14 @@
         isFocused && 'ring-2',
         rounded ? 'rounded-full' : !tile && 'rounded-lg',
       ]"
-      class="border relative border-gray-500 h-full bg-white hover:border-blue-500 px-2 rounded-lg shadow space-x-2 items-center flex group"
+      class="border relative border-gray-500 h-full bg-white hover:border-blue-500 rounded-lg shadow space-x-2 items-center flex group"
     >
-      <ui-icon v-if="prependInnerIcon">{{ prependInnerIcon }}</ui-icon>
-      <span class="font-semibold" v-if="prefixValue">{{ prefixValue }}</span>
+      <ui-icon v-if="prependInnerIcon" class="pl-2">{{
+        prependInnerIcon
+      }}</ui-icon>
+      <span class="font-semibold pl-2" v-if="prefixValue">{{
+        prefixValue
+      }}</span>
       <div class="w-full h-full relative">
         <textarea
           ref="input"
@@ -28,7 +32,7 @@
           @keydown.esc="close"
           @focus="focus"
           @blur="blur"
-          class="py-2 w-full h-full focus:outline-none"
+          class="p-2 w-full h-full focus:outline-none"
         ></textarea>
         <input
           v-else
@@ -37,7 +41,7 @@
           @blur="blur"
           :type="type"
           autocomplete="off"
-          class="py-2 w-full appearance-none focus:outline-none bg-white"
+          class="p-2 w-full rounded-lg appearance-none focus:outline-none bg-white"
           @keydown.enter="enter"
           @keydown.tab="close"
           @keydown.up="up"
@@ -59,11 +63,13 @@
           
         /> -->
       </div>
-      <button v-if="appendIcon" @click="appendClick">
+      <button class="pr-2" v-if="appendIcon" @click="appendClick">
         <ui-icon>{{ appendIcon }}</ui-icon>
       </button>
-      <span class="font-semibold" v-if="suffixValue">{{ suffixValue }}</span>
-      <button v-if="isClearable" @click="clear">
+      <span class="font-semibold pr-2" v-if="suffixValue">{{
+        suffixValue
+      }}</span>
+      <button class="pr-2" v-if="isClearable" @click="clear">
         <ui-icon>mdi-close</ui-icon>
       </button>
       <!-- @click="inputFocus(true)" -->
@@ -83,7 +89,7 @@
     >
       <ul
         :style="{ width: inputWidth + 'px' }"
-        class="p-0 overflow-y-auto  max-h-56 rounded-b-lg shadow-xl border"
+        class="p-0 overflow-y-auto max-h-56 rounded-b-lg shadow-xl border"
       >
         <!-- <div
         @click="modelValue = item"
@@ -328,7 +334,7 @@ export default {
         // throw new TypeError();
       }
     },
-    resourceSearch: debounce(function(url) {
+    resourceSearch: debounce(function (url) {
       if (!this.modelValue) {
         this.results = [];
         return;
