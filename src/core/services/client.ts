@@ -3,12 +3,15 @@ import { axiosConfig } from "./config";
 import user from "@/use/user";
 import device from "@/hooks/device";
 export const $clientApi = axios.create(axiosConfig);
+import NProgress from "@/utils/progress";
 // $clientApi.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 $clientApi.interceptors.request.use(
   async (request) => {
     request.headers["device"] = await device.get();
-    if (user.getToken()) request.headers["auth_token"] = user.getToken();
+    const token = user.getToken();
+    if (token) request.headers["auth_token"] = token;
+    NProgress.start();
     return request;
   },
   (error) => {
@@ -17,8 +20,12 @@ $clientApi.interceptors.request.use(
 );
 
 $clientApi.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    NProgress.done();
+    return response;
+  },
   (error) => {
+    NProgress.done();
     throw new Error(error);
   }
 );

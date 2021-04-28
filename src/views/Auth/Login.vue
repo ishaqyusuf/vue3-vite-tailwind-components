@@ -19,8 +19,8 @@
           >
           </Input>
           <Btn class="w-full" :loading="loading" type="submit">Sign In</Btn>
-        </form></card-content
-      >
+        </form>
+      </card-content>
     </Card>
   </div>
 </template>
