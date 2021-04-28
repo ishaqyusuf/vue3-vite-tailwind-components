@@ -5,17 +5,20 @@
         <form
           @submit.prevent="submit"
           autocomplete="off"
-          class="w-full space-y-2"
+          class="w-full space-y-3"
         >
-          <Input v-model="form.user" pattern=".*\S*.*" required></Input>
+          <Input v-model="form.user" pattern=".*\S*.*" required label="Email">
+          </Input>
           <Input
             v-model="form.password"
             type="password"
             required
             pattern=".*\S*.*"
             name="password"
-          ></Input>
-          <Btn class="w-full" type="submit">Sign In</Btn>
+            label="Password"
+          >
+          </Input>
+          <Btn class="w-full" :loading="loading" type="submit">Sign In</Btn>
         </form></card-content
       >
     </Card>
@@ -29,15 +32,20 @@ export default {
   props: {},
   setup(props, { emit }) {
     const form = ref({ user: "", password: "" });
+    const loading = ref(false);
     const submit = (event) => {
+      loading.value = true;
       const fd: HTMLFormElement = event.target;
       // const {user,password } = Object.fromEntries(new FormData(fd));
-      useUser.login(fd).then((result) => {});
+      useUser.login(fd).then((result) => {
+        loading.value = true;
+      });
     };
     return {
       ...useUser,
       submit,
       form,
+      loading,
     };
   },
 };
