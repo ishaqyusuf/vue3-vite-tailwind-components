@@ -2,8 +2,8 @@ import axios from "axios";
 import { axiosConfig } from "./config";
 import user from "@/use/user";
 import device from "@/hooks/device";
-export const $clientApi = axios.create(axiosConfig);
 import NProgress from "@/utils/progress";
+export const $clientApi = axios.create(axiosConfig);
 // $clientApi.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 $clientApi.interceptors.request.use(
