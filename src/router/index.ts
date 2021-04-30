@@ -2,7 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import auth from "./auth.routes";
 import basic from "./basic.routes";
 import component from "./component.routes";
-import NProgress from "../utils/progress";
+import NProgress from "@/utils/progress";
 import TitleHelper from "../utils/title";
 import useConfigs from "../use/configs";
 import user from "../use/user";
