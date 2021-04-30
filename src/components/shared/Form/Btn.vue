@@ -2,8 +2,9 @@
 import { defineComponent, resolveComponent, h, computed } from "vue";
 import { btnMixins } from "@/mixins/btn";
 import Spinner from "@/components/shared/Spinner.vue";
-export default defineComponent({
-  mixins: [btnMixins],
+import mixins from "vue-typed-mixins";
+
+export default mixins(btnMixins).extend({
   components: { Spinner },
   setup(props, { slots, emit }) {
     const objectValue = (object) =>
