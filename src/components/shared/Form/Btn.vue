@@ -8,7 +8,9 @@ export default defineComponent({
   setup(props, { slots, emit }) {
     const objectValue = (object) =>
       typeof object === "object" ? object.value : object;
+
     const loading = computed(() => objectValue(props.loading)).value;
+    console.log(loading);
     const disabled = computed(() => objectValue(props.disabled)).value;
     const {
       fab,
