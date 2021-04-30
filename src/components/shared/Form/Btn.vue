@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, resolveComponent, h, computed } from "vue";
+import { resolveComponent, h, computed } from "vue";
 import { btnMixins } from "@/mixins/btn";
 import Spinner from "@/components/shared/Spinner.vue";
 import mixins from "vue-typed-mixins";
