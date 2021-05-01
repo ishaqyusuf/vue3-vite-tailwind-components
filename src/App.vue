@@ -1,5 +1,6 @@
 <template>
   <div class="bg-gray-100">
+    <AlertContainer />
     <Header></Header>
     <!-- <SharedBtn>Hello</SharedBtn> -->
     <!-- <SharedCheckbox label="SharedL"></SharedCheckbox> -->
