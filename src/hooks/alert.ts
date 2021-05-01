@@ -1,15 +1,18 @@
 import { ref, computed } from "vue";
 
-const stacks: any = ref([
-  {
-    success: true,
-    text: "Hello World",
-    delay: 2000,
-  },
-]);
+const stacks: any = ref([]);
 
 const initAlert = (payload) => {
   stacks.value.push(payload);
+};
+const register = (msg, error = false) => {
+  initAlert({
+    text: msg,
+    success: !error,
+    error: error,
+    delay: 2000,
+    active: true,
+  });
 };
 const alerts = computed(() => stacks.value);
 const destroyAlert = (alert) => {
@@ -20,4 +23,5 @@ export default {
   initAlert,
   destroyAlert,
   alerts,
+  register,
 };

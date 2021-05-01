@@ -30,6 +30,7 @@
 <script lang="ts">
 import { ref, computed } from "vue";
 import useUser from "@/use/user";
+import alertHook from "@/hooks/alert";
 export default {
   props: {},
   setup(props, { emit }) {
@@ -41,6 +42,7 @@ export default {
       await useUser.login(form.value);
       // console.log(loading.value);
       loading.value = false;
+      alertHook.register("Hello World");
     };
     return {
       ...useUser,

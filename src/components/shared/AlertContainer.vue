@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full flex flex-col space-y-1 sm:right-0 sm:w-1/2 lg:w-1/3 xl:w-1/4 z-50"
+    class="fixed w-full flex flex-col space-y-1 sm:right-0 sm:w-1/2 lg:w-1/3 xl:w-1/4 z-50"
   >
     <Alert :data="alert" v-for="(alert, index) in alerts" :key="index" />
   </div>
