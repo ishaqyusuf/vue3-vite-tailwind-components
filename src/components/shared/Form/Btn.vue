@@ -2,9 +2,9 @@
 import { resolveComponent, h, computed } from "vue";
 import { btnMixins } from "@/mixins/btn";
 import Spinner from "@/components/shared/Spinner.vue";
-import mixins from "vue-typed-mixins";
+// import mixins from "vue-typed-mixins";
 
-export default mixins(btnMixins).extend({
+export default {
   components: { Spinner },
   setup(props, { slots, emit }) {
     const objectValue = (object) =>
@@ -110,7 +110,7 @@ export default mixins(btnMixins).extend({
     return () =>
       url ? h(resolveComponent("router-link"), { to: url }, [button]) : button;
   },
-});
+};
 </script>
 
 <style></style>
