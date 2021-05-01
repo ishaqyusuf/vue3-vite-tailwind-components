@@ -8,7 +8,13 @@
             autocomplete="off"
             class="w-full space-y-4 my-4"
           >
-            <Input v-model="form.user" pattern=".*\S*.*" required label="Email">
+            <Input
+              v-model="form.user"
+              name="email"
+              pattern=".*\S*.*"
+              required
+              label="Email"
+            >
             </Input>
             <Input
               v-model="form.password"
