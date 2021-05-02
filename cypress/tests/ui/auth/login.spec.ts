@@ -2,6 +2,7 @@ describe("User Login", function () {
   beforeEach(() => {});
 
   const login = (username, password, assert) => {
+    cy.visit("/login");
     cy.getBySelLike("email").clear().type(username);
     cy.getBySelLike("password").clear().type(password);
 
