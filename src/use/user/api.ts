@@ -6,6 +6,7 @@ const login = async (form, redirect = { name: "home" }) => {
     const { user, token, error } = (
       await $clientApi.post("/user/login", form)
     ).data;
+    console.log(user);
     if (token) userState.initializeUser(token, user);
     return { error, token };
   } catch (err) {
