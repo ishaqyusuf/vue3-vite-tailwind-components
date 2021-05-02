@@ -5,10 +5,10 @@ describe("User Login", function () {
     cy.visit("/login");
     cy.get("input[name=email]").clear().type(username);
     cy.get("input[name=password]").clear().type(password);
-
-    cy.get("submit").should("not.be.disabled");
-    cy.get("submit").click();
-    cy.get("submit").should("be.disabled");
+    const btn = "button[type=submit]";
+    cy.get(btn).should("not.be.disabled");
+    cy.get(btn).click();
+    cy.get(btn).should("be.disabled");
 
     assert(cy);
   };

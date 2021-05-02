@@ -41,20 +41,21 @@ export default {
   props: {},
   setup(props, { emit }) {
     const form = ref({ user: "", password: "" });
-    let loading = ref(false);
+    const loading = ref(false);
 
-    const submit = async (event) => {
+    function submit(event) {
       loading.value = true;
-      await useUser.login(form.value);
+
+      // await useUser.login(form.value);
       // console.log(loading.value);
-      loading.value = false;
+      // loading.value = false;
       alertHook.register("Hello World");
-    };
+    }
     return {
       ...useUser,
+      loading,
       submit,
       form,
-      loading,
     };
   },
 };
