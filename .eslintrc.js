@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  plugins: ["cypress"],
+  plugins: ["cypress", "@cypress/dev"],
   env: {
     node: true,
   },

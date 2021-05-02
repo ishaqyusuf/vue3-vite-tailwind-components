@@ -56,6 +56,8 @@
             @keydown.tab="close"
             @keydown.up="up"
             @keydown.down="down"
+            :name="name"
+            :id="id"
             @keydown.esc="close"
             autocomplete="new-password"
             :class="[select && 'cursor-pointer', inputStyle, inputClass]"
@@ -132,6 +134,8 @@ export default {
       type: [String, Object, Number],
     },
     items: {},
+    name: String,
+    id: String,
     itemText: {},
     itemValue: {},
     type: { default: "text" },

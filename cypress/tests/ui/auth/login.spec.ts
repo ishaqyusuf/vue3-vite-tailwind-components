@@ -3,12 +3,12 @@ describe("User Login", function () {
 
   const login = (username, password, assert) => {
     cy.visit("/login");
-    cy.getBySelLike("email").clear().type(username);
-    cy.getBySelLike("password").clear().type(password);
+    cy.get("input[name=email]").clear().type(username);
+    cy.get("input[name=password]").clear().type(password);
 
-    cy.getBySelLike("submit").should("not.be.disabled");
-    cy.getBySelLike("submit").click();
-    cy.getBySelLike("submit").should("be.disabled");
+    cy.get("submit").should("not.be.disabled");
+    cy.get("submit").click();
+    cy.get("submit").should("be.disabled");
 
     assert(cy);
   };
