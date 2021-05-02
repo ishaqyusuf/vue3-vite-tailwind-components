@@ -17,7 +17,7 @@ Cypress.Commands.add("login", (email, password) => {
   const btn = "button[type=submit]";
   cy.get(btn).should("not.be.disabled");
   cy.get(btn).click();
-  cy.get(btn).should("be.disabled");
+  // cy.get(btn).should("be.disabled");
 });
 Cypress.Commands.add("logout", () => {
   cy.contains("Login").should("not.exist");

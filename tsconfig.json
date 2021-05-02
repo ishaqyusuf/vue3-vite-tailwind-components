@@ -10,7 +10,7 @@
     "noImplicitAny": false,
     "importHelpers": true,
     "lib": ["esnext", "dom"],
-    "types": ["vite/client", "@types/jest"],
+    "types": ["vite/client", "@types/jest", "cypress"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
