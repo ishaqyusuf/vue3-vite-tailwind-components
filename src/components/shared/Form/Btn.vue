@@ -1,17 +1,15 @@
 <script lang="ts">
 import { resolveComponent, h, computed } from "vue";
 import { btnMixins } from "@/mixins/btn";
-import Spinner from "@/components/shared/Spinner.vue";
 // import mixins from "vue-typed-mixins";
 
 export default {
-  components: { Spinner },
   mixins: [btnMixins],
   setup(props, { slots, emit }) {
     const objectValue = (object) =>
       typeof object === "object" ? object.value : object;
 
-    const loading = computed(() => objectValue(props.loading)).value;
+    const loading = computed(() => props.loading).value;
     const disabled = computed(() => objectValue(props.disabled)).value;
     const {
       fab,
@@ -60,7 +58,7 @@ export default {
         class: [
           {
             "absolute left-0 inline-flex items-center justify-center top-0 bottom-0  right-0": true,
-            "opacity-0": !loading,
+            "opacity-0": !props.loading,
             " text-gray-900": !primary,
             "text-white": primary,
           },
