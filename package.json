@@ -51,6 +51,8 @@
     "vue3-router-tree": "^0.2.4"
   },
   "devDependencies": {
+    "@cypress/vite-dev-server": "^1.2.6",
+    "@cypress/vue": "^2.2.1",
     "@iconify/json": "^1.1.331",
     "@types/jest": "^26.0.22",
     "@types/lodash": "^4.14.168",
