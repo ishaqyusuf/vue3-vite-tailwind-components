@@ -1,28 +1,26 @@
 describe("User Login", function () {
   beforeEach(() => {});
 
-  const login = (username, password, assert) => {
-    cy.visit("/login");
-    cy.get("input[name=email]").clear().type(username);
-    cy.get("input[name=password]").clear().type(password);
-    const btn = "button[type=submit]";
-    cy.get(btn).should("not.be.disabled");
-    cy.get(btn).click();
-    cy.get(btn).should("be.disabled");
+  // const login = (username, password, assert) => {
+  //   cy.visit("/login");
+  //   cy.get("input[name=email]").clear().type(username);
+  //   cy.get("input[name=password]").clear().type(password);
+  //   const btn = "button[type=submit]";
+  //   cy.get(btn).should("not.be.disabled");
+  //   cy.get(btn).click();
+  //   cy.get(btn).should("be.disabled");
 
-    assert(cy);
-  };
+  //   assert(cy);
+  // };
   it("should login successfully", function () {
-    login("ishaqyusuf024@gmail.com", "admin", (cy) => {
-      cy.contains("Hello World");
-    });
+    cy.login("ishaqyusuf024@gmail.com", "admin");
+    cy.contains("Hello World");
   });
+
   it("login should display correct error", () => {
-    login("ishaqyusuf024@gmail.com", "admin12", (cy) => {
-      cy.contains("Password is incorrect");
-    });
-    login("ishaqyusuf024sakshajs@gmail.com", "admin12", (cy) => {
-      cy.contains("User with email not found on our database");
-    });
+    cy.login("ishaqyusuf024@gmail.com", "admin12");
+    cy.contains("Password is incorrect");
+    cy.login("ishaqyusuf024sakshajs@gmail.com", "admin12");
+    cy.contains("User with email not found on our database");
   });
 });
