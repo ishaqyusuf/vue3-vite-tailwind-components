@@ -46,7 +46,7 @@ export default {
     async function submit(event) {
       loading.value = true;
 
-      await useUser.login(form.value);
+      // await useUser.login(form.value);
       // console.log(loading.value);
       // loading.value = false;
       alertHook.register("Hello World");

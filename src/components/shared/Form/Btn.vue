@@ -1,5 +1,5 @@
 <script lang="ts">
-import { resolveComponent, h, computed } from "vue";
+import { resolveComponent, toRef, toRefs, h, computed } from "vue";
 import { btnMixins } from "@/mixins/btn";
 // import mixins from "vue-typed-mixins";
 
@@ -9,8 +9,8 @@ export default {
     const objectValue = (object) =>
       typeof object === "object" ? object.value : object;
 
-    const loading = computed(() => props.loading).value;
-    const disabled = computed(() => objectValue(props.disabled)).value;
+    // const loading = computed(() => props.loading).value;
+    // const disabled = computed(() => objectValue(props.disabled)).value;
     const {
       fab,
       dense,
@@ -24,6 +24,10 @@ export default {
       small,
       type,
     } = props;
+    const loading = toRef(props, "loading");
+    const disabled = toRef(props, "disabled");
+    const isLoading = loading.value;
+    const isDisabled = disabled.value;
     const primary = !icon && !secondary && !tertiary;
     const _class = [
       disabled && "gray-scale",
@@ -87,7 +91,7 @@ export default {
         type: type,
       },
       [
-        loading && loader,
+        isLoading && loader,
         h(
           "div",
           {
@@ -95,7 +99,7 @@ export default {
               {
                 "inline-flex items-center justify-center w-full space-x-2": true,
               },
-              { "opacity-0": loading },
+              { "opacity-0": isLoading },
               { "px-4 h-9": !dense && !fab && !icon },
               { "px-2": dense },
             ],
