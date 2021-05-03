@@ -5,7 +5,8 @@ describe("User Login", function () {
 
   it("should login successfully", function () {
     cy.login("ishaqyusuf024@gmail.com", "admin");
-    cy.contains("Sign In");
+    cy.contains("Welcome back!");
+    cy.contains("Sign In").should("not.exist");
   });
 
   it("login should display correct error", () => {
@@ -13,4 +14,5 @@ describe("User Login", function () {
     cy.contains("Password is incorrect");
     cy.contains("User with email not found on our database");
   });
+  it("reset password");
 });
