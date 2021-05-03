@@ -38,7 +38,6 @@ export default {
   },
   setup(props, { emit }) {
     function destroy() {
-      console.log(props.data);
       alertHook.destroyAlert(props.data);
     }
     onMounted(() => {

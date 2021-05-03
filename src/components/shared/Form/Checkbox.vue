@@ -7,7 +7,7 @@
   </li>
 </template>
 
-<script>
+<script lang="ts">
 import { ref } from "vue";
 import { useModelWrapper } from "@use/modelWrapper";
 export default {

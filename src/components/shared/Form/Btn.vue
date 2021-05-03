@@ -91,7 +91,7 @@ export default {
         type: type,
       },
       [
-        loading.value && loader,
+        loadingProp.value && loader,
         h(
           "div",
           {
@@ -99,7 +99,7 @@ export default {
               {
                 "inline-flex items-center justify-center w-full space-x-2": true,
               },
-              { "opacity-0": loading.value },
+              { "opacity-0": loadingProp.value },
               { "px-4 h-9": !dense && !fab && !icon },
               { "px-2": dense },
             ],

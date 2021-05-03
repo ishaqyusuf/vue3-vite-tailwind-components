@@ -26,6 +26,7 @@
             >
             </Input>
             <Btn class="w-full" :loading="loading" type="submit">Sign In</Btn>
+            <Checkbox v-model="loading" label="Hello"></Checkbox>
           </form>
         </card-content>
       </div>
