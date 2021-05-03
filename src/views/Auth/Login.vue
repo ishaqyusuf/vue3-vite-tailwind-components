@@ -26,7 +26,7 @@
             >
             </Input>
             <Btn class="w-full" :loading="loading" type="submit">Sign In</Btn>
-            <Checkbox v-model="loading" label="Hello"></Checkbox>
+            <RadioBtn :loading="loading" label="Hello"></RadioBtn>
           </form>
         </card-content>
       </div>
@@ -50,7 +50,7 @@ export default {
       alertHook.register("Hello World");
     }
     onMounted(() => {
-      // loading.value = true;
+      loading.value = true;
       form.user = "hello world";
     });
     return {
