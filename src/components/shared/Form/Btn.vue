@@ -26,12 +26,11 @@ export default {
     } = props;
     const loading = toRef(props, "loading");
     const disabled = toRef(props, "disabled");
-    const isLoading = loading.value;
-    const isDisabled = disabled.value;
+    console.log(disabled);
     const primary = !icon && !secondary && !tertiary;
     const _class = [
-      disabled && "gray-scale",
-      { "cursor-default": loading },
+      disabled.value && "gray-scale",
+      { "cursor-default": loading.value },
       { "border focus:ring-2 font-poppins shadow-lg": !tertiary && !icon },
       { "rounded-full w-9 h-9": fab },
       { "text-base focus:outline-none border-separate relative": true },
@@ -62,7 +61,7 @@ export default {
         class: [
           {
             "absolute left-0 inline-flex items-center justify-center top-0 bottom-0  right-0": true,
-            "opacity-0": !props.loading,
+            "opacity-0": !loading.value,
             " text-gray-900": !primary,
             "text-white": primary,
           },
@@ -91,7 +90,7 @@ export default {
         type: type,
       },
       [
-        isLoading && loader,
+        loading.value && loader,
         h(
           "div",
           {
@@ -99,7 +98,7 @@ export default {
               {
                 "inline-flex items-center justify-center w-full space-x-2": true,
               },
-              { "opacity-0": isLoading },
+              { "opacity-0": loading.value },
               { "px-4 h-9": !dense && !fab && !icon },
               { "px-2": dense },
             ],

@@ -25,7 +25,9 @@
               label="Password"
             >
             </Input>
-            <Btn class="w-full" :loading="loading" type="submit">Sign In</Btn>
+            <Btn class="w-full" :loading="loading" disabled type="submit"
+              >Sign In</Btn
+            >
           </form>
         </card-content>
       </div>
@@ -34,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import useUser from "@/use/user";
 import alertHook from "@/hooks/alert";
 export default {
@@ -43,14 +45,15 @@ export default {
     const form = ref({ user: "", password: "" });
     const loading = ref(false);
 
+    // loading.value = true;
     async function submit(event) {
-      loading.value = true;
-
       // await useUser.login(form.value);
-      // console.log(loading.value);
       // loading.value = false;
       alertHook.register("Hello World");
     }
+    onMounted(() => {
+      loading.value = true;
+    });
     return {
       ...useUser,
       loading,
