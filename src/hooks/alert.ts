@@ -8,6 +8,8 @@ const initAlert = (payload) => {
 const register = (msg, error = false) => {
   initAlert({
     text: msg,
+    // id: Math.floor(Math.random() * 99999999),
+    id: Date.now(),
     success: !error,
     error: error,
     delay: 2000,
@@ -16,7 +18,7 @@ const register = (msg, error = false) => {
 };
 const alerts = computed(() => stacks.value);
 const destroyAlert = (alert) => {
-  stacks.value = stacks.value.filter((a) => a != alert);
+  stacks.value = stacks.value.filter((a) => a.id != alert.id);
 };
 
 export default {

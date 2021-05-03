@@ -42,7 +42,6 @@ export default {
   setup(props, { emit }) {
     const form = reactive({ user: "", password: "" });
     const loading = ref(false);
-
     async function submit(event) {
       loading.value = !loading.value;
       // await useUser.login(form.value);

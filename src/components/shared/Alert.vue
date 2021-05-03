@@ -18,7 +18,7 @@
       ><slot>{{ data.text }}</slot></span
     >
     <Spacer></Spacer>
-    <Btn icon> <i-mdi-close /></Btn>
+    <Btn icon class="text-red-100"> <i-mdi-close /></Btn>
   </div>
 </template>
 
@@ -37,14 +37,20 @@ export default {
     },
   },
   setup(props, { emit }) {
+    function destroy() {
+      console.log(props.data);
+      alertHook.destroyAlert(props.data);
+    }
     onMounted(() => {
       const { delay } = props.data;
       if (delay)
         timer.delay(2000).then((d) => {
-          alertHook.destroyAlert(props.data);
+          destroy();
         });
     });
-    return {};
+    return {
+      destroy,
+    };
   },
 };
 </script>
