@@ -25,10 +25,11 @@
               label="Password"
             >
             </Input>
-            <Btn class="w-full" :loading="loading" disabled type="submit"
+            <Btn class="w-full" :loading="loading.value" type="submit"
               >Sign In</Btn
             >
           </form>
+          <Butn :loading="loading.value"></Butn>
         </card-content>
       </div>
     </div>
@@ -36,14 +37,14 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, reactive } from "vue";
 import useUser from "@/use/user";
 import alertHook from "@/hooks/alert";
 export default {
   props: {},
   setup(props, { emit }) {
-    const form = ref({ user: "", password: "" });
-    const loading = ref(false);
+    const form = reactive({ user: "", password: "" });
+    const loading = reactive({ value: true });
 
     // loading.value = true;
     async function submit(event) {
@@ -53,6 +54,7 @@ export default {
     }
     onMounted(() => {
       loading.value = true;
+      form.user = "hello world";
     });
     return {
       ...useUser,
