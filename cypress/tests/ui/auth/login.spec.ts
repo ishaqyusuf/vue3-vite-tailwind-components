@@ -14,5 +14,5 @@ describe("User Login", function () {
     cy.contains("Password is incorrect");
     cy.contains("User with email not found on our database");
   });
-  it("reset password");
+  // it("reset password");
 });

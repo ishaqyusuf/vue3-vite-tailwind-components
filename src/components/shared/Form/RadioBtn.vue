@@ -1,10 +1,5 @@
-<template>
-  <i-mdi-loading v-if="isLoading" />
-  <span>{{ label }}</span>
-</template>
-
 <script lang="ts">
-import { computed, ref } from "vue";
+import { computed, toRef, h, ref } from "vue";
 
 export default {
   props: {
@@ -12,9 +7,15 @@ export default {
     label: String,
   },
   setup(props, { emit }) {
-    return {
-      isLoading: computed(() => props.loading),
-    };
+    const loading = toRef(props, "loading");
+    const isLoading = computed(() => loading.value);
+
+    const button = h("span", [
+      props.label,
+      isLoading.value &&
+        h("div", { class: "bg-red-500 text-white p-4" }, "isLoading"),
+    ]);
+    return () => button;
   },
 };
 </script>

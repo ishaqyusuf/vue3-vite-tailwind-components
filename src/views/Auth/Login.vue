@@ -26,7 +26,6 @@
             >
             </Input>
             <Btn class="w-full" :loading="loading" type="submit">Sign In</Btn>
-            <RadioBtn :loading="loading" label="Hello"></RadioBtn>
           </form>
         </card-content>
       </div>
@@ -44,13 +43,13 @@ export default {
     const form = reactive({ user: "", password: "" });
     const loading = ref(false);
     async function submit(event) {
-      loading.value = !loading.value;
-      // await useUser.login(form.value);
-      // loading.value = false;
+      loading.value = true;
+      await useUser.login(form);
+      loading.value = false;
       alertHook.register("Hello World");
     }
     onMounted(() => {
-      loading.value = true;
+      // loading.value = true;
       form.user = "hello world";
     });
     return {
