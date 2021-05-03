@@ -25,11 +25,8 @@
               label="Password"
             >
             </Input>
-            <Btn class="w-full" :loading="loading.value" type="submit"
-              >Sign In</Btn
-            >
+            <Btn class="w-full" :loading="loading" type="submit">Sign In</Btn>
           </form>
-          <Butn :loading="loading.value"></Butn>
         </card-content>
       </div>
     </div>
@@ -44,16 +41,16 @@ export default {
   props: {},
   setup(props, { emit }) {
     const form = reactive({ user: "", password: "" });
-    const loading = reactive({ value: true });
+    const loading = ref(false);
 
-    // loading.value = true;
     async function submit(event) {
+      loading.value = !loading.value;
       // await useUser.login(form.value);
       // loading.value = false;
       alertHook.register("Hello World");
     }
     onMounted(() => {
-      loading.value = true;
+      // loading.value = true;
       form.user = "hello world";
     });
     return {

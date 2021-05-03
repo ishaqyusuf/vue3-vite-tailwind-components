@@ -1,5 +1,5 @@
 <script lang="ts">
-import { resolveComponent, toRef, toRefs, h, computed } from "vue";
+import { resolveComponent, watch, toRef, toRefs, ref, h, computed } from "vue";
 import { btnMixins } from "@/mixins/btn";
 // import mixins from "vue-typed-mixins";
 
@@ -24,11 +24,12 @@ export default {
       small,
       type,
     } = props;
-    const loading = toRef(props, "loading");
+    const loadingProp = toRef(props, "loading");
+    const loading = computed(() => loadingProp.value);
     const disabled = toRef(props, "disabled");
-    console.log(disabled);
+
     const primary = !icon && !secondary && !tertiary;
-    const _class = [
+    const _class = computed(() => [
       disabled.value && "gray-scale",
       { "cursor-default": loading.value },
       { "border focus:ring-2 font-poppins shadow-lg": !tertiary && !icon },
@@ -40,7 +41,7 @@ export default {
       { "text-sm h-7": small },
       primary && `bg-${color}-600 text-white hover:bg-${color}-700`,
       { "bg-white text-gray-700 hover:bg-gray-50": secondary },
-    ];
+    ]);
     const prefix = (value) => (slots.prefix ? slots.prefix(value) : []);
     const suffix = (value) => (slots.suffix ? slots.suffix(value) : []);
     const defaultSlot = () => (slots.default ? slots.default() : []);
@@ -86,7 +87,7 @@ export default {
       "button",
       {
         onClick: ($event) => emit("click"),
-        class: _class,
+        class: _class.value,
         type: type,
       },
       [

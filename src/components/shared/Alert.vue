@@ -2,7 +2,7 @@
   <div
     v-if="data"
     id="alert"
-    class="sm:rounded-md p-2 px-4 inline-flex space-x-4 text-white"
+    class="sm:rounded-md p-2 px-4 inline-flex items-center space-x-4 text-white"
     :class="{
       'bg-green-400 border-green-500': data.success,
       'bg-red-400 border-red-500': !data.success,
@@ -17,6 +17,8 @@
     <span
       ><slot>{{ data.text }}</slot></span
     >
+    <Spacer></Spacer>
+    <Btn icon> <i-mdi-close /></Btn>
   </div>
 </template>
 
