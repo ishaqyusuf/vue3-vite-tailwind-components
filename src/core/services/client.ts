@@ -8,11 +8,11 @@ export const $clientApi = axios.create(axiosConfig);
 
 $clientApi.interceptors.request.use(
   async (request) => {
+    NProgress.start();
     request.headers["device"] = await device.get();
     request.headers["Content-Type"] = "application/json";
     const token = user.getToken();
     if (token) request.headers["auth_token"] = token;
-    NProgress.start();
     return request;
   },
   (error) => {
