@@ -39,9 +39,10 @@ import { ref, computed, onMounted, reactive } from "vue";
 import useUser from "@/use/user";
 export default {
   props: {},
-  setup(props, { emit }) {
+  async setup(props, { emit }) {
     const form = reactive({ user: "", password: "" });
     const loading = ref(false);
+    await useUser.helloWorld();
     async function submit(event) {
       loading.value = true;
       await useUser.login(form);
