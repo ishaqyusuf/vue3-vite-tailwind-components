@@ -8,6 +8,7 @@
           >Components</Link
         >
         <Link :to="{ name: 'login' }">Login</Link>
+        <Link :to="{ name: 'register' }">Sign Up</Link>
       </div>
     </div>
   </div>

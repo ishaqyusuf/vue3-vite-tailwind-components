@@ -39,7 +39,7 @@ import { ref, computed, onMounted, reactive } from "vue";
 import useUser from "@/use/user";
 export default {
   props: {},
-  async setup(props, { emit }) {
+  setup(props, { emit }) {
     const form = reactive({ user: "", password: "" });
     const loading = ref(false);
     async function submit(event) {
