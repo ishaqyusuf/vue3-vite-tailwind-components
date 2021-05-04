@@ -11,6 +11,7 @@
             <Input
               v-model="form.user"
               name="email"
+              @change="inputChange"
               pattern=".*\S*.*"
               required
               label="Email"
@@ -36,7 +37,6 @@
 <script lang="ts">
 import { ref, computed, onMounted, reactive } from "vue";
 import useUser from "@/use/user";
-import alertHook from "@/hooks/alert";
 export default {
   props: {},
   setup(props, { emit }) {
@@ -46,17 +46,20 @@ export default {
       loading.value = true;
       await useUser.login(form);
       loading.value = false;
-      alertHook.register("Hello World");
+    }
+    function inputChange(event) {
+      console.log(form);
     }
     onMounted(() => {
       // loading.value = true;
-      form.user = "hello world";
+      // form.user = "hello world";
     });
     return {
       ...useUser,
       loading,
       submit,
       form,
+      inputChange,
     };
   },
 };
