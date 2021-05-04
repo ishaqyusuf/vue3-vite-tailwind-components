@@ -11,8 +11,8 @@ describe("User Login", function () {
 
   it("login should display correct error", () => {
     cy.login("ishaqyusuf024sakshajs@gmail.com", "admin12");
-    cy.contains("Password is incorrect");
-    cy.contains("User with email not found on our database");
+    cy.contains("Invalid login details");
+    // cy.contains("User with email not found on our database");
   });
   // it("reset password");
 });

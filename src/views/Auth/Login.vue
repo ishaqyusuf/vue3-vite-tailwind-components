@@ -11,7 +11,6 @@
             <Input
               v-model="form.user"
               name="email"
-              @change="inputChange"
               pattern=".*\S*.*"
               required
               label="Email"
@@ -47,16 +46,12 @@ export default {
       await useUser.login(form);
       loading.value = false;
     }
-    function inputChange(event) {
-      console.log(form);
-    }
     onMounted(() => {});
     return {
       ...useUser,
       loading,
       submit,
       form,
-      inputChange,
     };
   },
 };

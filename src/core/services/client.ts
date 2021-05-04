@@ -3,15 +3,16 @@ import { axiosConfig } from "./config";
 import user from "@/use/user";
 import device from "@/hooks/device";
 import NProgress from "@/utils/progress";
+import qs from "qs";
 export const $clientApi = axios.create(axiosConfig);
 
 $clientApi.interceptors.request.use(
   async (request) => {
     NProgress.start();
+    request.data && (request.data = qs.stringify(request.data));
     request.headers["device"] = await device.get();
     const token = user.getToken();
     if (token) request.headers["auth_token"] = token;
-    console.log(request);
     return request;
   },
   (error) => {

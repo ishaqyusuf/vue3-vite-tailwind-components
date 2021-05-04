@@ -2,6 +2,7 @@ import { $clientApi } from "@services/client";
 import { $dev } from "@/core/utils/functions";
 import userState from "./state";
 import alert from "@/hooks/alert";
+import qs from "qs";
 const login = async (form, redirect = { name: "home" }) => {
   try {
     const resp = await $clientApi.post("/user/login", form);
