@@ -42,7 +42,6 @@ export default {
   async setup(props, { emit }) {
     const form = reactive({ user: "", password: "" });
     const loading = ref(false);
-    await useUser.helloWorld();
     async function submit(event) {
       loading.value = true;
       await useUser.login(form);
@@ -51,10 +50,7 @@ export default {
     function inputChange(event) {
       console.log(form);
     }
-    onMounted(() => {
-      // loading.value = true;
-      // form.user = "hello world";
-    });
+    onMounted(() => {});
     return {
       ...useUser,
       loading,

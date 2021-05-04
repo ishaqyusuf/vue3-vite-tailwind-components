@@ -14,10 +14,6 @@ const login = async (form, redirect = { name: "home" }) => {
   }
   return {};
 };
-const helloWorld = async () => {
-  const resp = await $clientApi.get("/hello");
-  return resp.data;
-};
 const validate = async (token) => {
   try {
     const { data } = await $clientApi.get(`/user/validate/${token}`);
@@ -39,5 +35,4 @@ export default {
   login,
   validate,
   deactivate,
-  helloWorld,
 };
