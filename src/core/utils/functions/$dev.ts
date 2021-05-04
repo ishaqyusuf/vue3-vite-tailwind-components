@@ -1,3 +1,4 @@
+import alertHook from "@/hooks/alert";
 export default {
   /**
    * Equivalent to console.error but in dev mode only
@@ -6,6 +7,7 @@ export default {
   error: (...args) => {
     if (import.meta.env.NODE_ENV !== "production") {
       console.error(...args);
+      alertHook.register("Oops Snap!. Something went wrong, try again!", true);
     } else {
       console.error("Something is wrong");
     }

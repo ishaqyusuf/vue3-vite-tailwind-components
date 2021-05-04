@@ -3,6 +3,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/components",
     name: "components",
+    redirect: { name: "form" },
     component: () => import("../views/Components/Index.vue"),
     meta: {
       title: "Components",

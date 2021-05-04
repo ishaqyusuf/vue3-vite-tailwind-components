@@ -1,7 +1,12 @@
 import { computed } from "vue";
-export function useModelWrapper(props, emit, name = "modelValue") {
+export function useModelWrapper(
+  props,
+  emit,
+  name = "modelValue",
+  getFn = () => props[name]
+) {
   return computed({
-    get: () => props[name],
+    get: () => getFn(),
     set: (value) => emit(`update:${name}`, value),
   });
 }

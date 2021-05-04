@@ -3,9 +3,9 @@ import { $dev } from "@/core/utils/functions";
 import userState from "./state";
 const login = async (form, redirect = { name: "home" }) => {
   try {
-    const { user, token, error } = (
-      await $clientApi.post("/user/login", form)
-    ).data;
+    const resp = await $clientApi.post("/user/login", form);
+    console.log(resp);
+    const { user, token, error } = resp.data;
     console.log(user);
     if (token) userState.initializeUser(token, user);
     return { error, token };
