@@ -1,7 +1,7 @@
 <template>
-  <button :class="[styles]" :disabled="isDisabled" :type="type">
+  <button :class="[styles]" @click="click" :disabled="isDisabled" :type="type">
     <div
-      v-if="loading"
+      v-if="isLoading"
       :class="{
         'absolute left-0 inline-flex items-center justify-center top-0 bottom-0  right-0': true,
         'opacity-0': !isLoading,
@@ -30,7 +30,8 @@ import { btnMixins } from "@/mixins/btn";
 export default {
   mixins: [btnMixins],
   setup(props, { emit }) {
-    const isLoading = toRef(props, "loading");
+    const nativeLoading = ref(false);
+    const isLoading = computed(() => props.loading || nativeLoading.value); //(props, "loading");
     const {
       fab,
       tile,
@@ -57,7 +58,14 @@ export default {
       primary && `bg-${color}-600 text-white hover:bg-${color}-700`,
       { "bg-white text-gray-700 hover:bg-gray-50": secondary },
     ]);
+    const click = async () => {
+      nativeLoading.value = true;
+      if (props.action)
+        emit("result", props.async ? await props.action() : props.action());
+      nativeLoading.value = false;
+    };
     return {
+      click,
       isLoading,
       isDisabled,
       styles,

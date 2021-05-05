@@ -13,6 +13,8 @@ export const btnMixins = {
     disabled: {},
     to: {},
     loading: [Boolean, Object],
+    action: Function,
+    async: Boolean,
     prependIcon: {},
     appendIcon: {},
     color: { default: "blue" },
