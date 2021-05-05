@@ -1,6 +1,6 @@
 <template>
   <div
-    class="font-poppins text-lg p-4 sm:text-xl leading-7 mb-1 font-medium text-gray-900 inline-flex"
+    class="font-poppins p-4 text-xl leading-7 mb-1 font-semibold text-gray-900 inline-flex"
   >
     <slot></slot>
   </div>

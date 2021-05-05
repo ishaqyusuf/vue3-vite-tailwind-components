@@ -21,6 +21,15 @@ const login = async (form, redirect = { name: "home" }) => {
   }
   return {};
 };
+const iforgot = async (email) => {
+  try {
+    const { error } = (await $clientApi.get(`user/iforgot/${email}`)).data;
+    if (error) alert.register(error, true);
+    return error;
+  } catch (err) {
+    $dev.error(err);
+  }
+};
 const validate = async (token) => {
   try {
     const { data } = await $clientApi.get(`/user/validate/${token}`);
@@ -42,4 +51,5 @@ export default {
   login,
   validate,
   deactivate,
+  iforgot,
 };
