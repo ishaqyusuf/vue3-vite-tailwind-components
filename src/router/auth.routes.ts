@@ -16,6 +16,14 @@ const routes: Array<RouteRecordRaw> = [
       beforeEach: (to, from, next) => {},
     },
   },
+  {
+    path: "/i-forgot",
+    name: "forgot-password",
+    component: () => import("../views/Auth/IForgot.vue"),
+    meta: {
+      beforeEach: (to, from, next) => {},
+    },
+  },
 ];
 
 export default { routes };

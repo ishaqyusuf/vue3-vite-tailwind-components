@@ -1,12 +1,17 @@
 <template>
   <div class="h-screen mx-auto sm:flex items-center justify-center">
     <div class="w-full">
-      <div class="max-w-xs sm:max-w-lg mx-auto">
+      <Card
+        style="min-height: 45vh"
+        class="max-w-xs flex flex-col justify-center w-full sm:max-w-lg mx-auto"
+      >
         <card-content>
-          <form autocomplete="off" class="w-full space-y-4 my-4">
+          <card-title class="px-0">Sign in to your account</card-title>
+          <form autocomplete="off" class="w-full space-y-6">
             <Input
               v-model="form.user"
               name="email"
+              type="email"
               pattern=".*\S*.*"
               required
               label="Email"
@@ -20,11 +25,22 @@
               name="password"
               label="Password"
             >
+              <template v-slot:label-right>
+                <router-link
+                  class="text-purple-700 font-medium"
+                  :to="{
+                    name: 'forgot-password',
+                    params: { email: form.user },
+                  }"
+                >
+                  Forgot Password?
+                </router-link>
+              </template>
             </Input>
             <Btn class="w-full" async :action="submit">Sign In</Btn>
           </form>
         </card-content>
-      </div>
+      </Card>
     </div>
   </div>
 </template>

@@ -1,23 +1,26 @@
 <template>
   <div class="relative">
-    <slot name="label">
-      <Label v-if="label">{{ label }}</Label>
-    </slot>
+    <div class="inline-flex w-full">
+      <slot name="label">
+        <Label v-if="label">{{ label }}</Label>
+      </slot>
+      <Spacer></Spacer>
+      <slot name="label-right"></slot>
+    </div>
     <div
       ref="inputParent"
       :class="[
-        hasItems && 'pr-2',
         inputFocus && 'ring-2',
         rounded ? 'rounded-full' : !tile && 'rounded-md',
         isDisabled && 'gray-scale',
         dark ? 'text-white' : 'bg-white',
-        label && 'mt-',
+        label && 'mt-1',
       ]"
-      class="border relative border-gray-300 hover:border-blue-300 shadow space-x-2 items-center flex group"
+      class="border relative px-2 border-gray-300 hover:border-blue-300 shadow space-x-2 items-center flex group"
     >
-      <slot name="prependInner">
-        <ui-icon v-if="prependInnerIcon">{{ prependInnerIcon }}</ui-icon>
-        <span class="font-semibold" v-if="prefixValue">{{ prefixValue }}</span>
+      <slot class="" name="prependInner">
+        <!-- <ui-icon v-if="prependInnerIcon">{{ prependInnerIcon }}</ui-icon> -->
+        <span class="font-semibold" v-if="prefix">{{ prefix }}</span>
       </slot>
       <div class="w-full h-full relative">
         <textarea
@@ -37,7 +40,7 @@
           @keydown.esc="close"
           @focus="focus"
           @blur="blur"
-          class="p-2 rounded-md w-full h-full focus:outline-none"
+          class="py-2 rounded-md w-full h-full focus:outline-none"
         ></textarea>
         <slot v-else name="selection" v-bind:selected="value">
           <input
@@ -62,20 +65,19 @@
             @keydown.esc="close"
             autocomplete="new-password"
             :class="[select && 'cursor-pointer', inputStyle, inputClass]"
-            class="w-full appearance-none focus:outline-none p-2 rounded-md"
+            class="w-full appearance-none focus:outline-none py-2"
           />
         </slot>
       </div>
       <slot name="appendInner">
-        <ui-icon v-if="appendInnerIcon">{{ appendInnerIcon }}</ui-icon>
-        <span class="font-semibold" v-if="suffixValue">{{ suffixValue }}</span>
+        <!-- <ui-icon v-if="appendInnerIcon">{{ appendInnerIcon }}</ui-icon> -->
+        <span class="font-semibold" v-if="suffix">{{ suffix }}</span>
         <button v-if="isClearable" @click="clear">
-          <ui-icon>mdi-close</ui-icon>
+          <i-mdi-close />
         </button>
         <button v-if="password && hasValue" @click="hideText = !hideText">
-          <ui-icon>{{
-            hideText ? "mdi-eye-outline" : "mdi-eye-off-outline"
-          }}</ui-icon>
+          <i-mdi-eye-outline v-if="hideText" />
+          <i-mdi-eye-outline v-else />
         </button>
       </slot>
       <i-mdi-chevron-down
@@ -301,7 +303,22 @@ export default {
       if (i) val = i.offsetWidth;
       return val;
     });
+    const hasItems = computed(
+      () =>
+        props.items ||
+        props.select ||
+        ((props.autoComplete || props.combobox) && props.length > 0)
+    );
+    const isClearable = computed(() => props.clearable && props.value);
+    const isReadonly = computed(() => props.loading || props.disabled);
+    const styles = computed(() => [
+      {
+        "pr-2": hasItems.value || props.appendInner || props.suffix,
+      },
+      { "pl-2": props.prependInner || props.prefix },
+    ]);
     return {
+      styles,
       selectItem,
       results,
       inputWidth,
@@ -313,15 +330,10 @@ export default {
       typeValue: computed(() =>
         props.password && !data.hideText ? "text" : props.type
       ),
-      hasItems: computed(
-        () =>
-          props.items ||
-          props.select ||
-          ((props.autoComplete || props.combobox) && props.length > 0)
-      ),
+      hasItems,
       hasValue: computed(() => props.value),
-      isClearable: computed(() => props.clearable && props.value),
-      isReadonly: computed(() => props.loading || props.disabled),
+      isClearable,
+      isReadonly,
       inputValue, //: useModelWrapper(props, emit, "modelValue"),
       up,
       down,
