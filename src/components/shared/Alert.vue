@@ -43,7 +43,7 @@ export default {
     onMounted(() => {
       const { delay } = props.data;
       if (delay)
-        timer.delay(2000).then((d) => {
+        timer.delay(props.data.delay ?? 2000).then((d) => {
           destroy();
         });
     });

@@ -3,12 +3,14 @@
     <div class="flex justify-between py-2 items-center">
       <i-mdi-facebook class="text-xl" />
       <div class="space-x-4">
-        <Link :to="{ name: 'login' }">Home</Link>
-        <Link :class="{ hidden: loggedIn }" :to="{ name: 'components' }"
-          >Components</Link
-        >
-        <Link :to="{ name: 'login' }">Login</Link>
-        <Link :to="{ name: 'register' }">Sign Up</Link>
+        <template v-if="!loggedIn">
+          <Link :to="{ name: 'login' }">Login</Link>
+          <Link :to="{ name: 'register' }">Sign Up</Link>
+        </template>
+        <template v-else>
+          <Link :to="{ name: 'login' }">Parcels</Link>
+          <Link :to="{ name: 'logout' }">Logout</Link>
+        </template>
       </div>
     </div>
   </div>
@@ -18,9 +20,7 @@ import { computed } from "vue";
 import user from "@use/user";
 export default {
   setup(props, { emit }) {
-    const loggedIn = computed(() => user.value);
-    const login = () => {};
-    return { ...user, login };
+    return { ...user };
   },
 };
 </script>

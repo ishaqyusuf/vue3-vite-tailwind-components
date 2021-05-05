@@ -9,6 +9,7 @@
 <script lang="ts">
 import { ref, onMounted } from "vue";
 import Header from "@components/navs/Header.vue";
+import user from "@/use/user";
 export default {
   props: {},
   components: {
@@ -16,7 +17,7 @@ export default {
   },
   setup(props, { emit }) {
     onMounted(() => {
-      // NProgress.start();
+      user.authenticate();
     });
     return {};
   },

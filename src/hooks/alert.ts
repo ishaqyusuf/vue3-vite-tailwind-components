@@ -12,7 +12,7 @@ const register = (msg, error = false) => {
     id: Date.now(),
     success: !error,
     error: error,
-    delay: 2000,
+    delay: 1000,
     active: true,
   });
 };

@@ -62,9 +62,7 @@ export default {
       password: "",
     });
     const loading = ref(false);
-    const submit = (event) => {
-      console.log("e");
-    };
+    const submit = (event) => {};
     return { form, submit, loading };
   },
 };

@@ -26,7 +26,6 @@ $clientApi.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log(error);
     NProgress.done();
     throw new Error(error);
   }

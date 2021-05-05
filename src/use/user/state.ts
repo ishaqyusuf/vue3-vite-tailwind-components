@@ -1,9 +1,10 @@
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import storage from "@utils/localStorage";
 import userApi from "./api";
 const user = ref({});
 const token = ref(null);
 
+const loggedIn = computed(() => token.value != null);
 const loadToken = () => {
   let _token = storage.get("authorized_user_token");
   if (_token) {
@@ -25,9 +26,14 @@ const initializeUser = (token, _user) => {
 const authenticate = async () => {
   loadToken();
   return new Promise<Boolean>((resolve, reject) => {
-    if (!token) return resolve(false);
-    return userApi.validate(token).then((data) => {});
+    if (!token.value) return resolve(false);
+    return userApi.validate(token.value).then((data) => {});
   });
+};
+const logout = async () => {
+  storage.remove("authorized_user_token");
+  token.value = null;
+  user.value = {};
 };
 export default {
   token,
@@ -35,4 +41,6 @@ export default {
   user,
   authenticate,
   initializeUser,
+  logout,
+  loggedIn,
 };

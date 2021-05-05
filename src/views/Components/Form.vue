@@ -13,19 +13,15 @@ export default {
     const input1 = ref();
     const action = async () => {
       await useTime.delay(3000);
-      console.log("done");
     };
     const advance = async () => {
       return new Promise(async (resolve, reject) => {
         useTime.delay(4000).then((r) => {
-          console.log("done!");
           resolve(true);
         });
       });
     };
-    const finallys = () => {
-      console.log("Hello");
-    };
+    const finallys = () => {};
     return {
       input1,
       advance,

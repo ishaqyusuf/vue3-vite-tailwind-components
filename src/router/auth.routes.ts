@@ -1,4 +1,5 @@
 import { RouteRecordRaw } from "vue-router";
+import user from "@/use/user";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/sign-in",
@@ -23,6 +24,11 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       beforeEach: (to, from, next) => {},
     },
+  },
+  {
+    path: "/logout",
+    name: "logout",
+    component: () => import("../views/Auth/Logout.vue"),
   },
 ];
 

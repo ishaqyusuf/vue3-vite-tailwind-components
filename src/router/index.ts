@@ -28,7 +28,9 @@ router.beforeEach((to: any, from: any, next: any) => {
     validUser ? next() : redirectLogin();
   });
   redirectLogin();
-
+  function goHome() {
+    next({ name: "home" });
+  }
   function redirectLogin() {
     next({ name: "login", query: { redirectFrom: to.fullPath } });
   }
