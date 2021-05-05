@@ -1,4 +1,5 @@
 <template>
+  <FormInput></FormInput>
   <Input select tile :items="items" v-model="input1"></Input>
   <Btn :action="advance" async>Action Button</Btn>
   <Btn :action="action" async>Async Action Button</Btn>

@@ -1,10 +1,9 @@
 import { RouteRecordRaw } from "vue-router";
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/",
+    path: "",
     name: "home",
     component: () => import("../views/Home.vue"),
-    meta: { layout: "default-layout" },
   },
 
   {
