@@ -7,7 +7,8 @@
       lg && 'text-lg',
       md && 'text-base',
       xl && 'text-xl',
-      !light && 'font-semibold',
+      !light && 'font-medium',
+      bold && 'font-semibold',
       big && 'font-bold text-3xl',
     ]"
   >
@@ -20,13 +21,14 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
-    big: { type: Boolean },
-    block: { type: Boolean },
-    light: { type: Boolean },
-    sm: { type: Boolean },
-    md: { type: Boolean },
-    lg: { type: Boolean },
-    xl: { type: Boolean },
+    big: Boolean,
+    block: Boolean,
+    light: Boolean,
+    sm: Boolean,
+    md: Boolean,
+    lg: Boolean,
+    xl: Boolean,
+    bold: Boolean,
   },
   setup() {
     return {};

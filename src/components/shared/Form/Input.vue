@@ -11,7 +11,7 @@
         rounded ? 'rounded-full' : !tile && 'rounded-md',
         isDisabled && 'gray-scale',
         dark ? 'text-white' : 'bg-white',
-        label && 'mt-1',
+        label && 'mt-',
       ]"
       class="border relative border-gray-300 hover:border-blue-300 shadow space-x-2 items-center flex group"
     >
