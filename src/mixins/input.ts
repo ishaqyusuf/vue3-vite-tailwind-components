@@ -35,18 +35,4 @@ export const inputMixins = {
     appendInnerIcon: String,
     label: String,
   },
-  data() {
-    return {
-      inputFocus: false,
-      rawVal: null,
-      typing: false,
-      lastValidVal: null,
-      selectedIndex: null,
-      fadeList: false,
-      itemClick: false,
-      onFocusValue: null,
-      dirty: false,
-      hideText: true,
-    };
-  },
 };
