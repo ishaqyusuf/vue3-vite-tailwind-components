@@ -3,14 +3,18 @@ import { $dev } from "@/core/utils/functions";
 import userState from "./state";
 import alert from "@/hooks/alert";
 import qs from "qs";
+import router from "@/router";
 const login = async (form, redirect = { name: "home" }) => {
   try {
     const resp = await $clientApi.post("/user/login", form);
     const { user, token, error } = resp.data;
 
-    if (token) userState.initializeUser(token, user);
     if (error) alert.register(error, true);
     else alert.register("Welcome back!");
+    if (token) {
+      userState.initializeUser(token, user);
+      router.push(redirect);
+    }
     return { error, token };
   } catch (err) {
     $dev.error(err);

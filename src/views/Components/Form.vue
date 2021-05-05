@@ -1,8 +1,7 @@
 <template>
   <Input select tile :items="items" v-model="input1"></Input>
-  <Btn :action="action" async @result="finallys" :loading="loading"
-    >Action Button</Btn
-  >
+  <Btn :action="advance" async>Action Button</Btn>
+  <Btn :action="action" async>Async Action Button</Btn>
 </template>
 
 <script lang="ts">
@@ -12,19 +11,26 @@ export default {
   props: {},
   setup(props, { emit }) {
     const input1 = ref();
-    const loading = ref(false);
     const action = async () => {
       await useTime.delay(3000);
       console.log("done");
+    };
+    const advance = async () => {
+      return new Promise(async (resolve, reject) => {
+        useTime.delay(4000).then((r) => {
+          console.log("done!");
+          resolve(true);
+        });
+      });
     };
     const finallys = () => {
       console.log("Hello");
     };
     return {
       input1,
+      advance,
       finallys,
       action,
-      loading,
       items: ["Item 1", "Item 2", "Item 3"],
     };
   },

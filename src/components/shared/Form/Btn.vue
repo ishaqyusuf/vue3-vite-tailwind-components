@@ -31,7 +31,7 @@ export default {
   mixins: [btnMixins],
   setup(props, { emit }) {
     const nativeLoading = ref(false);
-    const isLoading = computed(() => props.loading || nativeLoading.value); //(props, "loading");
+    const isLoading = computed(() => nativeLoading.value); //(props, "loading");
     const {
       fab,
       tile,
@@ -59,14 +59,22 @@ export default {
       { "bg-white text-gray-700 hover:bg-gray-50": secondary },
     ]);
     const click = async () => {
-      nativeLoading.value = true;
-      if (props.action)
-        emit("result", props.async ? await props.action() : props.action());
-      nativeLoading.value = false;
+      if (props.action) {
+        nativeLoading.value = true;
+        if (props.async) {
+          props.action().then((r) => {
+            nativeLoading.value = false;
+          });
+        } else {
+          emit("result", props.await ? await props.action() : props.action());
+          nativeLoading.value = false;
+        }
+      }
     };
     return {
       click,
       isLoading,
+      nativeLoading,
       isDisabled,
       styles,
       primary,
