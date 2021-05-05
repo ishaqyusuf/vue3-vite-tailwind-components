@@ -1,5 +1,6 @@
 <template>
-  <FormInput label="Hello World"></FormInput>
+  <FormInput v-model="input1" label="Hello World"></FormInput>
+  <span>{{ input1 }}</span>
   <!-- <Input select tile :items="items" v-model="input1"></Input> -->
   <Btn :action="advance" async>Action Button</Btn>
   <Btn :action="action" async>Async Action Button</Btn>
@@ -11,7 +12,7 @@ import useTime from "@/hooks/time";
 export default {
   props: {},
   setup(props, { emit }) {
-    const input1 = ref();
+    const input1 = ref("");
     const action = async () => {
       await useTime.delay(3000);
     };

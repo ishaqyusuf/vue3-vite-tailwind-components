@@ -2,9 +2,7 @@ export const inputMixins = {
   props: {
     dark: Boolean,
     password: Boolean,
-    value: {
-      type: [String, Object, Number],
-    },
+    value: {},
     items: {},
     name: String,
     id: String,
@@ -18,8 +16,8 @@ export const inputMixins = {
     rounded: Boolean,
     menu: Boolean,
     textarea: Boolean,
-    inputClass: [String, Object],
-    loading: [Boolean, Object],
+    inputClass: {},
+    loading: Boolean,
     tile: Boolean,
     readonly: Boolean,
     disabled: Boolean,

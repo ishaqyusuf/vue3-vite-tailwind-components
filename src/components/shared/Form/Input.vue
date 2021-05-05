@@ -2,7 +2,7 @@
   <div class="relative">
     <div class="inline-flex w-full">
       <slot name="label">
-        <Label v-if="label">{{ label }}</Label>
+        <Label v-if="$props.label">{{ $props.label }}</Label>
       </slot>
       <Spacer></Spacer>
       <slot name="label-right"></slot>
@@ -10,7 +10,7 @@
     <div
       ref="inputParent"
       :class="[
-        inputFocus && 'ring-2',
+        data.inputFocus && 'ring-2',
         rounded ? 'rounded-full' : !tile && 'rounded-md',
         isDisabled && 'gray-scale',
         dark ? 'text-white' : 'bg-white',
@@ -132,7 +132,40 @@ import useTime from "@/hooks/time";
 import { onMounted, computed, onBeforeUpdate, ref, reactive } from "vue";
 import { useModelWrapper } from "@use/modelWrapper";
 export default {
-  mixins: [inputMixins],
+  props: {
+    dark: Boolean,
+    password: Boolean,
+    value: [String, Object, Number],
+    items: {},
+    name: String,
+    id: String,
+    itemText: String,
+    itemValue: String,
+    type: { default: "text" },
+    valueFormat: Function,
+    combobox: Boolean,
+    select: Boolean,
+    autoComplete: Boolean,
+    rounded: Boolean,
+    menu: Boolean,
+    textarea: Boolean,
+    inputClass: [String, Object],
+    loading: [Boolean, Object],
+    tile: Boolean,
+    readonly: Boolean,
+    disabled: Boolean,
+    dense: Boolean,
+    clearable: Boolean,
+    prependIcon: String,
+    placeholder: String,
+    maxlength: Number,
+    prependInnerIcon: String,
+    prefix: String,
+    suffix: String,
+    appendIcon: String,
+    appendInnerIcon: String,
+    label: String,
+  },
   setup(props, { emit }) {
     const data = reactive({
       inputFocus: false,
@@ -324,7 +357,7 @@ export default {
       inputWidth,
       inputDisplayValue,
       displayValue,
-      ...data,
+      data,
       isLoading: computed(() => props.loading),
       inputStyle: computed(() => (props.dense ? "py-1" : "py-2")),
       typeValue: computed(() =>
