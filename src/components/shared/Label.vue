@@ -3,7 +3,7 @@
     class="font-poppins text-gray-800"
     :class="[
       block && 'block',
-      sm && 'text-sm',
+      !lg && !md && !xl && 'text-sm',
       lg && 'text-lg',
       md && 'text-base',
       xl && 'text-xl',
