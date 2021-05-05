@@ -1,9 +1,13 @@
 <template>
-  <li class="inline-flex">
+  <li class="inline-flex space-x-2">
     <input :id="id" v-model="checked" type="checkbox" @change="inputChanged" />
-    <label :for="id" :class="[strong && 'font-medium', textBase && 'text-base']"
-      ><slot>{{ label }}</slot></label
-    >
+    <slot name="label">
+      <label
+        :for="id"
+        :class="[strong && 'font-medium', textBase && 'text-base']"
+        ><slot>{{ label }}</slot></label
+      >
+    </slot>
   </li>
 </template>
 

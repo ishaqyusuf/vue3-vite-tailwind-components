@@ -1,8 +1,9 @@
 <template>
-  <div class="h-screen mx-auto my-4 sm:flex items-center justify-center">
+  <div class="h-screen mx-auto sm:flex items-center justify-center">
     <div
       class="max-w-xs flex flex-col justify-center w-full sm:max-w-lg mx-auto space-y-6"
     >
+      <Logo dark />
       <router-view></router-view>
     </div>
   </div>

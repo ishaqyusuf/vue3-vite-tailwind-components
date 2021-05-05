@@ -27,6 +27,7 @@ export default defineConfig({
       "@locales": resolve(__dirname, "src/locales"),
       "@mixins": resolve(__dirname, "src/mixins"),
       "@core": resolve(__dirname, "src/core"),
+      "@assets": resolve(__dirname, "src/assets"),
     },
   },
   plugins: [
@@ -44,8 +45,8 @@ export default defineConfig({
       // options are passed on to @vue/babel-plugin-jsx
     }),
   ],
-  ssgOptions: {
-    script: "async",
-    formatting: "minify",
-  },
+  // ssgOptions: {
+  //   script: "async",
+  //   formatting: "minify",
+  // },
 });

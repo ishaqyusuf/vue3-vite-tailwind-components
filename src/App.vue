@@ -1,15 +1,16 @@
 <template>
   <div class="bg-gray-100">
     <AlertContainer />
-    <Header></Header>
+    <Header v-if="!fullScreen"></Header>
     <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import Header from "@components/navs/Header.vue";
 import user from "@/use/user";
+import useConfig from "@/use/configs";
 export default {
   props: {},
   components: {
@@ -19,7 +20,10 @@ export default {
     onMounted(() => {
       user.authenticate();
     });
-    return {};
+    const fullScreen = computed(() => useConfig.fullScreen.value);
+    return {
+      fullScreen,
+    };
   },
 };
 </script>

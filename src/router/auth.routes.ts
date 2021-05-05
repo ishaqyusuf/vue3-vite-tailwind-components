@@ -1,9 +1,11 @@
 import { RouteRecordRaw } from "vue-router";
-import user from "@/use/user";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "",
     component: () => import("../views/Auth/Index.vue"),
+    meta: {
+      fullScreen: true,
+    },
     children: [
       {
         path: "/sign-in",

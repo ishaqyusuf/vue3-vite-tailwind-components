@@ -21,7 +21,8 @@
       "@utils/*": ["./src/utils/*"],
       "@locales": ["./src/locales/*"],
       "@core": ["./src/core/*"],
-      "@mixins": ["./src/mixins/*"]
+      "@mixins": ["./src/mixins/*"],
+      "@assets": ["./src/assets/*"]
     },
     "plugins": [{ "name": "@vuedx/typescript-plugin-vue" }]
   },

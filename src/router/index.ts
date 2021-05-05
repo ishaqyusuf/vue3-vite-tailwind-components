@@ -7,9 +7,9 @@ import TitleHelper from "../utils/title";
 import useConfigs from "../use/configs";
 import user from "../use/user";
 export const routes: Array<RouteRecordRaw> = [
+  ...basic.routes,
   ...auth.routes,
   ...component.routes,
-  ...basic.routes,
 ];
 
 const router = createRouter({
