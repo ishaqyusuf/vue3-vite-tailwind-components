@@ -105,7 +105,7 @@
             <slot name="firstResult"></slot>
             <slot name="results" v-bind:items="results">
               <li
-                v-for="(result, index) in items"
+                v-for="(result, index) in [1, 2, 3, 4, 5, 6]"
                 :key="index"
                 @click.prevent="selectItem(result)"
               >
