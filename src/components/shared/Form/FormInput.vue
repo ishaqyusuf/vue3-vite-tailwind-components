@@ -91,8 +91,8 @@
         ]"
       />
     </div>
-    <!-- v-if="(items || menu) && inputFocus" -->
     <div
+      v-if="(items || menu) && inputFocus"
       class="absolute origin-bottom-left my-1 w-full bg-white text-gray-900 z-50"
     >
       <slot name="menu" v-bind="$props">
@@ -102,26 +102,26 @@
           class="p-0 w-full overflow-y-auto max-h-56 rounded-b-lg shadow-xl border"
         >
           <!-- <template> -->
-            <slot name="firstResult"></slot>
-            <slot name="results" v-bind:items="results">
-              <li
-                v-for="(result, index) in [1, 2, 3, 4, 5, 6]"
-                :key="index"
-                @click.prevent="selectItem(result)"
-              >
-                <slot name="resultItem" v-bind:item="result">
-                  <div
-                    :class="[isSelected(index) && 'hover:bg-gray-400']"
-                    class="appearance-none border-b p-2 cursor-default hover:bg-gray-200"
-                  >
-                    <slot name="item" v-bind:item="result">
-                      {{ displayValue(result) }}
-                    </slot>
-                  </div>
-                </slot>
-              </li>
-            </slot>
-            <slot name="lastResult"></slot>
+          <slot name="firstResult"></slot>
+          <slot name="results" v-bind:items="results">
+            <li
+              v-for="(result, index) in [1, 2, 3, 4, 5, 6]"
+              :key="index"
+              @click.prevent="selectItem(result)"
+            >
+              <slot name="resultItem" v-bind:item="result">
+                <div
+                  :class="[isSelected(index) && 'hover:bg-gray-400']"
+                  class="appearance-none border-b p-2 cursor-default hover:bg-gray-200"
+                >
+                  <slot name="item" v-bind:item="result">
+                    {{ displayValue(result) }}
+                  </slot>
+                </div>
+              </slot>
+            </li>
+          </slot>
+          <slot name="lastResult"></slot>
           <!-- </template> -->
         </ul>
       </slot>
