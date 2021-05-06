@@ -91,8 +91,8 @@
         ]"
       />
     </div>
+    <!-- v-if="(items || menu) && inputFocus" -->
     <div
-      v-if="(items || menu) && inputFocus"
       class="absolute origin-bottom-left my-1 w-full bg-white text-gray-900 z-50"
     >
       <slot name="menu" v-bind="$props">
@@ -101,7 +101,7 @@
           :style="listStyle"
           class="p-0 w-full overflow-y-auto max-h-56 rounded-b-lg shadow-xl border"
         >
-          <template>
+          <!-- <template> -->
             <slot name="firstResult"></slot>
             <slot name="results" v-bind:items="results">
               <li
@@ -122,7 +122,7 @@
               </li>
             </slot>
             <slot name="lastResult"></slot>
-          </template>
+          <!-- </template> -->
         </ul>
       </slot>
     </div>
@@ -376,7 +376,7 @@ export default {
       styles,
       inputRef,
       listStyle: computed(() => {
-        return { width: inputWidth + "px", "z-index": 9999 };
+        return { width: inputWidth.value + "px", "z-index": 9999 };
       }),
       keyup: () => emit("keyup"),
       keydown: () => emit("keydown"),
