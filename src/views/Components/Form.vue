@@ -1,5 +1,7 @@
 <template>
   <FormInput v-model="input1" clearable label="Hello World"></FormInput>
+  <FormInput password type="password" label="Hello World"></FormInput>
+  <FormInput :items="['a', 'b', 'c']" label="Hello World"></FormInput>
   <span>{{ input1 }}</span>
   <!-- <Input select tile :items="items" v-model="input1"></Input> -->
   <Btn :action="advance" async>Action Button</Btn>

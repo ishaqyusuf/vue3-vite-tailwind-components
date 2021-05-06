@@ -44,7 +44,7 @@
         ></textarea>
         <slot v-else name="selection" v-bind:selected="value">
           <input
-            ref="input"
+            ref="inputRef"
             :placeholder="placeholder"
             :readonly="readonly"
             :disabled="isDisabled"
@@ -53,8 +53,8 @@
             @input="valueInput"
             @focus="focus"
             @blur="blur"
-            @keyup="emit('keyup')"
-            @keydown="emit('keydown')"
+            @keyup="keyup"
+            @keydown="keydown"
             @keydown.enter="enter"
             @keydown.tab="close"
             @keydown.up="up"
@@ -71,10 +71,14 @@
       <slot name="appendInner">
         <!-- <ui-icon v-if="appendInnerIcon">{{ appendInnerIcon }}</ui-icon> -->
         <span class="font-semibold" v-if="suffix">{{ suffix }}</span>
-        <button v-if="isClearable" @click="clear">
+        <button class="focus:outline-none" v-if="isClearable" @click="clear">
           <i-mdi-close />
         </button>
-        <button v-if="password && hasValue" @click="hideText = !hideText">
+        <button
+          class="focus:outline-none"
+          v-if="password && hasValue"
+          @click.prevent="togglePassword"
+        >
           <i-mdi-eye-outline v-if="hideText" />
           <i-mdi-eye-outline v-else />
         </button>
@@ -94,7 +98,7 @@
       <slot name="menu" v-bind="$props">
         <ul
           :class="[fadeList && 'opacity-0']"
-          :style="{ width: inputWidth + 'px', 'z-index': 9999 }"
+          :style="listStyle"
           class="p-0 w-full overflow-y-auto max-h-56 rounded-b-lg shadow-xl border"
         >
           <template>
@@ -127,7 +131,6 @@
 
 <script lang="ts">
 import { ref, computed, onMounted, onBeforeUpdate, reactive } from "vue";
-import useUser from "@/use/user";
 import useTime from "@/hooks/time";
 export default {
   props: {
@@ -177,6 +180,7 @@ export default {
       dirty: ref(false),
       hideText: ref(true),
     };
+    const inputRef = ref(null);
     const {
       inputFocus,
       rawVal,
@@ -301,6 +305,7 @@ export default {
     function clear() {
       setModelValue(null, true);
       blur();
+      // inputRef.value.focus();
     }
     function valueInput($event) {
       dirty.value = true;
@@ -361,9 +366,20 @@ export default {
       },
       { "pl-2": props.prependInner || props.prefix },
     ]);
+
+    const togglePassword = (event) => {
+      data.hideText.value = !data.hideText.value;
+      inputRef.value.focus();
+      event.preventDefault();
+    };
     return {
       styles,
-      emit,
+      inputRef,
+      listStyle: computed(() => {
+        return { width: inputWidth + "px", "z-index": 9999 };
+      }),
+      keyup: () => emit("keyup"),
+      keydown: () => emit("keydown"),
       selectItem,
       results,
       clear,
@@ -378,13 +394,13 @@ export default {
       isDisabled: computed(
         () => props.loading || props.disabled || props.select
       ),
-
+      togglePassword,
       inputStyle: computed(() => (props.dense ? "py-1" : "py-2")),
       typeValue: computed(() =>
-        props.password && !hideText ? "text" : props.type
+        props.password && !data.hideText.value ? "text" : props.type
       ),
       hasItems,
-      hasValue: computed(() => props.value),
+      hasValue: computed(() => inputDisplayValue.value),
       isClearable,
       isReadonly,
       inputValue, //: useModelWrapper(props, emit, "modelValue"),
