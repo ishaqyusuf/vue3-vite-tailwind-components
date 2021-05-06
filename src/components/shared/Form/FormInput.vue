@@ -351,7 +351,9 @@ export default {
         props.select ||
         ((props.autoComplete || props.combobox) && props.length > 0)
     );
-    const isClearable = computed(() => props.clearable && props.value);
+    const isClearable = computed(
+      () => inputDisplayValue.value && props.clearable
+    );
     const isReadonly = computed(() => props.loading || props.disabled);
     const styles = computed(() => [
       {

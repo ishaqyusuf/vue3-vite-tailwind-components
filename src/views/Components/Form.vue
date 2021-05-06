@@ -1,5 +1,5 @@
 <template>
-  <FormInput v-model="input1" label="Hello World"></FormInput>
+  <FormInput v-model="input1" clearable label="Hello World"></FormInput>
   <span>{{ input1 }}</span>
   <!-- <Input select tile :items="items" v-model="input1"></Input> -->
   <Btn :action="advance" async>Action Button</Btn>
