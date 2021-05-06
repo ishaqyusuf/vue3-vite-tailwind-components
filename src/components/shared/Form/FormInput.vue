@@ -105,7 +105,7 @@
             <slot name="firstResult"></slot>
             <slot name="results" v-bind:items="results">
               <li
-                v-for="(result, index) in results"
+                v-for="(result, index) in items"
                 :key="index"
                 @click.prevent="selectItem(result)"
               >
@@ -137,7 +137,7 @@ export default {
     dark: Boolean,
     password: Boolean,
     value: {},
-    items: {},
+    items: Array,
     name: String,
     id: String,
     itemText: String,
