@@ -30,12 +30,15 @@
         >
         <span class="text-gray-700 text-sm">
           Didn't get the email? Check your spam folder or
-          <router-link
+          <Btn
+            text
+            id="resend"
+            async
+            :action="submit"
             class="text-purple-700 font-medium"
-            :to="{ name: 'register' }"
-            >resend.</router-link
-          ></span
-        >
+            >resend</Btn
+          >
+        </span>
       </template>
     </card-content>
   </Card>
@@ -58,8 +61,7 @@ export default {
     const submitted = ref(false);
     async function submit() {
       const error = await useUser.iforgot(email.value);
-      console.log(error);
-      (submitted.value == error) == null;
+      submitted.value = !error;
     }
     onMounted(() => {});
     return {

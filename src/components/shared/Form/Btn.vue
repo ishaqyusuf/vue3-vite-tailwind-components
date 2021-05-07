@@ -21,7 +21,7 @@
       :class="{
         'inline-flex items-center justify-center w-full space-x-2': true,
         'opacity-0': isLoading,
-        'px-4 h-9': !dense && !fab && !icon,
+        'px-4 h-9': !dense && !fab && !icon && !text,
         'px-2': dense,
       }"
     >
@@ -74,13 +74,17 @@ export default {
       secondary,
       tertiary,
       icon,
+      text,
     } = props;
-    const primary = !icon && !secondary && !tertiary;
+    const primary = !icon && !secondary && !tertiary && !text;
     const isDisabled = computed(() => props.loading || props.disabled);
     const styles = computed(() => [
       isDisabled.value && "gray-scale",
       { "cursor-default": isLoading.value },
-      { "border focus:ring-2 font-poppins shadow-lg": !tertiary && !icon },
+      {
+        "border focus:ring-2 font-poppins shadow-lg":
+          !tertiary && !text && !icon,
+      },
       { "rounded-full w-9 h-9": fab },
       { "text-base focus:outline-none border-separate relative": true },
       { "rounded-lg": !tile },

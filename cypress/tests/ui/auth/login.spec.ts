@@ -20,11 +20,16 @@ describe("User Login", function () {
     cy.contains("Invalid login details");
     cy.contains("Forgot your password?").click();
 
-    cy.get("input[name=email]").clear().type(fakeEmail);
+    cy.typeEmail(fakeEmail);
     cy.btnClick();
     cy.contains("Your input does not match any record");
-    cy.get("input[name=email]").clear().type(validEmail);
+    cy.typeEmail(validEmail);
+    cy.contains(validEmail);
     cy.btnClick();
+
+    cy.contains("We have sent you a verification email");
+    cy.contains("check your email for instructions to reset your password");
+    cy.get("button[id=resend]").click();
     cy.contains("We have sent you a verification email");
   });
   // it("reset password");

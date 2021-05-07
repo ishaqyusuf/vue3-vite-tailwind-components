@@ -40,6 +40,13 @@ Cypress.Commands.add("createAccount", (form) => {
   );
   cy.btnClick();
 });
+Cypress.Commands.add("typee", (value, selector) => {
+  cy.get(selector).clear().type(value);
+  cy.get(selector).contains(value);
+});
+Cypress.Commands.add("typeEmail", (value) => {
+  cy.typee(value, "input[name=email]");
+});
 //
 //
 // -- This is a child command --
