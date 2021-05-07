@@ -1,5 +1,11 @@
 <template>
-  <button :class="[styles]" @click="click" :disabled="isDisabled" :type="type">
+  <button
+    :id="id"
+    :class="[styles]"
+    @click="click"
+    :disabled="isDisabled"
+    :type="type"
+  >
     <div
       v-if="isLoading"
       :class="{
@@ -28,7 +34,33 @@
 import { ref, toRef, computed } from "vue";
 import { btnMixins } from "@/mixins/btn";
 export default {
-  mixins: [btnMixins],
+  // mixins: [btnMixins],
+  props: {
+    tile: Boolean,
+    fab: Boolean,
+    icon: { type: [Boolean] },
+    dense: Boolean,
+    secondary: Boolean,
+    tertiary: Boolean,
+    xLarge: Boolean,
+    large: Boolean,
+    small: Boolean,
+    xSmall: [Boolean, Object],
+    disabled: {},
+    to: {},
+    loading: [Boolean, Object],
+    action: Function,
+    async: Boolean,
+    prependIcon: {},
+    appendIcon: {},
+    color: { default: "blue" },
+    textColor: { default: "gray" },
+    type: { default: "button" },
+    name: String,
+    id: String,
+    dark: Boolean,
+    text: Boolean,
+  },
   setup(props, { emit }) {
     const nativeLoading = ref(false);
     const isLoading = computed(() => nativeLoading.value); //(props, "loading");

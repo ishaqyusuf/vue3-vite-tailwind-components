@@ -58,7 +58,7 @@
             </div>
           </template>
         </Checkbox>
-        <Btn class="w-full" async :action="submit">Sign In</Btn>
+        <Btn class="w-full" id="submit" async :action="submit">Create</Btn>
       </form>
     </card-content>
     <span class="text-sm block text-center">

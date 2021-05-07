@@ -105,7 +105,7 @@
           <slot name="firstResult"></slot>
           <slot name="results" v-bind:items="results">
             <li
-              v-for="(result, index) in [1, 2, 3, 4, 5, 6]"
+              v-for="(result, index) in results"
               :key="index"
               @click.prevent="selectItem(result)"
             >
@@ -196,22 +196,7 @@ export default {
     onMounted(() => {
       rawVal.value = props.value;
     });
-    const inputValue = computed({
-      get: () => {
-        if (props.itemValue)
-          return (props.items.find(
-            (item) =>
-              getObjectValue(item, props.itemValue, props.itemValue) ==
-              props.value
-          ) ?? {})[props.itemText];
-        let q = null;
-        if (props.returnObject) q = props.itemText;
-        return getObjectValue(props.value, q, props.value);
-      },
-      set: (value) => {
-        setModelValue(value);
-      },
-    });
+
     function getObjectValue(item, key, defaultValue = null) {
       return typeof item === "object" && key && item ? item[key] : defaultValue;
     }
@@ -295,7 +280,6 @@ export default {
     }
     function enter() {
       if (selectedIndex.value === null) {
-        emit("nothingSelected", inputValue);
         blur();
         return;
       }
@@ -311,8 +295,8 @@ export default {
       dirty.value = true;
       setModelValue($event.target.value);
     }
-    function query(s = "", important = false, exact = false) {
-      if (!important && (props.readonly || !typing)) return props.items;
+    function query(s = null, important = false, exact = false) {
+      if (!important && (props.readonly || !typing.value)) return props.items;
       let items = [];
       const [it, iv, ro] = [
         props.itemText,
@@ -376,7 +360,10 @@ export default {
       styles,
       inputRef,
       listStyle: computed(() => {
-        return { width: inputWidth.value + "px", "z-index": 9999 };
+        return {
+          // width: inputWidth.value + "px",
+          "z-index": 9999,
+        };
       }),
       keyup: () => emit("keyup"),
       keydown: () => emit("keydown"),
@@ -403,7 +390,6 @@ export default {
       hasValue: computed(() => inputDisplayValue.value),
       isClearable,
       isReadonly,
-      inputValue, //: useModelWrapper(props, emit, "modelValue"),
       up,
       down,
       enter,

@@ -20,6 +20,7 @@ export const btnMixins = {
     color: { default: "blue" },
     textColor: { default: "gray" },
     type: { default: "button" },
+    name: String,
     dark: Boolean,
     text: Boolean,
   },

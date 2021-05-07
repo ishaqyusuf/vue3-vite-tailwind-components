@@ -36,7 +36,7 @@
           v-model="alwaysSignedIn"
           label="Stay signed in always"
         ></Checkbox>
-        <Btn class="w-full" async :action="submit">Conitnue</Btn>
+        <Btn class="w-full" id="submit" async :action="submit">Conitnue</Btn>
       </form>
     </card-content>
   </Card>
