@@ -28,6 +28,18 @@
           >Thanks, check your email for instructions to reset your
           password</card-title
         >
+        <div class="space-y-2">
+          <Input
+            v-model="pin"
+            name="resetPin"
+            class="text-5xl"
+            center
+            label="Reset Pin"
+          />
+          <Btn id="resetBtn" class="w-full" async :action="resetPassword"
+            >Conitnue</Btn
+          >
+        </div>
         <span class="text-gray-700 text-sm">
           Didn't get the email? Check your spam folder or
           <Btn
@@ -53,21 +65,33 @@
 <script lang="ts">
 import { ref, onMounted } from "vue";
 import useUser from "@/use/user";
+import router from "@/router";
 export default {
   props: {},
   setup(props, { emit }) {
     const alwaysSignedIn = ref(false);
-    const email = ref();
+    const pin = ref("");
+    const email = ref("");
     const submitted = ref(false);
     async function submit() {
       const error = await useUser.iforgot(email.value);
       submitted.value = !error;
     }
+    async function resetPassword() {
+      router.push({
+        name: "reset-password",
+        query: {
+          pin: pin,
+        },
+      });
+    }
     onMounted(() => {});
     return {
       ...useUser,
+      resetPassword,
       alwaysSignedIn,
       submit,
+      pin,
       email,
       submitted,
     };

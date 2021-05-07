@@ -10,7 +10,7 @@
     <div
       ref="inputParent"
       :class="[
-        data.inputFocus && 'ring-2',
+        inputFocus && 'ring-2',
         rounded ? 'rounded-full' : !tile && 'rounded-md',
         isDisabled && 'gray-scale',
         dark ? 'text-white' : 'bg-white',
@@ -64,7 +64,15 @@
             :id="id"
             @keydown.esc="close"
             autocomplete="new-password"
-            :class="[select && 'cursor-pointer', inputStyle, inputClass]"
+            :class="[
+              { 'text-center': center },
+              { 'text-xl': lg },
+              { 'text-2xl': xl },
+              { 'text-3xl': xxl },
+              select && 'cursor-pointer',
+              inputStyle,
+              inputClass,
+            ]"
             class="w-full appearance-none focus:outline-none py-2"
           />
         </slot>
@@ -134,6 +142,9 @@ import { useModelWrapper } from "@use/modelWrapper";
 export default {
   props: {
     dark: Boolean,
+    lg: Boolean,
+
+    center: Boolean,
     password: Boolean,
     value: [String, Object, Number],
     items: {},
