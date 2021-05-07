@@ -12,8 +12,7 @@
             pattern=".*\S*.*"
             required
             label="Email"
-          >
-          </Input>
+          />
           <Btn class="w-full" async :action="submit">Conitnue</Btn>
           <div class="flex justify-center">
             <router-link
@@ -22,24 +21,7 @@
               >Return to sign in</router-link
             >
           </div>
-        </form></template
-      >
-      <template v-else>
-        <card-title class="px-0"
-          >Thanks, check your email for instructions to reset your
-          password</card-title
-        >
-        <span class="text-gray-700 text-sm">
-          Didn't get the email? Check your spam folder or
-          <Btn
-            text
-            id="resend"
-            async
-            :action="submit"
-            class="text-purple-700 font-medium"
-            >resend</Btn
-          >
-        </span>
+        </form>
       </template>
     </card-content>
   </Card>
@@ -61,19 +43,17 @@ export default {
     token: String,
   },
   setup(props, { emit }) {
-    // const checkingToken = ref(
-    const email = ref();
-    const submitted = ref(false);
-    async function submit() {
+    const { email, token } = props.params;
+    const checkingToken = ref(true);
+    async function checkToken() {
       const error = await useUser.iforgot(email.value);
-      submitted.value = !error;
     }
+    async function submit() {}
     onMounted(() => {});
     return {
       ...useUser,
       submit,
-      email,
-      submitted,
+      checkingToken,
     };
   },
 };

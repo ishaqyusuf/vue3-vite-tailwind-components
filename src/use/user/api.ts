@@ -34,6 +34,27 @@ const iforgot = async (email) => {
     $dev.error(err);
   }
 };
+const getResetToken = async (data) => {
+  try {
+    const response = await $clientApi.post(`user/token`, {
+      form: data,
+    });
+    const { error, token } = response.data;
+    if (error) alert.register(error, true);
+    return token;
+  } catch (err) {
+    $dev.error(err);
+  }
+};
+const validateToken = async (data) => {
+  try {
+    const response = await $clientApi.post("user/token/validate", {
+      form: data,
+    });
+  } catch (err) {
+    $dev.error(err);
+  }
+};
 const validate = async (token) => {
   try {
     const { data } = await $clientApi.get(`/user/validate/${token}`);
@@ -56,4 +77,5 @@ export default {
   validate,
   deactivate,
   iforgot,
+  getResetToken,
 };
