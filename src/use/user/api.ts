@@ -23,8 +23,12 @@ const login = async (form, redirect = { name: "home" }) => {
 };
 const iforgot = async (email) => {
   try {
-    const { error } = (await $clientApi.get(`user/iforgot/${email}`)).data;
+    const response = await $clientApi.get(`user/iforgot/${email}`);
+
+    const { error } = response.data;
+
     if (error) alert.register(error, true);
+    else alert.register("We have sent you a verification email");
     return error;
   } catch (err) {
     $dev.error(err);

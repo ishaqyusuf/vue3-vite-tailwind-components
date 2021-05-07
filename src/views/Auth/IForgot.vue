@@ -1,7 +1,7 @@
 <template>
   <Card style="min-height: 45vh" class="py-6">
     <card-content>
-      <template v-if="submitted">
+      <template v-if="!submitted">
         <card-title class="px-0">Sign in to your account</card-title>
         <form autocomplete="off" class="w-full space-y-6">
           <Input
@@ -58,6 +58,7 @@ export default {
     const submitted = ref(false);
     async function submit() {
       const error = await useUser.iforgot(email.value);
+      console.log(error);
       (submitted.value == error) == null;
     }
     onMounted(() => {});
