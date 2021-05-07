@@ -2,7 +2,7 @@
   <Card style="min-height: 45vh" class="py-6">
     <card-content>
       <template v-if="!submitted">
-        <card-title class="px-0">Sign in to your account</card-title>
+        <card-title class="px-0">Let's help you reset your password</card-title>
         <form autocomplete="off" class="w-full space-y-6">
           <Input
             v-model="email"
@@ -37,7 +37,7 @@
             label="Reset Pin"
           />
           <Btn id="resetBtn" class="w-full" async :action="resetPassword"
-            >Conitnue</Btn
+            >Continue</Btn
           >
         </div>
         <span class="text-gray-700 text-sm">
@@ -69,6 +69,7 @@ import router from "@/router";
 export default {
   props: {},
   setup(props, { emit }) {
+    const query = props.query;
     const alwaysSignedIn = ref(false);
     const pin = ref("");
     const email = ref("");
@@ -78,12 +79,18 @@ export default {
       submitted.value = !error;
     }
     async function resetPassword() {
-      router.push({
-        name: "reset-password",
-        query: {
-          pin: pin,
-        },
+      const token = await useUser.getResetToken({
+        email: email.value,
+        pin: pin.value,
       });
+      if (token)
+        router.push({
+          name: "reset-password",
+          query: {
+            token: token,
+            email: email.value,
+          },
+        });
     }
     onMounted(() => {});
     return {

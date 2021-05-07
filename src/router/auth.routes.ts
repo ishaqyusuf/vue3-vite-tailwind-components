@@ -30,6 +30,18 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           beforeEach: (to, from, next) => {},
         },
+        props: (route) => ({ query: route.query, params: route.params }),
+      },
+      {
+        path: "/reset-password/:email/:token",
+        name: "reset-password",
+        props: (route) => {
+          return {
+            query: route.query,
+            params: route.params,
+          };
+        },
+        component: () => import("../views/Auth/ResetPassword.vue"),
       },
     ],
   },
