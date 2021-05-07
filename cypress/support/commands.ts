@@ -40,7 +40,8 @@ Cypress.Commands.add("createAccount", (form) => {
   );
   cy.btnClick();
 });
-Cypress.Commands.add("typee", (value, selector) => {
+Cypress.Commands.add("typee", (value, element) => {
+  const selector = `input[${element}`;
   cy.get(selector).clear().type(value);
   cy.get(selector).contains(value);
 });

@@ -6,14 +6,22 @@
         <card-title class="px-0">Reset your password</card-title>
         <form autocomplete="off" class="w-full space-y-6">
           <Input
-            v-model="email"
-            name="email"
-            type="email"
+            v-model="form.password"
+            name="password"
+            type="password"
             pattern=".*\S*.*"
             required
-            label="Email"
+            label="New Password"
           />
-          <Btn class="w-full" async :action="submit">Conitnue</Btn>
+          <Input
+            v-model="form.confirm_password"
+            name="confirm_password"
+            type="password"
+            pattern=".*\S*.*"
+            required
+            label="Confirm New Password"
+          />
+          <Btn class="w-full" id="submit" async :action="submit">Continue</Btn>
           <div class="flex justify-center">
             <router-link
               class="text-purple-700 font-medium"
@@ -34,9 +42,10 @@
 </template>
 
 <script lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, reactive } from "vue";
 import useUser from "@/use/user";
 import router from "@/router";
+import alert from "@/hooks/alert";
 export default {
   props: {
     email: String,
@@ -45,13 +54,36 @@ export default {
   setup(props, { emit }) {
     const { email, token } = props.params;
     const checkingToken = ref(true);
-    async function checkToken() {
-      const error = await useUser.iforgot(email.value);
+    const form = reactive({
+      password: "",
+      confirm_password: "",
+    });
+    onMounted(async () => {
+      const { error } = await useUser.validateToken({ email, token });
+      if (!error) checkingToken.value = false;
+    });
+
+    async function submit() {
+      const error = [
+        form.password != form.confirm_password &&
+          "The password you enter does not match",
+        !form.password && "Enter valid password",
+        form.password.length < 6 && "Password too weak!",
+      ].filter(Boolean)[0];
+      if (error) {
+        alert.register(error, true);
+
+        return;
+      }
+      await useUser.updatePassword({
+        password: form.password,
+        email,
+        token,
+      });
     }
-    async function submit() {}
-    onMounted(() => {});
     return {
       ...useUser,
+      form,
       submit,
       checkingToken,
     };

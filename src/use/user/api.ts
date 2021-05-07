@@ -4,6 +4,8 @@ import userState from "./state";
 import alert from "@/hooks/alert";
 import qs from "qs";
 import router from "@/router";
+
+const home = { name: "home" };
 const login = async (form, redirect = { name: "home" }) => {
   try {
     const resp = await $clientApi.post("/user/login", form);
@@ -34,23 +36,17 @@ const iforgot = async (email) => {
     $dev.error(err);
   }
 };
-const getResetToken = async (data) => {
+const validateToken = async (data) => {
   try {
-    const response = await $clientApi.post(`user/token`, {
+    const response = await $clientApi.post(`user/token/validate`, {
       form: data,
     });
     const { error, token } = response.data;
-    if (error) alert.register(error, true);
+    if (error) {
+      alert.register(error, true);
+      // router.push(home);
+    }
     return token;
-  } catch (err) {
-    $dev.error(err);
-  }
-};
-const validateToken = async (data) => {
-  try {
-    const response = await $clientApi.post("user/token/validate", {
-      form: data,
-    });
   } catch (err) {
     $dev.error(err);
   }
@@ -61,6 +57,24 @@ const validate = async (token) => {
     return data;
   } catch (err) {
     $dev.error(err);
+  }
+};
+const updatePassword = async (form, token = null) => {
+  try {
+    const { data } = await $clientApi.patch(`/user/reset_password`, form);
+    const { error } = data;
+    if (error) alert.register(error, true);
+    else {
+      alert.register("Password Updated successfully!");
+      router.push({
+        name: "login",
+        query: {
+          email: form?.email,
+        },
+      });
+    }
+  } catch (error) {
+    $dev.error(error);
   }
 };
 const deactivate = async (password) => {
@@ -77,5 +91,6 @@ export default {
   validate,
   deactivate,
   iforgot,
-  getResetToken,
+  validateToken,
+  updatePassword,
 };

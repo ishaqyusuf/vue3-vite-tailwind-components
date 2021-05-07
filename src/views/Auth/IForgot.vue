@@ -79,7 +79,7 @@ export default {
       submitted.value = !error;
     }
     async function resetPassword() {
-      const token = await useUser.getResetToken({
+      const token = await useUser.validateToken({
         email: email.value,
         pin: pin.value,
       });

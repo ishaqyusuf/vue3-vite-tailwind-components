@@ -31,6 +31,34 @@ describe("User Login", function () {
     cy.contains("check your email for instructions to reset your password");
     cy.get("button[id=resend]").click();
     cy.contains("We have sent you a verification email");
+    ["01234", "12345"].map((k, i) => {
+      cy.typee(k, "name=resetPin");
+      cy.contains(k);
+      cy.btnClick("button[id=resetBtn]");
+      cy.contains(i == 0 ? "Invalid Token" : "New Password");
+    });
+    [
+      {
+        passwords: ["", ""],
+        assert: "Enter valid password",
+      },
+      {
+        password: ["abc", "abc"],
+        assert: "Password too weak!",
+      },
+      {
+        password: ["abc", "anc"],
+        assert: "The password you enter does not match",
+      },
+      {
+        password: ["Evolution20965", "Evolution20965"],
+        assert: "The password you enter does not match",
+      },
+    ].map((test) => {
+      cy.typee(test.password[0], "name=password");
+      cy.typee(test.password[0], "name=confirm_password");
+      cy.btnClick();
+      cy.contains(test.assert);
+    });
   });
-  // it("reset password");
 });
