@@ -10,7 +10,7 @@
     <div
       ref="inputParent"
       :class="[
-        inputFocus && 'ring-2',
+        data.inputFocus && 'ring-2',
         rounded ? 'rounded-full' : !tile && 'rounded-md',
         isDisabled && 'gray-scale',
         dark ? 'text-white' : 'bg-white',
@@ -52,8 +52,8 @@
             @change="inputValue = $event.target.value"
             :type="typeValue"
             @input="valueInput"
-            @focus="focus"
-            @blur="blur"
+            @focus="inputFocus"
+            @blur="inputBlur"
             @keyup="$emit('keyup')"
             @keydown="$emit('keydown')"
             @keydown.enter="enter"
@@ -83,8 +83,11 @@
         <button v-if="isClearable" @click="clear">
           <i-mdi-close />
         </button>
-        <button v-if="password && hasValue" @click="hideText = !hideText">
-          <i-mdi-eye-outline v-if="hideText" />
+        <button
+          v-if="password && hasValue"
+          @click="data.hideText = !data.hideText"
+        >
+          <i-mdi-eye-outline v-if="data.hideText" />
           <i-mdi-eye-outline v-else />
         </button>
       </slot>
@@ -92,17 +95,17 @@
         v-if="hasItems"
         class="transform transition-all"
         :class="[
-          inputFocus && 'delay-100 font-semibold text-blue-300 rotate-180',
+          data.inputFocus && 'delay-100 font-semibold text-blue-300 rotate-180',
         ]"
       />
     </div>
     <div
-      v-if="(items || menu) && inputFocus"
+      v-if="(items || menu) && data.inputFocus"
       class="absolute origin-bottom-left my-1 w-full bg-white text-gray-900 z-50"
     >
       <slot name="menu" v-bind="$props">
         <ul
-          :class="[fadeList && 'opacity-0']"
+          :class="[data.fadeList && 'opacity-0']"
           :style="{ width: inputWidth + 'px', 'z-index': '9999' }"
           class="p-0 w-full overflow-y-auto max-h-56 rounded-b-lg shadow-xl border"
         >
@@ -135,18 +138,18 @@
 </template>
 
 <script lang="ts">
-import { inputMixins } from "@/mixins/input";
 import useTime from "@/hooks/time";
 import { onMounted, computed, onBeforeUpdate, ref, reactive } from "vue";
-import { useModelWrapper } from "@use/modelWrapper";
 export default {
   props: {
     dark: Boolean,
     lg: Boolean,
+    xl: Boolean,
+    xxl: Boolean,
 
     center: Boolean,
     password: Boolean,
-    value: [String, Object, Number],
+    value: {}, //{ type: [String, Object, Number] },
     items: {},
     name: String,
     id: String,
@@ -160,8 +163,8 @@ export default {
     rounded: Boolean,
     menu: Boolean,
     textarea: Boolean,
-    inputClass: [String, Object],
-    loading: [Boolean, Object],
+    inputClass: {}, //{ type: [String, Object] },
+    loading: {}, //{ type: [Boolean, Object] },
     tile: Boolean,
     readonly: Boolean,
     disabled: Boolean,
@@ -228,14 +231,14 @@ export default {
       data.itemClick = true;
       setModelValue(item);
     };
-    function focus() {
+    function inputFocus() {
       data.lastValidVal = data.rawVal;
       data.selectedIndex = -1;
       data.onFocusValue = getInputDisplayValue();
       data.inputFocus = true;
       data.typing = data.fadeList = data.dirty = data.itemClick = false;
     }
-    function blur() {
+    function inputBlur() {
       data.fadeList = true;
       useTime.delay(200).then((d) => {
         let dirty = data.dirty;
@@ -265,9 +268,9 @@ export default {
     function displayValue(item) {
       return getObjectValue(item, props.itemText, item);
     }
-    function isSelected(key) {
+    const isSelected = (key) => {
       return key === data.selectedIndex;
-    }
+    };
     function up($event) {
       let q = query();
       if (!q) return;
@@ -363,6 +366,11 @@ export default {
     ]);
     return {
       styles,
+      isDisabled: computed(() => props.loading || props.disabled),
+      clear,
+      inputFocus,
+      inputBlur,
+      valueInput,
       selectItem,
       results,
       inputWidth,
@@ -374,10 +382,12 @@ export default {
       typeValue: computed(() =>
         props.password && !data.hideText ? "text" : props.type
       ),
+      isReadOnly: computed(() => props.readonly || props.select),
       hasItems,
       hasValue: computed(() => props.value),
       isClearable,
       isReadonly,
+      isSelected,
       inputValue, //: useModelWrapper(props, emit, "modelValue"),
       up,
       down,

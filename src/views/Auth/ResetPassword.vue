@@ -44,7 +44,6 @@
 <script lang="ts">
 import { ref, onMounted, reactive } from "vue";
 import useUser from "@/use/user";
-import router from "@/router";
 import alert from "@/hooks/alert";
 export default {
   props: {

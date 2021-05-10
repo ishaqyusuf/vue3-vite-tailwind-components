@@ -15,6 +15,7 @@
         <Input
           v-model="form.password"
           type="password"
+          @keyup.enter="submit"
           required
           pattern=".*\S*.*"
           name="password"
@@ -49,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, onMounted, reactive } from "vue";
+import { ref, onMounted, reactive } from "vue";
 import useUser from "@/use/user";
 export default {
   props: {},
