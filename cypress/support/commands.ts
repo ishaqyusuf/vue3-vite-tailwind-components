@@ -9,7 +9,7 @@
 // ***********************************************
 //
 //
-
+/// <reference types="cypress" />
 import { curryRight } from "cypress/types/lodash";
 
 // -- This is a parent command --
@@ -17,6 +17,7 @@ Cypress.Commands.add("login", (email, password) => {
   cy.visit("/login");
   cy.get("input[name=email]").clear().type(email);
   cy.get("input[name=password]").clear().type(password);
+  // .type("Cypress.io{enter}");
   cy.btnClick();
 });
 Cypress.Commands.add("logout", () => {

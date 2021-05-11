@@ -49,7 +49,7 @@
             :readonly="isReadOnly"
             :disabled="isDisabled"
             :value="inputDisplayValue"
-            @change="inputValue = $event.target.value"
+            @change="inputValueChange"
             :type="typeValue"
             @input="valueInput"
             @focus="inputFocus"
@@ -106,7 +106,7 @@
       <slot name="menu" v-bind="$props">
         <ul
           :class="[data.fadeList && 'opacity-0']"
-          :style="{ width: inputWidth + 'px', 'z-index': '9999' }"
+          :style="{ width: inputWidth + 'px' }"
           class="p-0 w-full overflow-y-auto max-h-56 rounded-b-lg shadow-xl border"
         >
           <template>
@@ -392,6 +392,7 @@ export default {
       up,
       down,
       enter,
+      inputValueChange: ($event) => (inputValue.value = $event.target.value),
     };
   },
 };
