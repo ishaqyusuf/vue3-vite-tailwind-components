@@ -17,6 +17,7 @@ Cypress.Commands.add("login", (email, password) => {
   cy.visit("/login");
   cy.get("input[name=email]").clear().type(email);
   cy.get("input[name=password]").clear().type(password);
+  cy.get("input[type=checkbox]").check();
   // .type("Cypress.io{enter}");
   cy.btnClick();
 });
