@@ -77,7 +77,9 @@ export default {
       text,
     } = props;
     const primary = !icon && !secondary && !tertiary && !text;
-    const isDisabled = computed(() => props.loading || props.disabled);
+    const isDisabled = computed(
+      () => props.loading || nativeLoading.value || props.disabled
+    );
     const styles = computed(() => [
       isDisabled.value && "gray-scale",
       { "cursor-default": isLoading.value },

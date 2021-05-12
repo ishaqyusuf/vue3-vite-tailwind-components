@@ -25,8 +25,9 @@ Cypress.Commands.add("login", (email, password) => {
 });
 Cypress.Commands.add("logout", () => {
   cy.contains("Login").should("not.exist");
-  cy.get(".avatar").click();
+  //   cy.get(".avatar").click();
   cy.contains("Logout").click();
+  cy.contains("Login");
 });
 
 Cypress.Commands.add("resetPassword", (email) => {
