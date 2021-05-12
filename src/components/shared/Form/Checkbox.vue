@@ -1,6 +1,11 @@
 <template>
   <li class="inline-flex space-x-2">
-    <input :id="id" v-model="checked" type="checkbox" @change="inputChanged" />
+    <input
+      v-model="checked"
+      v-bind="$props"
+      type="checkbox"
+      @change="inputChanged"
+    />
     <slot name="label">
       <label
         :for="id"
