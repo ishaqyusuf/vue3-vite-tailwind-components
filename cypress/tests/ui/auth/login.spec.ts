@@ -23,15 +23,14 @@ describe("User Login", function () {
     cy.contains("Forgot your password?").click();
 
     cy.typeEmail(fakeEmail);
-    cy.btnClick();
+    cy.btnClick("button[id=resetBtn]");
     cy.contains("Your input does not match any record");
     cy.typeEmail(validEmail);
-    cy.contains(validEmail);
-    cy.btnClick();
+    cy.btnClick("button[id=resetBtn]");
 
     cy.contains("We have sent you a verification email");
     cy.contains("check your email for instructions to reset your password");
-    cy.get("button[id=resend]").click();
+    cy.btnClick("button[id=resend]");
     cy.contains("We have sent you a verification email");
     ["01234", "12345"].map((k, i) => {
       cy.typee(k, "name=resetPin");
