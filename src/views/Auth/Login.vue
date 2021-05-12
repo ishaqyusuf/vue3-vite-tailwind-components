@@ -12,10 +12,10 @@
           label="Email"
         >
         </Input>
+        <!-- @keyup.enter="submit" -->
         <Input
           v-model="form.password"
           type="password"
-          @keyup.enter="submit"
           required
           pattern=".*\S*.*"
           name="password"
