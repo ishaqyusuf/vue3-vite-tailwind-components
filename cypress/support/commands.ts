@@ -14,10 +14,12 @@ import { curryRight } from "cypress/types/lodash";
 
 // -- This is a parent command --
 Cypress.Commands.add("login", (email, password) => {
-  cy.visit("/login");
-  cy.get("input[name=email]").clear().type(email);
-  cy.get("input[name=password]").clear().type(password);
-  cy.get("input[type=checkbox]").check();
+  cy.visit("/sign-in");
+  const form = {
+    email,
+    password,
+  };
+  ["email", "password"].map((e) => cy.typee(form[e], `name=${e}`));
   // .type("Cypress.io{enter}");
   cy.btnClick();
 });
@@ -32,23 +34,23 @@ Cypress.Commands.add("btnClick", (btn = "button[id=submit]") => {
   cy.get(btn).should("be.disabled");
 });
 Cypress.Commands.add("resetPassword", (email) => {
-  cy.get("input[name=email]").clear().type(email);
+  cy.typeEmail(email);
   cy.btnClick();
 });
 Cypress.Commands.add("createAccount", (form) => {
   cy.visit("/register");
   ["first_name", "last_name", "email", "password"].map((e) =>
-    cy.get(`input[name=${e}]`).clear().type(form[e])
+    cy.typee(form[e], `name=${e}`)
   );
   cy.btnClick();
 });
 Cypress.Commands.add("typee", (value, element) => {
-  const selector = `input[${element}`;
+  const selector = `input[${element}]`;
   cy.get(selector).clear().type(value);
-  cy.get(selector).contains(value);
+  // cy.get(selector).contains(value);
 });
 Cypress.Commands.add("typeEmail", (value) => {
-  cy.typee(value, "input[name=email]");
+  cy.typee(value, "name=email");
 });
 //
 //
