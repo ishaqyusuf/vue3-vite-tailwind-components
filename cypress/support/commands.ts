@@ -20,10 +20,19 @@ Cypress.Commands.add("typee", (value, element) => {
 Cypress.Commands.add("typeEmail", (value) => {
   cy.typee(value, "name=email");
 });
-Cypress.Commands.add("btnClick", (btn = "button[id=submit]") => {
-  cy.get(btn).should("not.be.disabled");
+Cypress.Commands.add("btnClick", (btn, checkDisable = false) => {
+  checkDisable && cy.get(btn).should("not.be.disabled");
   cy.get(btn).click();
-  cy.get(btn).should("be.disabled");
+  checkDisable && cy.get(btn).should("be.disabled");
+});
+Cypress.Commands.add("clickBtnById", (id, checkDisable = false) => {
+  cy.btnClick(`button[id='${id}']`, checkDisable);
+});
+Cypress.Commands.add("clickBtnByName", (name, checkDisable = false) => {
+  cy.btnClick(`button[name='${name}']`, checkDisable);
+});
+Cypress.Commands.add("clickByBtnType", (name, checkDisable = false) => {
+  cy.btnClick(`button[type='${name}']`, checkDisable);
 });
 //
 //

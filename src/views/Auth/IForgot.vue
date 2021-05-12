@@ -36,7 +36,7 @@
             center
             label="Reset Pin"
           />
-          <Btn id="resetBtn" class="w-full" async :action="resetPassword"
+          <Btn name="resetBtn" class="w-full" async :action="resetPassword"
             >Continue</Btn
           >
         </div>
@@ -44,7 +44,7 @@
           Didn't get the email? Check your spam folder or
           <Btn
             text
-            id="resend"
+            name="resend"
             async
             :action="submit"
             class="text-purple-700 font-medium"

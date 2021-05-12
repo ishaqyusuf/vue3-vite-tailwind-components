@@ -1,6 +1,6 @@
 <template>
   <button
-    :id="id"
+    :name="name"
     :class="[styles]"
     @click="click"
     :disabled="isDisabled"
