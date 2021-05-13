@@ -1,7 +1,8 @@
 const pages = {
-  login: "/sign-in",
-  register: "/register",
+  LOGIN: "/sign-in",
+  REGISTER: "/register",
+  HOME: "/",
 };
-Cypress.Commands.add("goto", (page: "LOGIN | REGISTER", params = {}) => {
+Cypress.Commands.add("goto", (page = "HOME", params = {}) => {
   cy.visit(pages[page]);
 });

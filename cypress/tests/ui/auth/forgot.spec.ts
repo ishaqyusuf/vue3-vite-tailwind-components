@@ -13,7 +13,7 @@ it("reset password", () => {
   // cy.contains("We have sent you a verification email");
   cy.contains("check your email for instructions to reset your password");
   cy.clickBtnByName("resend");
-  cy.contains("Check your email.");
+  cy.contains("check your email");
   ["01234", "12345"].map((k, i) => {
     cy.typee(k, "name=resetPin");
     cy.contains(k);
