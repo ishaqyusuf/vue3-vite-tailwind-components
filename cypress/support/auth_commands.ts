@@ -21,7 +21,7 @@ Cypress.Commands.add("login", (email, password) => {
   };
   ["email", "password"].map((e) => cy.typee(form[e], `name=${e}`));
   cy.get("input[type=checkbox]").type("Cypress.io{enter}");
-  cy.btnClick();
+  cy.clickBtnByName("submit");
 });
 Cypress.Commands.add("logout", () => {
   cy.contains("Login").should("not.exist");
@@ -32,12 +32,12 @@ Cypress.Commands.add("logout", () => {
 
 Cypress.Commands.add("resetPassword", (email) => {
   cy.typeEmail(email);
-  cy.btnClick();
+  cy.clickBtnById("submit");
 });
 Cypress.Commands.add("createAccount", (form) => {
   cy.visit("/register");
   ["first_name", "last_name", "email", "password"].map((e) =>
     cy.typee(form[e], `name=${e}`)
   );
-  cy.btnClick();
+  cy.clickBtnById("submit");
 });

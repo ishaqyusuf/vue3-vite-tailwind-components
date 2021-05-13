@@ -13,7 +13,7 @@
             label="Email"
           >
           </Input>
-          <Btn class="w-full" async :action="submit">Conitnue</Btn>
+          <Btn class="w-full" name="resetBtn" async :action="submit">Conitnue</Btn>
           <div class="flex justify-center">
             <router-link
               class="text-purple-700 font-medium"

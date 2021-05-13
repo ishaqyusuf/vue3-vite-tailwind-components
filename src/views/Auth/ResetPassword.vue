@@ -21,7 +21,9 @@
             required
             label="Confirm New Password"
           />
-          <Btn class="w-full" id="submit" async :action="submit">Continue</Btn>
+          <Btn class="w-full" name="submit" async :action="submit"
+            >Continue</Btn
+          >
           <div class="flex justify-center">
             <router-link
               class="text-purple-700 font-medium"

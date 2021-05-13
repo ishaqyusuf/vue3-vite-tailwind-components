@@ -6,19 +6,19 @@ it("reset password", () => {
   cy.contains("Forgot your password?").click();
 
   cy.typeEmail(fakeEmail);
-  cy.btnClick("button[name=resetBtn]");
+  cy.clickBtnByName("resetBtn");
   cy.contains("Your input does not match any record");
   cy.typeEmail(validEmail);
-  cy.btnClick("button[name=resetBtn]");
+  cy.clickBtnByName("resetBtn");
 
   cy.contains("We have sent you a verification email");
   cy.contains("check your email for instructions to reset your password");
-  cy.btnClick("button[name=resend]");
+  cy.clickBtnByName("resend");
   cy.contains("We have sent you a verification email");
   ["01234", "12345"].map((k, i) => {
     cy.typee(k, "name=resetPin");
     cy.contains(k);
-    cy.btnClick("button[name=resetBtn]");
+    cy.clickBtnByName("resetBtn");
     cy.contains(i == 0 ? "Invalid Token" : "New Password");
   });
   [
@@ -41,7 +41,7 @@ it("reset password", () => {
   ].map((test) => {
     cy.typee(test.passwords[0], "name=password");
     cy.typee(test.passwords[1], "name=confirm_password");
-    cy.btnClick();
+    cy.clickBtnByName("submit");
     cy.contains(test.assert);
   });
 });

@@ -31,8 +31,11 @@ Cypress.Commands.add("clickBtnById", (id, checkDisable = false) => {
 Cypress.Commands.add("clickBtnByName", (name, checkDisable = false) => {
   cy.btnClick(`button[name='${name}']`, checkDisable);
 });
-Cypress.Commands.add("clickByBtnType", (name, checkDisable = false) => {
+Cypress.Commands.add("clickBtnByType", (name, checkDisable = false) => {
   cy.btnClick(`button[type='${name}']`, checkDisable);
+});
+Cypress.Commands.add("submitBtn", (checkDisable = false) => {
+  cy.btnClick("button[type=submit]", checkDisable);
 });
 //
 //
