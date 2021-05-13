@@ -13,7 +13,9 @@
             label="Email"
           >
           </Input>
-          <Btn class="w-full" name="resetBtn" async :action="submit">Conitnue</Btn>
+          <Btn class="w-full" name="resetBtn" async :action="submit"
+            >Conitnue</Btn
+          >
           <div class="flex justify-center">
             <router-link
               class="text-purple-700 font-medium"
@@ -66,6 +68,7 @@
 import { ref, onMounted } from "vue";
 import useUser from "@/use/user";
 import router from "@/router";
+import useAlert from "@/hooks/alert";
 export default {
   props: {},
   setup(props, { emit }) {
@@ -77,6 +80,7 @@ export default {
     async function submit() {
       const error = await useUser.iforgot(email.value);
       submitted.value = !error;
+      !error && useAlert.initAlert("Check your email.");
     }
     async function resetPassword() {
       const token = await useUser.validateToken({

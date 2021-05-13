@@ -1,8 +1,7 @@
 const fakeEmail = "ishaqyusuf024sakshajs@gmail.com";
 const validEmail = "ishaqyusuf024@gmail.com";
 it("reset password", () => {
-  cy.login(fakeEmail, "admin");
-  cy.contains("Invalid login details");
+  cy.goto("LOGIN");
   cy.contains("Forgot your password?").click();
 
   cy.typeEmail(fakeEmail);
@@ -14,7 +13,7 @@ it("reset password", () => {
   // cy.contains("We have sent you a verification email");
   cy.contains("check your email for instructions to reset your password");
   cy.clickBtnByName("resend");
-  cy.contains("We have sent you a verification email");
+  cy.contains("Check your email.");
   ["01234", "12345"].map((k, i) => {
     cy.typee(k, "name=resetPin");
     cy.contains(k);

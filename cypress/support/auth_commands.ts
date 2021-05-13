@@ -14,7 +14,7 @@ import { curryRight } from "cypress/types/lodash";
 
 // -- This is a parent command --
 Cypress.Commands.add("login", (email, password) => {
-  cy.visit("/sign-in");
+  cy.goto("LOGIN");
   const form = {
     email,
     password,

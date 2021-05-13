@@ -37,6 +37,7 @@ Cypress.Commands.add("clickBtnByType", (name, checkDisable = false) => {
 Cypress.Commands.add("submitBtn", (checkDisable = false) => {
   cy.btnClick("button[type=submit]", checkDisable);
 });
+
 //
 //
 // -- This is a child command --
