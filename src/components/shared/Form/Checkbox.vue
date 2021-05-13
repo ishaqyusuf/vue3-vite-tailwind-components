@@ -1,14 +1,9 @@
 <template>
   <li class="inline-flex space-x-2">
-    <input
-      v-model="checked"
-      v-bind="$props"
-      type="checkbox"
-      @change="inputChanged"
-    />
+    <input v-model="checked" v-bind="$props" type="checkbox" />
     <slot name="label">
       <label
-        :for="id"
+        :for="name"
         :class="[strong && 'font-medium', textBase && 'text-base']"
         ><slot>{{ label }}</slot></label
       >
@@ -22,6 +17,7 @@ import { useModelWrapper } from "@use/modelWrapper";
 export default {
   props: {
     label: String,
+    name: String,
     dark: Boolean,
     strong: Boolean,
     textBase: Boolean,
