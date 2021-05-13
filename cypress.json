@@ -7,10 +7,7 @@
   "firefoxGcInterval": null,
   "watchForFileChanges": true,
   "defaultCommandTimeout": 6000,
-  "retries": {
-    "runMode": 1,
-    "openMode": 1
-  },
+  "retries": 0,
   "env": {
     "apiUrl": "http://localhost:3001",
     "mobileViewportWidthBreakpoint": 414,

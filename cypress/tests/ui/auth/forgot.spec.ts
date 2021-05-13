@@ -11,7 +11,7 @@ it("reset password", () => {
   cy.typeEmail(validEmail);
   cy.clickBtnByName("resetBtn");
 
-  cy.contains("We have sent you a verification email");
+  // cy.contains("We have sent you a verification email");
   cy.contains("check your email for instructions to reset your password");
   cy.clickBtnByName("resend");
   cy.contains("We have sent you a verification email");
