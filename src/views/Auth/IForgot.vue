@@ -14,7 +14,7 @@
           >
           </Input>
           <Btn class="w-full" name="resetBtn" async :action="submit"
-            >Conitnue</Btn
+            >Continue</Btn
           >
           <div class="flex justify-center">
             <router-link
@@ -76,11 +76,13 @@ export default {
     const alwaysSignedIn = ref(false);
     const pin = ref("");
     const email = ref("");
+    console.log(email.value);
     const submitted = ref(false);
     async function submit() {
       const error = await useUser.iforgot(email.value);
       submitted.value = !error;
-      !error && useAlert.initAlert("Check your email.");
+
+      !error && useAlert.register("Check your email.");
     }
     async function resetPassword() {
       const token = await useUser.validateToken({
