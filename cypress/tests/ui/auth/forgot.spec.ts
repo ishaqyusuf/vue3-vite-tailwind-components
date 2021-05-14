@@ -16,7 +16,6 @@ it("reset password", () => {
   cy.contains("check your email");
   ["01234", "12345"].map((k, i) => {
     cy.typee(k, "name=resetPin");
-    cy.contains(k);
     cy.clickBtnByName("resetBtn");
     cy.contains(i == 0 ? "Invalid Token" : "New Password");
   });
