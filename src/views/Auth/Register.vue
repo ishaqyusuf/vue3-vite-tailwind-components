@@ -58,7 +58,7 @@
             </div>
           </template>
         </Checkbox>
-        <Btn class="w-full" id="submit" async :action="submit">Create</Btn>
+        <Btn class="w-full" name="submit" async :action="submit">Create</Btn>
       </form>
     </card-content>
     <span class="text-sm block text-center">
@@ -71,12 +71,12 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
-
+import { reactive, ref } from "vue";
+import useUser from "@/use/user";
 export default {
   props: {},
   setup(props, { emit }) {
-    const form = ref({
+    const form = reactive({
       first_name: "",
       last_name: "",
       email: "",
@@ -84,7 +84,9 @@ export default {
     });
     const getNotification = ref(false);
     const loading = ref(false);
-    const submit = (event) => {};
+    const submit = async () => {
+      const { error } = await useUser.createAccount(form);
+    };
     return { form, submit, loading, getNotification };
   },
 };

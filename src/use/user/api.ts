@@ -22,6 +22,23 @@ const login = async (form, redirect = { name: "home" }) => {
   }
   return {};
 };
+const createAccount = async (form) => {
+  try {
+    const resp = await $clientApi.post("/user", { data: form });
+    const { user, token, error } = resp.data;
+
+    if (error) alert.register(error, true);
+    else alert.register("Your account has been created!");
+    if (token) {
+      userState.initializeUser(token, user);
+      router.push({ name: "login" });
+    }
+    return { error, token };
+  } catch (err) {
+    $dev.error(err);
+  }
+  return {};
+};
 const iforgot = async (email) => {
   try {
     const response = await $clientApi.get(`user/iforgot/${email}`);
@@ -85,6 +102,7 @@ const deactivate = async (password) => {
 
 export default {
   login,
+  createAccount,
   validate,
   deactivate,
   iforgot,

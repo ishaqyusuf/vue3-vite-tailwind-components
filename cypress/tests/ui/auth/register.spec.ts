@@ -5,7 +5,7 @@ describe("User Registration", function () {
   const form = {
     first_name: "Cypress",
     last_name: "Test",
-    email: "cypress_test@gmail.com",
+    email: "cypress_test" + Date.now() + "@gmail.com",
     password: "cypress1234",
   };
   it("should create account successfully", function () {
@@ -15,7 +15,6 @@ describe("User Registration", function () {
   });
   it("email already exists", function () {
     cy.createAccount(form);
-    cy.contains("Email already exists");
-    cy.contains("Sign Up");
+    cy.contains("Email already exist!");
   });
 });

@@ -39,5 +39,5 @@ Cypress.Commands.add("createAccount", (form) => {
   ["first_name", "last_name", "email", "password"].map((e) =>
     cy.typee(form[e], `name=${e}`)
   );
-  cy.clickBtnById("submit");
+  cy.clickBtnByName("submit");
 });
