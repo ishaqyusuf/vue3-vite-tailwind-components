@@ -14,7 +14,7 @@ import { curryRight } from "cypress/types/lodash";
 
 Cypress.Commands.add("typee", (value, element) => {
   const selector = `input[${element}]`;
-  cy.get(selector).clear().type(value);
+  if (value) cy.get(selector).clear().type(value);
   // cy.get(selector).contains(value);
 });
 Cypress.Commands.add("typeEmail", (value) => {

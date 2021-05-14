@@ -60,7 +60,7 @@ export default {
       confirm_password: "",
     });
     onMounted(async () => {
-      const { error, token } = await useUser.validateToken({ email, token });
+      const { error } = await useUser.validateToken({ email, token });
       if (!error) checkingToken.value = false;
     });
 
