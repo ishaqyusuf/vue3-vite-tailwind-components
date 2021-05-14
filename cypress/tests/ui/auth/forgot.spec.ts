@@ -34,7 +34,7 @@ it("reset password", () => {
     },
     {
       passwords: ["Evolution20965", "Evolution20965"],
-      assert: "The password you enter does not match",
+      assert: "Password Updated successfully!",
     },
   ].map((test) => {
     cy.typee(test.passwords[0], "name=password");

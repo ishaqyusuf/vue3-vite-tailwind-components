@@ -2,7 +2,6 @@ import { $clientApi } from "@services/client";
 import { $dev } from "@/core/utils/functions";
 import userState from "./state";
 import alert from "@/hooks/alert";
-import qs from "qs";
 import router from "@/router";
 
 const home = { name: "home" };
@@ -38,9 +37,7 @@ const iforgot = async (email) => {
 };
 const validateToken = async (data) => {
   try {
-    const response = await $clientApi.post(`user/token/validate`, {
-      form: data,
-    });
+    const response = await $clientApi.post(`user/token/validate`, data);
     const { error, token } = response.data;
     if (error) {
       alert.register(error, true);

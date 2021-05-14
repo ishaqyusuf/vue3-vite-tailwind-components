@@ -53,14 +53,14 @@ export default {
     token: String,
   },
   setup(props, { emit }) {
-    const { email, token } = props.params;
+    const { email, token } = props;
     const checkingToken = ref(true);
     const form = reactive({
       password: "",
       confirm_password: "",
     });
     onMounted(async () => {
-      const { error } = await useUser.validateToken({ email, token });
+      const { error, token } = await useUser.validateToken({ email, token });
       if (!error) checkingToken.value = false;
     });
 

@@ -76,7 +76,6 @@ export default {
     const alwaysSignedIn = ref(false);
     const pin = ref("");
     const email = ref("");
-    console.log(email.value);
     const submitted = ref(false);
     async function submit() {
       const error = await useUser.iforgot(email.value);
@@ -92,7 +91,7 @@ export default {
       if (token)
         router.push({
           name: "reset-password",
-          query: {
+          params: {
             token: token,
             email: email.value,
           },
