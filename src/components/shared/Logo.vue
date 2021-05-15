@@ -1,7 +1,17 @@
 <template>
-  <router-link to="/" :class="imgSize">
+  <router-link
+    to="/"
+    class="font-black font-poppins text-gray-800 hover:opacity-80"
+    :class="{
+      'text-2xl': lg,
+      'text-xl': md,
+      'text-sm': sm,
+    }"
+    >EAFreight</router-link
+  >
+  <!-- <router-link class="hidden" to="/" :class="imgSize">
     <img class="h-full" v-if="src" :src="src" />
-  </router-link>
+  </router-link> -->
 </template>
 
 <script lang="ts">

@@ -1,5 +1,15 @@
 <template>
-  <div
+  <div class="flex min-h-screen items-center justify-center">
+    <div class="max-w-3xl space-y-2">
+      <span class="block text-6xl font-bold">Track your package now!</span>
+      <Input class="text-5xl" />
+      <RadioGroup>
+        <Radio label="abc"></Radio>
+      </RadioGroup>
+      <Btn class="w-full" x-large>Track</Btn>
+    </div>
+  </div>
+  <!-- <div
     class="flex justify-center items-center relative"
     :class="[
       {
@@ -24,7 +34,7 @@
         <div class="absolute all-0 shape-container hidden xl:block"></div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script lang="ts">

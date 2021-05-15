@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-7xl py-2 border-b mx-auto px-4 sm:px-6">
     <div class="flex justify-between py-2 items-center">
-      <i-mdi-facebook class="text-xl" />
+      <Logo md />
       <div class="space-x-4">
         <template v-if="!loggedIn">
           <Link :to="{ name: 'login' }">Login</Link>

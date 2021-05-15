@@ -22,7 +22,6 @@ module.exports = {
         emerald: colors.emerald,
         primary: colors.purple[700],
         secondary: "#212223",
-        cyan: "#9cdbff",
         black: {
           100: "#cdd0d6",
           200: "#9ba2ae",

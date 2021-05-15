@@ -3,7 +3,7 @@
     <div
       class="max-w-xs flex flex-col justify-center w-full sm:max-w-lg mx-auto space-y-6"
     >
-      <Logo dark />
+      <Logo lg class="ml-8" />
       <router-view></router-view>
     </div>
   </div>

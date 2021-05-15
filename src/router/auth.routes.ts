@@ -16,14 +16,6 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/register",
-        name: "register",
-        component: () => import("../views/Auth/Register.vue"),
-        meta: {
-          beforeEach: (to, from, next) => {},
-        },
-      },
-      {
         path: "/i-forgot",
         name: "forgot-password",
         component: () => import("../views/Auth/IForgot.vue"),
@@ -45,6 +37,15 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("../views/Auth/ResetPassword.vue"),
       },
     ],
+  },
+  {
+    path: "/register",
+    name: "register",
+    component: () => import("../views/Auth/Register.vue"),
+    meta: {
+      fullScreen: true,
+      beforeEach: (to, from, next) => {},
+    },
   },
   {
     path: "/logout",
