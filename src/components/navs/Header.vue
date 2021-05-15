@@ -13,7 +13,10 @@
             :to="{ name: 'logout' }"
             ><span>Shopping </span> <i-mdi-open-in-new class="text-xs" /> </Link
         ></template>
+        <Link :to="{ name: 'login' }">Portfolio</Link>
         <Link :to="{ name: 'login' }">Get Estimate</Link>
+        <Link :to="{ name: 'login' }">Contact</Link>
+        <Link :to="{ name: 'login' }">About</Link>
       </div>
       <div class="space-x-4">
         <template v-if="!loggedIn">

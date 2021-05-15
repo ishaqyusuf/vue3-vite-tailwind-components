@@ -1,9 +1,12 @@
 <template>
   <div class="flex min-h-screen items-center justify-center">
     <div class="max-w-3xl space-y-2">
-      <span class="block text-6xl font-bold">Track your package now!</span>
-      <Input class="text-5xl" />
-      <radio-group> <radio-button>Hello</radio-button></radio-group>
+      <span class="block text-4xl font-bold">Track your parcels!</span>
+      <span class="block"
+        >EAFreight is commited at providing smooth and effective Logistics
+        Solutions for every scale of business!</span
+      >
+      <Input class="text-2xl" placeholder="Enter your EAFreight Number" />
       <Btn class="w-full" x-large>Track</Btn>
     </div>
   </div>
