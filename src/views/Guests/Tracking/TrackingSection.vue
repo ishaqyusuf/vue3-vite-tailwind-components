@@ -3,9 +3,7 @@
     <div class="max-w-3xl space-y-2">
       <span class="block text-6xl font-bold">Track your package now!</span>
       <Input class="text-5xl" />
-      <RadioGroup>
-        <Radio label="abc"></Radio>
-      </RadioGroup>
+      <radio-group> <radio-button>Hello</radio-button></radio-group>
       <Btn class="w-full" x-large>Track</Btn>
     </div>
   </div>
