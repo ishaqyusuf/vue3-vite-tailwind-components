@@ -10,8 +10,7 @@
           pattern=".*\S*.*"
           required
           label="Email"
-        >
-        </Input>
+        />
         <!-- @keyup.enter="submit" -->
         <div class="space-y-2">
           <div class="flex justify-between">
@@ -63,7 +62,6 @@ export default {
       await useUser.login(form);
     }
     onMounted(() => {});
-    useUser.can();
     return {
       ...useUser,
       alwaysSignedIn,
