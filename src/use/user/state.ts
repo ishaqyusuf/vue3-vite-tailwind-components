@@ -1,8 +1,10 @@
 import { ref, computed } from "vue";
 import storage from "@utils/localStorage";
 import userApi from "./api";
+import roles from "@/hooks/roles";
 const user = ref({});
 const token = ref(null);
+const permission = ref({});
 
 const loggedIn = computed(() => token.value != null);
 const loadToken = () => {
@@ -20,7 +22,8 @@ const saveToken = (tok) => {
   loadToken();
 };
 const initializeUser = (token, _user) => {
-  user.value = user;
+  user.value = _user;
+  permission.value = roles.spreadRole(_user.role);
   saveToken(token);
 };
 const authenticate = async () => {
@@ -43,4 +46,5 @@ export default {
   initializeUser,
   logout,
   loggedIn,
+  permission,
 };
