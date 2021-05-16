@@ -13,6 +13,6 @@ declare namespace Cypress {
     clickBtnByType(type: string, checkDisable?: boolean): Chainable<Element>;
     typee(value: string, selector?: string): Chainable<Element>;
     typeEmail(value: string): Chainable<Element>;
-    goto(page: "LOGIN" | "REGISTER", params?: Object);
+    goto(page: "LOGIN" | "REGISTER" | "TRACKING", params?: Object);
   }
 }

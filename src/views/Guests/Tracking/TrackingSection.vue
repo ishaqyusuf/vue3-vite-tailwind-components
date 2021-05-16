@@ -11,10 +11,12 @@
           tile
           v-model="eafn"
           class="sm:w-2/3"
+          name="track_code"
           placeholder="Enter your EAFreight Number"
         />
         <Btn
           tile
+          name="trackBtn"
           @click="
             eafn &&
               $router.push({

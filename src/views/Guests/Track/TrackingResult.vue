@@ -4,7 +4,6 @@
       <div v-if="isLoading" class="flex justify-center items-center">
         <Spinner />
       </div>
-      <div v-if="noResult">abcs</div>
       <template v-else>
         <div
           :class="[
@@ -31,9 +30,12 @@
               <div class="flex justify-between">
                 <p class="text-lg">
                   <span class="font-semibold">Tracking Number:</span>
-                  <span class="px-2 uppercase">{{ trackCode }}</span>
+                  <span
+                    class="px-2 uppercase font-medium text-gray-700 tracking-widest"
+                    >{{ trackCode }}</span
+                  >
                 </p>
-                <Btn text v-if="!simple" @click="dumped = true">Remove</Btn>
+                <!-- <Btn text v-if="!simple" @click="dumped = true">Remove</Btn> -->
               </div>
               <div
                 class="text-lg flex flex-col py-4 space-y-2"
@@ -74,6 +76,7 @@
 
               <div v-if="trackings">
                 <tracking-status-item
+                  name="statusItem"
                   v-for="(item, index) in trackings"
                   :key="index"
                   :item="item"

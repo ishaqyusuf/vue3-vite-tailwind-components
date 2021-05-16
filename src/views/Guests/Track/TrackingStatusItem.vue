@@ -26,7 +26,7 @@
         <div class="flex-1 space-y-3">
           <div class="flex items-center space-x-1 text-gray-700">
             <span
-              class="text-sm font-semibold bg-primary mr-1 px-1 tracking-widest uppercase"
+              class="text-sm font-semibold bg-yellow-300 mr-1 px-1 tracking-widest uppercase"
               >{{ $dayjs.format(item.created_at, "MMM DD") }}</span
             >
             <template v-if="item.location">

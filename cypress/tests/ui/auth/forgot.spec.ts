@@ -1,3 +1,4 @@
+// / <reference types="cypress" />
 const fakeEmail = "ishaqyusuf024sakshajs@gmail.com";
 const validEmail = "ishaqyusuf024@gmail.com";
 it("reset password", () => {
