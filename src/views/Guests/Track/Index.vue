@@ -11,6 +11,7 @@
       <div class="sm:flex space-y-2 sm:items-center">
         <router-link :to="{ name: 'tracking' }">
           <button
+            name="trackNew"
             class="p-2 sm:p-3 sm:text-lg font-semibold inline-flex items-center space-x-3 border-2 text-secondary focus:outline-none transition-all transform hover:-translate-y-1 hover:bg-secondary hover:text-white group"
           >
             <span>Track another package</span
