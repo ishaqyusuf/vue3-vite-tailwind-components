@@ -6,7 +6,7 @@ const trackCode = ref("");
 
 const loading = ref(false);
 
-const result = ref({});
+const result: any = ref({});
 
 const search = async (code) => {
   trackCode.value = code;
