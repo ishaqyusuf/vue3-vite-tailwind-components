@@ -6,8 +6,14 @@
         >EAFreight is commited at providing smooth and effective Logistics
         Solutions for every scale of business!</span
       >
-      <Input class="text-2xl" placeholder="Enter your EAFreight Number" />
-      <Btn class="w-full" x-large>Track</Btn>
+      <div class="sm:flex space-x-2">
+        <Input
+          class="text-xl sm:w-2/3"
+          placeholder="Enter your EAFreight Number"
+        />
+        <Btn tile>TRACK IT</Btn>
+        <!-- <Btn class="">Track</Btn> -->
+      </div>
     </div>
   </div>
   <!-- <div

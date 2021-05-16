@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <div class="inline-flex w-full">
+    <div class="">
       <slot name="label">
         <Label v-if="$props.label">{{ $props.label }}</Label>
       </slot>
