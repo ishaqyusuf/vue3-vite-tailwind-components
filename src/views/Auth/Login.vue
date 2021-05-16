@@ -13,15 +13,9 @@
         >
         </Input>
         <!-- @keyup.enter="submit" -->
-        <Input
-          v-model="form.password"
-          type="password"
-          required
-          pattern=".*\S*.*"
-          name="password"
-          label="Password"
-        >
-          <template v-slot:label-right>
+        <div class="space-y-2">
+          <div class="flex justify-between">
+            <Label>Password</Label>
             <router-link
               class="text-purple-700 text-sm font-medium"
               :to="{
@@ -31,8 +25,16 @@
             >
               Forgot your password?
             </router-link>
-          </template>
-        </Input>
+          </div>
+          <Input
+            v-model="form.password"
+            type="password"
+            required
+            pattern=".*\S*.*"
+            name="password"
+          >
+          </Input>
+        </div>
         <Checkbox
           v-model="alwaysSignedIn"
           label="Stay signed in always"
@@ -61,6 +63,7 @@ export default {
       await useUser.login(form);
     }
     onMounted(() => {});
+    useUser.can();
     return {
       ...useUser,
       alwaysSignedIn,
