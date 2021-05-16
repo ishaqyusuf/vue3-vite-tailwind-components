@@ -8,10 +8,22 @@
       >
       <div class="sm:flex space-x-2">
         <Input
-          class="text-xl sm:w-2/3"
+          tile
+          v-model="eafn"
+          class="sm:w-2/3"
           placeholder="Enter your EAFreight Number"
         />
-        <Btn tile>TRACK IT</Btn>
+        <Btn
+          tile
+          @click="
+            eafn &&
+              $router.push({
+                name: 'track',
+                params: { code: eafn },
+              })
+          "
+          >TRACK IT</Btn
+        >
         <!-- <Btn class="">Track</Btn> -->
       </div>
     </div>
@@ -46,14 +58,18 @@
 
 <script lang="ts">
 import { ref } from "vue";
-
+import router from "@/router";
 export default {
   props: {
     sectional: Boolean,
     mini: Boolean,
   },
   setup(props, { emit }) {
-    return {};
+    const eafn = ref("");
+
+    return {
+      eafn,
+    };
   },
 };
 </script>

@@ -19,10 +19,11 @@
     </div>
     <div
       :class="{
-        'inline-flex items-center justify-center w-full space-x-2': true,
+        'inline-flex items-center justify-center w-full py-2 space-x-2': true,
         'opacity-0': isLoading,
-        'px-4 h-9': !dense && !fab && !icon && !text,
+        'px-4': !dense && !fab && !icon && !text,
         'px-2': dense,
+        'text-sm': !xLarge && !large,
       }"
     >
       <slot></slot>
@@ -32,7 +33,6 @@
 
 <script lang="ts">
 import { ref, toRef, computed } from "vue";
-import { btnMixins } from "@/mixins/btn";
 export default {
   // mixins: [btnMixins],
   props: {

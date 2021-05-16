@@ -20,10 +20,10 @@
       </div>
       <div class="space-x-4">
         <template v-if="!loggedIn">
-          <Link :to="{ name: 'login' }"><Btn text>Login</Btn></Link>
-          <Link :to="{ name: 'register' }"
-            ><Btn color="purple">Sign Up</Btn></Link
-          >
+          <Link :to="{ name: 'login' }">Login</Link>
+          <Link :to="{ name: 'register' }">
+            <Btn color="purple">Sign Up</Btn>
+          </Link>
         </template>
         <template v-else>
           <Link :to="{ name: 'register' }"

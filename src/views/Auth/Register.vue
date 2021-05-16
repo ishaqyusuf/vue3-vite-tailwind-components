@@ -4,7 +4,7 @@
       class="max-w-lg w-full sm:max-w-5xl mx-auto px-4 space-y-6 grid grid-cols-1 sm:gap-10 sm:grid-cols-12"
     >
       <div class="sm:flex flex-col col-span-6 my-10 space-y-10">
-        <Logo dark class="ml-8" />
+        <Logo dark lg class="ml-8" />
         <ul class="hidden sm:block space-y-4">
           <li
             v-for="(item, index) in tips"
