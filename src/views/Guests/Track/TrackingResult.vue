@@ -4,7 +4,7 @@
       <div v-if="isLoading" class="flex justify-center items-center">
         <Spinner />
       </div>
-      <div v-if="noResult"></div>
+      <div v-if="noResult">abcs</div>
       <template v-else>
         <div
           :class="[
@@ -24,7 +24,7 @@
           <div class="grid grid-cols-12 gap-4">
             <slot></slot>
             <div
-              v-if="dumped"
+              v-if="!dumped"
               class="space-y-3"
               :class="[simple ? 'col-span-12' : 'col-start-2 col-span-10']"
             >
@@ -43,7 +43,7 @@
                 <div v-if="result.in_system">
                   <span
                     class="text-sm font-semibold bg-primary p-1 tracking-widest uppercase"
-                    >{{ result.parcel.created_at | dayjs("MMM DD, LT") }}</span
+                    >{{ $dayjs.format(result.parcel.created_at) }}</span
                   >
                 </div>
                 <span
@@ -64,12 +64,20 @@
                       v-if="location"
                       class="text-mat-gray-700 font-semibold space-x-1"
                     >
-                      <ui-icon small>mdi-map-marker-outline</ui-icon>
+                      <i-mdi-map-marker-outline class="text-sm" />
                       <span>{{ location }}</span>
                     </span>
                     <div :v-html="result.default_status"></div>
                   </div>
                 </div>
+              </div>
+
+              <div v-if="trackings">
+                <tracking-status-item
+                  v-for="(item, index) in trackings"
+                  :key="index"
+                  :item="item"
+                ></tracking-status-item>
               </div>
             </div>
             <!-- <div v-if="canCreate" class="col-span-12 flex space-x-2 justify-end">
@@ -88,8 +96,11 @@
 <script lang="ts">
 import trackerHook from "@/hooks/tracker";
 import { computed, ref } from "@vue/runtime-core";
-
+import TrackingStatusItem from "@/views/Guests/Track/TrackingStatusItem.vue";
 export default {
+  components: {
+    TrackingStatusItem,
+  },
   props: {
     side: Boolean,
     simple: Boolean,
@@ -98,10 +109,6 @@ export default {
   setup(props, { emit }) {
     return {
       dumped: ref(false),
-
-      noResult: computed(
-        () => !trackerHook.isLoading && (trackerHook.result.value as any).error
-      ),
       ...trackerHook,
     };
   },

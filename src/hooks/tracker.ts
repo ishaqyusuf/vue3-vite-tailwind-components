@@ -15,19 +15,19 @@ const search = async (code) => {
     const response = await $clientApi.get(`tracking/${code}`);
     const { data } = response;
     result.value = data;
+    console.log(data);
   } catch (error) {
     $dev.error(error);
   }
   loading.value = false;
-  $clientApi
-    .get("tracking")
-    .then((data) => {})
-    .catch((error) => $dev.error(error));
 };
 
 export default {
   trackCode,
   result,
   isLoading: computed(() => loading.value),
+  parcel: computed(() => result.value.parcel),
+  trackings: computed(() => result.value.trackings),
+  noResult: computed(() => !loading.value && result.value.error),
   search,
 };
