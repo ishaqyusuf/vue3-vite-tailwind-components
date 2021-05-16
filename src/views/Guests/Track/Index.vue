@@ -4,7 +4,9 @@
 import { ref } from "vue";
 
 export default {
-  props: {},
+  props: {
+    code: String,
+  },
   setup(props, { emit }) {
     return {};
   },
