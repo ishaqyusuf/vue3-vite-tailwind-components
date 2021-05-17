@@ -12,7 +12,7 @@ $clientApi.interceptors.request.use(
     request.data && (request.data = qs.stringify(request.data));
     request.headers["device"] = await device.get();
     const token = user.getToken();
-    if (token) request.headers["auth_token"] = token;
+    if (token) request.headers["token"] = token;
     return request;
   },
   (error) => {

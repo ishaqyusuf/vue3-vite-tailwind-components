@@ -5,7 +5,9 @@ const spreadRole = (role) => {
   var _spread = {};
   if (role) {
     role.admin = role.super_manager || role.director;
-    roleObjects.value.map((ro) => {
+    // var ro = roleObjects.value
+    var ro: any = [];
+    ro.map((ro) => {
       ["create", "read", "update", "delete"].map((action, i) => {
         var id = Number(ro.id) + (i + 1) / 10;
         // let val = r.id + (i + 1) / 10;

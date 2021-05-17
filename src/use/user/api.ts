@@ -5,18 +5,30 @@ import alert from "@/hooks/alert";
 import router from "@/router";
 
 const home = { name: "home" };
-const login = async (form, redirect = { name: "home" }) => {
+
+const logout = async () => {
+  try {
+    await $clientApi.get("/user/logout");
+  } catch (error) {
+    $dev.error(error);
+  }
+};
+const login = async (
+  form,
+  redirect: any = { name: "home" },
+  authenticate = false
+) => {
   try {
     const resp = await $clientApi.post("/user/login", form);
-    const { user, token, error } = resp.data;
-
+    const { user, token, error, ...rest } = resp.data;
+    console.log(rest);
     if (error) alert.register(error, true);
-    else alert.register("Welcome back!");
+    else !authenticate && alert.register("Welcome back!");
     if (token) {
       userState.initializeUser(token, user);
-      router.push(redirect);
+      if (!authenticate && redirect) router.push(redirect);
     }
-    return { error, token };
+    return { error, token, rest };
   } catch (err) {
     $dev.error(err);
   }
@@ -102,6 +114,7 @@ const deactivate = async (password) => {
 
 export default {
   login,
+  logout,
   createAccount,
   validate,
   deactivate,
