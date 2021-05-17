@@ -1,8 +1,4 @@
-import user from "./state";
-import { computed } from "Vue";
-import role from "@/hooks/roles";
-
-type Actions =
+export type Actions =
   | "CreateUser"
   | "ReadUser"
   | "UpdateUser"
@@ -67,6 +63,3 @@ type Actions =
   | "ReadInvoiceConfig"
   | "UpdateInvoiceConfig"
   | "DeleteInvoiceConfig";
-export default {
-  can: (action: Actions) => user.permission[action],
-};
