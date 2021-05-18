@@ -1,10 +1,10 @@
 <template>
-  <div class="h-screen sm:flex items-center justify-center">
+  <div class="min-h-screen pb-10 sm:flex items-center justify-center">
     <div
-      class="max-w-lg w-full sm:max-w-5xl mx-auto px-4 space-y-6 grid grid-cols-1 sm:gap-10 sm:grid-cols-12"
+      class="max-w-lg w-full sm:max-w-5xl mx-auto px-4 space-y-6 sm:grid grid-cols-1 sm:gap-10 sm:grid-cols-12"
     >
-      <div class="sm:flex flex-col col-span-6 my-10 space-y-10">
-        <Logo dark lg class="ml-8" />
+      <div class="sm:flex flex-col col-span-6 my-10 sm:space-y-10">
+        <Logo dark lg class="ml-4 sm:ml-8" />
         <ul class="hidden sm:block space-y-4">
           <li
             v-for="(item, index) in tips"
@@ -31,9 +31,9 @@
           </li>
         </ul>
       </div>
-      <Card class="py-6 sm:col-span-6">
+      <Card class="sm:py-6 sm:col-span-6">
         <card-content>
-          <card-title class="py-6 px-0"
+          <card-title class="sm:py-6 px-0"
             >Create your Eaftrack account</card-title
           >
           <form autocomplete="off" class="w-full space-y-4 my-4">

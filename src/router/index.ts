@@ -2,14 +2,17 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import auth from "./auth.routes";
 import basic from "./basic.routes";
 import component from "./component.routes";
+import admin from "./admin.routes";
 import NProgress from "@/utils/progress";
 import TitleHelper from "../utils/title";
 import useConfigs from "../use/configs";
 import user from "../use/user";
+import menu from "@/hooks/menu";
 export const routes: Array<RouteRecordRaw> = [
   ...basic.routes,
   ...auth.routes,
   ...component.routes,
+  ...admin.routes,
 ];
 
 const router = createRouter({
@@ -18,6 +21,7 @@ const router = createRouter({
 });
 router.beforeEach((to: any, from: any, next: any) => {
   NProgress.start();
+  menu.close();
   TitleHelper(to, from, next);
   useConfigs.fullScreen.value = to.matched.some(
     (route) => route.meta.fullScreen

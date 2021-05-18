@@ -1,32 +1,35 @@
 <template>
-  <div class="flex min-h-screen items-center justify-center">
-    <div class="max-w-3xl space-y-2">
-      <span class="block text-4xl font-bold">Track your parcels!</span>
-      <span class="block"
-        >EAFreight is commited at providing smooth and effective Logistics
-        Solutions for every scale of business!</span
-      >
-      <div class="sm:flex space-x-2">
-        <Input
-          tile
-          v-model="eafn"
-          class="sm:w-2/3"
-          name="track_code"
-          placeholder="Enter your EAFreight Number"
-        />
-        <Btn
-          tile
-          name="trackBtn"
-          @click="
-            eafn &&
-              $router.push({
-                name: 'track',
-                params: { code: eafn },
-              })
-          "
-          >TRACK IT</Btn
+  <div class="max-w-xs mx-auto sm:max-w-3xl">
+    <div class="flex min-h-screen items-center justify-center">
+      <div class="max-w-3xl space-y-2">
+        <span class="block text-4xl font-bold">Track your parcels!</span>
+        <span class="block"
+          >EAFreight is commited at providing smooth and effective Logistics
+          Solutions for every scale of business!</span
         >
-        <!-- <Btn class="">Track</Btn> -->
+        <div class="sm:flex mobile:space-y-2 sm:space-x-2">
+          <Input
+            tile
+            v-model="eafn"
+            class="sm:w-2/3"
+            name="track_code"
+            placeholder="Enter your EAFreight Number"
+          />
+          <Btn
+            tile
+            class="mobile:w-full"
+            name="trackBtn"
+            @click="
+              eafn &&
+                $router.push({
+                  name: 'track',
+                  params: { code: eafn },
+                })
+            "
+            >TRACK IT</Btn
+          >
+          <!-- <Btn class="">Track</Btn> -->
+        </div>
       </div>
     </div>
   </div>

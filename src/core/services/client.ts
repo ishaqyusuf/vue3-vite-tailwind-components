@@ -10,7 +10,8 @@ $clientApi.interceptors.request.use(
   async (request) => {
     NProgress.start();
     request.data && (request.data = qs.stringify(request.data));
-    request.headers["device"] = await device.get();
+    const _device: any = await device.get();
+    request.headers["device"] = JSON.stringify(_device);
     const token = user.getToken();
     if (token) request.headers["token"] = token;
     return request;

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-100">
+  <div class="sm:bg-gray-100">
     <AlertContainer />
     <Header v-if="!fullScreen"></Header>
     <router-view></router-view>

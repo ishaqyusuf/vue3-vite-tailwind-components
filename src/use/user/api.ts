@@ -20,15 +20,14 @@ const login = async (
 ) => {
   try {
     const resp = await $clientApi.post("/user/login", form);
-    const { user, token, error, ...rest } = resp.data;
-    console.log(rest);
+    const { user, token, error } = resp.data;
     if (error) alert.register(error, true);
     else !authenticate && alert.register("Welcome back!");
     if (token) {
       userState.initializeUser(token, user);
       if (!authenticate && redirect) router.push(redirect);
     }
-    return { error, token, rest };
+    return { error, token };
   } catch (err) {
     $dev.error(err);
   }

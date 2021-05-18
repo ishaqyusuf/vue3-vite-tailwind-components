@@ -8,20 +8,25 @@ import router from "@/router";
 
 const spreadRole = (role) => {
   var _spread = {};
+  var _ls: any[] = [];
   if (role) {
     role.admin = role.super_manager || role.director;
-    // var ro = roleObjects.value
-    var ro: any = [];
+    var ro = roleObjects.value;
+    // var ro: any = [];
     ro.map((ro) => {
       ["create", "read", "update", "delete"].map((action, i) => {
         var id = Number(ro.id) + (i + 1) / 10;
         // let val = r.id + (i + 1) / 10;
-        _spread[[action, ro.action].join("")] =
+        let grant =
           role.admin || role.actions?.some((a) => a == id || ro.id == a);
+        let _action = [action, ro.action].join("");
+        _spread[_action] = grant;
+        grant && _ls.push(_action);
       });
     });
   }
-  return _spread;
+  return _ls;
+  // return _spread;
 };
 const roleObjects = computed(() =>
   roleList.roles.map((r) => {
@@ -35,7 +40,7 @@ const roleObjects = computed(() =>
 );
 const user = ref({});
 const token = ref(null);
-const permission = ref({});
+const permission = ref<any[]>([]);
 
 const loggedIn = computed(() => token.value != null);
 const loadToken = () => {
@@ -73,7 +78,8 @@ const logout = async () => {
   await userApi.logout();
   storage.remove("authorized_user_token");
   token.value = null;
-  user.value = permission.value = {};
+  user.value = {};
+  permission.value = [];
 };
 export default {
   token,
@@ -84,4 +90,6 @@ export default {
   logout,
   loggedIn,
   permission,
+  isCustomer: computed(() => permission.value.length == 0),
+  can: (action: Actions) => permission.value.includes(action),
 };

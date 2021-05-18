@@ -1,6 +1,8 @@
 <template>
   <div class="bg-white">
-    <div class="sm:max-w-6xl lg:max-w-5xl mx-auto p-4 py-6 sm:py-10 space-y-6">
+    <div
+      class="sm:max-w-6xl lg:max-w-5xl mx-auto sm:p-4 py-6 sm:py-10 space-y-6"
+    >
       <div v-if="isLoading" class="flex justify-center items-center">
         <Spinner />
       </div>
@@ -28,7 +30,7 @@
               :class="[simple ? 'col-span-12' : 'col-start-2 col-span-10']"
             >
               <div class="flex justify-between">
-                <p class="text-lg">
+                <p class="sm:text-lg">
                   <span class="font-semibold">Tracking Number:</span>
                   <span
                     class="px-2 uppercase font-medium text-gray-700 tracking-widest"
