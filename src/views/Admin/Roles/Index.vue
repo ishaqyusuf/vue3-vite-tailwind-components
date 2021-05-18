@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="min-h-screen max-w-xs mx-auto sm:max-w-lg md:max-w-2xl lg:max-w-5xl xl:max-w-7xl"
-  >
-    <slot></slot>
-  </div>
+  <Container>abc</Container>
 </template>
 
 <script lang="ts">

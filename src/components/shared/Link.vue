@@ -1,8 +1,5 @@
 <template>
-  <router-link
-    :to="to"
-    class="text-base font-medium text-gray-600 hover:text-gray-900"
-  >
+  <router-link :to="to" class="link-style">
     <slot></slot>
   </router-link>
 </template>

@@ -7,8 +7,8 @@
       <Logo md />
 
       <!-- </div> -->
-      <Nav class="mobile:hidden" />
-      <div class="mobile:hidden space-x-4">
+      <Nav class="hidden sm:block" />
+      <div class="hidden sm:inline-flex items-center space-x-4">
         <template v-if="!loggedIn">
           <Link :to="{ name: 'login' }">Login</Link>
           <Link :to="{ name: 'register' }">
@@ -16,13 +16,33 @@
           </Link>
         </template>
         <template v-else>
-          <Link v-if="user.can('createPkg')" :to="{ name: 'register' }"
+          <Link v-if="user.can('createPkg')" :to="{ name: 'scanner' }"
             ><Btn color="purple">
               <i-mdi-plus />
               Scan
             </Btn></Link
           >
-          <Link :to="{ name: 'logout' }">Logout</Link>
+          <Menu rtl>
+            <Avatar md class="border-2"></Avatar>
+            <template v-slot:items>
+              <div class="divide-y divide-gray-100">
+                <div
+                  class="p-1"
+                  v-for="(group, index) in nav.avatarMenu"
+                  :key="index"
+                >
+                  <MenuLinkItem
+                    v-for="(item, index) in group"
+                    :key="index"
+                    :to="item.to"
+                  >
+                    {{ item.title }}</MenuLinkItem
+                  >
+                </div>
+              </div>
+            </template>
+          </Menu>
+          <!-- <Link :to="{ name: 'logout' }">Logout</Link> -->
         </template>
       </div>
       <div class="sm:hidden" @click="toggle">
@@ -38,6 +58,7 @@ import { computed, ref } from "vue";
 import user from "@use/user";
 import Nav from "./Nav.vue";
 import menu from "@/hooks/menu";
+import nav from "@/hooks/nav";
 export default {
   components: {
     Nav,
@@ -47,6 +68,7 @@ export default {
       user,
       loggedIn: user.loggedIn,
       ...menu,
+      nav,
     };
   },
 };

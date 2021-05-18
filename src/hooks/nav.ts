@@ -1,12 +1,17 @@
 import { Actions } from "@/use/user/actions";
-import user from "@/use/user";
 
-const createMenu = (title, to, permission: Actions, css, children = null) => {
+const createMenu = (
+  title,
+  to,
+  permission: Actions = null,
+  css = "",
+  children: any = null
+) => {
   return {
     title,
     to,
     css,
-    permission: true, //!permission || user.can(permission),
+    permission: permission,
     children,
   };
 };
@@ -14,6 +19,8 @@ const createMenu = (title, to, permission: Actions, css, children = null) => {
 const parcel = createMenu("Parcel", { name: "parcels" }, "readPkg", "");
 const dashboard = createMenu("Dashboard", { name: "dashboard" }, "readDb", "");
 const customer = createMenu("Customer", { name: "customers" }, "readUser", "");
+const roles = createMenu("Roles", { name: "roles" }, "readRole", "");
+const dept = createMenu("Departments", { name: "dashboard" }, "readDept");
 const employees = createMenu(
   "Employees",
   { name: "employees" },
@@ -26,12 +33,32 @@ const shipment = createMenu(
   "readShipment",
   ""
 );
+const hrm = createMenu("H.R.M", null, null, "tracking-tight", [
+  customer,
+  employees,
+  roles,
+]);
 export default {
+  avatarMenu: [
+    [
+      dashboard,
+      parcel,
+      createMenu("Scan Parcel", { name: "scanner" }, "createPkg"),
+      shipment,
+    ],
+    [
+      createMenu("Profile", { name: "dashboard" }),
+      createMenu("Settings", { name: "dashboard" }, "readAdmin"),
+    ],
+    [employees, customer, roles, dept],
+    [createMenu("Logout", { name: "logout" }, null, "hover:bg-red-500")],
+  ],
   menu: [
-    parcel,
     dashboard,
+    parcel,
     shipment,
-    Object.assign(customer, { css: "hidden lg:block" }),
-    Object.assign(employees, { css: "hidden lg:block" }),
+    hrm,
+    // Object.assign(customer, { css: "hidden lg:block" }),
+    // Object.assign(employees, { css: "hidden lg:block" }),
   ],
 };
