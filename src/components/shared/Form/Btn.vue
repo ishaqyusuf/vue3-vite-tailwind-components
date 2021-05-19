@@ -44,8 +44,9 @@ export default {
     tertiary: Boolean,
     xLarge: Boolean,
     large: Boolean,
-    small: Boolean,
     xSmall: [Boolean, Object],
+    rounded: Boolean,
+    small: Boolean,
     disabled: {},
     to: {},
     loading: [Boolean, Object],
@@ -59,6 +60,8 @@ export default {
     name: String,
     id: String,
     dark: Boolean,
+    contrast: { type: Number, default: 600 },
+
     text: Boolean,
   },
   setup(props, { emit }) {
@@ -74,11 +77,17 @@ export default {
       secondary,
       tertiary,
       icon,
+      contrast,
+      dark,
       text,
+      rounded,
     } = props;
     const primary = !icon && !secondary && !tertiary && !text;
     const isDisabled = computed(
       () => props.loading || nativeLoading.value || props.disabled
+    );
+    const _color = computed(() =>
+      color.includes("-") ? color : [color, contrast].join("-")
     );
     const styles = computed(() => [
       isDisabled.value && "gray-scale",
@@ -87,14 +96,16 @@ export default {
         "border focus:ring-2 font-poppins shadow-lg":
           !tertiary && !text && !icon,
       },
-      { "rounded-full w-9 h-9": fab },
+      { "border-black-800": dark },
+      { "w-9 h-9": fab },
+      { "rounded-full": rounded || fab },
       { "text-base focus:outline-none border-separate relative": true },
       { "rounded-lg": !tile },
       { "text-lg h-12": large },
       { "text-lg h-14": xLarge },
       { "text-sm h-7": small },
-      primary && `bg-${color}-600 text-white hover:bg-${color}-700`,
-      { "bg-white text-gray-700 hover:bg-gray-50": secondary },
+      primary && `bg-${_color.value} text-white hover:bg-opacity-80`,
+      { "bg-white text-gray-700 hover:bg-opacity-80": secondary },
     ]);
     const click = async () => {
       if (props.action) {

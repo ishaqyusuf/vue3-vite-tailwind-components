@@ -80,14 +80,27 @@
               },
             ]"
             v-for="(item, index) in structure"
+            @mouseenter="item.hover = true"
+            @mouseleave="item.hover = false"
             :key="index"
           >
-            <slot :name="'before_' + item.name" :item="itemData"> </slot>
-            <slot :name="item.name" :item="itemData">
+            <slot :name="'before_' + item.name" :header="item" :item="itemData">
+            </slot>
+            <slot :name="item.name" :header="item" :item="itemData">
               <span class="block" v-if="!itemData[item.name + '_link']">
-                <slot :name="item.name + '_prefix'" :item="itemData"> </slot>
+                <slot
+                  :name="item.name + '_prefix'"
+                  :header="item"
+                  :item="itemData"
+                >
+                </slot>
                 {{ itemData[item.name] }}
-                <slot :name="item.name + '_suffix'" :item="itemData"> </slot>
+                <slot
+                  :name="item.name + '_suffix'"
+                  :header="item"
+                  :item="itemData"
+                >
+                </slot>
               </span>
               <template v-else>
                 <button class="bg-gray-100 px-1 leading-6" v-if="item.btnLink">
@@ -98,7 +111,8 @@
                 }}</router-link>
               </template>
             </slot>
-            <slot :name="'after_' + item.name" :item="itemData"> </slot>
+            <slot :name="'after_' + item.name" :header="item" :item="itemData">
+            </slot>
           </td>
           <td
             :class="[
@@ -128,6 +142,7 @@
       </tbody>
     </table>
   </div>
+  <TableAction :items="items" v-if="showFloatingAction"></TableAction>
 </template>
 
 <script lang="ts">
@@ -137,19 +152,22 @@ export default defineComponent({
   props: {
     editable: Boolean,
     deletable: Boolean,
-    action: Boolean,
     textAction: Boolean,
+    action: Boolean,
+    floatingAction: Boolean,
     dense: Boolean,
     noDivide: Boolean,
     noHead: Boolean,
     checkable: Boolean,
+    stickyAction: Boolean,
     structure: Array,
     items: Object,
     pager: Array,
   },
   setup(props, { emit }) {
     const checkAll = computed({
-      get: () => props.items?.every((d) => d.checked),
+      get: () =>
+        props.items?.every((d) => d.checked) && props.items?.length > 0,
       set: (value) => {
         props.items?.map((item) => (item.checked = value));
       },
@@ -157,6 +175,9 @@ export default defineComponent({
     // const items = computed(() => props.data);
     return {
       checkAll,
+      showFloatingAction: computed(
+        () => props.floatingAction && props.items?.some((i) => i.checked)
+      ),
       // items,
     };
   },
