@@ -24,7 +24,7 @@
         </Link>
       </template>
       <Link v-else :to="{ name: 'logout' }">
-        <Btn color="red" class="w-full">Logout</Btn>
+        <Btn color="red" class="w-full">Sign Out</Btn>
       </Link>
     </div>
   </div>

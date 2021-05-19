@@ -51,7 +51,7 @@ export default {
       createMenu("Settings", { name: "dashboard" }, "readAdmin"),
     ],
     [employees, customer, roles, dept],
-    [createMenu("Logout", { name: "logout" }, null, "hover:bg-red-500")],
+    [createMenu("Sign Out", { name: "logout" }, null, "hover:bg-red-500")],
   ],
   menu: [
     dashboard,

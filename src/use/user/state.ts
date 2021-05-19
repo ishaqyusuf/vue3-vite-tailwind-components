@@ -38,7 +38,7 @@ const roleObjects = computed(() =>
     return m;
   })
 );
-const user = ref({});
+const user = ref<any>({});
 const token = ref(null);
 const permission = ref<any[]>([]);
 

@@ -52,7 +52,7 @@
         <tr
           class="hover:bg-gray-100 group"
           :class="[]"
-          v-for="(itemData, index) in data"
+          v-for="(itemData, index) in items"
           :key="index"
         >
           <td
@@ -86,7 +86,7 @@
             <slot :name="item.name" :item="itemData">
               <span class="block" v-if="!itemData[item.name + '_link']">
                 <slot :name="item.name + '_prefix'" :item="itemData"> </slot>
-                x {{ itemData[item.name] }}
+                {{ itemData[item.name] }}
                 <slot :name="item.name + '_suffix'" :item="itemData"> </slot>
               </span>
               <template v-else>
@@ -131,7 +131,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from "vue";
+import { defineComponent, ref, toRef, computed } from "vue";
 
 export default defineComponent({
   props: {
@@ -144,18 +144,20 @@ export default defineComponent({
     noHead: Boolean,
     checkable: Boolean,
     structure: Array,
-    data: Array,
+    items: Array,
     pager: Array,
   },
   setup(props, { emit }) {
     const checkAll = computed({
-      get: () => props.data?.every((d) => d.checked),
+      get: () => props.items?.every((d) => d.checked),
       set: (value) => {
         props.data?.map((item) => (item.checked = value));
       },
     });
+    // const items = computed(() => props.data);
     return {
       checkAll,
+      // items,
     };
   },
 });

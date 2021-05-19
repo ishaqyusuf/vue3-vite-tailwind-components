@@ -16,16 +16,23 @@
           </Link>
         </template>
         <template v-else>
-          <Link v-if="user.can('createPkg')" :to="{ name: 'scanner' }"
+          <Link v-if="can('createPkg')" :to="{ name: 'scanner' }"
             ><Btn color="purple">
               <i-mdi-plus />
               Scan
             </Btn></Link
           >
           <Menu rtl>
-            <Avatar md class="border-2"></Avatar>
+            <div class="inline-flex items-center space-x-1">
+              <Avatar class="border-2"></Avatar>
+              <i-mdi-chevron-down class="text-gray-400" />
+            </div>
             <template v-slot:items>
               <div class="divide-y divide-gray-100">
+                <div class="p-2">
+                  <span class="font-semibold block">Signed in as</span>
+                  <span class="text-sm">{{ user.email }}</span>
+                </div>
                 <div
                   class="p-1"
                   v-for="(group, index) in nav.avatarMenu"
@@ -55,7 +62,7 @@
 </template>
 <script lang="ts">
 import { computed, ref } from "vue";
-import user from "@use/user";
+import useUser from "@use/user";
 import Nav from "./Nav.vue";
 import menu from "@/hooks/menu";
 import nav from "@/hooks/nav";
@@ -65,8 +72,8 @@ export default {
   },
   setup(props, { emit }) {
     return {
-      user,
-      loggedIn: user.loggedIn,
+      ...useUser,
+      loggedIn: useUser.loggedIn,
       ...menu,
       nav,
     };
