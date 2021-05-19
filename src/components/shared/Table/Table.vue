@@ -131,7 +131,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, toRef, computed } from "vue";
+import { defineComponent, computed } from "vue";
 
 export default defineComponent({
   props: {
@@ -144,14 +144,14 @@ export default defineComponent({
     noHead: Boolean,
     checkable: Boolean,
     structure: Array,
-    items: Array,
+    items: Object,
     pager: Array,
   },
   setup(props, { emit }) {
     const checkAll = computed({
       get: () => props.items?.every((d) => d.checked),
       set: (value) => {
-        props.data?.map((item) => (item.checked = value));
+        props.items?.map((item) => (item.checked = value));
       },
     });
     // const items = computed(() => props.data);
