@@ -1,7 +1,7 @@
 <template>
   <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
     <table
-      class="min-w-full divide-gray-200"
+      class="min-w-full table w-full border-collapse divide-gray-200"
       :class="{ 'divide-y': !noDivide }"
     >
       <thead class="bg-gray-50" v-if="!noHead">
@@ -49,18 +49,25 @@
         </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
-        <tr
+        <TransitionRoot
+          as="tr"
+          :show="!itemData.deleted"
           class="hover:bg-gray-100 group"
           :class="[]"
-          v-for="(itemData, index) in items"
+          leave="transition tranform duration-300 ease-in delay-1000"
+          leave-from="opacity-100 scale-100 bg-red-300"
+          leave-to="opacity-50 scale-40"
+          v-for="(itemData, index) in computedItems"
           :key="index"
         >
+          <!-- <TransitionRoot as="template" :show="true"> -->
           <td
             scope="col"
             class="px-6"
             :class="[
               {
-                'opacity-0 group-hover:opacity-100': !itemData.checked,
+                'opacity-0 group-hover:opacity-100':
+                  !itemData.checked && hideChecks,
                 'py-2': dense,
                 'py-3': !dense,
               },
@@ -119,50 +126,77 @@
               {
                 'py-2 px-3': dense,
                 'py-3 px-6': !dense,
+                'opacity-0 group-hover:opacity-100': hideActions,
               },
             ]"
-            class="text-right text-sm font-medium opacity-0 group-hover:opacity-100"
+            class="text-right relative text-sm font-medium"
             v-if="action"
           >
-            <div class="inline-flex space-x-3">
+            <div class="inline-flex">
               <slot :name="deletable">
-                <i-mdi-delete-outline v-if="!textAction" class="text-red-600" />
-                <span v-else class="text-red-600">Delete</span>
+                <Btn
+                  dense
+                  :icon="!textAction"
+                  color="red-600"
+                  large
+                  confirm
+                  auto-ignore
+                  :text="textAction"
+                >
+                  <i-mdi-delete-outline v-if="!textAction" />
+                  <span v-else class="text-green-600">Delete</span>
+                </Btn>
               </slot>
               <slot :name="editable">
-                <i-mdi-pencil-box-multiple-outline
-                  v-if="!textAction"
-                  class="text-green-600"
-                />
-                <span v-else class="text-green-600">Edit</span>
+                <Btn dense :icon="!textAction" large :text="textAction">
+                  <i-mdi-pencil-box-multiple-outline v-if="!textAction" />
+                  <span v-else class="text-green-600">Edit</span>
+                </Btn>
               </slot>
+              <SimpleMenu open-on-hover rtl v-if="moreAction">
+                <Btn dense :icon="!textAction" large :text="textAction">
+                  <i-mdi-dots-horizontal v-if="!textAction" />
+                  <span v-else>More</span>
+                </Btn>
+                <template v-slot:items>
+                  <slot name="menu" />
+                </template>
+              </SimpleMenu>
             </div>
           </td>
-        </tr>
+        </TransitionRoot>
+        <!-- </tr> -->
       </tbody>
     </table>
   </div>
-  <TableAction :items="items" v-if="showFloatingAction"></TableAction>
+  <!-- <TableAction :items="items" :show="floatingAction"></TableAction> -->
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
-
+import { defineComponent, computed, onMounted } from "vue";
+import { TransitionRoot } from "@headlessui/vue";
 export default defineComponent({
+  components: {
+    TransitionRoot,
+  },
   props: {
     editable: Boolean,
     deletable: Boolean,
+    hideActions: Boolean,
+    hideChecks: Boolean,
     textAction: Boolean,
     action: Boolean,
     floatingAction: Boolean,
     dense: Boolean,
     noDivide: Boolean,
+    moreAction: Boolean,
     noHead: Boolean,
     checkable: Boolean,
     stickyAction: Boolean,
-    structure: Array,
-    items: Object,
+    structure: { type: Object, required: true },
+    items: { type: Object, required: true },
     pager: Array,
+    onDelete: Object,
   },
   setup(props, { emit }) {
     const checkAll = computed({
@@ -172,12 +206,23 @@ export default defineComponent({
         props.items?.map((item) => (item.checked = value));
       },
     });
+    onMounted(() => {
+      // props.items.map((item) => {
+      //   item.deleted = false;
+      // });
+    });
     // const items = computed(() => props.data);
     return {
       checkAll,
-      showFloatingAction: computed(
-        () => props.floatingAction && props.items?.some((i) => i.checked)
-      ),
+      computedItems: computed<any[]>(() => {
+        return props.items.map((item) => {
+          !item.deleted && (item.deleted = false);
+          return item;
+        });
+      }),
+      deleteItem: (item) => {
+        item.deleted = true;
+      },
       // items,
     };
   },

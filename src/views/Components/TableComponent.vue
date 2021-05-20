@@ -11,8 +11,9 @@
 </template>
 
 <script setup lang="ts">
+import TableStructureInterface from "@/@types/TableStructureInterface";
 import { defineComponent, toRefs, ref, unref } from "vue";
-const structure = ref([
+const structure = ref<TableStructureInterface[]>([
   {
     name: "parcel",
     btnLink: true,

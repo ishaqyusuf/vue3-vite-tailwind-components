@@ -1,28 +1,31 @@
 <template>
   <input type="hidden" id="copy-track" v-model="item.track_code" />
   <div class="relative">
-    <div
-      v-if="headerHover || floatingMenuHover"
-      @mouseenter="floatingMenuMouseEnter"
-      @mouseleave="floatingMenuMouseLeave"
-      class="-translate-y-10 transform transition-all absolute h-0 top-0 right-0 w-full"
-    >
-      <div class="shadow-lg inline-flex flex-col items-center">
-        <button
-          @click="copy"
-          class="p-2 sm:px-4 rounded-lg bg-black text-white hover:bg-blue-700 focus:outline-none shadow-lg m-0"
-        >
-          copy
-        </button>
-        <svg
-          class="-translate-y-2 w-5 h-5 transform rotate-90 transition-all"
-          viewBox="0 0 24 24"
-        >
-          <path d="M8,5.14V19.14L19,12.14L8,5.14Z" />
-        </svg>
-      </div>
-    </div>
+    <AnimatedContainer>
+      <div
+        v-if="itemHover || floatingMenuHover"
+        @mouseenter="floatingMenuMouseEnter"
+        @mouseleave="floatingMenuMouseLeave"
+        class="absolute h-0 top-0 right-0 w-full"
+      >
+        <div class="inline-flex flex-col items-center">
+          <button
+            @click="copy"
+            class="p-2 sm:px-4 rounded-lg bg-black-900 text-white hover:bg-blue-700 focus:outline-none shadow-lg m-0"
+          >
+            copy
+          </button>
+          <svg
+            class="-translate-y-2 w-5 h-5 transform rotate-90 transition-all"
+            viewBox="0 0 24 24"
+          >
+            <path d="M8,5.14V19.14L19,12.14L8,5.14Z" />
+          </svg>
+        </div></div
+    ></AnimatedContainer>
     <router-link
+      @mouseenter="linkMouseEnter"
+      @mouseleave="linkMouseLeave"
       class="space-y-1"
       :to="{
         query: {
@@ -83,6 +86,12 @@ export default {
       },
       floatingMenuMouseLeave: () => {
         floatingMenuHover.value = false;
+      },
+      linkMouseEnter: () => {
+        itemHover.value = props.item.hover = true;
+      },
+      linkMouseLeave: () => {
+        itemHover.value = props.item.hover = false;
       },
       copy: () => {
         let testingCodeToCopy: any = document.querySelector("#copy-track");

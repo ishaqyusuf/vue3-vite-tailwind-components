@@ -1,15 +1,18 @@
 <template>
   <Container class="space-y-4">
     <div class="text-2xl font-bold text-gray-700">Parcels</div>
-
     <Table
       checkable
       floating-action
       action
+      dense
       deletable
       :items="items"
       :structure="structure"
       stickyAction
+      hide-actions
+      hide-checks
+      more-action
     >
       <template v-slot:id_date="{ item }">
         <span class="block font-semibold">#{{ item.id }}</span>
@@ -21,7 +24,37 @@
       <template v-slot:recipient="{ item, header }">
         <RecipientColumn :item="item" />
       </template>
+      <template v-slot:menu>
+        <SimpleMenuItem>Open Parcel</SimpleMenuItem>
+        <SimpleMenuItem>Quick Update Parcel</SimpleMenuItem>
+        <SimpleMenuItem>Update Tracking</SimpleMenuItem>
+        <SimpleMenuItem>Invoice</SimpleMenuItem>
+        <SimpleMenuItem>Update Recipient</SimpleMenuItem>
+      </template>
     </Table>
+    <TableAction
+      :items="items"
+      show
+      deletable
+      @delete="parcels.deleteParcels(items.filter((item) => item.checked))"
+      label
+      hasMore
+    >
+      <!-- @delete="deleteMany" @print="printMany" @edit="editMany" -->
+      <template v-slot:menu>
+        <MenuLinkItem>Open Parcel</MenuLinkItem>
+        <MenuLinkItem>Quick Update Parcel</MenuLinkItem>
+        <MenuLinkItem>Update Tracking</MenuLinkItem>
+        <MenuLinkItem>Invoice</MenuLinkItem>
+        <MenuLinkItem>Update Recipient</MenuLinkItem>
+      </template>
+      <template v-slot:more>
+        <Btn dark rounded large color="gray-700">
+          <i-mdi-archive-outline />
+          <span>Archive</span>
+        </Btn>
+      </template>
+    </TableAction>
     <Pager :data="pager" simple />
   </Container>
 </template>
@@ -33,6 +66,8 @@ import router from "@/router";
 import RecipientColumn from "@/views/Admin/Parcels/RecipientColumn.vue";
 import ParcelColumn from "@/views/Admin/Parcels/ParcelColumn.vue";
 import tableHook from "@/hooks/table";
+import TableStructureInterface from "@/@types/TableStructureInterface";
+import PagerInterface from "@/@types/PagerInterface";
 export default {
   components: {
     RecipientColumn,
@@ -43,7 +78,10 @@ export default {
     onMounted(() => {
       initialize();
     });
-    const data = reactive({
+    const data = reactive<{
+      items: any[];
+      pager: PagerInterface;
+    }>({
       items: [],
       pager: {},
     });
@@ -56,26 +94,36 @@ export default {
     const getQuery = computed(() => router.currentRoute.value.query);
     var query: any = {};
     const initialize = async () => {
-      const _data = await parcels.fetchParcels(router.currentRoute.value.query);
+      const _data = await parcels.fetchMany(router.currentRoute.value.query);
       query = getQuery.value;
-      data.items = _data.items;
+      data.items = parcels.transformAll(_data.items);
       data.pager = _data.pager;
-      console.log("loaded");
     };
+    const structure: TableStructureInterface[] = [
+      { name: "id_date", title: "#/Date" },
+      {
+        name: "track_code",
+        title: "Parcel",
+      },
+      {
+        name: "recipient",
+        title: "Recipient",
+      },
+      {
+        name: "status",
+        title: "Status",
+      },
+    ];
+
     return {
       ...toRefs(data),
       isLoading: computed(() => parcels.loading.value),
-      structure: [
-        { name: "id_date", title: "#/Date" },
-        {
-          name: "track_code",
-          title: "Parcel",
-        },
-        {
-          name: "recipient",
-          title: "Recipient",
-        },
-      ],
+      structure,
+      parcels,
+      openModal: ref(true),
+      fine() {
+        console.log("......");
+      },
     };
   },
 };

@@ -45,11 +45,19 @@ const deleteOne = async (id) => {
     $dev.error(err);
   }
 };
-
+const deleteMany = async (ids) => {
+  try {
+    const { data } = await $clientApi.post(`/parcels/batch-delete`, { ids });
+    return data;
+  } catch (err) {
+    $dev.error(err);
+  }
+};
 export default {
-  fetchParcels: fetchMany,
-  fetchParcel: fetchOne,
-  createParcel: createOne,
-  updateParcel: updateOne,
-  deleteParcel: deleteOne,
+  fetchMany,
+  fetchOne,
+  createOne,
+  updateOne,
+  deleteOne,
+  deleteMany,
 };

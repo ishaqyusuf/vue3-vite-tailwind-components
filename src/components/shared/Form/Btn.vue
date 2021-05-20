@@ -4,7 +4,7 @@
     :class="[styles]"
     @click="click"
     :disabled="isDisabled"
-    :type="type"
+    type="button"
   >
     <div
       v-if="isLoading"
@@ -29,10 +29,21 @@
       <slot></slot>
     </div>
   </button>
+  <Prompt
+    v-model="confirmAction"
+    title="Are you sure you want to delete"
+    action
+    :info="promptInfo"
+    @ok="click"
+    ok="Yes"
+    cancel="No"
+  />
 </template>
 
 <script lang="ts">
 import { ref, toRef, computed } from "vue";
+import time from "@/hooks/time";
+import PagerInterface from "@/@types/PagerInterface";
 export default {
   // mixins: [btnMixins],
   props: {
@@ -54,11 +65,19 @@ export default {
     async: Boolean,
     prependIcon: {},
     appendIcon: {},
+    promptInfo: String,
     color: { default: "blue" },
     textColor: { default: "gray" },
-    type: { default: "button" },
+    type: {
+      default: "button",
+      validator: (value) => {
+        return ["button", "submit", "reset", undefined].includes(value);
+      },
+    },
     name: String,
     id: String,
+    confirm: Boolean,
+    autoIgnore: Boolean,
     dark: Boolean,
     contrast: { type: Number, default: 600 },
 
@@ -69,6 +88,7 @@ export default {
     const isLoading = computed(() => nativeLoading.value); //(props, "loading");
     const {
       fab,
+      confirm,
       tile,
       large,
       xLarge,
@@ -78,9 +98,11 @@ export default {
       tertiary,
       icon,
       contrast,
+      autoIgnore,
       dark,
       text,
       rounded,
+      textColor,
     } = props;
     const primary = !icon && !secondary && !tertiary && !text;
     const isDisabled = computed(
@@ -89,6 +111,9 @@ export default {
     const _color = computed(() =>
       color.includes("-") ? color : [color, contrast].join("-")
     );
+    const _tcolor = computed(() =>
+      color.includes("-") ? textColor : [textColor, contrast].join("-")
+    );
     const styles = computed(() => [
       isDisabled.value && "gray-scale",
       { "cursor-default": isLoading.value },
@@ -96,6 +121,7 @@ export default {
         "border focus:ring-2 font-poppins shadow-lg":
           !tertiary && !text && !icon,
       },
+      icon && `text-${color == "blue" ? _tcolor.value : _color.value}`,
       { "border-black-800": dark },
       { "w-9 h-9": fab },
       { "rounded-full": rounded || fab },
@@ -104,10 +130,20 @@ export default {
       { "text-lg h-12": large },
       { "text-lg h-14": xLarge },
       { "text-sm h-7": small },
-      primary && `bg-${_color.value} text-white hover:bg-opacity-80`,
-      { "bg-white text-gray-700 hover:bg-opacity-80": secondary },
+      primary && `bg-${_color.value} text-white`,
+      { "hover:bg-opacity-80": icon || primary || secondary },
+      { "bg-white text-gray-700": secondary },
     ]);
+    const confirmAction = ref(false);
     const click = async () => {
+      if (confirm && !confirmAction.value) {
+        confirmAction.value = true;
+        autoIgnore &&
+          time.delay(3000).then((d) => {
+            confirmAction.value = false;
+          });
+        return;
+      }
       if (props.action) {
         nativeLoading.value = true;
         if (props.async) {
@@ -123,6 +159,7 @@ export default {
     return {
       click,
       isLoading,
+      confirmAction,
       nativeLoading,
       isDisabled,
       styles,
