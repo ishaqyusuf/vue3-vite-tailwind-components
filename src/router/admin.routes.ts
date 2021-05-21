@@ -1,10 +1,8 @@
 import { RouteRecordRaw } from "vue-router";
+
+import parcelRoutes from "./parcel.routes";
 const routes: Array<RouteRecordRaw> = [
-  {
-    name: "parcels",
-    path: "/parcels",
-    component: () => import("../views/Admin/Parcels/Index.vue"),
-  },
+  ...parcelRoutes.routes,
   {
     name: "dashboard",
     path: "/dashboard",

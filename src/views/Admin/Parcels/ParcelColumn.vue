@@ -1,12 +1,12 @@
 <template>
   <input type="hidden" id="copy-track" v-model="item.track_code" />
   <div class="relative">
-    <AnimatedContainer>
+    <AnimatedContainer as="template">
       <div
         v-if="itemHover || floatingMenuHover"
         @mouseenter="floatingMenuMouseEnter"
         @mouseleave="floatingMenuMouseLeave"
-        class="absolute h-0 top-0 right-0 w-full"
+        class="absolute transform -translate-y-12 h-0 top-0 right-0 w-full"
       >
         <div class="inline-flex flex-col items-center">
           <button
@@ -15,25 +15,18 @@
           >
             copy
           </button>
-          <svg
-            class="-translate-y-2 w-5 h-5 transform rotate-90 transition-all"
-            viewBox="0 0 24 24"
-          >
-            <path d="M8,5.14V19.14L19,12.14L8,5.14Z" />
-          </svg>
-        </div></div
-    ></AnimatedContainer>
+          <i-mdiPlay class="w-5 h-5 transform rotate-90 -translate-y-2" />
+        </div>
+      </div>
+    </AnimatedContainer>
     <router-link
       @mouseenter="linkMouseEnter"
       @mouseleave="linkMouseLeave"
-      class="space-y-1"
+      class="space-y-1 hover:bg-gray-200"
       :to="{
-        query: {
-          popup_action: 'parcel_data',
-          pid: item.track_code,
-        },
+        name: 'parcel-overview',
         params: {
-          pop_up: 'yes',
+          slug: item.track_code,
         },
       }"
     >

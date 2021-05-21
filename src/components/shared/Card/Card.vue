@@ -21,7 +21,7 @@ export default {
       [pref, "shadow-xl"],
       [pref, "bg-white"],
     ]
-      .map((f) => f.filter(Boolean).join(":"))
+      .map((f) => f.filter(Boolean).join(""))
       .join(" ");
     return {
       styles,

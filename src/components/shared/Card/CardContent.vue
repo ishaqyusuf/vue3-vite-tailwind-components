@@ -1,5 +1,5 @@
 <template>
-  <div class="font-poppins px-4 sm:px-6 py-2 sm:py-4">
+  <div class="font-poppins px-4">
     <slot></slot>
   </div>
 </template>

@@ -55,14 +55,9 @@
             >Shipment
           </span>
           <template v-else>
-            <!-- <x-confirmation-button test @confirmed="$emit('deleteTracking')">
-              <ui-btn class="group hover:text-red-400" icon>
-                <ui-icon class="group-hover:text-current"
-                  >mdi-trash-can-outline</ui-icon
-                >
-              </ui-btn>
-            </x-confirmation-button> -->
-
+            <Btn confirm icon>
+              <i-mdi-trash-can-outline />
+            </Btn>
             <Btn
               class="group hover:text-green-400"
               @click="editTracking"

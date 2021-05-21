@@ -128,7 +128,7 @@ export default {
       { "text-base focus:outline-none border-separate relative": true },
       { "rounded-lg": !tile },
       { "text-lg h-12": large },
-      { "text-lg h-14": xLarge },
+      { "text-xl h-14": xLarge },
       { "text-sm h-7": small },
       primary && `bg-${_color.value} text-white`,
       { "hover:bg-opacity-80": icon || primary || secondary },
@@ -154,7 +154,7 @@ export default {
           emit("result", props.await ? await props.action() : props.action());
           nativeLoading.value = false;
         }
-      }
+      } else emit("click");
     };
     return {
       click,

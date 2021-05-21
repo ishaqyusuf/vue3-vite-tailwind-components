@@ -82,6 +82,7 @@
                   v-for="(item, index) in trackings"
                   :key="index"
                   :item="item"
+                  v-bind="$props"
                 ></tracking-status-item>
               </div>
             </div>
@@ -109,6 +110,7 @@ export default {
   props: {
     side: Boolean,
     simple: Boolean,
+    editable: Boolean,
     closable: Boolean,
   },
   setup(props, { emit }) {
