@@ -1,4 +1,4 @@
-import { reactive, ref } from "vue";
+import { reactive, ref, toRefs } from "vue";
 import { $clientApi } from "@/core/services/client";
 import { $dev } from "@/core/utils/functions";
 
@@ -6,18 +6,40 @@ const couriers = ref<string[]>([]);
 const loaded = reactive({
   courier: false,
 });
-const initCouriers = async () => {
-  if (!loaded.courier) {
+const data = reactive({
+  courierLoaded: false,
+  couriers: [],
+  locationLoaded: false,
+  locations: [],
+});
+const getSomething = async (what) => {
+  return new Promise<never[]>((resolve, reject) => {
     $clientApi
-      .get("/couriers")
+      .get(what)
       .then((response) => {
         const { items } = response.data;
-        couriers.value = items;
-        loaded.courier = true;
+        resolve(items as never[]);
       })
       .catch((e) => {
         $dev.error(e);
+        resolve([]);
       });
+  });
+};
+const initCouriers = async () => {
+  if (!data.courierLoaded) {
+    getSomething("/couriers").then((items) => {
+      data.couriers = items;
+      loaded.courier = true;
+    });
+  }
+};
+const initLocations = async () => {
+  if (!data.locationLoaded) {
+    getSomething("/locations").then((items) => {
+      data.locations = items;
+      data.locationLoaded = true;
+    });
   }
 };
 const updateCouriers = (value) => {
@@ -25,7 +47,8 @@ const updateCouriers = (value) => {
 };
 
 export default {
-  couriers,
+  initLocations,
   initCouriers,
   updateCouriers,
+  ...toRefs(data),
 };

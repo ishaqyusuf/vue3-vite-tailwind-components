@@ -1,4 +1,6 @@
-<template></template>
+<template>
+  <!-- <Input v-bind="$props"/> -->
+</template>
 
 <script lang="ts">
 import { ref } from "vue";

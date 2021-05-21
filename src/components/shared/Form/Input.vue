@@ -1,8 +1,8 @@
 <template>
-  <div class="relative">
-    <div class="">
+  <div class="flex flex-col">
+    <div class="inline-flex w-full">
       <slot name="label">
-        <Label v-if="$props.label">{{ $props.label }}</Label>
+        <Label v-if="label">{{ label }}</Label>
       </slot>
       <Spacer></Spacer>
       <slot name="label-right"></slot>
@@ -10,116 +10,113 @@
     <div
       ref="inputParent"
       :class="[
-        data.inputFocus && 'ring-2',
+        inputFocus && 'ring-2',
         rounded ? 'rounded-full' : !tile && 'rounded-md',
-        loading || (disabled && 'gray-scale'),
+        isDisabled && 'gray-scale',
         dark ? 'text-white' : 'bg-white',
         label && 'mt-1',
       ]"
-      class="border relative px-2 border-gray-300 hover:border-blue-300 shadow space-x-2 items-center flex group"
+      class="border relative border-gray-300 hover:border-blue-300 shadow group"
     >
-      <slot class="" name="prependInner">
-        <!-- <ui-icon v-if="prependInnerIcon">{{ prependInnerIcon }}</ui-icon> -->
-        <span class="font-semibold" v-if="prefix">{{ prefix }}</span>
-      </slot>
-      <div class="w-full h-full relative">
-        <textarea
-          ref="input"
-          v-if="textarea"
-          :value="inputDisplayValue"
-          :placeholder="placeholder"
-          :readonly="isReadOnly"
-          :disabled="disabled"
-          @input="valueInput"
-          :maxlength="maxlength"
-          :class="[inputStyle, inputClass]"
-          @keydown.enter="enter"
-          @keydown.tab="close"
-          @keydown.up="up"
-          @keydown.down="down"
-          @keydown.esc="close"
-          @focus="focus"
-          @blur="blur"
-          class="py-2 rounded-md w-full h-full focus:outline-none"
-        ></textarea>
-        <slot v-else name="selection" v-bind:selected="value">
-          <input
+      <div class="flex px-2 items-center space-x-2">
+        <slot class="" name="prependInner">
+          <!-- <ui-icon v-if="prependInnerIcon">{{ prependInnerIcon }}</ui-icon> -->
+          <span class="font-semibold" v-if="prefix">{{ prefix }}</span>
+        </slot>
+        <div class="w-full h-full relative">
+          <textarea
             ref="input"
-            :placeholder="placeholder"
-            :readonly="isReadOnly"
-            :disabled="disabled"
+            v-if="textarea"
             :value="inputDisplayValue"
-            @change="inputValueChange"
-            :type="typeValue"
+            :placeholder="placeholder"
+            :readonly="readonly"
+            :disabled="isDisabled"
             @input="valueInput"
-            @focus="inputFocus"
-            @blur="inputBlur"
-            @keyup="$emit('keyup')"
-            @keydown="$emit('keydown')"
+            :maxlength="maxlength"
+            :class="[dense ? 'py-1' : 'py-2', inputClass]"
             @keydown.enter="enter"
             @keydown.tab="close"
             @keydown.up="up"
             @keydown.down="down"
-            :name="name"
-            :id="id"
             @keydown.esc="close"
-            autocomplete="new-password"
-            :class="[
-              { 'text-center': center },
-              { 'text-xl': lg },
-              { 'text-2xl': xl },
-              { 'text-3xl': xxl },
-              select && 'cursor-pointer',
-              inputStyle,
-              inputClass,
-            ]"
-            class="w-full appearance-none focus:outline-none py-2"
-          />
+            @focus="focus"
+            @blur="blur"
+            class="py-2 rounded-md w-full h-full focus:outline-none"
+          ></textarea>
+          <slot v-else name="selection" v-bind:selected="value">
+            <input
+              ref="inputRef"
+              :placeholder="placeholder"
+              :readonly="readonly"
+              :disabled="isDisabled"
+              :value="val"
+              :type="typeValue"
+              @input="valueInput"
+              @focus="focus"
+              @blur="blur"
+              @keyup="keyup"
+              @keydown="keydown"
+              @keydown.enter="enter"
+              @keydown.tab="close"
+              @keydown.up="up"
+              @keydown.down="down"
+              :name="name"
+              :id="id"
+              @keydown.esc="close"
+              autocomplete="new-password"
+              :class="[
+                select && 'cursor-pointer',
+                dense ? 'py-1' : 'py-2',
+                inputClass,
+              ]"
+              class="w-full appearance-none focus:outline-none py-2"
+            />
+          </slot>
+        </div>
+        <slot name="appendInner">
+          <!-- <ui-icon v-if="appendInnerIcon">{{ appendInnerIcon }}</ui-icon> -->
+          <span class="font-semibold" v-if="suffix">{{ suffix }}</span>
+          <button class="focus:outline-none" v-if="isClearable" @click="clear">
+            <i-mdi-close />
+          </button>
+          <button
+            class="focus:outline-none"
+            v-if="password && hasValue"
+            @click.prevent="togglePassword"
+          >
+            <i-mdi-eye-outline v-if="hideText" />
+            <i-mdi-eye-outline v-else />
+          </button>
         </slot>
+        <i-mdi-chevron-down
+          v-if="hasItems"
+          class="transform transition-all"
+          :class="[
+            inputFocus && 'delay-100 font-semibold text-blue-300 rotate-180',
+          ]"
+        />
       </div>
-      <slot name="appendInner">
-        <!-- <ui-icon v-if="appendInnerIcon">{{ appendInnerIcon }}</ui-icon> -->
-        <span class="font-semibold" v-if="suffix">{{ suffix }}</span>
-        <button v-if="clearable" @click="clear">
-          <i-mdi-close />
-        </button>
-        <button
-          v-if="password && hasValue"
-          @click="data.hideText = !data.hideText"
-        >
-          <i-mdi-eye-outline v-if="data.hideText" />
-          <i-mdi-eye-outline v-else />
-        </button>
-      </slot>
-      <i-mdi-chevron-down
-        v-if="hasItems"
-        class="transform transition-all"
-        :class="[
-          data.inputFocus && 'delay-100 font-semibold text-blue-300 rotate-180',
-        ]"
-      />
-    </div>
-    <div
-      v-if="(items || menu) && data.inputFocus"
-      class="absolute origin-bottom-left my-1 w-full bg-white text-gray-900 z-50"
-    >
-      <slot name="menu" v-bind="$props">
-        <ul
-          :class="[data.fadeList && 'opacity-0']"
-          :style="{ width: inputWidth + 'px' }"
-          class="p-0 w-full overflow-y-auto max-h-56 rounded-b-lg shadow-xl border"
-        >
-          <template>
+      <div
+        v-if="(items || menu) && inputFocus"
+        class="absolute my-1 origin-bottom-left w-full bg-white text-gray-900 z-50"
+      >
+        <slot name="menu" v-bind="$props">
+          <ul
+            :class="[fadeList && 'opacity-0']"
+            :style="listStyle"
+            class="p-0 w-full overflow-y-auto max-h-56 rounded-b-lg shadow-xl border"
+          >
+            <!-- <template> -->
             <slot name="firstResult"></slot>
             <slot name="results" v-bind:items="results">
               <li
-                v-for="(result, key) in results"
-                :key="key"
+                v-for="(result, index) in results"
+                :key="index"
                 @click.prevent="selectItem(result)"
               >
                 <slot name="resultItem" v-bind:item="result">
                   <div
-                    :class="[isSelected(key) && 'hover:bg-gray-400']"
+                    :class="[isSelected(index) && 'hover:bg-gray-400']"
                     class="appearance-none border-b p-2 cursor-default hover:bg-gray-200"
                   >
                     <slot name="item" v-bind:item="result">
@@ -130,56 +127,28 @@
               </li>
             </slot>
             <slot name="lastResult"></slot>
-          </template>
-        </ul>
-      </slot>
+            <!-- </template> -->
+          </ul>
+        </slot>
+      </div>
     </div>
+    <!-- <InputeMenu :data="data" v-bind="$props"></InputeMenu> -->
   </div>
 </template>
 
 <script lang="ts">
+import {
+  ref,
+  computed,
+  onMounted,
+  toRefs,
+  onBeforeUpdate,
+  reactive,
+} from "vue";
 import useTime from "@/hooks/time";
-import { onMounted, computed, onBeforeUpdate, ref, reactive, watch } from "vue";
+import input from "@/hooks/input";
 export default {
-  props: {
-    dark: Boolean,
-    lg: Boolean,
-    xl: Boolean,
-    xxl: Boolean,
-
-    center: Boolean,
-    password: Boolean,
-    value: {}, //{ type: [String, Object, Number] },
-    items: {},
-    name: String,
-    id: String,
-    itemText: String,
-    itemValue: String,
-    type: { default: "text" },
-    valueFormat: Function,
-    combobox: Boolean,
-    select: Boolean,
-    autoComplete: Boolean,
-    rounded: Boolean,
-    menu: Boolean,
-    textarea: Boolean,
-    inputClass: {}, //{ type: [String, Object] },
-    loading: {}, //{ type: [Boolean, Object] },
-    tile: Boolean,
-    readonly: Boolean,
-    disabled: Boolean,
-    dense: Boolean,
-    clearable: Boolean,
-    prependIcon: String,
-    placeholder: String,
-    maxlength: Number,
-    prependInnerIcon: String,
-    prefix: String,
-    suffix: String,
-    appendIcon: String,
-    appendInnerIcon: String,
-    label: String,
-  },
+  props: input.props,
   setup(props, { emit }) {
     const data = reactive({
       inputFocus: false,
@@ -191,27 +160,15 @@ export default {
       itemClick: false,
       onFocusValue: null,
       dirty: false,
+      val: null,
       hideText: true,
     });
+    const inputRef = ref<any>(null);
+
     onMounted(() => {
       data.rawVal = props.value;
     });
-    const inputValue = computed({
-      get: () => {
-        if (props.itemValue)
-          return (props.items.find(
-            (item) =>
-              getObjectValue(item, props.itemValue, props.itemValue) ==
-              props.value
-          ) ?? {})[props.itemText];
-        let q = null;
-        if (props.returnObject) q = props.itemText;
-        return getObjectValue(props.value, q, props.value);
-      },
-      set: (value) => {
-        setModelValue(value);
-      },
-    });
+
     function getObjectValue(item, key, defaultValue = null) {
       return typeof item === "object" && key && item ? item[key] : defaultValue;
     }
@@ -220,6 +177,7 @@ export default {
       data.rawVal = value;
       if (props.items?.indexOf(data.rawVal) >= 0) data.lastValidVal = value;
       emit("update:modelValue", currentValue(value, strict));
+      data.val = inputDisplayValue.value;
     }
     function currentValue(value = null, strict = false) {
       if (!value && !strict) value = props.value;
@@ -231,17 +189,16 @@ export default {
       data.itemClick = true;
       setModelValue(item);
     };
-    function inputFocus() {
+    function focus() {
       data.lastValidVal = data.rawVal;
       data.selectedIndex = -1;
       data.onFocusValue = getInputDisplayValue();
       data.inputFocus = true;
       data.typing = data.fadeList = data.dirty = data.itemClick = false;
     }
-    function inputBlur() {
+    function blur() {
       data.fadeList = true;
       useTime.delay(200).then((d) => {
-        let dirty = data.dirty;
         data.inputFocus = data.typing = false;
 
         const [val, items, it, lvl, iv] = [
@@ -251,8 +208,8 @@ export default {
           data.lastValidVal,
           props.itemValue,
         ];
-        if (props.autoComplete && !data.itemClick && dirty) {
-          let smv = null; //query(data.onFocusValue, true, true)[0];
+        if (props.autoComplete && !data.itemClick && data.dirty) {
+          let smv = null; //query(onFocusValue, true, true)[0];
           if (typeof val === "string") smv = query(val, true, true)[0];
           else {
             if (items?.indexOf(val) >= 0) smv = val;
@@ -268,9 +225,9 @@ export default {
     function displayValue(item) {
       return getObjectValue(item, props.itemText, item);
     }
-    const isSelected = (key) => {
+    function isSelected(key) {
       return key === data.selectedIndex;
-    };
+    }
     function up($event) {
       let q = query();
       if (!q) return;
@@ -296,7 +253,6 @@ export default {
     }
     function enter() {
       if (data.selectedIndex === null) {
-        emit("nothingSelected", inputValue);
         blur();
         return;
       }
@@ -306,12 +262,13 @@ export default {
     function clear() {
       setModelValue(null, true);
       blur();
+      // inputRef.value.focus();
     }
     function valueInput($event) {
       data.dirty = true;
       setModelValue($event.target.value);
     }
-    function query(s = "", important = false, exact = false) {
+    function query(s: any = null, important = false, exact = false) {
       if (!important && (props.readonly || !data.typing)) return props.items;
       let items = [];
       const [it, iv, ro] = [
@@ -341,23 +298,24 @@ export default {
     );
     const refs = ref([]);
     const results = computed(() => query());
-    // watch()
     onBeforeUpdate(() => {
       refs.value = [];
     });
-    const inputWidth = computed(() => {
-      let val = 0;
-      let i = refs.value[0] as HTMLElement;
-      if (i) val = i.offsetWidth;
-      return val;
-    });
+    // const inputWidth = computed(() => {
+    //   let val = 0;
+    //   let i = refs.value[0] as HTMLElement;
+    //   if (i) val = i.offsetWidth;
+    //   return val;
+    // });
     const hasItems = computed(
       () =>
         props.items ||
         props.select ||
         ((props.autoComplete || props.combobox) && props.length > 0)
     );
-    const isClearable = computed(() => props.clearable && props.value);
+    const isClearable = computed(
+      () => inputDisplayValue.value && props.clearable
+    );
     const isReadonly = computed(() => props.loading || props.disabled);
     const styles = computed(() => [
       {
@@ -365,35 +323,47 @@ export default {
       },
       { "pl-2": props.prependInner || props.prefix },
     ]);
+
+    const togglePassword = (event) => {
+      data.hideText = !data.hideText;
+      inputRef.value.focus();
+      event.preventDefault();
+    };
     return {
       styles,
-      // isDisabled: computed(() => props.loading || props.disabled),
-      clear,
-      inputFocus,
-      inputBlur,
-      valueInput,
+      inputRef,
+      listStyle: {
+        "z-index": 9999,
+      },
+      keyup: () => emit("keyup"),
+      keydown: () => emit("keydown"),
       selectItem,
       results,
-      inputWidth,
+      clear,
+      close,
+      // inputWidth,
+      isSelected,
       inputDisplayValue,
       displayValue,
+      valueInput,
       data,
-      isLoading: computed(() => props.loading),
-      inputStyle: computed(() => (props.dense ? "py-1" : "py-2")),
+      ...toRefs(data),
+      isDisabled: computed(
+        () => props.loading || props.disabled || props.select
+      ),
+      togglePassword,
       typeValue: computed(() =>
         props.password && !data.hideText ? "text" : props.type
       ),
-      isReadOnly: computed(() => props.readonly || props.select),
       hasItems,
-      hasValue: computed(() => props.value),
+      hasValue: computed(() => inputDisplayValue.value),
       isClearable,
       isReadonly,
-      isSelected,
-      inputValue, //: useModelWrapper(props, emit, "modelValue"),
       up,
       down,
       enter,
-      inputValueChange: ($event) => (inputValue.value = $event.target.value),
+      focus,
+      blur,
     };
   },
 };

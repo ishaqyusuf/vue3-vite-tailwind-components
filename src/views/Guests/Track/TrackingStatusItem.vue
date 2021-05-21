@@ -1,5 +1,8 @@
 <template>
-  <div class="flex hover:shadow-sm">
+  <div
+    class="flex hover:shadow-sm px-2"
+    :class="{ 'hover:bg-white rounded-lg': editable }"
+  >
     <div class="w-1/6 relative" v-if="mapping">
       <div class="flex justify-center items-center h-full">
         <div class="bg-transparent">
@@ -22,7 +25,7 @@
       </div>
     </div>
     <div class="flex-1 py-1">
-      <div class="border-b flex space-x-3" :class="[simple ? 'pb-2' : 'py-2']">
+      <div class="group flex space-x-3" :class="[simple ? 'pb-2' : 'py-2']">
         <div class="flex-1 space-y-3">
           <div class="flex items-center space-x-1 text-gray-700">
             <span
@@ -47,7 +50,10 @@
             >
           </div>
         </div>
-        <div class="inline-block space-x-2" v-if="editable">
+        <div
+          class="inline-block space-x-2 opacity-0 group-hover:opacity-100"
+          v-if="editable"
+        >
           <!-- <div class="flex space-x-2"> -->
           <span
             v-if="item.secondary"

@@ -1,6 +1,17 @@
 <template>
-  <div class=""
-  <FormInput v-model="input1" clearable label="Hello World"></FormInput>
+  <Container class="grid grid-cols-4 gap-10 w-full">
+    <Input v-model="input1" clearable label="Input"></Input>
+    <Input v-model="input2" clearable label="Hello World"></Input>
+    <Input
+      :items="loader.couriers.value"
+      auto-complete
+      clearable
+      label="Courier"
+    ></Input>
+    <div class="col-span-4">
+      {{ inputs }}
+    </div>
+  </Container>
   <FormInput password type="password" label="Hello World"></FormInput>
   <FormInput :items="['a', 'b', 'c']" label="Hello World"></FormInput>
   <span>{{ input1 }}</span>
@@ -10,13 +21,16 @@
 </template>
 
 <script lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, reactive, toRefs } from "vue";
 import useTime from "@/hooks/time";
 import loaderHook from "@/hooks/dataLoader";
 export default {
   props: {},
   setup(props, { emit }) {
-    const input1 = ref("");
+    const inputs = reactive({
+      input1: "",
+      input2: "",
+    });
     const action = async () => {
       await useTime.delay(3000);
     };
@@ -32,12 +46,13 @@ export default {
     };
     const finallys = () => {};
     return {
-      input1,
+      ...toRefs(inputs),
+      inputs,
       advance,
       finallys,
       action,
       items: ["Item 1", "Item 2", "Item 3"],
-      ...loaderHook,
+      loader: loaderHook,
     };
   },
 };

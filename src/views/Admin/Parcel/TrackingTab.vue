@@ -4,11 +4,11 @@
     <div class="inline-flex justify-end">
       <Btn>Update Tracking</Btn>
     </div>
-    <div class="sm:px-4">
+    <div class="">
       <TrackingStatusItem
         v-for="(item, index) in result.trackings"
         :item="item"
-        :editable="user.can('updatePkg')"
+        :editable="isEditable"
         @edit="edit(item)"
         :key="index"
       ></TrackingStatusItem>
@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import TrackingStatusItem from "@/views/Guests/Track/TrackingStatusItem.vue";
 import trackerHook from "@/hooks/tracker";
 import user from "@/use/user";
@@ -41,8 +41,9 @@ export default {
       user,
       editor,
       edit: (item) => {
-        editor.value.open(item);
+        editor.value.init(item);
       },
+      isEditable: computed(() => user.can("updatePkg")),
     };
   },
 };

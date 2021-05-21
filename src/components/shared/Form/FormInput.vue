@@ -32,7 +32,7 @@
           :disabled="isDisabled"
           @input="valueInput"
           :maxlength="maxlength"
-          :class="[inputStyle, inputClass]"
+          :class="[dense ? 'py-1' : 'py-2', inputClass]"
           @keydown.enter="enter"
           @keydown.tab="close"
           @keydown.up="up"
@@ -63,7 +63,11 @@
             :id="id"
             @keydown.esc="close"
             autocomplete="new-password"
-            :class="[select && 'cursor-pointer', inputStyle, inputClass]"
+            :class="[
+              select && 'cursor-pointer',
+              dense ? 'py-1' : 'py-2',
+              inputClass,
+            ]"
             class="w-full appearance-none focus:outline-none py-2"
           />
         </slot>
@@ -91,6 +95,7 @@
         ]"
       />
     </div>
+    <!-- <InputeMenu :data="data" v-bind="$props"></InputeMenu> -->
     <div
       v-if="(items || menu) && inputFocus"
       class="absolute origin-bottom-left my-1 w-full bg-white text-gray-900 z-50"
@@ -130,112 +135,76 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, onMounted, onBeforeUpdate, reactive } from "vue";
+import {
+  ref,
+  computed,
+  onMounted,
+  toRefs,
+  onBeforeUpdate,
+  reactive,
+} from "vue";
 import useTime from "@/hooks/time";
+import input from "@/hooks/input";
 export default {
-  props: {
-    dark: Boolean,
-    password: Boolean,
-    value: {},
-    items: Array,
-    name: String,
-    id: String,
-    itemText: String,
-    itemValue: String,
-    type: { default: "text" },
-    valueFormat: Function,
-    combobox: Boolean,
-    select: Boolean,
-    autoComplete: Boolean,
-    rounded: Boolean,
-    menu: Boolean,
-    textarea: Boolean,
-    inputClass: {},
-    loading: Boolean,
-    tile: Boolean,
-    readonly: Boolean,
-    disabled: Boolean,
-    dense: Boolean,
-    clearable: Boolean,
-    prependIcon: String,
-    placeholder: String,
-    maxlength: Number,
-    prependInnerIcon: String,
-    prefix: String,
-    suffix: String,
-    appendIcon: String,
-    appendInnerIcon: String,
-    label: String,
-  },
+  props: input.props,
   setup(props, { emit }) {
-    const data = {
-      inputFocus: ref(false),
-      rawVal: ref(null),
-      typing: ref(false),
-      lastValidVal: ref(null),
-      selectedIndex: ref(-1),
-      fadeList: ref(false),
-      itemClick: ref(false),
-      onFocusValue: ref(null),
-      dirty: ref(false),
-      hideText: ref(true),
-    };
-    const inputRef = ref(null);
-    const {
-      inputFocus,
-      rawVal,
-      typing,
-      lastValidVal,
-      selectedIndex,
-      fadeList,
-      itemClick,
-      onFocusValue,
-      dirty,
-      hideText,
-    } = data;
+    const data = reactive({
+      inputFocus: false,
+      rawVal: null,
+      typing: false,
+      lastValidVal: null,
+      selectedIndex: -1,
+      fadeList: false,
+      itemClick: false,
+      onFocusValue: null,
+      dirty: false,
+      hideText: true,
+    });
+    const inputRef = ref<any>(null);
+
     onMounted(() => {
-      rawVal.value = props.value;
+      data.rawVal = props.value;
     });
 
     function getObjectValue(item, key, defaultValue = null) {
       return typeof item === "object" && key && item ? item[key] : defaultValue;
     }
     function setModelValue(value, strict = false) {
-      typing.value = true;
-      rawVal.value = value;
-      if (props.items?.indexOf(rawVal.value) >= 0) lastValidVal.value = value;
+      data.typing = true;
+      data.rawVal = value;
+      if (props.items?.indexOf(data.rawVal) >= 0) data.lastValidVal = value;
       emit("update:modelValue", currentValue(value, strict));
     }
     function currentValue(value = null, strict = false) {
       if (!value && !strict) value = props.value;
-      return !value || (inputFocus.value && !itemClick.value)
+      return !value || (data.inputFocus && !data.itemClick)
         ? value
         : getObjectValue(value, props.itemValue, value);
     }
     const selectItem = (item) => {
-      itemClick.value = true;
+      data.itemClick = true;
       setModelValue(item);
     };
     function focus() {
-      lastValidVal.value = rawVal.value;
-      selectedIndex.value = -1;
-      onFocusValue.value = getInputDisplayValue();
-      inputFocus.value = true;
-      typing.value = fadeList.value = dirty.value = itemClick.value = false;
+      data.lastValidVal = data.rawVal;
+      data.selectedIndex = -1;
+      data.onFocusValue = getInputDisplayValue();
+      data.inputFocus = true;
+      data.typing = data.fadeList = data.dirty = data.itemClick = false;
     }
     function blur() {
-      fadeList.value = true;
+      data.fadeList = true;
       useTime.delay(200).then((d) => {
-        inputFocus.value = typing.value = false;
+        data.inputFocus = data.typing = false;
 
         const [val, items, it, lvl, iv] = [
           props.value,
           props.items,
           props.itemText,
-          lastValidVal.value,
+          data.lastValidVal,
           props.itemValue,
         ];
-        if (props.autoComplete && !itemClick.value && dirty.value) {
+        if (props.autoComplete && !data.itemClick && data.dirty) {
           let smv = null; //query(onFocusValue, true, true)[0];
           if (typeof val === "string") smv = query(val, true, true)[0];
           else {
@@ -244,7 +213,7 @@ export default {
           setModelValue(smv, true);
         }
         let cv = getInputDisplayValue();
-        if (onFocusValue.value != cv) {
+        if (data.onFocusValue != cv) {
           emit("change", currentValue());
         }
       });
@@ -253,37 +222,37 @@ export default {
       return getObjectValue(item, props.itemText, item);
     }
     function isSelected(key) {
-      return key === selectedIndex.value;
+      return key === data.selectedIndex;
     }
     function up($event) {
       let q = query();
       if (!q) return;
-      if (selectedIndex.value === null) {
-        selectedIndex.value = q.length - 1;
+      if (data.selectedIndex === null) {
+        data.selectedIndex = q.length - 1;
         return;
       }
-      selectedIndex.value =
-        selectedIndex.value === 0 ? q.length - 1 : selectedIndex.value - 1;
+      data.selectedIndex =
+        data.selectedIndex === 0 ? q.length - 1 : data.selectedIndex - 1;
       $event.preventDefault();
     }
     function down($event) {
       let q = query();
 
       if (!q) return;
-      if (selectedIndex.value === null) {
-        selectedIndex.value = 0;
+      if (data.selectedIndex === null) {
+        data.selectedIndex = 0;
         return;
       }
-      selectedIndex.value =
-        selectedIndex.value === q.length - 1 ? 0 : selectedIndex.value + 1;
+      data.selectedIndex =
+        data.selectedIndex === q.length - 1 ? 0 : data.selectedIndex + 1;
       $event.preventDefault();
     }
     function enter() {
-      if (selectedIndex.value === null) {
+      if (data.selectedIndex === null) {
         blur();
         return;
       }
-      selectItem(query()[selectedIndex.value]);
+      selectItem(query()[data.selectedIndex]);
     }
     function close() {}
     function clear() {
@@ -292,11 +261,11 @@ export default {
       // inputRef.value.focus();
     }
     function valueInput($event) {
-      dirty.value = true;
+      data.dirty = true;
       setModelValue($event.target.value);
     }
-    function query(s = null, important = false, exact = false) {
-      if (!important && (props.readonly || !typing.value)) return props.items;
+    function query(s: any = null, important = false, exact = false) {
+      if (!important && (props.readonly || !data.typing)) return props.items;
       let items = [];
       const [it, iv, ro] = [
         props.itemText,
@@ -312,9 +281,9 @@ export default {
       return items;
     }
     function getInputDisplayValue() {
-      let iv = rawVal.value ?? props.value;
+      let iv = data.rawVal ?? props.value;
       let ivt = props.itemValue && props.itemText;
-      if (ivt && !typing)
+      if (ivt && !data.typing)
         iv = props.items.find((item) => item[props.itemValue] == props.value);
       return getObjectValue(iv, props.itemText, iv);
     }
@@ -328,12 +297,12 @@ export default {
     onBeforeUpdate(() => {
       refs.value = [];
     });
-    const inputWidth = computed(() => {
-      let val = 0;
-      let i = refs.value[0] as HTMLElement;
-      if (i) val = i.offsetWidth;
-      return val;
-    });
+    // const inputWidth = computed(() => {
+    //   let val = 0;
+    //   let i = refs.value[0] as HTMLElement;
+    //   if (i) val = i.offsetWidth;
+    //   return val;
+    // });
     const hasItems = computed(
       () =>
         props.items ||
@@ -352,39 +321,35 @@ export default {
     ]);
 
     const togglePassword = (event) => {
-      data.hideText.value = !data.hideText.value;
+      data.hideText = !data.hideText;
       inputRef.value.focus();
       event.preventDefault();
     };
     return {
       styles,
       inputRef,
-      listStyle: computed(() => {
-        return {
-          // width: inputWidth.value + "px",
-          "z-index": 9999,
-        };
-      }),
+      listStyle: {
+        "z-index": 9999,
+      },
       keyup: () => emit("keyup"),
       keydown: () => emit("keydown"),
       selectItem,
       results,
       clear,
       close,
-      inputWidth,
+      // inputWidth,
       isSelected,
       inputDisplayValue,
       displayValue,
       valueInput,
-      ...data,
-      isLoading: computed(() => props.loading),
+      data,
+      ...toRefs(data),
       isDisabled: computed(
         () => props.loading || props.disabled || props.select
       ),
       togglePassword,
-      inputStyle: computed(() => (props.dense ? "py-1" : "py-2")),
       typeValue: computed(() =>
-        props.password && !data.hideText.value ? "text" : props.type
+        props.password && !data.hideText ? "text" : props.type
       ),
       hasItems,
       hasValue: computed(() => inputDisplayValue.value),
