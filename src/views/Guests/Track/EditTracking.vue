@@ -29,8 +29,9 @@ export default {
     });
     const init = (tracking: Tracking) => {
       title.value = tracking.id ? "Edit Tracking" : "Create New Tracking";
-      form.value = Object.assign({}, tracking);
-      console.log(tracking);
+      form.value = tracking;
+      // form.value = Object.assign({}, tracking);
+      console.log(form);
       show.value = true;
     };
 

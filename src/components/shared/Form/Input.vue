@@ -49,7 +49,7 @@
               :placeholder="placeholder"
               :readonly="readonly"
               :disabled="isDisabled"
-              :value="val"
+              :value="inputDisplayValue"
               :type="typeValue"
               @input="valueInput"
               @focus="focus"
@@ -167,6 +167,7 @@ export default {
 
     onMounted(() => {
       data.rawVal = props.value;
+      data.val = inputDisplayValue.value;
     });
 
     function getObjectValue(item, key, defaultValue = null) {

@@ -18,6 +18,7 @@ export default {
     textarea: Boolean,
     inputClass: {},
     loading: Boolean,
+    modelValue: [String, Object],
     tile: Boolean,
     readonly: Boolean,
     disabled: Boolean,
