@@ -12,7 +12,7 @@
       :class="[
         data.inputFocus && 'ring-2',
         rounded ? 'rounded-full' : !tile && 'rounded-md',
-        isDisabled && 'gray-scale',
+        loading || (disabled && 'gray-scale'),
         dark ? 'text-white' : 'bg-white',
         label && 'mt-1',
       ]"
@@ -29,7 +29,7 @@
           :value="inputDisplayValue"
           :placeholder="placeholder"
           :readonly="isReadOnly"
-          :disabled="isDisabled"
+          :disabled="disabled"
           @input="valueInput"
           :maxlength="maxlength"
           :class="[inputStyle, inputClass]"
@@ -47,7 +47,7 @@
             ref="input"
             :placeholder="placeholder"
             :readonly="isReadOnly"
-            :disabled="isDisabled"
+            :disabled="disabled"
             :value="inputDisplayValue"
             @change="inputValueChange"
             :type="typeValue"
@@ -80,7 +80,7 @@
       <slot name="appendInner">
         <!-- <ui-icon v-if="appendInnerIcon">{{ appendInnerIcon }}</ui-icon> -->
         <span class="font-semibold" v-if="suffix">{{ suffix }}</span>
-        <button v-if="isClearable" @click="clear">
+        <button v-if="clearable" @click="clear">
           <i-mdi-close />
         </button>
         <button
@@ -139,7 +139,7 @@
 
 <script lang="ts">
 import useTime from "@/hooks/time";
-import { onMounted, computed, onBeforeUpdate, ref, reactive } from "vue";
+import { onMounted, computed, onBeforeUpdate, ref, reactive, watch } from "vue";
 export default {
   props: {
     dark: Boolean,
@@ -341,6 +341,7 @@ export default {
     );
     const refs = ref([]);
     const results = computed(() => query());
+    // watch()
     onBeforeUpdate(() => {
       refs.value = [];
     });
@@ -366,7 +367,7 @@ export default {
     ]);
     return {
       styles,
-      isDisabled: computed(() => props.loading || props.disabled),
+      // isDisabled: computed(() => props.loading || props.disabled),
       clear,
       inputFocus,
       inputBlur,

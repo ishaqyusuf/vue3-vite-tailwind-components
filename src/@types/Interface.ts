@@ -38,9 +38,12 @@ export interface Tracking {
   created_at?: string;
   id?: number;
   status?: string;
+  secondary?: string;
   track_code?: string;
 }
 export interface TrackingResult {
+  in_system?: any;
+  default_status?;
   trackings?: Tracking[];
   parcel?: Parcel;
   error?: any;

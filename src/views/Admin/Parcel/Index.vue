@@ -1,8 +1,8 @@
 <template>
   <Container class="">
-    <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 sm:gap-6">
-      <div v-if="!isLoading" class="sm:col-span-4">
-        <div class="inline-flex space-x-2 items-center">
+    <div v-if="!isLoading" class="">
+      <div class="grid sm:grid-cols-12 gap-10 items-center">
+        <div class="inline-flex sm:col-span-4 space-x-2 items-center">
           <router-link
             :to="{
               name: 'parcels',
@@ -15,34 +15,35 @@
             <CardSubtitle>{{ parcel.status }}</CardSubtitle>
           </div>
         </div>
-
-        <OverviewCard></OverviewCard>
+        <ParcelTabs
+          class="hidden sm:inline-flex pt-2 sm:col-span-8"
+        ></ParcelTabs>
       </div>
-      <div class="sm:col-span-8 inline-flex flex-col">
-        <Card class="inline-flex space-x-2 w-full items-start px-4">
-          <Link
-            :to="{ query: { tab: 'tracking' } }"
-            class="border-b-4 py-1 px-2 border-purple-500"
-            >Tracking</Link
-          >
-        </Card>
-        <router-view></router-view>
-        {{ isLoading }}
+      <div class="grid sm:grid-cols-12 gap-10">
+        <div class="sm:col-span-4 flex flex-col">
+          <OverviewCard></OverviewCard>
+        </div>
+        <ParcelTabs class="sm:hidden pt-2 sm:col-span-8"></ParcelTabs>
+        <div class="sm:col-span-8 inline-flex flex-col">
+          <router-view></router-view>
+        </div>
       </div>
     </div>
+    <Loader v-else></Loader>
   </Container>
 </template>
 
 <script lang="ts">
 import { ref, toRefs } from "vue";
 import useParcel from "@/use/parcels/parcel";
-import { Parcel } from "@/@types/Interface";
-import ParcelForm from "@/views/Admin/Parcel/ParcelForm.vue";
 import ClientCard from "@/views/Admin/Components/ClientCard.vue";
+import OverviewCard from "@/views/Admin/Parcel/OverviewCard.vue";
+import ParcelTabs from "@/views/Admin/Parcel/ParcelTabs.vue";
 export default {
   components: {
-    ParcelForm,
+    ParcelTabs,
     ClientCard,
+    OverviewCard,
   },
   props: {
     slug: String,

@@ -12,8 +12,9 @@ const initParcelOverview = (_slug) => {
     .fetchOne(slug.value, {
       parcel_mode: true,
     })
-    .then((data) => {
-      data.value = data;
+    .then((_data) => {
+      data.value = _data;
+      // console.log(_data);
       isLoading.value = false;
       initParcelView();
     });

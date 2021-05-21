@@ -26,7 +26,6 @@ export default {
   result,
   isLoading: computed(() => loading.value),
   parcel: computed(() => result.value.parcel),
-  trackings: computed(() => result.value.trackings),
   noResult: computed(() => !loading.value && result.value.error),
   search,
 };

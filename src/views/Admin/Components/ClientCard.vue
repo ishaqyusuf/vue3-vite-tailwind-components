@@ -10,13 +10,16 @@
 </template>
 
 <script lang="ts">
-import { ref, toRef } from "vue";
+import { ref, toRef, watch } from "vue";
 import { Recipient } from "@/@types/Interface";
 export default {
   props: {
     client: { type: Object },
   },
   setup(props, { emit }) {
+    watch(props.client, (f, s) => {
+      console.log(s);
+    });
     return {};
   },
 };

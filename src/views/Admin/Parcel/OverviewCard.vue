@@ -76,6 +76,8 @@ export default {
       });
     };
 
+    initParcelView(useParcel.parcel);
+    console.log(useParcel.parcel);
     return {
       ...useParcel,
       editParcel: ref(false),

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex hover:shadow-sm">
     <div class="w-1/6 relative" v-if="mapping">
       <div class="flex justify-center items-center h-full">
         <div class="bg-transparent">
@@ -55,17 +55,10 @@
             >Shipment
           </span>
           <template v-else>
-            <Btn confirm icon>
-              <i-mdi-trash-can-outline />
-            </Btn>
-            <Btn
-              class="group hover:text-green-400"
-              @click="editTracking"
-              icon
-              exact
-            >
-              <i-mdi-clipboard-edit-outline class="group-hover:text-current" />
-            </Btn>
+            <div class="sm:space-x-1 sm:flex">
+              <Btn confirm dense color="red-400"> Delete </Btn>
+              <Btn dense @click="editTracking" color="green-400"> Edit </Btn>
+            </div>
           </template>
           <!-- </div> -->
         </div>
@@ -75,12 +68,11 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
-
+import { Tracking } from "@/@types/Interface";
 export default {
   props: {
     item: {
-      type: Object,
+      type: Object as () => Tracking,
       default: () => {
         return {};
       },
@@ -92,7 +84,9 @@ export default {
     mapping: Boolean,
   },
   setup(props, { emit }) {
-    const editTracking = () => {};
+    const editTracking = () => {
+      emit("edit");
+    };
     return {
       editTracking,
     };

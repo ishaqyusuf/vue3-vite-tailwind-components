@@ -47,7 +47,7 @@
                 <div v-if="result.in_system">
                   <span
                     class="text-sm font-semibold bg-primary p-1 tracking-widest uppercase"
-                    >{{ $dayjs.format(result.parcel.created_at) }}</span
+                    >{{ $dayjs.format(result.parcel?.created_at) }}</span
                   >
                 </div>
                 <span
@@ -76,14 +76,14 @@
                 </div>
               </div>
 
-              <div v-if="trackings">
-                <tracking-status-item
+              <div v-if="result.trackings">
+                <TrackingStatusItem
                   name="statusItem"
-                  v-for="(item, index) in trackings"
+                  v-for="(item, index) in result.trackings"
                   :key="index"
                   :item="item"
                   v-bind="$props"
-                ></tracking-status-item>
+                ></TrackingStatusItem>
               </div>
             </div>
             <!-- <div v-if="canCreate" class="col-span-12 flex space-x-2 justify-end">
