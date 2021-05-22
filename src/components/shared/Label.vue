@@ -1,6 +1,6 @@
 <template>
   <span
-    class="font-poppins text-gray-800"
+    class="font-poppins"
     :class="[
       block && 'block',
       !lg && !md && !xl && 'text-sm',
@@ -10,6 +10,8 @@
       !light && 'font-medium',
       bold && 'font-semibold',
       big && 'font-bold text-3xl',
+      { 'text-black-100': dark },
+      { 'text-black-400': !dark },
     ]"
   >
     <slot></slot>
@@ -22,6 +24,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   props: {
     big: Boolean,
+    dark: Boolean,
     block: Boolean,
     light: Boolean,
     sm: Boolean,

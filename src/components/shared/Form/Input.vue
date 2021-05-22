@@ -60,16 +60,16 @@
               @keydown.tab="close"
               @keydown.up="up"
               @keydown.down="down"
+              autocomplete="new-password"
               :name="name"
               :id="id"
               @keydown.esc="close"
-              autocomplete="new-password"
               :class="[
                 select && 'cursor-pointer',
                 dense ? 'py-1' : 'py-2',
                 inputClass,
               ]"
-              class="w-full appearance-none focus:outline-none py-2"
+              class="w-full appearance-none focus:outline-none"
             />
           </slot>
         </div>

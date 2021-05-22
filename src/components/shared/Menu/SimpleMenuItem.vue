@@ -1,8 +1,15 @@
 <template>
   <!-- <TMenuItem v-slot="{ active }"> -->
   <button
-    class="hover:bg-purple-500 hover:text-white text-gray-900"
-    :class="['group flex rounded-md items-center w-full px-2 py-2 text-sm']"
+    ref="btn"
+    class="focus:outline-none flex rounded-md items-center w-full px-2 py-2 text-sm"
+    :class="{
+      'text-gray-900': !active && !focused && !disabled,
+      'text-gray-400': disabled,
+      'bg-purple-500 text-white': (active || focused) && !disabled,
+    }"
+    @mouseenter="focused = true"
+    @mouseleave="focused = false"
   >
     <!-- <EditIcon
                   :active="active"
@@ -15,15 +22,26 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { MenuItem } from "@headlessui/vue";
 export default {
   components: {
     TMenuItem: MenuItem,
   },
-  props: {},
+  props: {
+    active: Boolean,
+    disabled: Boolean,
+  },
   setup(props, { emit }) {
-    return {};
+    const focused = ref(false);
+    const btn = ref<HTMLElement>();
+    watch(props, (value, old) => {
+      // props.active ? btn.value?.focus() : btn.value?.blur();
+    });
+    return {
+      focused,
+      btn,
+    };
   },
 };
 </script>

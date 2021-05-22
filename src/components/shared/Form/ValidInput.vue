@@ -1,32 +1,174 @@
 <template>
-  <div class="relative">
-    <input
-      @input="typing"
-      @focus="inputFocus"
-      @blur="inputBlur"
-      v-model="valued"
-      class="p-2"
-    />
-    <InputMenu v-if="focused && results" :results="results"></InputMenu>
+  <div
+    class="relative space-y-1"
+    :class="{
+      'text-black-100': dark,
+    }"
+  >
+    <slot name="label">
+      <Label :dark="dark" v-if="label">{{ label }}</Label>
+    </slot>
+    <div
+      class="px-2 space-x-2 inline-flex items-center w-full"
+      :class="{
+        'ring-2': focused && !disabled,
+        'rounded-full': rounded,
+        'rounded-md': !tile,
+        'bg-white': !dark,
+        'text-black-100 border-black-300': dark,
+        'gray-scale': disabled,
+        'px-2': !dense,
+        'px-1': dense,
+        border: !plain,
+      }"
+    >
+      <span class="font-semibold" v-if="prefix">{{ prefix }}</span>
+      <slot name="prependInner"></slot>
+      <input
+        ref="input"
+        @input="typing"
+        @focus="inputFocus"
+        @keydown.enter="enter"
+        :type="hideText ? 'password' : 'text'"
+        @blur="inputBlur"
+        v-model="valued"
+        @keydown.up="up"
+        @keydown.esc="closeInput"
+        @keydown.down="down"
+        class="focus:outline-none w-full bg-transparent"
+        tabindex="0"
+        autocomplete="new-password"
+        :name="name"
+        :id="id"
+        :readonly="readonly || select"
+        :class="{
+          'cursor-pointer': select,
+          'py-1': dense,
+          'py-2': !dense,
+        }"
+      />
+      <button
+        class="focus:outline-none"
+        v-if="clearable && valued"
+        @click="clearInput"
+      >
+        <i-mdi-close />
+      </button>
+      <button
+        class="focus:outline-none"
+        v-if="password && valued"
+        @click="togglePassword"
+      >
+        <i-mdi-eye-outline v-if="hideText" />
+        <i-mdi-eye-off-outline v-else />
+      </button>
+      <i-mdi-chevron-down
+        v-if="items"
+        class="transform transition-all"
+        :class="{
+          'delay-100 font-semibold text-blue-300 rotate-180': focused,
+        }"
+      />
+      <span class="font-semibold" v-if="suffix">{{ suffix }}</span>
+      <slot name="appendInner"></slot>
+    </div>
+
+    <InputMenu
+      @selected="valued = $event"
+      v-bind="$props"
+      tabindex="1"
+      v-if="results && (listOpened || focused)"
+      :results="results"
+      :class="{
+        'opacity-0': results.length == 0,
+      }"
+      :state="state"
+    ></InputMenu>
   </div>
 </template>
 
 <script lang="ts">
-import { reactive, ref, onMounted, toRefs, watch } from "vue";
+import { reactive, ref, onMounted, toRefs, toRef, watch } from "vue";
 import input from "@/hooks/input";
+import time from "@/hooks/time";
 import { useModelWrapper } from "@/use/modelWrapper";
 export default {
   props: {
     ...input.props,
   },
   setup(props, { emit }) {
-    const valued = useModelWrapper(props, emit);
-    function inputBlur() {
+    const getValue = () => {
+      const {
+        itemText,
+        itemValue,
+        items,
+        autoComplete,
+        source,
+        modelValue,
+      } = props;
+      const isObject = typeof modelValue === "object";
+      if (modelValue && items) {
+        if (isObject) {
+          if (itemText && !itemValue) return modelValue[itemText];
+          if (itemValue && !itemText)
+            return items.find((item) => item[itemValue] == modelValue);
+        }
+      }
+      return modelValue;
+    };
+    const setValue = (value) => {
+      const { itemText, itemValue, items, autoComplete, source } = props;
+      const isObject = typeof value === "object";
+      if (itemText) {
+        const val = isObject
+          ? value
+          : items.find((item) => item[itemText] == value);
+        if (val) {
+          if (itemValue) return val[itemValue];
+          return val;
+        }
+        if (!autoComplete) return val;
+      }
+      return value;
+    };
+    const valued = useModelWrapper(
+      props,
+      emit,
+      "modelValue",
+      getValue,
+      setValue
+    );
+    const validateInput = (value) => {
+      const { autoComplete, combobox, items, itemText, itemValue } = props;
+      if (autoComplete) {
+        const item = items.find(
+          (item) => (itemText ? item[itemText] : item) == value
+        );
+        return item;
+      }
+      return value;
+    };
+    const currentValue = ref();
+    async function inputBlur() {
+      await time.delay(100);
+      if (state.preventBlur) {
+        state.preventBlur = false;
+        return;
+      }
       state.isTyping = state.focused = false;
+      const { autoComplete, combobox, items, itemText, itemValue } = props;
+      const item = validateInput(valued.value);
+      if (autoComplete) {
+        // if (!item) valued.value = currentValue.value;
+        // else
+        emit("selected", valued.value);
+      }
     }
     function inputFocus() {
-      state.focused = true;
+      state.focused = state.listOpened = true;
+      currentValue.value = validateInput(valued.value) ? valued.value : null;
     }
+    const input = ref();
     const data = reactive({
       inputBlur,
       inputFocus,
@@ -34,30 +176,77 @@ export default {
     });
     const state = reactive({
       isTyping: false,
+      preventBlur: false,
+      listOpened: false,
       focused: false,
+      hideText: props.password,
+      index: -1,
     });
     function typing() {
       state.isTyping = true;
     }
     function initResults() {
-      data.results = props.items?.filter(
-        (item) => !state.isTyping || item.startsWith(valued.value)
-      );
+      const value = valued.value;
+      const { itemText, itemValue, returnObject, items } = props;
+      var results = items;
+      if (value) {
+        let rt = ["^", value].filter(Boolean).join("");
+        const re = new RegExp(rt, `i`);
+        results = items?.filter(
+          (item) => !state.isTyping || re.test(itemText ? item[itemText] : item)
+        );
+      }
+      data.results = results;
     }
-
     onMounted(() => {
       initResults();
     });
-    watch([valued, props.items, state], async (value, old) => {
+    const inputType = toRef(props, "type");
+    watch([valued, props.items, state].filter(Boolean), async (value, old) => {
       initResults();
     });
 
     return {
       valued,
+      inputType,
       ...toRefs(data),
       ...toRefs(state),
-
       typing,
+      state,
+      up($event) {
+        $event.preventDefault();
+        state.index = Math.max(0, state.index - 1);
+      },
+      down($event) {
+        $event.preventDefault();
+        state.index = Math.min(data.results.length, state.index + 1);
+      },
+      closeInput($event) {
+        inputBlur();
+        state.listOpened = false;
+        input.value.parent.focus();
+      },
+      input,
+      clearInput($event) {
+        $event.preventDefault();
+        state.preventBlur = true;
+        input.value.focus();
+        valued.value = null;
+        // inputFocus();
+      },
+      togglePassword($e) {
+        $e.preventDefault();
+        state.preventBlur = true;
+        state.hideText = !state.hideText;
+        inputType.value = state.hideText ? "password" : "text";
+      },
+      enter($e) {
+        if (state.index) {
+          valued.value = this.results[state.index];
+          state.listOpened = state.focused = false;
+          input.value.blur();
+        }
+      },
     };
   },
 };

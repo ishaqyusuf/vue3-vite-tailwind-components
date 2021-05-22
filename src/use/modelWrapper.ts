@@ -3,10 +3,11 @@ export function useModelWrapper(
   props,
   emit,
   name = "modelValue",
-  getFn = () => props[name]
+  getFn: any = null,
+  setFn: any = null
 ) {
   return computed({
-    get: () => getFn(),
-    set: (value) => emit(`update:${name}`, value),
+    get: () => (getFn ? getFn() : props[name]),
+    set: (value) => emit(`update:${name}`, setFn ? setFn(value) : value),
   });
 }

@@ -1,27 +1,59 @@
 <template>
-  <Container class="grid grid-cols-4 gap-10 w-full">
-    <ValidInput v-model="input3" clearable label="Valued Input"></ValidInput>
-    <ValidInput v-model="input4" clearable label="Input"></ValidInput>
-    <ValidInput
-      v-model="input5"
-      :items="couriers"
-      auto-complete
-      clearable
-      label="Auto Input"
-    ></ValidInput>
-    <ValidInput
-      v-model="input6"
-      :items="couriers"
-      select
-      label="Select Input"
-    ></ValidInput>
-    <Input v-model="input1" clearable label="Input"></Input>
-    <Input v-model="input2" clearable label="Hello World"></Input>
-    <Input :items="couriers" auto-complete clearable label="Courier"></Input>
-    <div class="col-span-4">
-      {{ inputs }}
-    </div>
-  </Container>
+  <Container>
+    <div class="grid grid-cols-4 gap-10 w-full">
+      <div class="bg-black-700">
+        <ValidInput
+          prefix="NGN"
+          v-model="input3"
+          password
+          dark
+          label="Valued Input"
+        ></ValidInput>
+      </div>
+      <ValidInput
+        prefix="NGN"
+        v-model="input3"
+        password
+        label="Valued Input"
+      ></ValidInput>
+      <ValidInput v-model="input4" clearable label="Input"></ValidInput>
+      <ValidInput
+        v-model="input5"
+        :items="items"
+        auto-complete
+        label="Auto Input"
+      ></ValidInput>
+      <ValidInput
+        v-model="input7"
+        :items="itemsObject"
+        item-text="title"
+        item-value="id"
+        auto-complete
+        label="Auto Input Object"
+      ></ValidInput>
+      <ValidInput
+        v-model="input8"
+        :items="itemsObject"
+        item-text="title"
+        auto-complete
+        label="Auto Input Object 2"
+      ></ValidInput>
+      <ValidInput
+        v-model="input6"
+        :items="couriers"
+        select
+        label="Select Input"
+      >
+        <template #inner>Hello world</template>
+      </ValidInput>
+      <Input v-model="input1" clearable label="Input"></Input>
+      <Input v-model="input2" clearable label="Hello World"></Input>
+      <Input :items="couriers" auto-complete clearable label="Courier"></Input>
+      <div class="col-span-4">
+        {{ inputs }}
+      </div>
+    </div></Container
+  >
   <FormInput password type="password" label="Hello World"></FormInput>
   <FormInput :items="['a', 'b', 'c']" label="Hello World"></FormInput>
   <span>{{ input1 }}</span>
@@ -43,6 +75,8 @@ export default {
       input4: "",
       input5: "",
       input6: "",
+      input7: "",
+      input8: {},
       input2: "",
     });
     const action = async () => {
@@ -65,7 +99,21 @@ export default {
       advance,
       finallys,
       action,
-      items: ["Item 1", "Item 2", "Item 3"],
+      items: ref(
+        Array(10)
+          .fill(null)
+          .map((item, index) => "Item l" + index)
+      ),
+      itemsObject: ref(
+        Array(10)
+          .fill(null)
+          .map((item, index) => {
+            return {
+              id: index,
+              title: "Item " + index,
+            };
+          })
+      ),
       ...loaderHook,
     };
   },
