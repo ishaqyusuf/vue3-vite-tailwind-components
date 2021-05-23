@@ -66,7 +66,7 @@ import router from "@/router";
 import RecipientColumn from "@/views/Admin/Parcels/RecipientColumn.vue";
 import ParcelColumn from "@/views/Admin/Parcels/ParcelColumn.vue";
 import tableHook from "@/hooks/table";
-import TableStructureInterface from "@/@types/TableStructureInterface";
+import { TableStructure } from "@/@types/Interface";
 import PagerInterface from "@/@types/PagerInterface";
 export default {
   components: {
@@ -99,7 +99,7 @@ export default {
       data.items = parcels.transformAll(_data.items);
       data.pager = _data.pager;
     };
-    const structure: TableStructureInterface[] = [
+    const structure: TableStructure[] = [
       { name: "id_date", title: "#/Date" },
       {
         name: "track_code",

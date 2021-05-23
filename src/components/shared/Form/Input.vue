@@ -1,370 +1,272 @@
 <template>
-  <div class="flex flex-col">
-    <div class="inline-flex w-full">
-      <slot name="label">
-        <Label v-if="label">{{ label }}</Label>
-      </slot>
-      <Spacer></Spacer>
-      <slot name="label-right"></slot>
-    </div>
+  <div
+    class="relative space-y-1"
+    :class="{
+      'text-black-100': dark,
+    }"
+  >
+    <slot name="label">
+      <Label :dark="dark" v-if="label">{{ label }}</Label>
+    </slot>
     <div
-      ref="inputParent"
-      :class="[
-        inputFocus && 'ring-2',
-        rounded ? 'rounded-full' : !tile && 'rounded-md',
-        isDisabled && 'gray-scale',
-        dark ? 'text-white' : 'bg-white',
-        label && 'mt-1',
-      ]"
-      class="border relative border-gray-300 hover:border-blue-300 shadow group"
+      class="px-2 space-x-2 inline-flex items-center w-full"
+      :class="{
+        'ring-2': focused && !disabled,
+        'rounded-full': rounded,
+        'rounded-md': !tile,
+        'bg-white': !dark,
+        'text-black-100 border-black-300': dark,
+        'gray-scale': disabled,
+        'px-2': !dense,
+        'px-1': dense,
+        border: !plain,
+      }"
     >
-      <div class="flex px-2 items-center space-x-2">
-        <slot class="" name="prependInner">
-          <!-- <ui-icon v-if="prependInnerIcon">{{ prependInnerIcon }}</ui-icon> -->
-          <span class="font-semibold" v-if="prefix">{{ prefix }}</span>
-        </slot>
-        <div class="w-full h-full relative">
-          <textarea
-            ref="input"
-            v-if="textarea"
-            :value="inputDisplayValue"
-            :placeholder="placeholder"
-            :readonly="readonly"
-            :disabled="isDisabled"
-            @input="valueInput"
-            :maxlength="maxlength"
-            :class="[dense ? 'py-1' : 'py-2', inputClass]"
-            @keydown.enter="enter"
-            @keydown.tab="close"
-            @keydown.up="up"
-            @keydown.down="down"
-            @keydown.esc="close"
-            @focus="focus"
-            @blur="blur"
-            class="py-2 rounded-md w-full h-full focus:outline-none"
-          ></textarea>
-          <slot v-else name="selection" v-bind:selected="value">
-            <input
-              ref="inputRef"
-              :placeholder="placeholder"
-              :readonly="readonly"
-              :disabled="isDisabled"
-              :value="inputDisplayValue"
-              :type="typeValue"
-              @input="valueInput"
-              @focus="focus"
-              @blur="blur"
-              @keyup="keyup"
-              @keydown="keydown"
-              @keydown.enter="enter"
-              @keydown.tab="close"
-              @keydown.up="up"
-              @keydown.down="down"
-              autocomplete="new-password"
-              :name="name"
-              :id="id"
-              @keydown.esc="close"
-              :class="[
-                select && 'cursor-pointer',
-                dense ? 'py-1' : 'py-2',
-                inputClass,
-              ]"
-              class="w-full appearance-none focus:outline-none"
-            />
-          </slot>
-        </div>
-        <slot name="appendInner">
-          <!-- <ui-icon v-if="appendInnerIcon">{{ appendInnerIcon }}</ui-icon> -->
-          <span class="font-semibold" v-if="suffix">{{ suffix }}</span>
-          <button class="focus:outline-none" v-if="isClearable" @click="clear">
-            <i-mdi-close />
-          </button>
-          <button
-            class="focus:outline-none"
-            v-if="password && hasValue"
-            @click.prevent="togglePassword"
-          >
-            <i-mdi-eye-outline v-if="hideText" />
-            <i-mdi-eye-outline v-else />
-          </button>
-        </slot>
-        <i-mdi-chevron-down
-          v-if="hasItems"
-          class="transform transition-all"
-          :class="[
-            inputFocus && 'delay-100 font-semibold text-blue-300 rotate-180',
-          ]"
-        />
-      </div>
-      <div
-        v-if="(items || menu) && inputFocus"
-        class="absolute my-1 origin-bottom-left w-full bg-white text-gray-900 z-50"
+      <span class="font-semibold" v-if="prefix">{{ prefix }}</span>
+      <slot name="prependInner"></slot>
+      <input
+        ref="input"
+        @input="typing"
+        @focus="inputFocus"
+        @keydown.enter="enter"
+        :type="hideText ? 'password' : 'text'"
+        @blur="inputBlur"
+        v-model="valued"
+        @keydown.up="up"
+        @keydown.esc="closeInput"
+        @keydown.down="down"
+        class="focus:outline-none w-full bg-transparent"
+        tabindex="0"
+        autocomplete="new-password"
+        :name="name"
+        :id="id"
+        :readonly="readonly || select"
+        :class="{
+          'cursor-pointer': select,
+          'py-1': dense,
+          'py-2': !dense,
+        }"
+      />
+      <button
+        class="focus:outline-none"
+        v-if="clearable && valued"
+        @click="clearInput"
       >
-        <slot name="menu" v-bind="$props">
-          <ul
-            :class="[fadeList && 'opacity-0']"
-            :style="listStyle"
-            class="p-0 w-full overflow-y-auto max-h-56 rounded-b-lg shadow-xl border"
-          >
-            <!-- <template> -->
-            <slot name="firstResult"></slot>
-            <slot name="results" v-bind:items="results">
-              <li
-                v-for="(result, index) in results"
-                :key="index"
-                @click.prevent="selectItem(result)"
-              >
-                <slot name="resultItem" v-bind:item="result">
-                  <div
-                    :class="[isSelected(index) && 'hover:bg-gray-400']"
-                    class="appearance-none border-b p-2 cursor-default hover:bg-gray-200"
-                  >
-                    <slot name="item" v-bind:item="result">
-                      {{ displayValue(result) }}
-                    </slot>
-                  </div>
-                </slot>
-              </li>
-            </slot>
-            <slot name="lastResult"></slot>
-            <!-- </template> -->
-          </ul>
-        </slot>
-      </div>
+        <i-mdi-close />
+      </button>
+      <button
+        class="focus:outline-none"
+        v-if="password && valued"
+        @click="togglePassword"
+      >
+        <i-mdi-eye-outline v-if="hideText" />
+        <i-mdi-eye-off-outline v-else />
+      </button>
+      <i-mdi-chevron-down
+        v-if="items"
+        class="transform transition-all"
+        :class="{
+          'delay-100 font-semibold text-blue-300 rotate-180': focused,
+        }"
+      />
+      <span class="font-semibold" v-if="suffix">{{ suffix }}</span>
+      <slot name="appendInner"></slot>
     </div>
-    <!-- <InputeMenu :data="data" v-bind="$props"></InputeMenu> -->
+
+    <InputMenu
+      @selected="valued = $event"
+      v-bind="$props"
+      tabindex="1"
+      v-if="results && (listOpened || focused)"
+      :results="results"
+      :class="{
+        'opacity-0': results.length == 0,
+      }"
+      :state="state"
+    ></InputMenu>
   </div>
 </template>
 
 <script lang="ts">
-import {
-  ref,
-  computed,
-  onMounted,
-  toRefs,
-  onBeforeUpdate,
-  reactive,
-} from "vue";
-import useTime from "@/hooks/time";
+import { reactive, ref, onMounted, toRefs, toRef, watch, computed } from "vue";
 import input from "@/hooks/input";
+import time from "@/hooks/time";
+import { useModelWrapper } from "@/use/modelWrapper";
+import { $clientApi } from "@/core/services/client";
 export default {
-  props: input.props,
+  props: {
+    ...input.props,
+  },
   setup(props, { emit }) {
+    const getValue = () => {
+      const { itemText, itemValue, autoComplete, source, modelValue } = props;
+      const isObject = typeof modelValue === "object";
+      if (modelValue && items) {
+        if (isObject) {
+          if (itemText && !itemValue) return modelValue[itemText];
+          if (itemValue && !itemText)
+            return items.value.find((item) => item[itemValue] == modelValue);
+        }
+      }
+      return modelValue;
+    };
+    const setValue = (value) => {
+      const { itemText, itemValue, autoComplete, source } = props;
+      const isObject = typeof value === "object";
+      if (itemText) {
+        const val = isObject
+          ? value
+          : items.value.find((item) => item[itemText] == value);
+        if (val) {
+          if (itemValue) return val[itemValue];
+          return val;
+        }
+        if (!autoComplete) return val;
+      }
+      return value;
+    };
+    const valued = useModelWrapper(
+      props,
+      emit,
+      "modelValue",
+      getValue,
+      setValue
+    );
+    const items = computed(() =>
+      props.source ? sourceData.items : props.items
+    );
+    const validateInput = (value) => {
+      const { autoComplete, combobox, source, itemText, itemValue } = props;
+      if (autoComplete) {
+        const item = items.value.find(
+          (item) => (itemText ? item[itemText] : item) == value
+        );
+        return item;
+      }
+      return value;
+    };
+    const currentValue = ref();
+    async function inputBlur() {
+      await time.delay(100);
+      if (state.preventBlur) {
+        state.preventBlur = false;
+        return;
+      }
+      state.isTyping = state.focused = false;
+      const { autoComplete, combobox, itemText, itemValue } = props;
+      // const item = validateInput(valued.value);
+      if (autoComplete) {
+        // if (!item) valued.value = currentValue.value;
+        // else
+        emit("selected", valued.value);
+      }
+    }
+    const sourceData = reactive({
+      source: "",
+      items: [],
+    });
+
+    async function loadSource() {
+      const { source } = props;
+      if (!source) {
+        sourceData.items = [];
+        sourceData.source = "";
+      }
+      if (sourceData.source != source && source) {
+        const response = await $clientApi.get(source);
+        sourceData.items = response.data.items;
+        sourceData.source = source;
+        valued.value = validateInput(valued.value);
+      }
+    }
+    function inputFocus() {
+      state.focused = state.listOpened = true;
+      currentValue.value = validateInput(valued.value) ? valued.value : null;
+    }
+    const input = ref();
     const data = reactive({
-      inputFocus: false,
-      rawVal: null,
-      typing: false,
-      lastValidVal: null,
-      selectedIndex: -1,
-      fadeList: false,
-      itemClick: false,
-      onFocusValue: null,
-      dirty: false,
-      val: null,
-      hideText: true,
+      inputBlur,
+      inputFocus,
+      results: [],
     });
-    const inputRef = ref<any>(null);
-
+    const state = reactive({
+      isTyping: false,
+      preventBlur: false,
+      listOpened: false,
+      focused: false,
+      hideText: props.password,
+      index: -1,
+    });
+    function typing() {
+      state.isTyping = true;
+    }
+    async function initResults() {
+      const value = valued.value;
+      const { itemText, source, itemValue, returnObject, items } = props;
+      await loadSource();
+      const _items = source ? sourceData.items : items;
+      var results = _items;
+      if (value) {
+        let rt = ["^", value].filter(Boolean).join("");
+        const re = new RegExp(rt, `i`);
+        results = _items?.filter(
+          (item) => !state.isTyping || re.test(itemText ? item[itemText] : item)
+        );
+      }
+      data.results = results;
+    }
     onMounted(() => {
-      data.rawVal = props.value;
-      data.val = inputDisplayValue.value;
+      initResults();
     });
-
-    function getObjectValue(item, key, defaultValue = null) {
-      return typeof item === "object" && key && item ? item[key] : defaultValue;
-    }
-    function setModelValue(value, strict = false) {
-      data.typing = true;
-      data.rawVal = value;
-      if (props.items?.indexOf(data.rawVal) >= 0) data.lastValidVal = value;
-      emit("update:modelValue", currentValue(value, strict));
-      data.val = inputDisplayValue.value;
-    }
-    function currentValue(value = null, strict = false) {
-      if (!value && !strict) value = props.value;
-      return !value || (data.inputFocus && !data.itemClick)
-        ? value
-        : getObjectValue(value, props.itemValue, value);
-    }
-    const selectItem = (item) => {
-      data.itemClick = true;
-      setModelValue(item);
-    };
-    function focus() {
-      data.lastValidVal = data.rawVal;
-      data.selectedIndex = -1;
-      data.onFocusValue = getInputDisplayValue();
-      data.inputFocus = true;
-      data.typing = data.fadeList = data.dirty = data.itemClick = false;
-    }
-    function blur() {
-      data.fadeList = true;
-      useTime.delay(200).then((d) => {
-        data.inputFocus = data.typing = false;
-
-        const [val, items, it, lvl, iv] = [
-          props.value,
-          props.items,
-          props.itemText,
-          data.lastValidVal,
-          props.itemValue,
-        ];
-        if (props.autoComplete && !data.itemClick && data.dirty) {
-          let smv = null; //query(onFocusValue, true, true)[0];
-          if (typeof val === "string") smv = query(val, true, true)[0];
-          else {
-            if (items?.indexOf(val) >= 0) smv = val;
-          }
-          setModelValue(smv, true);
-        }
-        let cv = getInputDisplayValue();
-        if (data.onFocusValue != cv) {
-          emit("change", currentValue());
-        }
-      });
-    }
-    function displayValue(item) {
-      return getObjectValue(item, props.itemText, item);
-    }
-    function isSelected(key) {
-      return key === data.selectedIndex;
-    }
-    function up($event) {
-      let q = query();
-      if (!q) return;
-      if (data.selectedIndex === null) {
-        data.selectedIndex = q.length - 1;
-        return;
+    const inputType = ref(props.type);
+    watch(
+      [valued, props.items, props.source, state].filter(Boolean),
+      async (value, old) => {
+        initResults();
       }
-      data.selectedIndex =
-        data.selectedIndex === 0 ? q.length - 1 : data.selectedIndex - 1;
-      $event.preventDefault();
-    }
-    function down($event) {
-      let q = query();
-
-      if (!q) return;
-      if (data.selectedIndex === null) {
-        data.selectedIndex = 0;
-        return;
-      }
-      data.selectedIndex =
-        data.selectedIndex === q.length - 1 ? 0 : data.selectedIndex + 1;
-      $event.preventDefault();
-    }
-    function enter() {
-      if (data.selectedIndex === null) {
-        blur();
-        return;
-      }
-      selectItem(query()[data.selectedIndex]);
-    }
-    function close() {}
-    function clear() {
-      setModelValue(null, true);
-      blur();
-      // inputRef.value.focus();
-    }
-    function valueInput($event) {
-      data.dirty = true;
-      setModelValue($event.target.value);
-    }
-    function query(s: any = null, important = false, exact = false) {
-      if (!important && (props.readonly || !data.typing)) return props.items;
-      let items = [];
-      const [it, iv, ro] = [
-        props.itemText,
-        props.itemValue,
-        props.returnObject,
-      ];
-      let mvs = s ?? getInputDisplayValue();
-
-      if (!mvs) return props.items;
-      let rt = ["^", mvs, exact && "$"].filter(Boolean).join("");
-      const re = new RegExp(rt, `i`);
-      items = props.items.filter((item) => re.test(it ? item[it] : item));
-      return items;
-    }
-    function getInputDisplayValue() {
-      let iv = data.rawVal ?? props.value;
-      let ivt = props.itemValue && props.itemText;
-      if (ivt && !data.typing)
-        iv = props.items.find((item) => item[props.itemValue] == props.value);
-      return getObjectValue(iv, props.itemText, iv);
-    }
-    const inputDisplayValue = computed(() =>
-      props.valueFormat
-        ? props.valueFormat(props.value)
-        : getInputDisplayValue()
     );
-    const refs = ref([]);
-    const results = computed(() => query());
-    onBeforeUpdate(() => {
-      refs.value = [];
-    });
-    // const inputWidth = computed(() => {
-    //   let val = 0;
-    //   let i = refs.value[0] as HTMLElement;
-    //   if (i) val = i.offsetWidth;
-    //   return val;
-    // });
-    const hasItems = computed(
-      () =>
-        props.items ||
-        props.select ||
-        ((props.autoComplete || props.combobox) && props.length > 0)
-    );
-    const isClearable = computed(
-      () => inputDisplayValue.value && props.clearable
-    );
-    const isReadonly = computed(() => props.loading || props.disabled);
-    const styles = computed(() => [
-      {
-        "pr-2": hasItems.value || props.appendInner || props.suffix,
-      },
-      { "pl-2": props.prependInner || props.prefix },
-    ]);
 
-    const togglePassword = (event) => {
-      data.hideText = !data.hideText;
-      inputRef.value.focus();
-      event.preventDefault();
-    };
     return {
-      styles,
-      inputRef,
-      listStyle: {
-        "z-index": 9999,
-      },
-      keyup: () => emit("keyup"),
-      keydown: () => emit("keydown"),
-      selectItem,
-      results,
-      clear,
-      close,
-      // inputWidth,
-      isSelected,
-      inputDisplayValue,
-      displayValue,
-      valueInput,
-      data,
+      valued,
+      inputType,
       ...toRefs(data),
-      isDisabled: computed(
-        () => props.loading || props.disabled || props.select
-      ),
-      togglePassword,
-      typeValue: computed(() =>
-        props.password && !data.hideText ? "text" : props.type
-      ),
-      hasItems,
-      hasValue: computed(() => inputDisplayValue.value),
-      isClearable,
-      isReadonly,
-      up,
-      down,
-      enter,
-      focus,
-      blur,
+      ...toRefs(state),
+      typing,
+      state,
+      up($event) {
+        $event.preventDefault();
+        state.index = Math.max(0, state.index - 1);
+      },
+      down($event) {
+        $event.preventDefault();
+        state.index = Math.min(data.results.length, state.index + 1);
+      },
+      closeInput($event) {
+        inputBlur();
+        state.listOpened = false;
+        input.value.parent.focus();
+      },
+      input,
+      clearInput($event) {
+        $event.preventDefault();
+        state.preventBlur = true;
+        input.value.focus();
+        valued.value = null;
+        // inputFocus();
+      },
+      togglePassword($e) {
+        $e.preventDefault();
+        state.preventBlur = true;
+        state.hideText = !state.hideText;
+        inputType.value = state.hideText ? "password" : "text";
+      },
+      enter($e) {
+        if (state.index) {
+          valued.value = this.results[state.index];
+          state.listOpened = state.focused = false;
+          input.value.blur();
+        }
+      },
     };
   },
 };

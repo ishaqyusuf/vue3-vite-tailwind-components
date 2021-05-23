@@ -61,7 +61,7 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import useUser from "@use/user";
 import Nav from "./Nav.vue";
 import menu from "@/hooks/menu";
@@ -71,6 +71,7 @@ export default {
     Nav,
   },
   setup(props, { emit }) {
+    watch(useUser, (value, old) => {});
     return {
       ...useUser,
       loggedIn: useUser.loggedIn,

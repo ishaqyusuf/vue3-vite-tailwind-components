@@ -1,3 +1,5 @@
+import { ComputedRef, Ref, WritableComputedRef } from "@vue/reactivity";
+
 export interface Phone {
   code?: string;
   no?: string;
@@ -47,4 +49,25 @@ export interface TrackingResult {
   trackings?: Tracking[];
   parcel?: Parcel;
   error?: any;
+}
+
+export interface TableStructure {
+  name: string;
+  title: string;
+  fontMedium?: boolean;
+  btnProps?: object;
+  btnLink?: boolean;
+}
+export interface TableWorker {
+  toggleAll?;
+  extendedItems?;
+  updateItem?;
+  setCheckedItemsById?;
+  init?;
+  data?;
+  ids?: Ref<number[]>;
+  items?: Ref<any[]>;
+  itemByIds?: Ref<{ [id in number]: any }>;
+  checkedIds?: Ref<number[]>;
+  clear?;
 }

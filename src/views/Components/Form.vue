@@ -1,7 +1,27 @@
 <template>
   <Container>
     <div class="grid grid-cols-4 gap-10 w-full">
-      <div class="bg-black-700">
+      <ValidInput
+        label="Country"
+        :items="geo.countries.value"
+        @selected="geo.countryChange(country)"
+        auto-complete
+        v-model="country"
+      ></ValidInput>
+      <ValidInput
+        auto-complete
+        :items="geo.states.value"
+        @selected="geo.stateChange(state)"
+        v-model="state"
+        label="State"
+      ></ValidInput>
+      <ValidInput
+        v-model="city"
+        auto-complete
+        :items="geo.cities.value"
+        label="City"
+      ></ValidInput>
+      <div class="bg-black-700 p-2 rounded-lg">
         <ValidInput
           prefix="NGN"
           v-model="input3"
@@ -66,10 +86,14 @@
 import { ref, onMounted, reactive, toRefs } from "vue";
 import useTime from "@/hooks/time";
 import loaderHook from "@/hooks/dataLoader";
+import { geo as _geo } from "@/hooks/country";
 export default {
   props: {},
   setup(props, { emit }) {
     const inputs = reactive({
+      country: "Nigeria",
+      state: "",
+      city: "",
       input1: "Hellos",
       input3: "Hellos",
       input4: "",
@@ -82,6 +106,8 @@ export default {
     const action = async () => {
       await useTime.delay(3000);
     };
+    const geo = _geo();
+    geo.initialize(inputs.country, inputs.state, inputs.city);
     onMounted(() => {
       loaderHook.initCouriers().then((d) => {});
     });
@@ -92,6 +118,7 @@ export default {
         });
       });
     };
+
     const finallys = () => {};
     return {
       ...toRefs(inputs),
@@ -115,6 +142,7 @@ export default {
           })
       ),
       ...loaderHook,
+      geo,
     };
   },
 };

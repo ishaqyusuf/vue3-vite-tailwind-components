@@ -46,7 +46,6 @@ export default {
     const parcelView = ref<any[]>([]);
     watch(useParcel.parcel, (first, second) => initParcelView(second));
     const initParcelView = (parcel) => {
-      console.log(parcel);
       const {
         length,
         width,
@@ -77,7 +76,6 @@ export default {
     };
 
     initParcelView(useParcel.parcel);
-    console.log(useParcel.parcel);
     return {
       ...useParcel,
       editParcel: ref(false),

@@ -2,7 +2,7 @@
   <Loader v-if="isLoading"></Loader>
   <template v-else>
     <div class="inline-flex justify-end">
-      <Btn>Update Tracking</Btn>
+      <Btn @click="editor.init({})">Update Tracking</Btn>
     </div>
     <div class="">
       <TrackingStatusItem

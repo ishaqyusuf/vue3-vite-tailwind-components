@@ -67,20 +67,14 @@
                     {{ ok }}
                   </button>
                   <template v-else>
-                    <button
-                      type="button"
-                      class="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      @click="closeModal()"
-                    >
-                      {{ cancel }}
-                    </button>
-                    <button
-                      type="button"
-                      class="inline-flex justify-center px-4 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      @click="closeModal(true)"
+                    <Btn @click="closeModal" color="red-500"> {{ cancel }}</Btn>
+                    <Btn
+                      :async="okAction != null"
+                      :action="okBtn"
+                      color="green-500"
                     >
                       {{ ok }}
-                    </button>
+                    </Btn>
                   </template>
                 </div></slot
               >
@@ -95,6 +89,7 @@
 <script lang="ts">
 import { ref } from "vue";
 import { useModelWrapper } from "@/use/modelWrapper";
+import alert from "@/hooks/alert";
 import {
   TransitionRoot,
   TransitionChild,
@@ -124,13 +119,20 @@ export default {
   },
   setup(props, { emit }) {
     const isOpen = useModelWrapper(props, emit);
+    const closeModal = (ok = false) => {
+      isOpen.value = false;
+      ok && emit("ok");
+    };
     return {
       isOpen,
-
-      closeModal(ok = false) {
-        isOpen.value = false;
-        ok && emit("ok");
+      async okBtn() {
+        if (props.okAction) {
+          const { msg, error } = await props.okAction();
+          alert.register(msg, error);
+        }
+        closeModal(true);
       },
+      closeModal,
     };
   },
 };

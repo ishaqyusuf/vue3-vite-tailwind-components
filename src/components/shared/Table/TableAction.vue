@@ -8,7 +8,7 @@
     leave-to-class="transform scale-95 opacity-0"
   >
     <Container
-      v-if="showFloatingAction"
+      v-if="show && selection > 0"
       simple
       class="fixed z-50 inline-flex origin-bottom justify-between shadow-xl bottom-0 mb-4 w-full p-4 rounded-full bg-black-800 text-gray-50"
     >
@@ -61,7 +61,8 @@
 </template>
 
 <script lang="ts">
-import { ref, computed } from "vue";
+import { TableWorker } from "@/@types/Interface";
+import { ref, computed, watch } from "vue";
 
 export default {
   props: {
@@ -72,13 +73,17 @@ export default {
     print: Boolean,
     label: Boolean,
     hasMore: Boolean,
+    worker: { type: Object as () => TableWorker, required: true },
   },
   setup(props, { emit }) {
+    const { data } = props.worker;
+    const checkedCount = () => data.checkedIds.length;
+    const selection = ref<number>(checkedCount());
+    watch(data, (value, old) => {
+      selection.value = checkedCount();
+    });
     return {
-      selection: computed(() => props.items.filter((i) => i.checked).length),
-      showFloatingAction: computed(
-        () => props.show && props.items?.some((i) => i.checked)
-      ),
+      selection,
       close: () => {
         props.items.map((i) => (i.checked = false));
       },

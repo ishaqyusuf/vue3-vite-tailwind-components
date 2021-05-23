@@ -1,4 +1,4 @@
-export default interface TableStructureInterface {
+export interface TableStructureInterface {
   name: string;
   title: string;
   fontMedium?: boolean;

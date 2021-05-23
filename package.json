@@ -41,6 +41,7 @@
     "lodash": "^4.17.21",
     "mitt": "^2.1.0",
     "nprogress": "^0.2.0",
+    "portal-vue": "^2.1.7",
     "qs": "^6.7.0",
     "require-context": "^1.1.0",
     "rollup-plugin-analyzer": "^4.0.0",

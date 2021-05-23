@@ -2,7 +2,7 @@
   <Card style="min-height: 45vh" class="py-6">
     <card-content>
       <card-title class="px-0">Sign in to your account</card-title>
-      <form autocomplete="off" class="w-full space-y-6">
+      <form autocomplete="off" class="w-full flex flex-col space-y-6">
         <Input
           v-model="form.user"
           name="email"
@@ -27,7 +27,7 @@
           </div>
           <Input
             v-model="form.password"
-            type="password"
+            password
             required
             pattern=".*\S*.*"
             name="password"

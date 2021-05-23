@@ -34,5 +34,6 @@ export default {
     appendIcon: String,
     appendInnerIcon: String,
     label: String,
+    source: String,
   },
 };

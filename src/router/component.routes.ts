@@ -11,12 +11,12 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: "form",
-        name: "form",
+        name: "form-component",
         component: () => import("../views/Components/Form.vue"),
       },
       {
         path: "table",
-        name: "table",
+        name: "table-component",
         component: () => import("../views/Components/TableComponent.vue"),
       },
     ],

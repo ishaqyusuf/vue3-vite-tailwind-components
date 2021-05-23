@@ -1,6 +1,18 @@
 <template>
   <div class="">
     <div class="sm:space-x-4 mobile:space-y-4 flex mobile:flex-col">
+      <Menu v-if="devMode">
+        <span class="link-style">Components</span>
+        <template #items>
+          <MenuLinkItem
+            v-for="(child, index) in componentMenu"
+            :to="child.to"
+            :key="index"
+          >
+            {{ child.title }}
+          </MenuLinkItem>
+        </template>
+      </Menu>
       <template v-if="guest || !loggedIn">
         <Link :to="{ name: 'tracking' }">Tracking</Link>
         <Link
@@ -44,6 +56,11 @@ export default {
       guest: computed(() => user.permission.value.length == 0),
       loggedIn: computed(() => user.loggedIn.value),
       navs: computed(() => navHook.menu),
+      componentMenu: [
+        { title: "Form", to: { name: "form-component" } },
+        { title: "Table", to: { name: "table-component" } },
+      ],
+      devMode: import.meta.env.NODE_ENV !== "production",
     };
   },
 };

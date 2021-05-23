@@ -20,9 +20,48 @@ const search = async (code) => {
   }
   loading.value = false;
 };
+const save = async (form) => {
+  return new Promise((resolve, reject) => {
+    // $clientApi.
+
+    const url = ["/tracker", form.id].filter(Boolean).join("/");
+    const data = { data: form };
+    const req = form.id
+      ? $clientApi.patch(url, data)
+      : $clientApi.post(url, data);
+    console.log(form);
+    req
+      .then((response) => {
+        const { data } = response;
+        var msg = data.error;
+        const error = msg != null;
+        if (!error) {
+          msg = "Saved!.";
+          var trackings = result.value.trackings;
+          if (!trackings) trackings = [];
+          const index = trackings?.findIndex((t) => t.id == data.id) ?? -1;
+          if (index > -1) trackings[index] = data;
+          else trackings.push(data);
+          console.log(trackings.length);
+          console.log(result.value.trackings?.length);
+        }
+        resolve({
+          msg,
+          error,
+        });
+      })
+      .catch((error) => {
+        resolve({
+          msg: "Something went wrong! Try again",
+          error: true,
+        });
+      });
+  });
+};
 
 export default {
   trackCode,
+  save,
   result,
   isLoading: computed(() => loading.value),
   parcel: computed(() => result.value.parcel),

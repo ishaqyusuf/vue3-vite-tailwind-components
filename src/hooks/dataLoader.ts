@@ -11,6 +11,8 @@ const data = reactive({
   couriers: [],
   locationLoaded: false,
   locations: [],
+  trackNoteLoaded: false,
+  trackNotes: [],
 });
 const getSomething = async (what) => {
   return new Promise<never[]>((resolve, reject) => {
@@ -34,6 +36,14 @@ const initCouriers = async () => {
     });
   }
 };
+const initTrackNotes = async () => {
+  if (!data.trackNoteLoaded) {
+    getSomething("/track_notes").then((items) => {
+      data.trackNotes = items;
+      data.trackNoteLoaded = true;
+    });
+  }
+};
 const initLocations = async () => {
   if (!data.locationLoaded) {
     getSomething("/locations").then((items) => {
@@ -49,6 +59,7 @@ const updateCouriers = (value) => {
 export default {
   initLocations,
   initCouriers,
+  initTrackNotes,
   updateCouriers,
   ...toRefs(data),
 };
