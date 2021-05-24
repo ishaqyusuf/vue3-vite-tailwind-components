@@ -72,35 +72,41 @@
       v-if="action"
     >
       <div class="inline-flex">
-        <slot :name="deletable">
-          <Btn
-            dense
-            :icon="!textAction"
-            color="red-600"
-            large
-            confirm
-            auto-ignore
-            :text="textAction"
-          >
-            <i-mdi-delete-outline v-if="!textAction" />
-            <span v-else class="text-green-600">Delete</span>
-          </Btn>
-        </slot>
-        <slot :name="editable">
-          <Btn dense :icon="!textAction" large :text="textAction">
-            <i-mdi-pencil-box-multiple-outline v-if="!textAction" />
-            <span v-else class="text-green-600">Edit</span>
-          </Btn>
-        </slot>
-        <SimpleMenu open-on-hover rtl v-if="moreAction">
-          <Btn dense :icon="!textAction" large :text="textAction">
-            <i-mdi-dots-horizontal v-if="!textAction" />
-            <span v-else>More</span>
-          </Btn>
-          <template v-slot:items>
-            <slot name="menu" />
-          </template>
-        </SimpleMenu>
+        <slot name="actions" :item="item">
+          <slot name="more-actions" :item="item"></slot>
+          <slot name="delete-btn" :item="item">
+            <Btn
+              dense
+              :icon="!textAction"
+              color="red-600"
+              large
+              async
+              :action="deleteItem"
+              confirm
+              auto-ignore
+              :text="textAction"
+            >
+              <i-mdi-delete-outline v-if="!textAction" />
+              <span v-else class="text-green-600">Delete</span>
+            </Btn>
+          </slot>
+          <slot name="edit-btn" :item="item">
+            <Btn dense :icon="!textAction" large :text="textAction">
+              <i-mdi-pencil-box-multiple-outline v-if="!textAction" />
+              <span v-else class="text-green-600">Edit</span>
+            </Btn>
+          </slot>
+          <SimpleMenu open-on-hover rtl v-if="moreAction">
+            <slot name="menu-btn" :item="item">
+              <Btn dense :icon="!textAction" large :text="textAction">
+                <i-mdi-dots-horizontal v-if="!textAction" />
+                <span v-else>More</span>
+              </Btn>
+            </slot>
+            <template v-slot:items>
+              <slot name="menu-items" :item="item" />
+            </template> </SimpleMenu
+        ></slot>
       </div>
     </td>
   </TransitionRoot>
@@ -134,6 +140,9 @@ export default {
     return {
       item,
       checked,
+      deleteItem: async () => {
+        return worker.deleteItem(props.index);
+      },
     };
   },
 };

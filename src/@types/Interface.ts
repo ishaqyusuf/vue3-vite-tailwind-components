@@ -73,4 +73,5 @@ export interface TableWorker {
   checkedIds?: Ref<number[]>;
   reset?;
   clearChecks?;
+  deleteItem?;
 }

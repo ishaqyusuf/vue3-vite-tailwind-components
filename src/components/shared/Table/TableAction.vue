@@ -88,7 +88,7 @@ export default {
         props.worker.clearChecks();
       },
       emitAction: (action) => {
-        emit(action);
+        emit("emitAction", action);
       },
     };
   },

@@ -54,6 +54,7 @@
           v-bind="$props"
           :index="id"
           :key="index"
+          @emitAction="emitAction"
         >
           <template
             v-for="(slot, index) in slots"
@@ -66,13 +67,6 @@
               :header="slotProps.header"
             />
           </template>
-          <!-- <template
-            v-for="(slot, index) in ['description']"
-            :key="index"
-            v-slot:[slot]="slotProps"
-          >
-            <slot :name="slot" :note="slotProps.note"></slot>
-          </template> -->
         </TableRow>
       </tbody>
     </table>
@@ -101,21 +95,31 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     onMounted(() => {});
-    // const items = computed(() => props.data);
     const { checkAll } = props.worker;
     const slots = ref<string[]>(
-      props.structure
-        ?.map((struct) => {
+      [
+        ...props.structure?.map((struct) => {
           return ["before_*", "*", "*_prefix", "*_suffix", "after_*"].map((s) =>
             s.replace("*", struct.name)
           );
-        })
-        .flat()
+        }),
+        [
+          "edit-btn",
+          "menu-btn",
+          "menu-items",
+          "actions",
+          "delete-btn",
+          "more-actions",
+        ],
+      ].flat()
     );
     return {
       checkAll,
       slots,
       ids: computed(() => props.worker.data.ids),
+      emitAction: (action, data) => {
+        emit(action, data);
+      },
     };
   },
 });

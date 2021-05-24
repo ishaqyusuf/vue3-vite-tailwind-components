@@ -69,9 +69,7 @@ export function tableHook<T>(): TableWorker {
       });
     }
   };
-  const deleteItem = (id) => {
-    const index = data.items.findIndex((v) => v.id);
-  };
+
   const checkAll = computed({
     get: () => {
       return data.ids.every((id) => data.checkedIds.includes(id));
@@ -88,9 +86,14 @@ export function tableHook<T>(): TableWorker {
     if (isChecked && index === -1) data.checkedIds.push(id);
     else if (!isChecked && index !== 1) data.checkedIds.splice(index, 1);
   };
-  const initialize = (items: any[] = [], _transformer = null) => {
+  const initialize = (
+    items: any[] = [],
+    _transformer = null,
+    _actions: tableAction = {}
+  ) => {
     reset();
     transformer.value = _transformer;
+    actions.value = _actions;
     refresh(items, true);
   };
   const refresh = (_items: any[] = [], clearState = false) => {
@@ -114,6 +117,25 @@ export function tableHook<T>(): TableWorker {
     return transformer.value(item) ?? item;
   };
 
+  const deleteItem = async (id) => {
+    return performAction("delete", id, () => {
+      const index = data.ids.findIndex((v) => v == id);
+      if (index > -1) data.ids.splice(index, 1);
+    });
+  };
+  const performAction = async (_action, id, then) => {
+    const getAction = actions.value[_action];
+    if (getAction)
+      getAction.async ? await getAction.action(id) : getAction.action(id);
+    then();
+  };
+  type tableAction = {
+    [id in string]: {
+      action?: any;
+      async?: Boolean;
+    };
+  };
+  const actions = ref<tableAction>({});
   return {
     reset,
     checkAll,
@@ -124,6 +146,7 @@ export function tableHook<T>(): TableWorker {
     initialize,
     refresh,
     data,
+    deleteItem,
     clearChecks,
   };
 }

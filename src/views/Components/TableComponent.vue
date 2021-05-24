@@ -12,6 +12,7 @@
     action
     deletable
   >
+    <template v-slot:more-actions="{ item }"> </template>
   </StandardTable>
   <TableAction :worker="tableData" show edit deletable print></TableAction>
 </template>
