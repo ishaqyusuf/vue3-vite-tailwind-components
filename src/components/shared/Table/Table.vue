@@ -28,11 +28,11 @@
                 'py-3': !dense,
               },
             ]"
-            v-for="(item, index) in structure"
+            v-for="(struct, index) in structure"
             :key="index"
           >
-            <slot :name="item.name + '_head'">
-              {{ item.title }}
+            <slot :name="struct.name + '_head'">
+              {{ struct.title }}
             </slot>
           </th>
           <th
@@ -83,42 +83,53 @@
               {
                 'py-2 px-3': dense,
                 'py-3 px-6': !dense,
-                'font-medium': item.fontMedium,
+                'font-medium': struct.fontMedium,
               },
             ]"
-            v-for="(item, index) in structure"
-            @mouseenter="item.hover = true"
-            @mouseleave="item.hover = false"
+            v-for="(struct, index) in structure"
+            @mouseenter="struct.hover = true"
+            @mouseleave="struct.hover = false"
             :key="index"
           >
-            <slot :name="'before_' + item.name" :header="item" :item="itemData">
+            <slot
+              :name="'before_' + struct.name"
+              :header="struct"
+              :item="itemData"
+            >
             </slot>
-            <slot :name="item.name" :header="item" :item="itemData">
-              <span class="block" v-if="!itemData[item.name + '_link']">
+            <slot :name="struct.name" :header="struct" :item="itemData">
+              <span class="block" v-if="!itemData[struct.name + '_link']">
                 <slot
-                  :name="item.name + '_prefix'"
-                  :header="item"
+                  :name="struct.name + '_prefix'"
+                  :header="struct"
                   :item="itemData"
                 >
                 </slot>
-                {{ itemData[item.name] }}
+                {{ itemData[struct.name] }}
                 <slot
-                  :name="item.name + '_suffix'"
-                  :header="item"
+                  :name="struct.name + '_suffix'"
+                  :header="struct"
                   :item="itemData"
                 >
                 </slot>
               </span>
               <template v-else>
-                <button class="bg-gray-100 px-1 leading-6" v-if="item.btnLink">
-                  {{ itemData[item.name] }}
+                <button
+                  class="bg-gray-100 px-1 leading-6"
+                  v-if="struct.btnLink"
+                >
+                  {{ itemData[struct.name] }}
                 </button>
-                <router-link :to="itemData[item.name + '_link']" v-else>{{
-                  itemData[item.name]
+                <router-link :to="itemData[struct.name + '_link']" v-else>{{
+                  itemData[struct.name]
                 }}</router-link>
               </template>
             </slot>
-            <slot :name="'after_' + item.name" :header="item" :item="itemData">
+            <slot
+              :name="'after_' + struct.name"
+              :header="struct"
+              :item="itemData"
+            >
             </slot>
           </td>
           <td
@@ -208,7 +219,7 @@ export default defineComponent({
     });
     onMounted(() => {
       // props.items.map((item) => {
-      //   item.deleted = false;
+      //   struct.deleted = false;
       // });
     });
     // const items = computed(() => props.data);

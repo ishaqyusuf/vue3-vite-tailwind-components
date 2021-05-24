@@ -17,7 +17,7 @@
             ]"
             v-if="checkable"
           >
-            <Checkbox v-model="toggleAll"></Checkbox>
+            <Checkbox v-model="checkAll"></Checkbox>
           </th>
           <th
             scope="col"
@@ -50,11 +50,22 @@
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
         <TableRow
-          v-for="(id, index) in $props.worker?.data.ids"
+          v-for="(id, index) in ids"
           v-bind="$props"
           :index="id"
           :key="index"
         >
+          <template
+            v-for="(slot, index) in slots"
+            :key="index"
+            v-slot:[slot]="slotProps"
+          >
+            <slot
+              :name="slot"
+              :item="slotProps.item"
+              :header="slotProps.header"
+            />
+          </template>
           <!-- <template
             v-for="(slot, index) in ['description']"
             :key="index"
@@ -66,11 +77,17 @@
       </tbody>
     </table>
   </div>
-  <!-- <TableAction :items="items" :show="floatingAction"></TableAction> -->
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted, PropType } from "vue";
+import {
+  defineComponent,
+  computed,
+  onMounted,
+  ref,
+  PropType,
+  watch,
+} from "vue";
 import { TransitionRoot } from "@headlessui/vue";
 import table from "@/hooks/table";
 import { TableWorker } from "@/@types/Interface";
@@ -85,8 +102,20 @@ export default defineComponent({
   setup(props, { emit }) {
     onMounted(() => {});
     // const items = computed(() => props.data);
+    const { checkAll } = props.worker;
+    const slots = ref<string[]>(
+      props.structure
+        ?.map((struct) => {
+          return ["before_*", "*", "*_prefix", "*_suffix", "after_*"].map((s) =>
+            s.replace("*", struct.name)
+          );
+        })
+        .flat()
+    );
     return {
-      toggleAll: props.worker.toggleAll,
+      checkAll,
+      slots,
+      ids: computed(() => props.worker.data.ids),
     };
   },
 });

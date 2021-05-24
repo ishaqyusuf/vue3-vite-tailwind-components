@@ -60,14 +60,17 @@ export interface TableStructure {
 }
 export interface TableWorker {
   toggleAll?;
+  checkAll?;
   extendedItems?;
   updateItem?;
   setCheckedItemsById?;
-  init?;
+  initialize?;
+  refresh?;
   data?;
   ids?: Ref<number[]>;
   items?: Ref<any[]>;
   itemByIds?: Ref<{ [id in number]: any }>;
   checkedIds?: Ref<number[]>;
-  clear?;
+  reset?;
+  clearChecks?;
 }

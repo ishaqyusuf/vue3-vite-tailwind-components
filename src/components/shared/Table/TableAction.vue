@@ -85,11 +85,10 @@ export default {
     return {
       selection,
       close: () => {
-        props.items.map((i) => (i.checked = false));
+        props.worker.clearChecks();
       },
       emitAction: (action) => {
         emit(action);
-        console.log(action);
       },
     };
   },

@@ -30,7 +30,7 @@
         {
           'py-2 px-3': dense,
           'py-3 px-6': !dense,
-          'font-medium': item.fontMedium,
+          'font-medium': struct.fontMedium,
         },
       ]"
       v-for="(struct, index) in structure"
@@ -107,7 +107,7 @@
 </template>
 
 <script lang="ts">
-import { computed, PropType, ref } from "vue";
+import { computed, PropType, ref, watch } from "vue";
 import table from "@/hooks/table";
 import { TransitionRoot } from "@headlessui/vue";
 export default {
@@ -119,15 +119,16 @@ export default {
     index: { type: Number, required: true },
   },
   setup(props, { emit }) {
-    const { worker, index } = props;
-    const { data } = worker;
-    const item = computed(() => data.itemByIds[index]);
+    const { data, ...worker } = props.worker;
+
+    const item = computed(() => data.itemByIds[props.index]);
+
     const checked = computed({
       get: () => {
-        return data.checkedIds?.includes(index);
+        return data.checkedIds?.includes(props.index);
       },
       set: (isChecked) => {
-        worker.setCheckedItemsById({ id: index, isChecked });
+        worker.setCheckedItemsById({ id: props.index, isChecked });
       },
     });
     return {

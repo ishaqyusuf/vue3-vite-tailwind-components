@@ -52,7 +52,7 @@ export function tableHook<T>(): TableWorker {
     itemByIds: {},
     checkedIds: [],
   });
-
+  const items = ref<any[]>([]);
   const extendedItems = computed(() => {
     return data.ids.map((id) => ({
       id,
@@ -69,33 +69,44 @@ export function tableHook<T>(): TableWorker {
       });
     }
   };
-  const toggleAll = computed({
+  const deleteItem = (id) => {
+    const index = data.items.findIndex((v) => v.id);
+  };
+  const checkAll = computed({
     get: () => {
       return data.ids.every((id) => data.checkedIds.includes(id));
     },
     set: (isChecked) => {
-      data.ids.map((id) => setCheckedItemsById({ id, isChecked }));
+      toggleAll(isChecked);
     },
   });
+  const clearChecks = () => data.checkedIds.splice(0);
+  const toggleAll = (isChecked) =>
+    data.ids.map((id) => setCheckedItemsById({ id, isChecked }));
   const setCheckedItemsById = ({ id, isChecked }) => {
     const index = data.checkedIds.indexOf(id);
     if (isChecked && index === -1) data.checkedIds.push(id);
     else if (!isChecked && index !== 1) data.checkedIds.splice(index, 1);
   };
-  const init = (items: any[] = [], _transformer = null) => {
+  const initialize = (items: any[] = [], _transformer = null) => {
+    reset();
     transformer.value = _transformer;
-    // data.ids = items.map((item) => item.id);
-
-    data.itemByIds = {};
-    data.ids = [];
-    data.items = items.map((item) => {
-      data.itemByIds[item.id] = item;
-      data.ids.push(item.id);
-      return Object.freeze(item);
-    });
+    refresh(items, true);
   };
-  const clear = () => {
-    data.ids = [];
+  const refresh = (_items: any[] = [], clearState = false) => {
+    if (clearState) data.checkedIds = [];
+    data.items = [];
+    data.itemByIds = {};
+    data.ids.splice(0);
+    // [data.items, data.ids].map((arr) => arr.splice(0));
+    const newItems = (items.value = data.items = _items.map((item) => {
+      const freezed = (data.itemByIds[item.id] = Object.freeze(item));
+      data.ids.indexOf(item.id) < 0 && data.ids.push(item.id);
+      return freezed;
+    }));
+  };
+  const reset = () => {
+    data.ids = data.checkedIds = data.items = [];
   };
   const transformer = ref<any>(null);
 
@@ -104,13 +115,15 @@ export function tableHook<T>(): TableWorker {
   };
 
   return {
-    clear,
+    reset,
+    checkAll,
     toggleAll,
-    ...toRefs(data),
     extendedItems,
     updateItem,
     setCheckedItemsById,
-    init,
+    initialize,
+    refresh,
     data,
+    clearChecks,
   };
 }

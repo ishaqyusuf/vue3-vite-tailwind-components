@@ -1,11 +1,10 @@
 <template>
-  <Btn color="blue">
-    <span>Hello</span>
-  </Btn>
-  <Btn :to="{ name: 'login' }" loading>
-    <span>Hello</span>
-  </Btn>
-  {{ tableData.data.checkedIds.length }}
+  <div class="inline-flex item-center space-x-2">
+    <Btn @click="prev">Prev</Btn>
+    <Btn @click="next">Next</Btn>
+    <Btn @click="reset">Reset</Btn>
+    <span>page:{{ page }}</span>
+  </div>
   <StandardTable
     :structure="structure"
     :worker="tableData"
@@ -13,10 +12,6 @@
     action
     deletable
   >
-    <!-- <template v-slot:after_parcel="{ item }"> </template> -->
-    <!-- <template v-slot:description="{ note }">
-      <div class="">Hello From Deep Slot {{ note }}</div>
-    </template> -->
   </StandardTable>
   <TableAction :worker="tableData" show edit deletable print></TableAction>
 </template>
@@ -25,11 +20,11 @@
 import { TableStructure } from "@/@types/Interface";
 import { defineComponent, toRefs, ref, unref } from "vue";
 import { tableHook } from "@/hooks/table";
-import parcel from "@/use/parcels";
 import time from "@/hooks/time";
 export default {
   setup(props, { emit }) {
     const structure = ref<TableStructure[]>([
+      { name: "id", title: "#" },
       {
         name: "parcel",
         btnLink: true,
@@ -39,28 +34,43 @@ export default {
       },
       { name: "client", title: "Client" },
     ]);
-    const loadData = (count, startIndex = 0) => {
-      return new Array(count).fill(null).map((v, index) => {
+    const loadData = () => {
+      return new Array(ipp).fill(null).map((v, index) => {
+        const id = index + ipp * page.value;
         return {
-          id: index + startIndex,
-          parcel: "AKDJALKJEKLJEKALJELKA",
+          id,
+          parcel: "Parcel " + id,
           parcel_link: { to: "" },
           client: "Ishaq Yusuf",
         };
       });
     };
-    const data = loadData(10, 10);
-
+    const ipp = 5;
+    const page = ref(1);
+    const next = () => {
+      page.value++;
+      tableData.refresh(loadData());
+    };
     const tableData = tableHook<any>();
-    tableData.init(data);
+    tableData.initialize(loadData());
     time.delay(2000).then((d) => {
-      tableData.clear();
-      tableData.init(loadData(20, 4));
+      next();
+      // tableData.updateItem(5, { parcel: ".w" });
     });
+
     return {
+      page,
+      next,
+      prev: () => {
+        page.value = Math.max(1, page.value - 1);
+        tableData.refresh(loadData());
+      },
+      reset: () => {
+        page.value = 1;
+        tableData.initialize(loadData());
+      },
       tableData,
       structure,
-      data,
     };
   },
 };
