@@ -29,7 +29,6 @@ const save = async (form) => {
     const req = form.id
       ? $clientApi.patch(url, data)
       : $clientApi.post(url, data);
-    console.log(form);
     req
       .then((response) => {
         const { data } = response;
@@ -42,8 +41,6 @@ const save = async (form) => {
           const index = trackings?.findIndex((t) => t.id == data.id) ?? -1;
           if (index > -1) trackings[index] = data;
           else trackings.push(data);
-          console.log(trackings.length);
-          console.log(result.value.trackings?.length);
         }
         resolve({
           msg,

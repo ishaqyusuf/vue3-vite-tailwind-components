@@ -74,14 +74,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-  onMounted,
-  ref,
-  PropType,
-  watch,
-} from "vue";
+import { defineComponent, computed, onMounted, ref, PropType } from "vue";
 import { TransitionRoot } from "@headlessui/vue";
 import table from "@/hooks/table";
 import { TableWorker } from "@/@types/Interface";

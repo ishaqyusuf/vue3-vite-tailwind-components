@@ -1,6 +1,6 @@
 <template>
   <TransitionRoot appear :show="isOpen" as="template">
-    <Dialog as="div" @close="closeModal">
+    <Dialog :open="isOpen" as="div">
       <div class="fixed inset-0 z-10 overflow-y-auto">
         <div class="min-h-screen px-4 text-center">
           <TransitionChild
@@ -67,7 +67,9 @@
                     {{ ok }}
                   </button>
                   <template v-else>
-                    <Btn @click="closeModal" color="red-500"> {{ cancel }}</Btn>
+                    <Btn @click="closeModal(false)" color="red-500">
+                      {{ cancel }}</Btn
+                    >
                     <Btn
                       :async="okAction != null"
                       :action="okBtn"
@@ -88,7 +90,7 @@
 
 <script lang="ts">
 import { ref } from "vue";
-import { useModelWrapper } from "@/use/modelWrapper";
+import { emits, useModelWrapper } from "@/use/modelWrapper";
 import alert from "@/hooks/alert";
 import {
   TransitionRoot,
@@ -106,12 +108,12 @@ export default {
     DialogOverlay,
     DialogTitle,
   },
-  emits: ["ok"],
+  emits: [...emits, "ok"],
   props: {
     title: String,
     ok: { type: String, default: "Ok" },
     cancel: { type: String, default: "Cancel" },
-    okAction: Object,
+    okAction: Function,
     action: Boolean,
     dense: Boolean,
     info: String,
@@ -119,9 +121,9 @@ export default {
   },
   setup(props, { emit }) {
     const isOpen = useModelWrapper(props, emit);
-    const closeModal = (ok = false) => {
+    const closeModal = (_ok = false) => {
       isOpen.value = false;
-      ok && emit("ok");
+      _ok && emit("ok");
     };
     return {
       isOpen,

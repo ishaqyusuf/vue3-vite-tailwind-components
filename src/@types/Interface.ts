@@ -64,6 +64,8 @@ export interface TableWorker {
   extendedItems?;
   updateItem?;
   setCheckedItemsById?;
+  unshift?;
+  push?;
   initialize?;
   refresh?;
   data?;
@@ -74,4 +76,7 @@ export interface TableWorker {
   reset?;
   clearChecks?;
   deleteItem?;
+  deleteMany?;
+  loading?: Ref<boolean>;
+  deleteSelection?;
 }

@@ -83,7 +83,6 @@
               async
               :action="deleteItem"
               confirm
-              auto-ignore
               :text="textAction"
             >
               <i-mdi-delete-outline v-if="!textAction" />
@@ -141,7 +140,8 @@ export default {
       item,
       checked,
       deleteItem: async () => {
-        return worker.deleteItem(props.index);
+        console.log("working");
+        await worker.deleteItem(props.index);
       },
     };
   },

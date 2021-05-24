@@ -3,9 +3,12 @@
     <Btn @click="prev">Prev</Btn>
     <Btn @click="next">Next</Btn>
     <Btn @click="reset">Reset</Btn>
+    <Btn @click="addRandom(true)">Add Top</Btn>
+    <Btn @click="addRandom">Add Bottom</Btn>
     <span>page:{{ page }}</span>
   </div>
   <StandardTable
+    dense
     :structure="structure"
     :worker="tableData"
     checkable
@@ -19,7 +22,7 @@
 
 <script lang="ts">
 import { TableStructure } from "@/@types/Interface";
-import { defineComponent, toRefs, ref, unref } from "vue";
+import { ref } from "vue";
 import { tableHook } from "@/hooks/table";
 import time from "@/hooks/time";
 export default {
@@ -35,15 +38,18 @@ export default {
       },
       { name: "client", title: "Client" },
     ]);
+    const getItem = (id) => {
+      return {
+        id,
+        parcel: "Parcel " + id,
+        parcel_link: { to: "" },
+        client: "Ishaq Yusuf",
+      };
+    };
     const loadData = () => {
       return new Array(ipp).fill(null).map((v, index) => {
         const id = index + ipp * page.value;
-        return {
-          id,
-          parcel: "Parcel " + id,
-          parcel_link: { to: "" },
-          client: "Ishaq Yusuf",
-        };
+        return getItem(id);
       });
     };
     const ipp = 5;
@@ -58,7 +64,6 @@ export default {
       next();
       // tableData.updateItem(5, { parcel: ".w" });
     });
-
     return {
       page,
       next,
@@ -72,6 +77,10 @@ export default {
       },
       tableData,
       structure,
+      addRandom: (top = false) => {
+        const id = new Date().getUTCMilliseconds();
+        !top ? tableData.push(getItem(id)) : tableData.unshift(getItem(id));
+      },
     };
   },
 };

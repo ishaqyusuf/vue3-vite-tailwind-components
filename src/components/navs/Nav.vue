@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import user from "@use/user";
 import navHook from "@/hooks/nav";
 import NavLink from "@/components/navs/NavLink.vue";

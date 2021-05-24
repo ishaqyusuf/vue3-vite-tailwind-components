@@ -1,49 +1,50 @@
 <template>
-  <button
-    :name="name"
-    :class="[styles]"
-    @click="click"
-    :disabled="isDisabled"
-    type="button"
-  >
-    <div
-      v-if="isLoading"
-      :class="{
-        'absolute left-0 inline-flex items-center justify-center top-0 bottom-0  right-0': true,
-        'opacity-0': !isLoading,
-        'text-gray-900': !primary,
-        'text-white': primary,
-      }"
+  <div>
+    <button
+      :name="name"
+      :class="[styles]"
+      @click.stop="click"
+      :disabled="isDisabled"
+      type="button"
     >
-      <i-mdi-loading class="animate-spin" />
-    </div>
-    <div
-      :class="{
-        'inline-flex items-center justify-center w-full space-x-2': true,
-        'opacity-0': isLoading,
-        'px-4 py-2': !dense && !fab && !icon && !text,
-        'px-2': dense,
-        'text-sm': !xLarge && !large,
-      }"
-    >
-      <slot></slot>
-    </div>
-  </button>
-  <Prompt
-    v-model="confirmAction"
-    title="Are you sure you want to delete"
-    action
-    :info="promptInfo"
-    @ok="click"
-    ok="Yes"
-    cancel="No"
-  />
+      <div
+        v-if="isLoading"
+        :class="{
+          'absolute left-0 inline-flex items-center justify-center top-0 bottom-0  right-0': true,
+          'opacity-0': !isLoading,
+          'text-gray-900': !primary,
+          'text-white': primary,
+        }"
+      >
+        <i-mdi-loading class="animate-spin" />
+      </div>
+      <div
+        :class="{
+          'inline-flex items-center justify-center w-full space-x-2': true,
+          'opacity-0': isLoading,
+          'px-4 py-2': !dense && !fab && !icon && !text,
+          'px-2': dense,
+          'text-sm': !xLarge && !large,
+        }"
+      >
+        <slot></slot>
+      </div>
+    </button>
+    <Prompt
+      v-model="confirmAction"
+      title="Are you sure you want to delete"
+      action
+      :info="promptInfo"
+      @ok="okAction"
+      ok="Yes"
+      cancel="No"
+    />
+  </div>
 </template>
 
 <script lang="ts">
 import { ref, toRef, computed } from "vue";
 import time from "@/hooks/time";
-import PagerInterface from "@/@types/PagerInterface";
 export default {
   // mixins: [btnMixins],
   props: {
@@ -85,7 +86,7 @@ export default {
   },
   setup(props, { emit }) {
     const nativeLoading = ref(false);
-    const isLoading = computed(() => nativeLoading.value); //(props, "loading");
+    const isLoading = computed(() => props.loading || nativeLoading.value); //(props, "loading");
     const {
       fab,
       confirm,
@@ -135,8 +136,21 @@ export default {
       { "bg-white text-gray-700": secondary },
     ]);
     const confirmAction = ref(false);
+    const okAction = async () => {
+      if (props.action) {
+        nativeLoading.value = true;
+        if (props.async) {
+          props.action().then((r) => {
+            nativeLoading.value = false;
+          });
+        } else {
+          emit("result", props.await ? await props.action() : props.action());
+          nativeLoading.value = false;
+        }
+      } else emit("click");
+    };
     const click = async () => {
-      if (confirm && !confirmAction.value) {
+      if (props.confirm && !confirmAction.value) {
         confirmAction.value = true;
         autoIgnore &&
           time.delay(3000).then((d) => {
@@ -162,6 +176,7 @@ export default {
       confirmAction,
       nativeLoading,
       isDisabled,
+      okAction,
       styles,
       primary,
     };

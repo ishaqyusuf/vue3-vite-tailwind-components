@@ -1,6 +1,7 @@
 <template>
   <TransitionRoot
     :as="as"
+    show
     :enter="enter"
     :enter-from="enterFrom"
     :enter-to="enterTo"

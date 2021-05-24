@@ -1,6 +1,8 @@
 import { TableWorker } from "@/@types/Interface";
 import { any } from "cypress/types/bluebird";
 import { ref, computed, reactive, toRefs, PropType } from "vue";
+import alert from "./alert";
+import time from "./time";
 //old query,new query,keys
 const refreshable = (oq, nq, noRefreshKeys = [""], keys = ["page"]) => {
   var canRefresh = false;
@@ -40,7 +42,7 @@ export default {
   refreshable,
 };
 
-export function tableHook<T>(): TableWorker {
+export function tableHook<T>() {
   const data = reactive<{
     items: any[]; //T[];
     ids: number[];
@@ -52,6 +54,7 @@ export function tableHook<T>(): TableWorker {
     itemByIds: {},
     checkedIds: [],
   });
+  const loading = ref(false);
   const items = ref<any[]>([]);
   const extendedItems = computed(() => {
     return data.ids.map((id) => ({
@@ -67,7 +70,7 @@ export function tableHook<T>(): TableWorker {
         ...item,
         ..._item,
       });
-    }
+    } else push(item);
   };
 
   const checkAll = computed({
@@ -88,7 +91,7 @@ export function tableHook<T>(): TableWorker {
   };
   const initialize = (
     items: any[] = [],
-    _transformer = null,
+    _transformer: any = null,
     _actions: tableAction = {}
   ) => {
     reset();
@@ -116,14 +119,38 @@ export function tableHook<T>(): TableWorker {
   const transFormData = (item) => {
     return transformer.value(item) ?? item;
   };
-
-  const deleteItem = async (id) => {
+  const deleteItem = async (id, _alert = true) => {
     return performAction("delete", id, () => {
-      const index = data.ids.findIndex((v) => v == id);
-      if (index > -1) data.ids.splice(index, 1);
+      removeItem(id, true);
     });
   };
+  const deleteMany = async (ids: number[]) => {
+    return performAction("deleteMany", ids, () => {
+      ids.map((id) => removeItem(id, false));
+    });
+  };
+  const deleteSelection = async () => deleteMany(data.checkedIds);
+  const removeItem = (id, _alert = false) => {
+    const index = data.ids.findIndex((v) => v == id);
+    if (index > -1) {
+      data.ids.splice(index, 1);
+      _alert && alert.register("Deleted!");
+    } else _alert && alert.register("Unable to complete", true);
+  };
+
+  const unshift = (item) => {
+    data.ids.unshift(item.id);
+    addItem(item);
+  };
+  const push = (item) => {
+    data.ids.push(item.id);
+    addItem(item);
+  };
+  const addItem = (item) => {
+    data.itemByIds[item.id] = Object.freeze(item);
+  };
   const performAction = async (_action, id, then) => {
+    await time.delay(2000);
     const getAction = actions.value[_action];
     if (getAction)
       getAction.async ? await getAction.action(id) : getAction.action(id);
@@ -148,5 +175,10 @@ export function tableHook<T>(): TableWorker {
     data,
     deleteItem,
     clearChecks,
+    deleteMany,
+    unshift,
+    push,
+    deleteSelection,
+    loading,
   };
 }

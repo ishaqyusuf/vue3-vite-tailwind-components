@@ -1,13 +1,13 @@
 <template>
   <Container class="space-y-4">
     <div class="text-2xl font-bold text-gray-700">Parcels</div>
-    <Table
+    <StandardTable
       checkable
       floating-action
       action
       dense
       deletable
-      :items="items"
+      :worker="tableWorker"
       :structure="structure"
       stickyAction
       hide-actions
@@ -31,9 +31,9 @@
         <SimpleMenuItem>Invoice</SimpleMenuItem>
         <SimpleMenuItem>Update Recipient</SimpleMenuItem>
       </template>
-    </Table>
+    </StandardTable>
     <TableAction
-      :items="items"
+      :worker="tableWorker"
       show
       deletable
       @delete="parcels.deleteParcels(items.filter((item) => item.checked))"
@@ -65,7 +65,8 @@ import parcels from "@/use/parcels";
 import router from "@/router";
 import RecipientColumn from "@/views/Admin/Parcels/RecipientColumn.vue";
 import ParcelColumn from "@/views/Admin/Parcels/ParcelColumn.vue";
-import tableHook from "@/hooks/table";
+import table from "@/hooks/table";
+import { tableHook } from "@/hooks/table";
 import { TableStructure } from "@/@types/Interface";
 import PagerInterface from "@/@types/PagerInterface";
 export default {
@@ -78,6 +79,13 @@ export default {
     onMounted(() => {
       initialize();
     });
+    const tableWorker = tableHook();
+    tableWorker.initialize([], parcels.transform, {
+      // delete: {
+      //   // action: ...
+      // },
+    });
+
     const data = reactive<{
       items: any[];
       pager: PagerInterface;
@@ -88,7 +96,7 @@ export default {
     watch(
       () => router.currentRoute.value.query,
       (r) => {
-        tableHook.refreshable(query, getQuery.value, ["pid"]) && initialize();
+        // tableHook.refreshable(query, getQuery.value, ["pid"]) && initialize();
       }
     );
     const getQuery = computed(() => router.currentRoute.value.query);
@@ -96,7 +104,9 @@ export default {
     const initialize = async () => {
       const _data = await parcels.fetchMany(router.currentRoute.value.query);
       query = getQuery.value;
-      data.items = parcels.transformAll(_data.items);
+      // data.items = parcels.transformAll(_data.items);
+
+      tableWorker.refresh(_data.items);
       data.pager = _data.pager;
     };
     const structure: TableStructure[] = [
@@ -121,6 +131,7 @@ export default {
       structure,
       parcels,
       openModal: ref(true),
+      tableWorker,
       fine() {
         console.log("......");
       },

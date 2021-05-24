@@ -1,24 +1,24 @@
 <template>
   <input type="hidden" id="copy-track" v-model="item.track_code" />
   <div class="relative">
-    <AnimatedContainer as="template">
-      <div
-        v-if="itemHover || floatingMenuHover"
-        @mouseenter="floatingMenuMouseEnter"
-        @mouseleave="floatingMenuMouseLeave"
-        class="absolute transform -translate-y-12 h-0 top-0 right-0 w-full"
-      >
-        <div class="inline-flex flex-col items-center">
-          <button
-            @click="copy"
-            class="p-2 sm:px-4 rounded-lg bg-black-900 text-white hover:bg-blue-700 focus:outline-none shadow-lg m-0"
-          >
-            copy
-          </button>
-          <i-mdiPlay class="w-5 h-5 transform rotate-90 -translate-y-2" />
-        </div>
+    <!-- <AnimatedContainer as="template"> -->
+    <div
+      v-if="itemHover || floatingMenuHover"
+      @mouseenter="floatingMenuMouseEnter"
+      @mouseleave="floatingMenuMouseLeave"
+      class="absolute transform -translate-y-12 h-0 top-0 right-0 w-full"
+    >
+      <div class="inline-flex flex-col items-center">
+        <button
+          @click="copy"
+          class="p-2 sm:px-4 rounded-lg bg-black-900 text-white hover:bg-blue-700 focus:outline-none shadow-lg m-0"
+        >
+          copy
+        </button>
+        <i-mdiPlay class="w-5 h-5 transform rotate-90 -translate-y-2" />
       </div>
-    </AnimatedContainer>
+    </div>
+    <!-- </AnimatedContainer> -->
     <router-link
       @mouseenter="linkMouseEnter"
       @mouseleave="linkMouseLeave"
@@ -60,6 +60,7 @@
 <script lang="ts">
 import { computed, ref } from "vue";
 import alert from "@/hooks/alert";
+import time from "@/hooks/time";
 export default {
   props: {
     item: { type: Object, required: true },
@@ -74,17 +75,21 @@ export default {
       floatingMenuHover,
       headerHover: computed(() => props.header.hover),
       itemHover,
-      floatingMenuMouseEnter: () => {
+      floatingMenuMouseEnter: async () => {
+        await time.delay(200);
         floatingMenuHover.value = true;
       },
-      floatingMenuMouseLeave: () => {
+      floatingMenuMouseLeave: async () => {
+        await time.delay(100);
         floatingMenuHover.value = false;
       },
-      linkMouseEnter: () => {
-        itemHover.value = props.item.hover = true;
+      linkMouseEnter: async () => {
+        await time.delay(200);
+        itemHover.value = true;
       },
-      linkMouseLeave: () => {
-        itemHover.value = props.item.hover = false;
+      linkMouseLeave: async () => {
+        await time.delay(200);
+        itemHover.value = false;
       },
       copy: () => {
         let testingCodeToCopy: any = document.querySelector("#copy-track");

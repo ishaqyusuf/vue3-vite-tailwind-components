@@ -1,6 +1,10 @@
 <template>
   <div class="" :class="{ 'text-right': rtl }">
-    <TMenu as="div" class="relative inline-block text-left">
+    <TMenu
+      as="div"
+      class="relative inline-block text-left"
+      style="z-index: 99999"
+    >
       <TMenuButton class="focus:outline-none">
         <slot />
       </TMenuButton>

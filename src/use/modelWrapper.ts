@@ -1,4 +1,5 @@
 import { computed } from "vue";
+export const emits = ["update:modelValue", "onUpdate:modelValue"];
 export function useModelWrapper(
   props,
   emit,
