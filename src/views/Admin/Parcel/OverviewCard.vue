@@ -1,7 +1,7 @@
 <template>
   <Card class="space-y-4">
     <CardTitle class="inline-flex border-b justify-between items-center">
-      <span class="text-sm text-gray-700">Parcel Details</span>
+      <span class="text-lg text-gray-700">Parcel Details</span>
       <Btn tertiary v-if="!editParcel" @click="editParcel = true">Edit</Btn>
     </CardTitle>
     <CardContent
@@ -12,7 +12,7 @@
       <div class="sm:col-span-2 inline-flex">
         <ClientCard :client="parcel.recipient">
           <template #empty>
-            <Btn tertiary>
+            <Btn tertiary @click="selectUser">
               <i-mdiAccountPlus />
               <span>Add Recipient</span>
             </Btn>
@@ -25,62 +25,45 @@
         <span class="sm:col-span-2">{{ item.value }}</span>
       </template>
     </CardContent>
-    <ParcelForm
-      v-else
-      :parcel="parcel"
-      @close="editParcel = false"
-    ></ParcelForm>
+    <ParcelForm v-else :parcel="parcel" @close="closeParcelForm"></ParcelForm>
+    <UserList ref="userls"></UserList>
   </Card>
 </template>
 
 <script lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import useParcel from "@/use/parcels/parcel";
 import ParcelForm from "@/views/Admin/Parcel/ParcelForm.vue";
+import ClientCard from "@/views/Admin/Components/ClientCard.vue";
+import UserList from "@/views/Admin/Components/UserList.vue";
 export default {
   props: {},
   components: {
+    ClientCard,
     ParcelForm,
+    UserList,
+    // UserList: () => import("@/views/Admin/Components/UserList.vue"),
   },
   setup(props, { emit }) {
-    const parcelView = ref<any[]>([]);
-    watch(useParcel.parcel, (first, second) => initParcelView(second));
-    const initParcelView = (parcel) => {
-      const {
-        length,
-        width,
-        weight,
-        weight_unit,
-        height,
-        dimension_unit,
-        track_code,
-        description,
-      } = parcel;
-      parcelView.value = [
-        // ["Track Code", track_code],
-        ["Weight", [weight, weight_unit].filter(Boolean).join(" ")],
-        [
-          "Dimension",
-          [
-            [length, width, height].filter((v) => (!v ? "-" : v)).join("* "),
-            dimension_unit,
-          ].join(" "),
-        ],
-        ["Description", description],
-      ].map((arr) => {
-        return {
-          title: arr[0],
-          value: arr[1]?.trim() ?? "-",
-        };
+    onMounted(() => {});
+    const userls = ref();
+    const closeParcelForm = () => {
+      useParcel.initParcelView();
+      editParcel.value = false;
+    };
+    const editParcel = ref(false);
+    const selectUser = () => {
+      userls.value.open().then((user) => {
+        console.log(user.id);
       });
     };
-
-    initParcelView(useParcel.parcel);
     return {
+      closeParcelForm,
+      selectUser,
+      userls,
+      editParcel,
       ...useParcel,
-      editParcel: ref(false),
       editRecipient: ref(false),
-      parcelView,
     };
   },
 };

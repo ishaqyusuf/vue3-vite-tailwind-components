@@ -1,6 +1,7 @@
 <template>
   <Prompt v-model="show" action :okAction="saveTracking" :title="title">
     <template #info>
+      {{ form }}
       <div class="my-4 grid grid-cols-12 gap-4 items-center">
         <Label class="col-span-4">Status</Label>
         <Input v-model="form.status" class="col-span-8" />
@@ -23,9 +24,10 @@ import { Tracking } from "@/@types/Interface";
 import { ref, onMounted } from "vue";
 import dataLoader from "@/hooks/dataLoader";
 import trackerHook from "@/hooks/tracker";
-import time from "@/hooks/time";
 export default {
-  props: {},
+  props: {
+    hook: Object,
+  },
   setup(props, { emit }) {
     const show = ref(false);
     const title = ref();
@@ -34,10 +36,10 @@ export default {
       dataLoader.initLocations();
       dataLoader.initTrackNotes();
     });
-    const init = (tracking: Tracking) => {
+    const init = (tracking: Tracking, extras = {}) => {
       title.value = tracking.id ? "Edit Tracking" : "Create New Tracking";
       // form.value = tracking;
-      form.value = Object.assign({}, tracking);
+      form.value = Object.assign({}, tracking, extras);
       // console.log(form);
       show.value = true;
     };
@@ -50,9 +52,13 @@ export default {
       init,
       saveTracking: async () => {
         return new Promise((resolve, reject) => {
-          trackerHook.save(form.value).then((data) => {
-            return resolve(data);
-          });
+          trackerHook
+            .save(form.value, (item) =>
+              props.hook.updateItem(item.id, item, false)
+            )
+            .then((data) => {
+              return resolve(data);
+            });
         });
       },
     };

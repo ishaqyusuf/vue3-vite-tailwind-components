@@ -1,7 +1,6 @@
 import { $clientApi } from "@services/client";
 import { $dev } from "@/core/utils/functions";
 import qs from "qs";
-import state from "./state";
 
 const fetchMany = async (query) => {
   try {
@@ -29,9 +28,9 @@ const createOne = async (form) => {
     $dev.error(err);
   }
 };
-const updateOne = async (id, form) => {
+const updateOne = async (id, _data) => {
   try {
-    const { data } = await $clientApi.put(`/parcels/${id}`, form);
+    const { data } = await $clientApi.patch(`/parcels/${id}`, _data);
     return data;
   } catch (err) {
     $dev.error(err);

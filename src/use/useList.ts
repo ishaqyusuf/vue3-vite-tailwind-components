@@ -1,48 +1,7 @@
-import { TableWorker } from "@/@types/Interface";
-import { any } from "cypress/types/bluebird";
-import { ref, computed, reactive, toRefs, PropType } from "vue";
-import alert from "./alert";
-import time from "./time";
-//old query,new query,keys
-const refreshable = (oq, nq, noRefreshKeys = [""], keys = ["page"]) => {
-  var canRefresh = false;
-  var blackList = Object.keys(nq).some((k) =>
-    noRefreshKeys.some((n) => n == k)
-  );
-  if (!blackList)
-    keys.map((k) => {
-      let ov = oq[k];
-      let nv = nq[k];
-      if (!canRefresh)
-        canRefresh =
-          [ov, nv].filter(Boolean).length == 1 || (ov && nv && ov != nv);
-    });
-  return canRefresh;
-};
-export default {
-  props: {
-    editable: Boolean,
-    deletable: Boolean,
-    hideActions: Boolean,
-    hideChecks: Boolean,
-    textAction: Boolean,
-    action: Boolean,
-    floatingAction: Boolean,
-    dense: Boolean,
-    noDivide: Boolean,
-    moreAction: Boolean,
-    noHead: Boolean,
-    checkable: Boolean,
-    stickyAction: Boolean,
-    structure: { type: Object, required: true },
-    pager: Array,
-    onDelete: Object,
-    worker: { type: Object as PropType<TableWorker>, required: true },
-  },
-  refreshable,
-};
+import alert from "@/hooks/alert";
+import { reactive, ref, computed, toRefs } from "@vue/reactivity";
 
-export function tableHook<T>() {
+export default function useList<T>() {
   const data = reactive<{
     items: any[]; //T[];
     ids: number[];
@@ -54,6 +13,8 @@ export function tableHook<T>() {
     itemByIds: {},
     checkedIds: [],
   });
+  const refItemByIds = ref<{ [id in number]: any }>({});
+
   const loading = ref(false);
   const items = ref<any[]>([]);
   const extendedItems = computed(() => {
@@ -104,14 +65,16 @@ export function tableHook<T>() {
   const refresh = (_items: any[] = [], clearState = false) => {
     if (clearState) data.checkedIds = [];
     data.items = [];
-    data.itemByIds = {};
+    refItemByIds.value = data.itemByIds = {};
     data.ids.splice(0);
     // [data.items, data.ids].map((arr) => arr.splice(0));
-    const newItems = (items.value = data.items = _items.map((item) => {
-      const freezed = (data.itemByIds[item.id] = Object.freeze(item));
+    items.value = data.items = _items.map((item) => {
+      const freezed = (refItemByIds.value[item.id] = data.itemByIds[
+        item.id
+      ] = Object.freeze(item));
       data.ids.indexOf(item.id) < 0 && data.ids.push(item.id);
       return freezed;
-    }));
+    });
     loading.value = false;
   };
   const reset = () => {
@@ -167,6 +130,7 @@ export function tableHook<T>() {
   const actions = ref<tableAction>({});
   return {
     reset,
+    refItemByIds,
     checkAll,
     toggleAll,
     extendedItems,
@@ -175,6 +139,7 @@ export function tableHook<T>() {
     initialize,
     refresh,
     data,
+    ...toRefs(data),
     deleteItem,
     clearChecks,
     deleteMany,

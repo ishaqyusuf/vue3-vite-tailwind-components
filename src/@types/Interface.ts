@@ -20,10 +20,12 @@ export interface Parcel {
   created_at?: string;
   department_id?: string;
   description?: string;
+  dimension?: string;
   dimension_unit?: string;
+  courier?: string;
   group_id?: string;
   height?: string;
-  id?: string;
+  id?: number;
   length?: string;
   recipient?: Recipient;
   shipment_id?: number;

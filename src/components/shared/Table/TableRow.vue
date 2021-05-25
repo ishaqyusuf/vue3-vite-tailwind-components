@@ -140,7 +140,6 @@ export default {
       item,
       checked,
       deleteItem: async () => {
-        console.log("working");
         await worker.deleteItem(props.index);
       },
     };

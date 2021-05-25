@@ -24,7 +24,9 @@
     >
       <span class="font-semibold" v-if="prefix">{{ prefix }}</span>
       <slot name="prependInner"></slot>
-      <input
+      <span class="font-semibold" v-if="prefix">{{ prefix }}</span>
+      <textarea
+        v-if="textarea"
         ref="input"
         @input="typing"
         @focus="inputFocus"
@@ -46,7 +48,32 @@
           'py-1': dense,
           'py-2': !dense,
         }"
+      ></textarea>
+      <input
+        ref="input"
+        v-else
+        @input="typing"
+        @focus="inputFocus"
+        @keydown.enter="enter"
+        :type="hideText ? 'password' : 'text'"
+        @blur="inputBlur"
+        v-model="valued"
+        @keydown.up="up"
+        @keydown.esc="closeInput"
+        @keydown.down="down"
+        class="focus:outline-none w-full bg-transparent"
+        tabindex="0"
+        autocomplete="new-password"
+        :name="name"
+        :id="id"
+        :readonly="readonly || select"
+        :class="{
+          'cursor-pointer': select,
+          'py-1': dense,
+          'py-2': !dense,
+        }"
       />
+
       <button
         class="focus:outline-none"
         v-if="clearable && valued"

@@ -35,16 +35,26 @@
               class="inline-block bg-white w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform shadow-xl rounded-2xl"
             >
               <slot name="container"
-                ><slot name="body"
-                  ><slot name="title">
-                    <DialogTitle
-                      v-if="title"
-                      as="h3"
-                      class="text-lg font-medium leading-6 text-gray-900"
+                ><slot name="body">
+                  <div class="inline-flex w-full justify-between">
+                    <slot name="title">
+                      <DialogTitle
+                        v-if="title"
+                        as="h3"
+                        class="text-lg font-medium leading-6 text-gray-900"
+                      >
+                        {{ title }}
+                      </DialogTitle>
+                    </slot>
+                    <div
+                      v-if="cancelable"
+                      class="inline-flex flex-1 justify-end"
                     >
-                      {{ title }}
-                    </DialogTitle>
-                  </slot>
+                      <Btn icon>
+                        <i-mdi-close class="text-base" />
+                      </Btn>
+                    </div>
+                  </div>
                   <slot name="info">
                     <div class="mt-2" v-if="info">
                       <p class="text-sm text-gray-500">
@@ -54,32 +64,31 @@
                   </slot>
                 </slot>
 
-                <div
-                  class="mt-4"
-                  :class="{ 'flex justify-end space-x-2': action }"
-                >
-                  <button
-                    type="button"
-                    v-if="!action"
-                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                    @click="closeModal()"
-                  >
-                    {{ ok }}
-                  </button>
-                  <template v-else>
-                    <Btn @click="closeModal(false)" color="red-500">
-                      {{ cancel }}</Btn
-                    >
-                    <Btn
-                      :async="okAction != null"
-                      :action="okBtn"
-                      color="green-500"
+                <div v-if="!noAction" class="mt-4 flex justify-end space-x-2">
+                  <slot name="action-btn">
+                    <button
+                      type="button"
+                      v-if="!action"
+                      class="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      @click="closeModal()"
                     >
                       {{ ok }}
-                    </Btn>
-                  </template>
-                </div></slot
-              >
+                    </button>
+                    <template v-else>
+                      <Btn @click="closeModal(false)" color="red-500">
+                        {{ cancel }}</Btn
+                      >
+                      <Btn
+                        :async="okAction != null"
+                        :action="okBtn"
+                        color="green-500"
+                      >
+                        {{ ok }}
+                      </Btn>
+                    </template>
+                  </slot>
+                </div>
+              </slot>
             </div>
           </TransitionChild>
         </div>
@@ -115,7 +124,9 @@ export default {
     cancel: { type: String, default: "Cancel" },
     okAction: Function,
     action: Boolean,
+    cancelable: Boolean,
     dense: Boolean,
+    noAction: Boolean,
     info: String,
     modelValue: Boolean,
   },

@@ -11,7 +11,9 @@
             <Btn icon x-large> <i-mdi-arrow-left /> </Btn
           ></router-link>
           <div class="">
-            <CardTitle lg>{{ parcel.track_code }}</CardTitle>
+            <CardTitle lg class="uppercase tracking-wider">{{
+              parcel.track_code
+            }}</CardTitle>
             <CardSubtitle>{{ parcel.status }}</CardSubtitle>
           </div>
         </div>
@@ -34,7 +36,6 @@
 </template>
 
 <script lang="ts">
-import { ref, toRefs } from "vue";
 import useParcel from "@/use/parcels/parcel";
 import ClientCard from "@/views/Admin/Components/ClientCard.vue";
 import OverviewCard from "@/views/Admin/Parcel/OverviewCard.vue";

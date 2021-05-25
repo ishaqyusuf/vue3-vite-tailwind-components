@@ -1,6 +1,6 @@
 <template>
   <slot v-if="!client" name="empty"></slot>
-  <div v-else class="inline-flex items-center space-x-2">
+  <div v-else class="inline-flex items-center space-x-4">
     <Avatar></Avatar>
     <div class="">
       <Label>{{ client.full_name }}</Label>
@@ -17,9 +17,7 @@ export default {
     client: { type: Object },
   },
   setup(props, { emit }) {
-    watch(props.client, (f, s) => {
-      console.log(s);
-    });
+    watch(props, (value, old) => {});
     return {};
   },
 };

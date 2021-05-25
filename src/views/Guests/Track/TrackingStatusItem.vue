@@ -62,7 +62,9 @@
           </span>
           <template v-else>
             <div class="sm:space-x-1 sm:flex">
-              <Btn confirm dense color="red-400"> Delete </Btn>
+              <Btn confirm dense :action="deleteAction" color="red-400">
+                Delete
+              </Btn>
               <Btn dense @click="editTracking" color="green-400"> Edit </Btn>
             </div>
           </template>
@@ -74,27 +76,31 @@
 </template>
 
 <script lang="ts">
-import { Tracking } from "@/@types/Interface";
+import tracker from "@/hooks/tracker";
+import { computed } from "@vue/runtime-core";
 export default {
   props: {
-    item: {
-      type: Object as () => Tracking,
-      default: () => {
-        return {};
-      },
-    },
-    index: {},
+    index: Number,
     editable: Boolean,
     simple: Boolean,
     last: Boolean,
     mapping: Boolean,
+    hook: Object,
   },
   setup(props, { emit }) {
     const editTracking = () => {
-      emit("edit");
+      emit("edit", item.value);
     };
+    const item = computed(() =>
+      props.hook ? props.hook.data.itemByIds[props.index] : props.item
+    );
     return {
+      item,
       editTracking,
+      deleteAction: async () => {
+        const data = await tracker.remove(props.index);
+        if (!data.error) props.hook.deleteItem(props.index);
+      },
     };
   },
 };

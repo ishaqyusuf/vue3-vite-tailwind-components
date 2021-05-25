@@ -1,28 +1,31 @@
 <template>
-  <Loader v-if="isLoading"></Loader>
+  <Loader v-if="listHook.loading.value"></Loader>
   <template v-else>
     <div class="inline-flex justify-end">
-      <Btn @click="editor.init({})">Update Tracking</Btn>
+      <Btn @click="edit({})">Update Tracking</Btn>
     </div>
     <div class="">
       <TrackingStatusItem
-        v-for="(item, index) in result.trackings"
-        :item="item"
+        v-for="(id, index) in ids"
+        :index="id"
         :editable="isEditable"
-        @edit="edit(item)"
+        :hook="listHook"
+        @edit="edit"
         :key="index"
       ></TrackingStatusItem>
     </div>
   </template>
-  <EditTracking ref="editor"></EditTracking>
+  <EditTracking :hook="listHook" ref="editor"></EditTracking>
 </template>
 
 <script lang="ts">
 import { ref, onMounted, computed } from "vue";
 import TrackingStatusItem from "@/views/Guests/Track/TrackingStatusItem.vue";
 import trackerHook from "@/hooks/tracker";
+import useParcel from "@/use/parcels/parcel";
 import user from "@/use/user";
 import EditTracking from "@/views/Guests/Track/EditTracking.vue";
+import { tableHook } from "@/hooks/table";
 export default {
   props: {
     slug: String,
@@ -33,17 +36,25 @@ export default {
   },
   setup(props, { emit }) {
     onMounted(async () => {
-      await trackerHook.search(props.slug);
+      const data = await trackerHook.search(props.slug);
+      listHook.refresh(data.trackings ?? []);
     });
     const editor = ref();
+    const listHook = tableHook();
+    listHook.initialize([]);
     return {
       ...trackerHook,
+      listHook,
       user,
       editor,
       edit: (item) => {
-        editor.value.init(item);
+        editor.value.init(item, {
+          post_parent: useParcel.parcel.value?.id,
+          type: null,
+        });
       },
       isEditable: computed(() => user.can("updatePkg")),
+      ids: computed(() => listHook.data.ids),
     };
   },
 };

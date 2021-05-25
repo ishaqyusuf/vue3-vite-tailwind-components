@@ -1,7 +1,7 @@
 import { reactive, ref, toRefs } from "vue";
 import { $clientApi } from "@/core/services/client";
 import { $dev } from "@/core/utils/functions";
-
+import siteDataApi from "@/hooks/site-data-api";
 const couriers = ref<string[]>([]);
 const loaded = reactive({
   courier: false,
@@ -13,6 +13,8 @@ const data = reactive({
   locations: [],
   trackNoteLoaded: false,
   trackNotes: [],
+  pkgDataLoaded: false,
+  pkgData: {},
 });
 const getSomething = async (what) => {
   return new Promise<never[]>((resolve, reject) => {
@@ -34,6 +36,16 @@ const initCouriers = async () => {
       data.couriers = items;
       loaded.courier = true;
     });
+  }
+};
+const initPkgData = async () => {
+  if (!data.pkgDataLoaded) {
+    const data = await siteDataApi.get("parcel_data");
+    const { content } = data;
+    if (content) {
+      data.pkgData = content;
+      data.pkgDataLoaded = true;
+    }
   }
 };
 const initTrackNotes = async () => {
@@ -61,5 +73,6 @@ export default {
   initCouriers,
   initTrackNotes,
   updateCouriers,
+  initPkgData,
   ...toRefs(data),
 };
