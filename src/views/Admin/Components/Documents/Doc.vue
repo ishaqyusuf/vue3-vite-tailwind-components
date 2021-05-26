@@ -1,4 +1,11 @@
-<template></template>
+<template>
+  <Card class="h-48">
+    <CardContent>
+      <div v-if="dataId < 0" class="border">o</div>
+      <template v-else></template>
+    </CardContent>
+  </Card>
+</template>
 
 <script lang="ts">
 import { ref } from "vue";
