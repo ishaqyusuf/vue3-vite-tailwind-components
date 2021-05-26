@@ -19,8 +19,8 @@ const initParcelOverview = (_slug) => {
       initParcelView();
     });
 };
-const updateParcel = async (track_code, form) => {
-  const result = await api.updateOne(track_code, {
+const updateParcel = async (form) => {
+  const result = await api.updateOne(data.value.track_code, {
     data: form,
     parcel_mode: true,
   });

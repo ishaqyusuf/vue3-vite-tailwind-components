@@ -1,24 +1,29 @@
 <template>
-  <Card class="space-y-4">
+  <Card class="space-y-2">
     <CardTitle class="inline-flex border-b justify-between items-center">
       <span class="text-lg text-gray-700">Parcel Details</span>
       <Btn tertiary v-if="!editParcel" @click="editParcel = true">Edit</Btn>
     </CardTitle>
     <CardContent
       v-if="!editParcel"
-      class="grid grid-cols-1 pb-4 items-center sm:grid-cols-3 gap-2"
+      class="grid grid-cols-1 space-y-3 pb-4 items-center sm:grid-cols-3 gap-2"
     >
-      <Label class="col:col-span-1">Client</Label>
-      <div class="sm:col-span-2 inline-flex">
+      <div class="sm:col-span-3 inline-flex items-center justify-between">
         <ClientCard :client="parcel.recipient">
           <template #empty>
-            <Btn tertiary @click="selectUser">
+            <Btn class="w-full" secondary @click="selectUser">
               <i-mdiAccountPlus />
-              <span>Add Recipient</span>
+              <span>Add Client</span>
             </Btn>
           </template>
         </ClientCard>
-        <!-- <Btn tertiary>Change</Btn> -->
+        <Btn
+          v-if="parcel.recipient"
+          color="red-500"
+          @click="updateRecipient({ user_id: null })"
+          text
+          >Remove</Btn
+        >
       </div>
       <template v-for="(item, index) in parcelView" :key="index">
         <Label class="sm:col-span-1">{{ item.title }}</Label>
@@ -26,7 +31,7 @@
       </template>
     </CardContent>
     <ParcelForm v-else :parcel="parcel" @close="closeParcelForm"></ParcelForm>
-    <UserList ref="userls"></UserList>
+    <UserList title="Select Client" ref="userls"></UserList>
   </Card>
 </template>
 
@@ -52,12 +57,16 @@ export default {
       editParcel.value = false;
     };
     const editParcel = ref(false);
+    const updateRecipient = (form) => {
+      useParcel.updateParcel(form);
+    };
     const selectUser = () => {
       userls.value.open().then((user) => {
-        console.log(user.id);
+        if (user) updateRecipient({ user_id: user.id });
       });
     };
     return {
+      updateRecipient,
       closeParcelForm,
       selectUser,
       userls,

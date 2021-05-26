@@ -70,7 +70,7 @@ export default {
           "courier",
           "description",
         ]);
-        const updated = await parcel.updateParcel(data.track_code, data);
+        const updated = await parcel.updateParcel(data);
         if (updated) emit("close");
       },
       close: () => emit("close"),

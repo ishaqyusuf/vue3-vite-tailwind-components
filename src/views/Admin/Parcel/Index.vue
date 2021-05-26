@@ -47,11 +47,11 @@ export default {
     OverviewCard,
   },
   props: {
-    slug: String,
+    parcel_slug: String,
   },
 
   setup(props, { emit }) {
-    useParcel.initParcelOverview(props.slug);
+    useParcel.initParcelOverview(props.parcel_slug);
     return {
       ...useParcel,
     };

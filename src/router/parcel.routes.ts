@@ -7,7 +7,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/Admin/Parcels/Index.vue"),
   },
   {
-    path: "/parcel/:slug",
+    path: "/parcel/:parcel_slug",
     component: () => import("../views/Admin/Parcel/Index.vue"),
     props: true,
     children: [
@@ -16,6 +16,13 @@ const routes: Array<RouteRecordRaw> = [
         props: true,
         path: "",
         component: () => import("../views/Admin/Parcel/TrackingTab.vue"),
+      },
+      {
+        name: "parcel-documents",
+        props: true,
+        path: "documents",
+        component: () =>
+          import("../views/Admin/Components/Documents/Index.vue"),
       },
     ],
   },

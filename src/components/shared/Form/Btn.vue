@@ -2,7 +2,12 @@
   <div>
     <button
       :name="name"
-      :class="[styles]"
+      :class="[
+        styles,
+        {
+          'w-full': !icon && !fab,
+        },
+      ]"
       @click.stop="click"
       :disabled="isDisabled"
       type="button"

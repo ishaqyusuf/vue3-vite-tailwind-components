@@ -30,12 +30,12 @@
           >
             <div
               :class="{
-                'p-6': !dense,
+                'p-4': !dense,
               }"
-              class="inline-block bg-white w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform shadow-xl rounded-2xl"
+              class="inline-block space-y-2 bg-white w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform shadow-xl rounded-2xl"
             >
-              <slot name="container"
-                ><slot name="body">
+              <slot name="container">
+                <slot name="body">
                   <div class="inline-flex w-full justify-between">
                     <slot name="title">
                       <DialogTitle
@@ -50,7 +50,7 @@
                       v-if="cancelable"
                       class="inline-flex flex-1 justify-end"
                     >
-                      <Btn icon>
+                      <Btn @click="closeModal" icon>
                         <i-mdi-close class="text-base" />
                       </Btn>
                     </div>
@@ -132,9 +132,10 @@ export default {
   },
   setup(props, { emit }) {
     const isOpen = useModelWrapper(props, emit);
+
     const closeModal = (_ok = false) => {
+      emit(_ok ? "ok" : "closed");
       isOpen.value = false;
-      _ok && emit("ok");
     };
     return {
       isOpen,
