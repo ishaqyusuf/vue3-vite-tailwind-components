@@ -1,19 +1,18 @@
 <template>
   <div
-    class="flex h-full"
+    class="flex w-full h-full cursor-pointer"
     @dragenter="onDrag($event, true)"
     @drop="onDrop"
     @dragover="onDrag($event, true)"
-    @dragLeave="onDrag($event, false)"
+    @dragleave="onDrag($event, false)"
     ref="dropZone"
     @click="getFile"
   >
     <input
-      ref="upload"
-      id="fileUpload"
+      ref="fileUpload"
       @change="fileUploaded"
       type="file"
-      accept="text/xml"
+      accept="pdf"
       class="absolute"
       style="display: none"
     />
@@ -29,13 +28,16 @@ export default {
   setup(props, { emit }) {
     const dragActive = ref(false);
     const fileUpload = ref();
+    const dropZone = ref();
     const getFile = (e) => {
-      e.preventDefault();
+      //   e.preventDefault();
       fileUpload.value.click();
+      console.log(".....");
     };
     return {
       fileUpload,
       getFile,
+      dropZone,
       dragActive,
       onDrag: (e, value) => {
         e.preventDefault();
@@ -45,6 +47,7 @@ export default {
         const dragevent = e as DragEvent;
         if (dragevent.dataTransfer) {
           dragActive.value = false;
+          emit("upload", dragevent.dataTransfer.files);
         }
       },
       fileUploaded: (e) => {

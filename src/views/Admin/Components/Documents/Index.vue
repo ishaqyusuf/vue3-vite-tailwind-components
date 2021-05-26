@@ -2,21 +2,26 @@
   <Loader v-if="loading" />
   <div class="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-12" v-else>
     <Doc
+      :type="groupType"
       class="col-span-1 sm:col-span-4 xl:col-span-3"
       :data-id="-1"
-      :ls-hook="lsHook"
+      :parent-id="parentId"
+      :use-list="lsHook"
     ></Doc>
     <Doc
+      :type="groupType"
+      :parent-id="parentId"
       class="col-span-1 sm:col-span-4 lg:col-span-3 xl:col-span-2"
       v-for="(id, index) in lsHook.ids.value"
       :data-id="id"
-      :ls-hook="lsHook"
+      :use-list="lsHook"
       :key="index"
     ></Doc>
   </div>
 </template>
 
 <script lang="ts">
+import useDocs from "@/use/api/useDocs";
 import useList from "@/use/useList";
 import { ref, onMounted } from "vue";
 import Doc from "./Doc.vue";
@@ -30,10 +35,17 @@ export default {
   },
   setup(props, { emit }) {
     const loading = ref(false);
+    const groupType = props.parcel_slug ? "parcel" : "shipment";
     const lsHook = useList();
+    const parentId = ref<number>(0);
     lsHook.initialize();
+    var query: any = {};
+
+    useDocs.getDocs(query);
     onMounted(() => {});
     return {
+      parentId,
+      groupType,
       loading,
       lsHook,
     };

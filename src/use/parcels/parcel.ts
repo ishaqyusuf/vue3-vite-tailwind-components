@@ -46,7 +46,6 @@ const initParcelView = () => {
     courier,
     description,
   } = data.value;
-  console.log(description);
   parcelView.value = [
     // ["Track Code", track_code],
     ["Courier", courier],
