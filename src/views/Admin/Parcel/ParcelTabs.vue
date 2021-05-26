@@ -13,6 +13,21 @@
         class="border-b-4 py-1 px-2 border-transparent hover:border-purple-500"
         >Documents</Link
       >
+      <Link
+        :to="{ name: 'parcel-documents' }"
+        class="border-b-4 py-1 px-2 border-transparent hover:border-purple-500"
+        >Label</Link
+      >
+      <Link
+        :to="{ name: 'parcel-documents' }"
+        class="border-b-4 py-1 px-2 border-transparent hover:border-purple-500"
+        >Invoice</Link
+      >
+      <Link
+        :to="{ name: 'parcel-documents' }"
+        class="border-b-4 py-1 px-2 border-transparent hover:border-purple-500"
+        >Notes</Link
+      >
     </div>
   </Card>
 </template>

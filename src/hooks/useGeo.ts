@@ -3,13 +3,13 @@ import { $dev } from "@/core/utils/functions";
 import qs from "qs";
 import { ref } from "vue";
 
-export function geo() {
+export function useGeo() {
   const country = ref<any>({});
 
   const countries = ref([]);
   const states = ref([]);
   const cities = ref([]);
-
+  const countryChanged = ref();
   const get = async (url) => {
     try {
       const response = await $clientApi.get(url);
@@ -26,7 +26,10 @@ export function geo() {
     states.value = items;
     cities.value = [];
     data.country = _country;
+    const { phonecode } = data;
+    data.code = [phonecode && "+", phonecode].filter(Boolean).join("");
     country.value = data;
+    countryChanged.value && countryChanged.value(data);
     if (state) stateChange(state);
   };
   const stateChange = async (_state) => {
@@ -41,14 +44,16 @@ export function geo() {
     countries,
     states,
     cities,
-    initialize: (country, state, city) => {
+    country,
+    initialize: (country, state, city, onCountryChanged: any = null) => {
+      countryChanged.value = onCountryChanged;
       get("/geodata").then((data) => {
         countries.value = data.items;
+
         if (country) countryChange(country, state);
       });
     },
     countryChange,
-
     stateChange,
   };
 }

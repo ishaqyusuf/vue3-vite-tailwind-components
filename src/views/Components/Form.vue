@@ -1,71 +1,87 @@
 <template>
   <Container>
     <div class="grid grid-cols-4 gap-10 w-full">
-      <ValidInput
+      <Input
+        :items="useHrm.roles.value"
+        v-model="role_id"
+        item-text="title"
+        item-value="id"
+        name="role"
+        select
+        label="Role"
+      ></Input>
+      <!-- v-model="address.office_id" -->
+      <Input
+        select
+        :items="useHrm.addresses.value"
+        item-text="address_1"
+        item-value="id"
+        name="role"
+        label="Address"
+      ></Input>
+
+      <Input label="Phone" :prefix="`+${geo.country.value.phonecode}`"></Input>
+      <!-- v-model="address.phone.no" -->
+      <Input
         label="Country"
         :items="geo.countries.value"
-        @selected="geo.countryChange(country)"
+        @selected="geo.countryChange(address.country)"
         auto-complete
-        v-model="country"
-      ></ValidInput>
-      <ValidInput
+        v-model="address.country"
+      ></Input>
+      <Input
         auto-complete
         :items="geo.states.value"
         @selected="geo.stateChange(state)"
-        v-model="state"
+        v-model="address.state"
         label="State"
-      ></ValidInput>
-      <ValidInput
-        v-model="city"
+      ></Input>
+      <Input
+        v-model="address.city"
         auto-complete
         :items="geo.cities.value"
         label="City"
-      ></ValidInput>
+      ></Input>
       <div class="bg-black-700 p-2 rounded-lg">
-        <ValidInput
+        <Input
           prefix="NGN"
           v-model="input3"
           password
           dark
           label="Valued Input"
-        ></ValidInput>
+        ></Input>
       </div>
-      <ValidInput
+      <Input
         prefix="NGN"
         v-model="input3"
         password
         label="Valued Input"
-      ></ValidInput>
-      <ValidInput v-model="input4" clearable label="Input"></ValidInput>
-      <ValidInput
+      ></Input>
+      <Input v-model="input4" clearable label="Input"></Input>
+      <Input
         v-model="input5"
         :items="items"
         auto-complete
         label="Auto Input"
-      ></ValidInput>
-      <ValidInput
+      ></Input>
+      <Input
         v-model="input7"
         :items="itemsObject"
         item-text="title"
         item-value="id"
         auto-complete
         label="Auto Input Object"
-      ></ValidInput>
-      <ValidInput
+      ></Input>
+      <Input
         v-model="input8"
         :items="itemsObject"
         item-text="title"
         auto-complete
         label="Auto Input Object 2"
-      ></ValidInput>
-      <ValidInput
-        v-model="input6"
-        :items="couriers"
-        select
-        label="Select Input"
-      >
+      ></Input>
+      <Input v-model="input6" :items="couriers" select label="Select Input">
         <template #inner>Hello world</template>
-      </ValidInput>
+      </Input>
       <Input v-model="input1" clearable label="Input"></Input>
       <Input v-model="input2" clearable label="Hello World"></Input>
       <Input :items="couriers" auto-complete clearable label="Courier"></Input>
@@ -86,10 +102,13 @@
 import { ref, onMounted, reactive, toRefs } from "vue";
 import useTime from "@/hooks/time";
 import loaderHook from "@/hooks/dataLoader";
-import { geo as _geo } from "@/hooks/country";
+import { useGeo } from "@/hooks/useGeo";
+import { Recipient } from "@/@types/Interface";
+import useHrm from "@/use/api/useHrm";
 export default {
   props: {},
   setup(props, { emit }) {
+    const address = reactive<Recipient>({});
     const inputs = reactive({
       country: "Nigeria",
       state: "",
@@ -102,14 +121,18 @@ export default {
       input7: "",
       input8: {},
       input2: "",
+      role_id: null,
+      address_id: -1,
     });
     const action = async () => {
       await useTime.delay(3000);
     };
-    const geo = _geo();
-    geo.initialize(inputs.country, inputs.state, inputs.city);
+    const geo = useGeo();
+    geo.initialize(address.country, address.state, address.city);
     onMounted(() => {
-      loaderHook.initCouriers().then((d) => {});
+      useHrm.loadRoles();
+      useHrm.loadAddress();
+      // loaderHook.initCouriers().then((d) => {});
     });
     const advance = async () => {
       return new Promise(async (resolve, reject) => {
@@ -121,6 +144,8 @@ export default {
 
     const finallys = () => {};
     return {
+      address,
+      useHrm,
       ...toRefs(inputs),
       inputs,
       advance,

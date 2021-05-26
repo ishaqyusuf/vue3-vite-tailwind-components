@@ -26,7 +26,7 @@
           <OverviewCard></OverviewCard>
         </div>
         <ParcelTabs class="sm:hidden pt-2 sm:col-span-8"></ParcelTabs>
-        <div class="sm:col-span-8 inline-flex flex-col">
+        <div class="sm:col-span-8 border-l inline-flex flex-col">
           <router-view></router-view>
         </div>
       </div>
@@ -36,6 +36,7 @@
 </template>
 
 <script lang="ts">
+import useUser from "@/use/api/useUser";
 import useParcel from "@/use/parcels/parcel";
 import ClientCard from "@/views/Admin/Components/ClientCard.vue";
 import OverviewCard from "@/views/Admin/Parcel/OverviewCard.vue";
@@ -52,6 +53,28 @@ export default {
 
   setup(props, { emit }) {
     useParcel.initParcelOverview(props.parcel_slug);
+    // useUser
+    //   .createUser(
+    //     {
+    //       first_name: "Ishaq",
+    //       last_name: "Yusuf",
+    //       email: "sample" + Date.now() + "@gmail.com",
+    //       password: "Hello+world",
+    //       role_id: 12,
+    //     },
+    //     {
+    //       country: "Nigeria",
+    //       state: "Kwara",
+    //       city: "Ilorin",
+    //       phone: {
+    //         no: "8186877306",
+    //         code: "+234",
+    //       },
+    //     }
+    //   )
+    //   .then((data) => {
+    //     console.log(data);
+    //   });
     return {
       ...useParcel,
     };

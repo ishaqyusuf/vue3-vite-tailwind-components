@@ -1,4 +1,4 @@
-import { ComputedRef, Ref, WritableComputedRef } from "@vue/reactivity";
+import { Ref } from "@vue/reactivity";
 
 export interface Phone {
   code?: string;
@@ -8,6 +8,7 @@ export interface Recipient {
   address?: string;
   avatar?: string;
   country?: string;
+  office_id?: number;
   email?: string;
   full_name?: string;
   id?: string;
@@ -15,6 +16,15 @@ export interface Recipient {
   phone?: Phone;
   sort_name?: string;
   state?: string;
+  city?: string;
+}
+export interface User {
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  department_id?: number;
+  role_id?: number;
+  password?: string;
 }
 export interface Parcel {
   created_at?: string;

@@ -19,7 +19,7 @@ export default {
     inputClass: {},
     loading: Boolean,
     plain: Boolean,
-    modelValue: [String, Object],
+    modelValue: [String, Object, Number],
     tile: Boolean,
     readonly: Boolean,
     disabled: Boolean,

@@ -1,0 +1,65 @@
+<template>
+  <div>
+    <template v-if="userForm">
+      <Input name="" label="Full Name" />
+      <Input name="" label="Email" />
+    </template>
+    <Input
+      name="phone"
+      label="Phone"
+      :prefix="address.phone.code"
+      v-model="address.phone.no"
+    />
+    <Input
+      name="country"
+      label="Country"
+      auto-complete
+      :items="geo.countries.value"
+      @selected="geo.countryChange(address.country)"
+      v-model="address.country"
+    />
+    <Input
+      name="state"
+      label="State"
+      auto-complete
+      :items="geo.states.value"
+      @selected="geo.countryChange(address.state)"
+      v-model="address.state"
+    />
+    <Input
+      name="city"
+      label="City"
+      :items="geo.cities.value"
+      combobox
+      v-model="address.city"
+    />
+  </div>
+</template>
+
+<script lang="ts">
+import { useModelWrapper } from "@/use/modelWrapper";
+import { useGeo } from "@/hooks/useGeo";
+export default {
+  props: {
+    userForm: Boolean,
+    modelValue: Object,
+  },
+  setup(props, { emit }) {
+    const geo = useGeo();
+    const address = useModelWrapper(props, emit);
+    geo.initialize(
+      address.value.country,
+      address.value.state,
+      address.value.city,
+      (country) => (address.value.phone.code = country.code)
+    );
+
+    return {
+      address,
+      geo,
+    };
+  },
+};
+</script>
+
+<style scoped></style>

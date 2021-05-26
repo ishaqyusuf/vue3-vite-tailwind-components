@@ -26,7 +26,7 @@
       :to="{
         name: 'parcel-overview',
         params: {
-          slug: item.track_code,
+          parcel_slug: item.track_code,
         },
       }"
     >

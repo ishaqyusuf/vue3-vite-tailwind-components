@@ -1,38 +1,50 @@
 <template>
-  <Prompt
-    v-model="show"
-    @closed="selectUser(null, null)"
-    cancelable
-    no-action
-    :title="title"
-  >
-    <template #info>
-      <div class="space-y-2">
-        <div class="w-full bg-gray-100 inline-flex space-x-2 items-center">
-          <Input
-            dense
-            class="w-full"
-            v-model="search"
-            placeholder="Search user"
-          />
-          <Btn>
-            <i-mdi-plus />
-            New
-          </Btn>
+  <div>
+    <Prompt
+      v-model="show"
+      @closed="selectUser(null, null)"
+      cancelable
+      no-action
+      :title="title"
+    >
+      <template #info>
+        <div class="space-y-2">
+          <div
+            class="w-full px-4 py-2 bg-gray-100 inline-flex space-x-2 items-center"
+          >
+            <Input
+              dense
+              class="w-full"
+              v-model="search"
+              placeholder="Search user"
+            />
+            <Btn @click="openUserForm">
+              <i-mdi-plus />
+              New
+            </Btn>
+          </div>
+          <div class="max-h-96 overflow-auto">
+            <div class="divide-y flex flex-col px-4">
+              <UserListItem
+                class="p-2"
+                @selected="selectUser"
+                :data-id="id"
+                :ls-hook="listHook"
+                v-for="(id, index) in listHook.ids.value"
+                :key="index"
+              ></UserListItem>
+            </div>
+          </div>
         </div>
-        <div class="divide-y flex flex-col h-96 max-h-96 overflow-auto">
-          <UserListItem
-            class="p-2"
-            @selected="selectUser"
-            :data-id="id"
-            :ls-hook="listHook"
-            v-for="(id, index) in listHook.ids.value"
-            :key="index"
-          ></UserListItem>
-        </div>
-      </div>
-    </template>
-  </Prompt>
+      </template>
+    </Prompt>
+    <UserForm
+      title="Create User"
+      @back="closeUserForm"
+      ref="userForm"
+      can-go-back
+    ></UserForm>
+  </div>
 </template>
 
 <script lang="ts">
@@ -41,10 +53,11 @@ import useList from "@/use/useList";
 import usersHook from "@/hooks/users";
 import useDebounceRef from "@/use/useDebounceRef";
 import UserListItem from "@/views/Admin/Components/UserListItem.vue";
-
+import UserForm from "@/views/Admin/Components/UserForm.vue";
 export default {
   components: {
     UserListItem,
+    UserForm,
   },
   props: {
     title: { default: "" },
@@ -70,21 +83,37 @@ export default {
         show.value = true;
       });
     };
+    const userForm = ref();
+    const openUserForm = () => {
+      show.value = false;
+      userForm.value.open().then((user) => {
+        show.value = true;
+        if (user) {
+          selectUser(user.id, user);
+        }
+      });
+    };
+    const closeUserForm = () => {
+      show.value = false;
+    };
     watch(search, (value, oldVal) => {
       loadUsers();
     });
     onMounted(() => {});
-
+    const selectUser = (id, user) => {
+      // emit("selected", id, user);
+      resolver.value(user);
+      show.value = false;
+    };
     return {
+      userForm,
+      closeUserForm,
+      openUserForm,
       show,
       listHook,
       search,
       open,
-      selectUser: (id, user) => {
-        // emit("selected", id, user);
-        resolver.value(user);
-        show.value = false;
-      },
+      selectUser,
     };
   },
 };

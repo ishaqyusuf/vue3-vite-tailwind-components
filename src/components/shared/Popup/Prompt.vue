@@ -2,7 +2,7 @@
   <TransitionRoot appear :show="isOpen" as="template">
     <Dialog :open="isOpen" as="div">
       <div class="fixed inset-0 z-10 overflow-y-auto">
-        <div class="min-h-screen px-4 text-center">
+        <div class="min-h-screen text-center">
           <TransitionChild
             as="template"
             enter="duration-300 ease-out"
@@ -29,14 +29,17 @@
             leave-to="opacity-0 scale-95"
           >
             <div
-              :class="{
-                'p-4': !dense,
-              }"
-              class="inline-block space-y-2 bg-white w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform shadow-xl rounded-2xl"
+              :class="{}"
+              class="inline-block bg-white w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform shadow-xl rounded-2xl"
             >
               <slot name="container">
                 <slot name="body">
-                  <div class="inline-flex w-full justify-between">
+                  <div
+                    class="inline-flex w-full justify-between p-4"
+                    :class="{
+                      shadow: !flatHeader,
+                    }"
+                  >
                     <slot name="title">
                       <DialogTitle
                         v-if="title"
@@ -64,28 +67,26 @@
                   </slot>
                 </slot>
 
-                <div v-if="!noAction" class="mt-4 flex justify-end space-x-2">
-                  <slot name="action-btn">
-                    <button
-                      type="button"
-                      v-if="!action"
-                      class="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      @click="closeModal()"
+                <div
+                  v-if="!noAction"
+                  class="mt-4 flex justify-end space-x-2 p-4 bg-gray-100"
+                >
+                  <slot name="action-btn" :close-modal="closeModal">
+                    <Btn
+                      v-if="!hideCancel"
+                      @click="closeModal(false)"
+                      color="red-500"
+                    >
+                      {{ cancel }}</Btn
+                    >
+                    <Btn
+                      v-if="!hideOk"
+                      :async="okAction != null"
+                      :action="okBtn"
+                      color="green-500"
                     >
                       {{ ok }}
-                    </button>
-                    <template v-else>
-                      <Btn @click="closeModal(false)" color="red-500">
-                        {{ cancel }}</Btn
-                      >
-                      <Btn
-                        :async="okAction != null"
-                        :action="okBtn"
-                        color="green-500"
-                      >
-                        {{ ok }}
-                      </Btn>
-                    </template>
+                    </Btn>
                   </slot>
                 </div>
               </slot>
@@ -120,8 +121,11 @@ export default {
   emits: [...emits, "ok"],
   props: {
     title: String,
+    flatHeader: Boolean,
     ok: { type: String, default: "Ok" },
     cancel: { type: String, default: "Cancel" },
+    hideCancel: Boolean,
+    hideOk: Boolean,
     okAction: Function,
     action: Boolean,
     cancelable: Boolean,
@@ -142,7 +146,7 @@ export default {
       async okBtn() {
         if (props.okAction) {
           const { msg, error } = await props.okAction();
-          alert.register(msg, error);
+          if (msg) alert.register(msg, error);
         }
         closeModal(true);
       },

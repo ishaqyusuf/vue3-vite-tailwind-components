@@ -24,7 +24,6 @@
     >
       <span class="font-semibold" v-if="prefix">{{ prefix }}</span>
       <slot name="prependInner"></slot>
-      <span class="font-semibold" v-if="prefix">{{ prefix }}</span>
       <textarea
         v-if="textarea"
         ref="input"
@@ -126,13 +125,30 @@ export default {
   },
   setup(props, { emit }) {
     const getValue = () => {
-      const { itemText, itemValue, autoComplete, source, modelValue } = props;
+      const {
+        itemText,
+        itemValue,
+        items,
+        autoComplete,
+        source,
+        modelValue,
+      } = props;
       const isObject = typeof modelValue === "object";
-      if (modelValue && items) {
+      if (!isObject) {
+        if (itemValue && modelValue) {
+          const realItem = items.find((item) => item[itemValue] == modelValue);
+          if (itemText) return realItem[itemText];
+        }
+      }
+      if (isObject && itemText && !itemValue) {
+        // returned value is an object
+        return modelValue[itemText];
+      }
+      if (modelValue && props.items) {
         if (isObject) {
-          if (itemText && !itemValue) return modelValue[itemText];
+          if (itemText) return modelValue[itemText];
           if (itemValue && !itemText)
-            return items.value.find((item) => item[itemValue] == modelValue);
+            return props.items.find((item) => item[itemValue] == modelValue);
         }
       }
       return modelValue;
@@ -143,7 +159,7 @@ export default {
       if (itemText) {
         const val = isObject
           ? value
-          : items.value.find((item) => item[itemText] == value);
+          : props.items.find((item) => item[itemText] == value);
         if (val) {
           if (itemValue) return val[itemValue];
           return val;
@@ -152,20 +168,21 @@ export default {
       }
       return value;
     };
+    const useCustomGetter = props.itemText || props.itemValue; //props.items && (props.autoComplete || props.combobox || props.select);
     const valued = useModelWrapper(
       props,
       emit,
       "modelValue",
-      getValue,
-      setValue
+      useCustomGetter && getValue,
+      useCustomGetter && setValue
     );
-    const items = computed(() =>
-      props.source ? sourceData.items : props.items
-    );
+    // const items = computed(() =>
+    //   props.source ? sourceData.items : props.items
+    // );
     const validateInput = (value) => {
       const { autoComplete, combobox, source, itemText, itemValue } = props;
-      if (autoComplete) {
-        const item = items.value.find(
+      if (autoComplete && (itemText || itemValue)) {
+        const item = props.items.find(
           (item) => (itemText ? item[itemText] : item) == value
         );
         return item;
