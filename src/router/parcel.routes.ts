@@ -24,6 +24,12 @@ const routes: Array<RouteRecordRaw> = [
         component: () =>
           import("../views/Admin/Components/Documents/Index.vue"),
       },
+      {
+        name: "parcel-notes",
+        props: true,
+        path: "notes",
+        component: () => import("../views/Admin/Components/Notes/Index.vue"),
+      },
     ],
   },
 ];

@@ -1,14 +1,14 @@
 <template>
   <Loader v-if="loading" />
-  <div class="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-12" v-else>
-    <Doc
+  <div class="space-y-2 mx-4" v-else>
+    <Note
       :type="groupType"
+      :parent-id="parentId"
       class="col-span-1 sm:col-span-4 xl:col-span-3"
       :data-id="-1"
-      :parent-id="parentId"
       :use-list="lsHook"
-    ></Doc>
-    <Doc
+    ></Note>
+    <Note
       :type="groupType"
       :parent-id="parentId"
       class="col-span-1 sm:col-span-4 xl:col-span-3"
@@ -16,18 +16,25 @@
       :data-id="id"
       :use-list="lsHook"
       :key="index"
-    ></Doc>
+    ></Note>
+    <div
+      v-if="lsHook.ids.value.length == 0"
+      class="h-60 flex flex-col items-center justify-center space-y-2 text-gray-500 font-bold"
+    >
+      <i-mdi-note-text class="text-6xl" />
+      <span>Note box is empty</span>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import useDocs from "@/use/api/useDocs";
+import useNotes from "@/use/api/useNotes";
 import useList from "@/use/useList";
 import { ref, onMounted } from "vue";
-import Doc from "./Doc.vue";
+import Note from "./Note.vue";
 export default {
   components: {
-    Doc,
+    Note,
   },
   props: {
     parcel_slug: String,
@@ -42,14 +49,15 @@ export default {
       const name = item.title.split(".");
       item.format = name.pop();
       item.name = name.join(".");
+      return item;
     });
     var query: any = {};
     props.parcel_slug
       ? (query.pid = props.parcel_slug)
       : (query.sid = props.shipment_slug);
     onMounted(async () => {
-      const { docs, parent_id } = await useDocs.getDocs(query);
-      lsHook.refresh(docs.items);
+      const { notes, parent_id } = await useNotes.getNotes(query);
+      lsHook.refresh(notes.items);
       parentId.value = parent_id;
     });
     return {

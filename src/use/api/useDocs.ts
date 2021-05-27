@@ -1,4 +1,4 @@
-import { $clientApi, authentify, headers } from "@/core/services/client";
+import { $clientApi, headers } from "@/core/services/client";
 
 import { axiosConfig } from "@/core/services/config";
 import qs from "qs";
@@ -16,6 +16,7 @@ const saveDoc = async (file, form, slug = null) => {
       ...(await headers()),
     },
   });
+  const downloadDoc = async (slug) => {};
   let fd = new FormData();
   fd.append("file", file);
   if (form) Object.keys(form).map((k) => fd.append(k, JSON.stringify(form[k])));

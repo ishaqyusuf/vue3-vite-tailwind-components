@@ -10,18 +10,40 @@
         </div>
       </template>
     </FileUploader>
-    <CardContent v-else>
-      <template>
-        {{ item }}
-      </template>
+    <CardContent
+      class="h-full py-2 hover:glow-2 flex flex-col justify-between items-center group"
+      v-else
+    >
+      <div
+        class="flex w-full justify-between group-hover:opacity-100 opacity-s0"
+      >
+        <Btn icon confirm :action="deleteDocument" async>
+          <i-mdi-trash-can-outline />
+        </Btn>
+        <Btn icon>
+          <i-mdi-download />
+        </Btn>
+      </div>
+      <i-mdi-pdf-box class="text-5xl text-red-400" />
+      <!-- <i-mdi-file-delimited-outline v-if=""/>
+      <i-mdi-file-excel-outline/>
+      <i-mdi-file-document-outline/>
+      <i-mdi-file-image-outline/>
+      <i-mdi-file-powerpoint-outline/>
+      <i-mdi-file-word-outline/>
+      <i-mdi-file-video-outline/>
+      <i-mdi-file-multiple/> -->
+      <!-- {{ item }} -->
+      <Truncify class="text-sm">{{ item.title }}</Truncify>
     </CardContent>
   </Card>
 </template>
 
 <script lang="ts">
+import alert from "@/hooks/alert";
 import useDocs from "@/use/api/useDocs";
 import FileUploader from "@/views/Admin/Components/Documents/FileUploader.vue";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 export default {
   components: {
     FileUploader,
@@ -39,8 +61,9 @@ export default {
     parentId: { type: Number, required: true },
   },
   setup(props, { emit }) {
-    const item = computed(() => props.useList.itemByIds[props.dataId]);
+    const item = computed(() => props.useList.itemByIds.value[props.dataId]);
     const uploading = ref(false);
+
     const uploadFile = async (files) => {
       // useDocs.saveDoc(files[0])
       const file = files[0];
@@ -53,12 +76,19 @@ export default {
       };
       uploading.value = true;
       const data = await useDocs.saveDoc(file, form, item.value?.slug);
-      props.useList.updateItem(data.id, data);
+      props.useList.updateItem(data.id, data, false);
+      alert.register("File uploaded");
       uploading.value = false;
+    };
+    const deleteDocument = async () => {
+      await useDocs.deletDoc(item.value.slug);
+      alert.success("Document has been deleted.");
+      props.useList.deleteItem(props.dataId);
     };
 
     return {
       uploadFile,
+      deleteDocument,
       item,
     };
   },

@@ -1,35 +1,36 @@
 <template>
-  <Card class="inline-flex space-x-2 items-start px-4">
-    <div class="flex space-x-2">
-      <Link
-        :to="{ name: 'parcel-overview' }"
-        class="border-b-4 py-1 inline-flex space-x-2 items-center px-2 border-purple-500"
-      >
+  <Tabs>
+    <TabItem :to="{ name: 'parcel-overview' }">
+      <template #icon>
         <i-mdi-map-marker-outline />
-        <span>Tracking</span></Link
-      >
-      <Link
-        :to="{ name: 'parcel-documents' }"
-        class="border-b-4 py-1 px-2 border-transparent hover:border-purple-500"
-        >Documents</Link
-      >
-      <Link
-        :to="{ name: 'parcel-documents' }"
-        class="border-b-4 py-1 px-2 border-transparent hover:border-purple-500"
-        >Label</Link
-      >
-      <Link
-        :to="{ name: 'parcel-documents' }"
-        class="border-b-4 py-1 px-2 border-transparent hover:border-purple-500"
-        >Invoice</Link
-      >
-      <Link
-        :to="{ name: 'parcel-documents' }"
-        class="border-b-4 py-1 px-2 border-transparent hover:border-purple-500"
-        >Notes</Link
-      >
-    </div>
-  </Card>
+      </template>
+      <string>Tracking</string>
+    </TabItem>
+    <TabItem :to="{ name: 'parcel-documents' }">
+      <template #icon>
+        <i-mdi-file-document-outline />
+      </template>
+      <string>Documents</string>
+    </TabItem>
+    <TabItem :to="{ name: 'parcel-documents' }">
+      <template #icon>
+        <i-mdi-label-outline />
+      </template>
+      <string>Labels</string>
+    </TabItem>
+    <TabItem :to="{ name: 'parcel-documents' }">
+      <template #icon>
+        <i-mdi-receipt />
+      </template>
+      <string>Invoice</string>
+    </TabItem>
+    <TabItem :to="{ name: 'parcel-notes' }">
+      <template #icon>
+        <i-mdi-label-outline />
+      </template>
+      <string>Notes</string>
+    </TabItem>
+  </Tabs>
 </template>
 
 <script lang="ts">

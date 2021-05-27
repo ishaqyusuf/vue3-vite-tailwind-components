@@ -16,12 +16,20 @@ const register = (msg, error = false) => {
     active: true,
   });
 };
+const success = (msg) => {
+  register(msg);
+};
+const error = (msg) => {
+  register(msg, true);
+};
 const alerts = computed(() => stacks.value);
 const destroyAlert = (alert) => {
   stacks.value = stacks.value.filter((a) => a.id != alert.id);
 };
 
 export default {
+  success,
+  error,
   initAlert,
   destroyAlert,
   alerts,

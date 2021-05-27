@@ -4,7 +4,7 @@ import qs from "qs";
 
 const getNotes = async (query) => {
   const { data } = await $clientApi.get("notes?" + qs.stringify(query));
-  return data.items;
+  return data;
 };
 const saveNote = async (form, slug = null) => {
   const url = ["notes", slug].filter(Boolean).join("/");
