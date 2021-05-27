@@ -1,6 +1,7 @@
 <template>
   <Loader v-if="loading" />
   <div class="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-12" v-else>
+    {{ lsHook.ids.value }}
     <Doc
       :type="groupType"
       class="col-span-1 sm:col-span-4 xl:col-span-3"
@@ -38,11 +39,20 @@ export default {
     const groupType = props.parcel_slug ? "parcel" : "shipment";
     const lsHook = useList();
     const parentId = ref<number>(0);
-    lsHook.initialize();
+    lsHook.initialize([], (item) => {
+      const name = item.title.split(".");
+      item.format = name.pop();
+      item.name = name.join(".");
+    });
     var query: any = {};
-
-    useDocs.getDocs(query);
-    onMounted(() => {});
+    props.parcel_slug
+      ? (query.pid = props.parcel_slug)
+      : (query.sid = props.shipment_slug);
+    onMounted(async () => {
+      const { docs, parent_id } = await useDocs.getDocs(query);
+      lsHook.refresh(docs.items);
+      parentId.value = parent_id;
+    });
     return {
       parentId,
       groupType,

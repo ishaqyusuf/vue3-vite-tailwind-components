@@ -11,7 +11,9 @@
       </template>
     </FileUploader>
     <CardContent v-else>
-      <template> </template>
+      <template>
+        {{ item }}
+      </template>
     </CardContent>
   </Card>
 </template>
@@ -43,9 +45,11 @@ export default {
       // useDocs.saveDoc(files[0])
       const file = files[0];
       const form = {
-        name: file.name,
-        group_type: props.type,
-        post_parent: props.parentId,
+        data: {
+          title: file.name,
+          group_type: props.type,
+          post_parent: props.parentId,
+        },
       };
       uploading.value = true;
       const data = await useDocs.saveDoc(file, form, item.value?.slug);
@@ -55,6 +59,7 @@ export default {
 
     return {
       uploadFile,
+      item,
     };
   },
 };
