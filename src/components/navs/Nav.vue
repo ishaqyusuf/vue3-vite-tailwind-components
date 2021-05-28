@@ -59,6 +59,7 @@ export default {
       componentMenu: [
         { title: "Form", to: { name: "form-component" } },
         { title: "Table", to: { name: "table-component" } },
+        { title: "Calendar", to: { name: "calendar-component" } },
       ],
       devMode: import.meta.env.NODE_ENV !== "production",
     };

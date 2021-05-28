@@ -32,6 +32,7 @@ export default {
         } catch (error) {}
         return value;
       },
+      ...dayjs,
     };
   },
 };

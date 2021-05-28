@@ -19,6 +19,11 @@ const routes: Array<RouteRecordRaw> = [
         name: "table-component",
         component: () => import("../views/Components/TableComponent.vue"),
       },
+      {
+        path: "calendar",
+        name: "calendar-component",
+        component: () => import("../views/Components/CalendarComponent.vue"),
+      },
     ],
   },
 ];

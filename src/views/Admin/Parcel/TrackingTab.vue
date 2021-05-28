@@ -14,7 +14,7 @@
         :key="index"
       ></TrackingStatusItem>
     </div>
-    <EmptyContainer>
+    <EmptyContainer v-if="ids.length == 0">
       <i-mdi-note-text class="text-6xl" />
       <span>Note box is empty</span>
     </EmptyContainer>
