@@ -20,6 +20,7 @@ export default {
     loading: Boolean,
     plain: Boolean,
     modelValue: [String, Object, Number],
+    centerText: Boolean,
     tile: Boolean,
     readonly: Boolean,
     disabled: Boolean,

@@ -1,6 +1,6 @@
 <template>
   <Container class="space-y-4">
-    <div class="text-2xl font-bold text-gray-700">Parcels</div>
+    <div class="text-2xl font-bold text-gray-700">{{ title }}</div>
     <StandardTable
       checkable
       floating-action
@@ -74,7 +74,10 @@ export default {
     RecipientColumn,
     ParcelColumn,
   },
-  props: {},
+  props: {
+    query: Object,
+    title: { default: "Parcels" },
+  },
   setup(props, ctx) {
     onMounted(() => {
       initialize();
@@ -102,7 +105,9 @@ export default {
     const getQuery = computed(() => router.currentRoute.value.query);
     var query: any = {};
     const initialize = async () => {
-      const _data = await parcels.fetchMany(router.currentRoute.value.query);
+      const _data = await parcels.fetchMany(
+        Object.assign({}, props.query ?? {}, router.currentRoute.value.query)
+      );
       query = getQuery.value;
       // data.items = parcels.transformAll(_data.items);
 

@@ -10,7 +10,7 @@
       <template #icon>
         <i-mdi-file-document-outline />
       </template>
-      <string>Documents</string>
+      <string>Attachments</string>
     </TabItem>
     <TabItem :to="{ name: 'parcel-documents' }">
       <template #icon>
@@ -26,7 +26,7 @@
     </TabItem>
     <TabItem :to="{ name: 'parcel-notes' }">
       <template #icon>
-        <i-mdi-label-outline />
+        <i-mdi-note-outline />
       </template>
       <string>Notes</string>
     </TabItem>

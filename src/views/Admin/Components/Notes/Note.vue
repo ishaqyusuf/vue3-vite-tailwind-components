@@ -1,7 +1,7 @@
 <template>
   <div class="">
-    <div class="space-y-1" v-if="dataId < 0">
-      <Input textarea placeholder="Type here" v-model="note" />
+    <div class="space-y-1 py-4" v-if="dataId < 0">
+      <Input textarea placeholder="Type here" label="New Note" v-model="note" />
       <div class="flex justify-end">
         <Btn async :action="saveNote">Save</Btn>
       </div>

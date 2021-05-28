@@ -35,11 +35,10 @@
               <slot name="container">
                 <slot name="body">
                   <div
-                    class="inline-flex w-full justify-between p-4"
-                    :class="{
-                      shadow: !flatHeader,
-                    }"
+                    class="inline-flex w-full justify-between p-4 bg-gray-50"
+                    :class="{}"
                   >
+                    <!-- shadow: !flatHeader, -->
                     <slot name="title">
                       <DialogTitle
                         v-if="title"

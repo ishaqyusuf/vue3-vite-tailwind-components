@@ -1,8 +1,7 @@
 <template>
   <Prompt v-model="show" action :okAction="saveTracking" :title="title">
     <template #info>
-      {{ form }}
-      <div class="my-4 grid grid-cols-12 gap-4 items-center">
+      <div class="my-4 px-4 grid grid-cols-12 gap-4 items-center">
         <Label class="col-span-4">Status</Label>
         <Input v-model="form.status" class="col-span-8" />
         <Label class="col-span-4">Summary</Label>

@@ -1,12 +1,146 @@
-<template></template>
+<template>
+  <div>
+    <Card tile class="flex flex-col items-center justify-between p-10">
+      <div class="w-4/5 relative space-y-3">
+        <div class="flex relative">
+          <Input
+            name="scan-input"
+            class="w-full text-5xl text-center"
+            placeholder="Enter/Scan Tracking Code"
+            @keyup.enter="performScan"
+            center-text
+            v-model="scanCode"
+          />
+          <Spinner class="absolute mx-2 top-1/3 right-0" v-if="scanning" />
+        </div>
+
+        <div class="flex flex-col">
+          <div class="inline-flex">
+            <Spacer />
+            <Btn text>Reset Default</Btn>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-4">
+            <div class="col-span-1 space-y-2 sm:col-span-6 lg:col-span-4">
+              <Input
+                combobox
+                label="Courier"
+                :items="dataLoader.couriers.value"
+                dense
+                class="sm:col-span-2"
+                v-model="form.courier"
+              />
+              <div class="space-y-1">
+                <Label>Recipient</Label>
+                <div class="inline-flex w-full items-center justify-between">
+                  <ClientCard class="w-full" :client="recipient">
+                    <template #empty>
+                      <Input
+                        readonly
+                        dense
+                        @click="openRecipient"
+                        class=""
+                        v-model="form.courier"
+                      />
+                    </template>
+                  </ClientCard>
+                  <Btn v-if="recipient.id" icon @click="recipient = {}">
+                    <i-mdi-close-circle-outline class="text-red-600"
+                  /></Btn>
+                </div>
+              </div>
+            </div>
+            <div class="col-span-1 space-y-2 sm:col-span-6 lg:col-span-4">
+              <Input
+                dense
+                class="sm:col-span-2"
+                label="Weight"
+                :suffix="form.weight_unit"
+                v-model="form.weight"
+              />
+              <div class="space-y-1">
+                <Label class="sm:col-span-1">Dimension</Label>
+                <div class="sm:col-span-2 inline-flex items-center space-x-1">
+                  <Input dense placeholder="L" v-model="form.length" />
+                  <span class="text-black-300">*</span>
+                  <Input dense placeholder="W" v-model="form.width" />
+                  <span class="text-black-300">*</span>
+                  <Input
+                    dense
+                    placeholder="H"
+                    suffix="in"
+                    v-model="form.height"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-span-1 space-y-2 sm:col-span-6 lg:col-span-4">
+              <Input
+                dense
+                class="sm:col-span-2"
+                label="Description"
+                textarea
+                v-model="form.description"
+              />
+            </div>
+          </div>
+        </div>
+        <UserList title="Select Client" ref="userls"></UserList>
+      </div>
+
+      <!-- @change="saveState('track_code', form.track_code)" -->
+    </Card>
+    <Parcels
+      title="Scans Today"
+      :query="{ today: true, by_me: true }"
+    ></Parcels>
+  </div>
+</template>
 
 <script lang="ts">
-import { ref } from "vue";
-
+import Index from "@/views/Admin/Parcels/Index.vue";
+import dataLoader from "@/hooks/dataLoader";
+import { reactive, ref } from "vue";
+import { Parcel, Recipient } from "@/@types/Interface";
+import UserList from "@/views/Admin/Components/UserList.vue";
+import ClientCard from "@/views/Admin/Components/ClientCard.vue";
 export default {
   props: {},
+  components: {
+    ClientCard,
+    UserList,
+    Parcels: Index,
+  },
   setup(props, { emit }) {
-    return {};
+    dataLoader.initPkgData();
+    dataLoader.initCouriers();
+
+    const scanCode = ref();
+    const scanning = ref(false);
+    const recipient = ref<any>({});
+    const form = reactive<Parcel>({});
+    const performScan = () => {
+      console.log("....");
+    };
+    const openRecipient = () => {
+      userls.value.open().then((user) => {
+        if (user) {
+          recipient.value = user;
+        }
+      });
+    };
+    const userls = ref();
+    const userInput = ref();
+    return {
+      userls,
+      recipient,
+      userInput,
+      scanCode,
+      dataLoader,
+      form,
+      scanning,
+      performScan,
+      openRecipient,
+    };
   },
 };
 </script>

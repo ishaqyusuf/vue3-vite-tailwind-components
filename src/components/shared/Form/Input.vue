@@ -33,10 +33,11 @@
         :type="hideText ? 'password' : 'text'"
         @blur="inputBlur"
         v-model="valued"
+        :placeholder="placeholder"
         @keydown.up="up"
         @keydown.esc="closeInput"
         @keydown.down="down"
-        class="focus:outline-none w-full bg-transparent"
+        class="focus:outline-none w-full h-full bg-transparent"
         tabindex="0"
         autocomplete="new-password"
         :name="name"
@@ -55,6 +56,7 @@
         @focus="inputFocus"
         @keydown.enter="enter"
         :type="hideText ? 'password' : 'text'"
+        :placeholder="placeholder"
         @blur="inputBlur"
         v-model="valued"
         @keydown.up="up"
@@ -70,6 +72,7 @@
           'cursor-pointer': select,
           'py-1': dense,
           'py-2': !dense,
+          'text-center': centerText,
         }"
       />
 
@@ -192,6 +195,7 @@ export default {
     const currentValue = ref();
     async function inputBlur() {
       await time.delay(100);
+      emit("blur");
       if (state.preventBlur) {
         state.preventBlur = false;
         return;
@@ -226,6 +230,7 @@ export default {
     function inputFocus() {
       state.focused = state.listOpened = true;
       currentValue.value = validateInput(valued.value) ? valued.value : null;
+      emit("focus");
     }
     const input = ref();
     const data = reactive({
@@ -269,6 +274,10 @@ export default {
         initResults();
       }
     );
+    const multiChoice = () => {
+      if (data.results?.length > 0) return true;
+      return false;
+    };
 
     return {
       valued,
@@ -278,10 +287,13 @@ export default {
       typing,
       state,
       up($event) {
+        if (!multiChoice()) return;
         $event.preventDefault();
         state.index = Math.max(0, state.index - 1);
       },
       down($event) {
+        if (!multiChoice()) return;
+
         $event.preventDefault();
         state.index = Math.min(data.results.length, state.index + 1);
       },
@@ -305,6 +317,9 @@ export default {
         inputType.value = state.hideText ? "password" : "text";
       },
       enter($e) {
+        if (!multiChoice()) {
+          return;
+        }
         if (state.index) {
           valued.value = this.results[state.index];
           state.listOpened = state.focused = false;

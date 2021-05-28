@@ -1,4 +1,21 @@
 {
     "volar.tsPlugin": true,
-    "vue3snippets.enable-compile-vue-file-on-did-save-code": false
+    "vue3snippets.enable-compile-vue-file-on-did-save-code": false,
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#8a11da",
+        "activityBar.activeBorder": "#cf8310",
+        "activityBar.background": "#8a11da",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#cf8310",
+        "activityBarBadge.foreground": "#15202b",
+        "statusBar.background": "#6c0dab",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#8a11da",
+        "titleBar.activeBackground": "#6c0dab",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#6c0dab99",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.color": "#6c0dab"
 }

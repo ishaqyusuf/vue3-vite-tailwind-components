@@ -26,9 +26,9 @@
           <OverviewCard></OverviewCard>
         </div>
         <ParcelTabs class="sm:hidden pt-2 sm:col-span-8"></ParcelTabs>
-        <div class="sm:col-span-8 border-l inline-flex flex-col">
-          <router-view></router-view>
-        </div>
+        <Card class="sm:col-span-8 py-4">
+          <CardContent> <router-view></router-view></CardContent>
+        </Card>
       </div>
     </div>
     <Loader v-else></Loader>
@@ -36,11 +36,11 @@
 </template>
 
 <script lang="ts">
-import useUser from "@/use/api/useUser";
 import useParcel from "@/use/parcels/parcel";
 import ClientCard from "@/views/Admin/Components/ClientCard.vue";
 import OverviewCard from "@/views/Admin/Parcel/OverviewCard.vue";
 import ParcelTabs from "@/views/Admin/Parcel/ParcelTabs.vue";
+import { ref } from "vue";
 export default {
   components: {
     ParcelTabs,
@@ -76,6 +76,7 @@ export default {
     //     console.log(data);
     //   });
     return {
+      date: ref(""),
       ...useParcel,
     };
   },
