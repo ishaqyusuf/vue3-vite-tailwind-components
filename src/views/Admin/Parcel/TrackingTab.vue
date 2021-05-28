@@ -1,7 +1,7 @@
 <template>
   <Loader v-if="listHook.loading.value"></Loader>
   <template v-else>
-    <div class="inline-flex justify-end">
+    <div class="inline-flex w-full justify-end">
       <Btn @click="edit({})">Update Tracking</Btn>
     </div>
     <div class="">
@@ -14,6 +14,10 @@
         :key="index"
       ></TrackingStatusItem>
     </div>
+    <EmptyContainer>
+      <i-mdi-note-text class="text-6xl" />
+      <span>Note box is empty</span>
+    </EmptyContainer>
   </template>
   <EditTracking :hook="listHook" ref="editor"></EditTracking>
 </template>

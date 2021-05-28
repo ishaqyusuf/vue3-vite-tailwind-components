@@ -171,7 +171,8 @@ export default {
       }
       return value;
     };
-    const useCustomGetter = props.itemText || props.itemValue; //props.items && (props.autoComplete || props.combobox || props.select);
+    const useCustomGetter =
+      props.itemText || props.itemValue || props.formatter; //props.items && (props.autoComplete || props.combobox || props.select);
     const valued = useModelWrapper(
       props,
       emit,
