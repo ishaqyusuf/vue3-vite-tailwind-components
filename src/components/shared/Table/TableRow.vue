@@ -77,6 +77,7 @@
           <slot name="delete-btn" :item="item">
             <Btn
               dense
+              v-if="deletable"
               :icon="!textAction"
               color="red-600"
               large
@@ -90,12 +91,31 @@
             </Btn>
           </slot>
           <slot name="edit-btn" :item="item">
-            <Btn dense :icon="!textAction" large :text="textAction">
+            <Btn
+              dense
+              :icon="!textAction"
+              v-if="editable"
+              large
+              :text="textAction"
+            >
               <i-mdi-pencil-box-multiple-outline v-if="!textAction" />
               <span v-else class="text-green-600">Edit</span>
             </Btn>
           </slot>
-          <SimpleMenu open-on-hover rtl v-if="moreAction">
+          <slot name="more-btn" :item="item">
+            <Menu rtl v-if="moreAction">
+              <slot name="menu-btn" :item="item">
+                <Btn dense :icon="!textAction" large :text="textAction">
+                  <i-mdi-dots-horizontal v-if="!textAction" />
+                  <span v-else>More</span>
+                </Btn>
+              </slot>
+              <template #items>
+                <slot name="menu-items" :item="item" />
+              </template>
+            </Menu>
+          </slot>
+          <!-- <SimpleMenu open-on-hover rtl v-if="moreAction">
             <slot name="menu-btn" :item="item">
               <Btn dense :icon="!textAction" large :text="textAction">
                 <i-mdi-dots-horizontal v-if="!textAction" />
@@ -104,8 +124,9 @@
             </slot>
             <template v-slot:items>
               <slot name="menu-items" :item="item" />
-            </template> </SimpleMenu
-        ></slot>
+            </template>
+          </SimpleMenu> -->
+        </slot>
       </div>
     </td>
   </TransitionRoot>

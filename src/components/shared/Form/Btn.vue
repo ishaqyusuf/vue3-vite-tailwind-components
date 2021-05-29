@@ -8,7 +8,7 @@
           'w-full': !icon && !fab,
         },
       ]"
-      @click.stop="click"
+      @click="click"
       :disabled="isDisabled"
       type="button"
     >
@@ -152,7 +152,8 @@ export default {
           emit("result", props.await ? await props.action() : props.action());
           nativeLoading.value = false;
         }
-      } else emit("click");
+      }
+      // else emit("click");
     };
     const click = async () => {
       if (props.confirm && !confirmAction.value) {

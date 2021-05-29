@@ -23,12 +23,7 @@
       @mouseenter="linkMouseEnter"
       @mouseleave="linkMouseLeave"
       class="space-y-1 hover:bg-gray-200"
-      :to="{
-        name: 'parcel-overview',
-        params: {
-          parcel_slug: item.track_code,
-        },
-      }"
+      :to="item.to"
     >
       <Truncify
         class="table table-fixed text-left uppercase font-medium tracking-widest"
@@ -37,19 +32,19 @@
       </Truncify>
 
       <div class="hidden md:flex font-semibold text-xs space-x-1">
-        <template v-for="(item, index) in item.details" :key="index">
-          <router-link v-if="item.to" :to="item.to" disabled>
+        <template v-for="(detail, index) in item.details" :key="index">
+          <router-link v-if="detail.to" :to="detail.to" disabled>
             <span
-              :class="[`bg-${item.style}-${itemHover ? '800' : '100'}`]"
+              :class="[`bg-${detail.style}-${itemHover ? '800' : '100'}`]"
               class="rounded-lg shadow-lg px-1"
-              >{{ item.value }}</span
+              >{{ detail.value }}</span
             >
           </router-link>
           <span
             v-else
-            :class="[`bg-${item.style}-${itemHover ? '800' : '100'}`]"
+            :class="[`bg-${detail.style}-${itemHover ? '800' : '100'}`]"
             class="rounded-lg shadow-lg px-1"
-            >{{ item.value }}</span
+            >{{ detail.value }}</span
           >
         </template>
       </div>

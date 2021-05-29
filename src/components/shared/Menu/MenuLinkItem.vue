@@ -11,7 +11,11 @@ import { ref } from "vue";
 
 export default {
   props: {
-    to: {},
+    to: {
+      default: () => {
+        return {};
+      },
+    },
   },
   setup(props, { emit }) {
     return {};

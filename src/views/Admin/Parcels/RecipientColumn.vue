@@ -1,30 +1,34 @@
 <template>
-  <router-link
-    :to="{
-      query: {
-        popup_action: 'parcel_recipient',
-        pid: item.track_code,
-      },
-    }"
-  >
-    <span
-      v-if="!item.recipient"
-      class="font-medium bg-gray-200 hover:shadow-md uppercase text-xs tracking-widest cursor-pointer p-1 group-hover:bg-blue-800 group-hover:text-white"
-      >Add Client</span
+  <div class="">
+    <router-link
+      v-if="item.recipient"
+      :to="{
+        name: 'customer',
+        params: {
+          customer_slug: item.recipient.id,
+        },
+      }"
     >
-    <span v-else>
       <span class="font-medium">{{ item.recipient.full_name }}</span>
+    </router-link>
+
+    <span
+      v-else
+      @click="list.execute('selectRecipient', item)"
+      class="font-medium bg-gray-200 hover:shadow-md uppercase text-xs tracking-widest cursor-pointer p-1 group-hover:bg-blue-800 group-hover:text-white"
+      >Add Client
     </span>
-  </router-link>
+  </div>
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
-
 export default {
+  components: {},
   props: {
     item: { type: Object, required: true },
+    list: { type: Object, required: true },
   },
+
   setup(props, { emit }) {
     return {};
   },

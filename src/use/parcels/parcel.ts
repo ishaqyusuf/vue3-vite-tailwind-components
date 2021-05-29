@@ -19,20 +19,41 @@ const initParcelOverview = (_slug) => {
       initParcelView();
     });
 };
-const updateParcel = async (form) => {
-  const result = await api.updateOne(data.value.track_code, {
+const updateParcel = async (
+  form,
+  track_code = null,
+  list: any = null,
+  first = false
+) => {
+  const result = await api.updateOne(track_code ?? data.value.track_code, {
     data: form,
     parcel_mode: true,
   });
   if (!result.error) {
-    data.value = {
-      ...data.value,
-      ...result,
-    };
+    if (!track_code)
+      data.value = {
+        ...data.value,
+        ...result,
+      };
     alert.register("Data updated");
-    return true;
+    list && list.updateItem(result.id, result, first);
+    return track_code ? result : true;
   } else alert.register(result.error, true);
   return false;
+};
+const updateParcelRecipient = async (
+  track_code,
+  user,
+  list: any = null,
+  first = false
+) => {
+  const result = await updateParcel(
+    { user_id: user.id },
+    track_code,
+    list,
+    first
+  );
+  return result;
 };
 const initParcelView = () => {
   const {
@@ -77,4 +98,5 @@ export default {
   parcel: data,
   ...api,
   updateParcel,
+  updateParcelRecipient,
 };

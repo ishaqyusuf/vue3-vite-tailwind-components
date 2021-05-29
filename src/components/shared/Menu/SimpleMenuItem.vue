@@ -23,11 +23,8 @@
 
 <script lang="ts">
 import { ref, watch } from "vue";
-import { MenuItem } from "@headlessui/vue";
 export default {
-  components: {
-    TMenuItem: MenuItem,
-  },
+  components: {},
   props: {
     active: Boolean,
     disabled: Boolean,

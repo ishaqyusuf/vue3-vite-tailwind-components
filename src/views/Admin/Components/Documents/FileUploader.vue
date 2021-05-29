@@ -32,7 +32,6 @@ export default {
     const getFile = (e) => {
       //   e.preventDefault();
       fileUpload.value.click();
-      console.log(".....");
     };
     return {
       fileUpload,

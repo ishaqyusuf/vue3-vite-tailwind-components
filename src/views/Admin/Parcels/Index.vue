@@ -1,6 +1,7 @@
 <template>
   <Container class="space-y-4">
     <div class="text-2xl font-bold text-gray-700">{{ title }}</div>
+
     <StandardTable
       checkable
       floating-action
@@ -10,7 +11,6 @@
       :worker="tableWorker"
       :structure="structure"
       stickyAction
-      hide-actions
       hide-checks
       more-action
     >
@@ -22,16 +22,20 @@
         <ParcelColumn :item="item" :header="header" />
       </template>
       <template v-slot:recipient="{ item, header }">
-        <RecipientColumn :item="item" />
+        <RecipientColumn :item="item" :list="tableWorker" />
       </template>
-      <template v-slot:menu>
-        <SimpleMenuItem>Open Parcel</SimpleMenuItem>
-        <SimpleMenuItem>Quick Update Parcel</SimpleMenuItem>
-        <SimpleMenuItem>Update Tracking</SimpleMenuItem>
-        <SimpleMenuItem>Invoice</SimpleMenuItem>
-        <SimpleMenuItem>Update Recipient</SimpleMenuItem>
+      <template v-slot:menu-items="{ item }">
+        <MenuLinkItem :to="item.to">Open Parcel</MenuLinkItem>
+        <MenuLinkItem>Quick Update Parcel</MenuLinkItem>
+        <MenuLinkItem>Update Tracking</MenuLinkItem>
+        <MenuLinkItem>Invoice</MenuLinkItem>
+        <MenuItem @click="tableWorker.execute('selectRecipient', item)"
+          >Update Recipient</MenuItem
+        >
       </template>
     </StandardTable>
+    <UserList ref="userls" title="Select Client"></UserList>
+
     <TableAction
       :worker="tableWorker"
       show
@@ -69,9 +73,11 @@ import table from "@/hooks/table";
 import { TableStructure } from "@/@types/Interface";
 import PagerInterface from "@/@types/PagerInterface";
 import useList from "@/use/useList";
+import UserList from "@/views/Admin/Components/UserList.vue";
 export default {
   components: {
     RecipientColumn,
+    UserList,
     ParcelColumn,
   },
   props: {
@@ -84,10 +90,19 @@ export default {
       initialize();
     });
     const tableWorker = props.list ?? useList();
+    const userls = ref();
     tableWorker.initialize([], parcels.transform, {
-      // delete: {
-      //   // action: ...
-      // },
+      selectRecipient: {
+        action: (item) => {
+          userls.value.open().then(async (user) => {
+            await parcels.updateParcelRecipient(
+              item.track_code,
+              user,
+              tableWorker
+            );
+          });
+        },
+      },
     });
 
     const data = reactive<{
@@ -132,14 +147,15 @@ export default {
     ];
 
     return {
+      userls,
       ...toRefs(data),
       isLoading: computed(() => parcels.loading.value),
       structure,
       parcels,
       openModal: ref(true),
       tableWorker,
-      fine() {
-        console.log("......");
+      updateRecipient: async (item, user) => {
+        await parcels.updateParcelRecipient(item.track_code, user, tableWorker);
       },
     };
   },

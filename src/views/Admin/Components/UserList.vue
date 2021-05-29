@@ -54,6 +54,7 @@ import usersHook from "@/hooks/users";
 import useDebounceRef from "@/use/useDebounceRef";
 import UserListItem from "@/views/Admin/Components/UserListItem.vue";
 import UserForm from "@/views/Admin/Components/UserForm.vue";
+import { reject } from "cypress/types/bluebird";
 export default {
   components: {
     UserListItem,
@@ -69,6 +70,7 @@ export default {
     const show = ref(false);
     const search = useDebounceRef("", 300, false);
     const resolver = ref();
+    const rejecter = ref<any>();
     const loadUsers = async () => {
       const { items, pager } = await usersHook.getUsers({
         ...(props.query ?? {}),
@@ -80,6 +82,7 @@ export default {
       return new Promise((resolve, reject) => {
         loadUsers();
         resolver.value = resolve;
+        rejecter.value = reject;
         show.value = true;
       });
     };
@@ -101,8 +104,8 @@ export default {
     });
     onMounted(() => {});
     const selectUser = (id, user) => {
-      // emit("selected", id, user);
-      resolver.value(user);
+      if (user) resolver.value(user);
+      else rejecter.value(null);
       show.value = false;
     };
     return {

@@ -103,6 +103,7 @@ export default defineComponent({
           "actions",
           "delete-btn",
           "more-actions",
+          "more-btn",
         ],
       ].flat()
     );

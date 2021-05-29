@@ -74,7 +74,7 @@ export default function useList<T>() {
     items.value = data.items = _items.map((item) => {
       const freezed = (refItemByIds.value[item.id] = data.itemByIds[
         item.id
-      ] = Object.freeze(item));
+      ] = transFormData(Object.freeze(item)));
       data.ids.indexOf(item.id) < 0 && data.ids.push(item.id);
       return freezed;
     });
@@ -86,7 +86,9 @@ export default function useList<T>() {
   const transformer = ref<any>(null);
 
   const transFormData = (item) => {
-    return transformer.value(item) ?? item;
+    const transform = transformer.value;
+    const data = transform ? transform(item) : {};
+    return Object.assign({}, item, data);
   };
   const deleteItem = async (id, _alert = true) => {
     return performAction("delete", id, () => {
@@ -124,6 +126,13 @@ export default function useList<T>() {
       getAction.async ? await getAction.action(id) : getAction.action(id);
     then();
   };
+  const execute = async (_action, payload = null, then: any = null) => {
+    const getAction = actions.value[_action];
+    if (getAction)
+      getAction.async
+        ? await getAction.action(payload)
+        : getAction.action(payload);
+  };
   type tableAction = {
     [id in string]: {
       action?: any;
@@ -134,12 +143,14 @@ export default function useList<T>() {
   return {
     reset,
     refItemByIds,
+    performAction,
     checkAll,
     toggleAll,
     extendedItems,
     updateItem,
     setCheckedItemsById,
     initialize,
+    execute,
     refresh,
     data,
     ...toRefs(data),

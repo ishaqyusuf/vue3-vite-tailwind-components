@@ -9,12 +9,16 @@
       class="grid grid-cols-1 space-y-3 pb-4 items-center sm:grid-cols-3 gap-2"
     >
       <div class="sm:col-span-3 inline-flex items-center justify-between">
-        <ClientCard :client="parcel.recipient">
+        <ClientCard :client="parcel.recipient" class="w-full">
           <template #empty>
-            <Btn class="w-full" secondary @click="selectUser">
-              <i-mdiAccountPlus />
-              <span>Add Client</span>
-            </Btn>
+            <UserSelector @selected="updateRecipient({ user_id: $event.id })">
+              <template v-slot:btn="{ open }">
+                <Btn @click="open">
+                  <i-mdi-account-plus-outline />
+                  <span>Add Client</span>
+                </Btn>
+              </template>
+            </UserSelector>
           </template>
         </ClientCard>
         <Btn
@@ -31,7 +35,6 @@
       </template>
     </CardContent>
     <ParcelForm v-else :parcel="parcel" @close="closeParcelForm"></ParcelForm>
-    <UserList title="Select Client" ref="userls"></UserList>
   </Card>
 </template>
 
@@ -40,18 +43,16 @@ import { ref, watch, onMounted } from "vue";
 import useParcel from "@/use/parcels/parcel";
 import ParcelForm from "@/views/Admin/Parcel/ParcelForm.vue";
 import ClientCard from "@/views/Admin/Components/ClientCard.vue";
-import UserList from "@/views/Admin/Components/UserList.vue";
+import UserSelector from "@/views/Admin/Components/UserSelector.vue";
 export default {
   props: {},
   components: {
+    UserSelector,
     ClientCard,
     ParcelForm,
-    UserList,
-    // UserList: () => import("@/views/Admin/Components/UserList.vue"),
   },
   setup(props, { emit }) {
     onMounted(() => {});
-    const userls = ref();
     const closeParcelForm = () => {
       useParcel.initParcelView();
       editParcel.value = false;
@@ -60,16 +61,10 @@ export default {
     const updateRecipient = (form) => {
       useParcel.updateParcel(form);
     };
-    const selectUser = () => {
-      userls.value.open().then((user) => {
-        if (user) updateRecipient({ user_id: user.id });
-      });
-    };
+
     return {
       updateRecipient,
       closeParcelForm,
-      selectUser,
-      userls,
       editParcel,
       ...useParcel,
       editRecipient: ref(false),

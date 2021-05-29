@@ -27,6 +27,7 @@ const transformAll = (items) => {
   return items.map((item) => transform(item));
 };
 const transform = (item) => {
+  const data: any = {};
   let details: any[] = [
     { value: item.weight_str, style: "blue" },
     { value: item.courier, style: "purple" },
@@ -42,8 +43,16 @@ const transform = (item) => {
         },
       },
     });
-  item.details = details.filter((f) => f.value);
-  return item;
+  data.details = details.filter((f) => f.value);
+  data.to = {
+    name: "parcel-overview",
+    params: {
+      parcel_slug: item.track_code,
+    },
+  };
+
+  // if (item.recipient)
+  return data;
 };
 export default {
   init,
