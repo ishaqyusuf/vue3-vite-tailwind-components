@@ -35,14 +35,14 @@
         <template v-for="(detail, index) in item.details" :key="index">
           <router-link v-if="detail.to" :to="detail.to" disabled>
             <span
-              :class="[`bg-${detail.style}-${itemHover ? '800' : '100'}`]"
+              :class="[`bg-${detail.style}-${itemHover ? '200' : '100'}`]"
               class="rounded-lg shadow-lg px-1"
               >{{ detail.value }}</span
             >
           </router-link>
           <span
             v-else
-            :class="[`bg-${detail.style}-${itemHover ? '800' : '100'}`]"
+            :class="[`bg-${detail.style}-${itemHover ? '200' : '100'}`]"
             class="rounded-lg shadow-lg px-1"
             >{{ detail.value }}</span
           >
