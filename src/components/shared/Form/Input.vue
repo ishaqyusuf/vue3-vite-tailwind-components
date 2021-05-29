@@ -128,33 +128,30 @@ export default {
   },
   setup(props, { emit }) {
     const getValue = () => {
-      const {
-        itemText,
-        itemValue,
-        items,
-        autoComplete,
-        source,
-        modelValue,
-      } = props;
-      const isObject = typeof modelValue === "object";
-      if (!isObject) {
-        if (itemValue && modelValue) {
-          const realItem = items.find((item) => item[itemValue] == modelValue);
-          if (itemText) return realItem[itemText];
+      const { itemText, valueFormat, itemValue, items, modelValue } = props;
+      if (itemText || itemValue || items) {
+        const isObject = typeof modelValue === "object";
+        if (!isObject) {
+          if (itemValue && modelValue) {
+            const realItem = items.find(
+              (item) => item[itemValue] == modelValue
+            );
+            if (itemText) return realItem[itemText];
+          }
+        }
+        if (isObject && itemText && !itemValue) {
+          // returned value is an object
+          return modelValue[itemText];
+        }
+        if (modelValue && props.items) {
+          if (isObject) {
+            if (itemText) return modelValue[itemText];
+            if (itemValue && !itemText)
+              return props.items.find((item) => item[itemValue] == modelValue);
+          }
         }
       }
-      if (isObject && itemText && !itemValue) {
-        // returned value is an object
-        return modelValue[itemText];
-      }
-      if (modelValue && props.items) {
-        if (isObject) {
-          if (itemText) return modelValue[itemText];
-          if (itemValue && !itemText)
-            return props.items.find((item) => item[itemValue] == modelValue);
-        }
-      }
-      return modelValue;
+      return valueFormat ? valueFormat(modelValue) : modelValue;
     };
     const setValue = (value) => {
       const { itemText, itemValue, autoComplete, source } = props;
@@ -172,7 +169,7 @@ export default {
       return value;
     };
     const useCustomGetter =
-      props.itemText || props.itemValue || props.formatter; //props.items && (props.autoComplete || props.combobox || props.select);
+      props.itemText || props.itemValue || props.valueFormat; //props.items && (props.autoComplete || props.combobox || props.select);
     const valued = useModelWrapper(
       props,
       emit,

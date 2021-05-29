@@ -1,3 +1,4 @@
+import { useModelWrapper } from "@/use/modelWrapper";
 import { ref, computed } from "vue";
 export function useDatePicker(props, emit, utils) {
   const showDayView = ref(false);
@@ -7,6 +8,8 @@ export function useDatePicker(props, emit, utils) {
   const selectedDate = ref<any>(null);
   const pageTimestamp = ref(null);
   const resetTypedDate = ref<Date>(new Date());
+  const inputValue = useModelWrapper(props, emit);
+  const correctDate = ref();
   function setPageDate(date: any = null) {
     if (!date) {
       if (props.openDate) {
@@ -109,7 +112,8 @@ export function useDatePicker(props, emit, utils) {
     selectedDate.value = date;
     setPageDate(date);
     emit("selected", date);
-    emit("input", date);
+    inputValue.value = correctDate.value = date;
+    // emit("input", date);
   }
   function clearDate() {
     selectedDate.value = null;
@@ -125,7 +129,6 @@ export function useDatePicker(props, emit, utils) {
       close(true);
     }
     resetTypedDate.value = new Date();
-    console.log(date);
   }
   function selectDisabledDate(date) {
     emit("selectedDisabled", date);
@@ -179,14 +182,17 @@ export function useDatePicker(props, emit, utils) {
       setInitialView();
     }
   }
+  init();
   return {
     showMonthView,
     selectedDate,
+    inputValue,
     showYearView,
     selectYear,
     calendarHeight,
     pageTimestamp,
     showDayView,
+    correctDate,
     selectDate,
     handleChangedMonthFromDayPicker,
     showMonthCalendar,

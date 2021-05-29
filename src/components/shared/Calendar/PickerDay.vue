@@ -1,20 +1,25 @@
 <template>
   <div>
-    <Card class="max-w-xs">
+    <Card class="">
       <div class="inline-flex p-4 justify-between items-center">
         <Btn icon @click="isRtl ? nextMonth() : previousMonth()"
           ><i-mdi-chevron-left
         /></Btn>
-        <Btn text class="w-full" @click="showMonthCalendar">
-          <!-- {{ currentTitle }} -->
-          {{ state.currMonthName }}
-          {{ state.currYearName }}
-        </Btn>
+        <Menu>
+          <Btn text class="w-full">
+            {{ state.currMonthName }}
+            {{ state.currYearName }}
+          </Btn>
+          <template #items>
+            <MYPickerMenu />
+          </template>
+        </Menu>
+
         <Btn icon @click="isRtl ? previousMonth() : nextMonth()"
           ><i-mdi-chevron-right
         /></Btn>
       </div>
-      <CardContent class="py-4 grid grid-cols-7 grid-rows-7">
+      <CardContent class="py-4 grid grid-cols-7 gap-y-1 grid-rows-7">
         <div
           class="w-full items-center justify-center inline-flex text-sm text-gray-400"
           v-for="d in daysOfWeek"
@@ -22,6 +27,13 @@
         >
           <span>{{ d }}</span>
         </div>
+        <template v-if="blankDays > 0">
+          <span
+            class="cell day blank"
+            v-for="(d, i) in blankDays"
+            :key="i"
+          ></span>
+        </template>
         <DateCell
           v-for="day in days"
           :day-cell-content="dayCellContent"

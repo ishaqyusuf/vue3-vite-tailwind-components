@@ -1,7 +1,13 @@
 <template>
   <div
     class="font-poppins flex flex-col"
-    :class="[!tile && 'rounded-lg', styles]"
+    :class="[
+      !tile && 'rounded-lg',
+      styles,
+      {
+        'text-white': dark,
+      },
+    ]"
   >
     <slot></slot>
   </div>
@@ -14,12 +20,13 @@ export default {
   props: {
     tile: Boolean,
     styleMobile: Boolean,
+    dark: Boolean,
   },
   setup(props, { emit }) {
     const pref = props.styleMobile ? "" : "sm:";
     const styles = [
       [pref, "shadow-xl"],
-      [pref, "bg-white"],
+      [pref, !props.dark ? "bg-white" : "bg-white"],
     ]
       .map((f) => f.filter(Boolean).join(""))
       .join(" ");

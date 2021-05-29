@@ -3,6 +3,7 @@ import { makeDateUtils } from "./useDateUtils";
 export function useDate(props, emit) {
   const utils = makeDateUtils(props.useUtc);
   const days = ref<any[]>([]);
+  const blankDays = ref<number>(0);
   const daysOfWeek = ref<any[]>([]);
   const state = reactive({
     currMonthName: "",
@@ -54,7 +55,7 @@ export function useDate(props, emit) {
     }
     daysOfWeek.value = props.translation.days;
   }
-  function blankDays() {
+  function setBlankDays() {
     const d = props.pageDate;
     let dObj = props.useUtc
       ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1))
@@ -66,9 +67,8 @@ export function useDate(props, emit) {
           d.getMinutes()
         );
     if (props.mondayFirst) {
-      return utils.getDay(dObj) > 0 ? utils.getDay(dObj) - 1 : 6;
-    }
-    return utils.getDay(dObj);
+      blankDays.value = utils.getDay(dObj) > 0 ? utils.getDay(dObj) - 1 : 6;
+    } else blankDays.value = utils.getDay(dObj);
   }
   const setMonthName = () => {
     const monthName = props.fullMonthName
@@ -134,6 +134,7 @@ export function useDate(props, emit) {
     refreshDates();
     setMonthName();
     setYearName();
+    setBlankDays();
   }
   function nextMonth() {
     if (!isNextMonthDisabled()) {

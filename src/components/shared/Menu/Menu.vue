@@ -1,6 +1,7 @@
 <template>
   <div class="" :class="{ 'text-right': rtl }">
     <TMenu
+      v-slot="{ open }"
       as="div"
       class="relative inline-block text-left"
       style="z-index: 99999"
@@ -18,10 +19,10 @@
         leave-to-class="transform scale-95 opacity-0"
       >
         <TMenuItems
-          :class="[width, { 'origin-top-right  right-0': rtl }]"
+          :class="[!noWidth && width, { 'origin-top-right  right-0': rtl }]"
           class="absolute mt-2 bg-white z-10 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
         >
-          <slot name="items" />
+          <slot name="items" :open="open" />
         </TMenuItems>
       </transition>
     </TMenu>
@@ -35,6 +36,7 @@ export default {
   props: {
     rtl: Boolean,
     width: { type: String, default: "w-56" },
+    noWidth: Boolean,
   },
   components: {
     TMenu: Menu,

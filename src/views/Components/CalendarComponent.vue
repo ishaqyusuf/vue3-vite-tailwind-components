@@ -1,6 +1,17 @@
 <template>
   <Container>
-    <DatePicker />
+    <!-- <Menu no-width>
+      <Input readonly v-model="date">
+        <template #prependInner>
+          <i-mdi-calendar-outline />
+        </template>
+      </Input>
+      <template #items>
+        <DatePicker v-model="date" />
+      </template>
+    </Menu> -->
+    <!-- <DateInput v-model="date"></DateInput> -->
+    <DatePicker v-model="date" />
   </Container>
 </template>
 
@@ -10,7 +21,9 @@ import { reactive, ref } from "vue";
 export default {
   props: {},
   setup(props, { emit }) {
-    const form = reactive({});
+    const form = reactive({
+      date: "",
+    });
     return {
       ...form,
     };
