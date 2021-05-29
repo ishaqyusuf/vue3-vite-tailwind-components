@@ -6,6 +6,7 @@
       checkable
       floating-action
       action
+      hide-actions
       dense
       deletable
       :worker="tableWorker"
@@ -29,12 +30,14 @@
         <MenuLinkItem>Quick Update Parcel</MenuLinkItem>
         <MenuLinkItem>Update Tracking</MenuLinkItem>
         <MenuLinkItem>Invoice</MenuLinkItem>
+        <MenuItem @click="tableWorker.excute('openLabel', item)"
+          >Label</MenuItem
+        >
         <MenuItem @click="tableWorker.execute('selectRecipient', item)"
           >Update Recipient</MenuItem
         >
       </template>
     </StandardTable>
-    <UserList ref="userls" title="Select Client"></UserList>
 
     <TableAction
       :worker="tableWorker"
@@ -60,6 +63,8 @@
       </template>
     </TableAction>
     <Pager :data="pager" simple />
+    <LabelViewer ref="labelRef"></LabelViewer>
+    <UserList ref="userls" title="Select Client"></UserList>
   </Container>
 </template>
 
@@ -69,16 +74,17 @@ import parcels from "@/use/parcels";
 import router from "@/router";
 import RecipientColumn from "@/views/Admin/Parcels/RecipientColumn.vue";
 import ParcelColumn from "@/views/Admin/Parcels/ParcelColumn.vue";
-import table from "@/hooks/table";
 import { TableStructure } from "@/@types/Interface";
 import PagerInterface from "@/@types/PagerInterface";
 import useList from "@/use/useList";
 import UserList from "@/views/Admin/Components/UserList.vue";
+import LabelViewer from "@/views/Admin/Components/Label/LabelViewer.vue";
 export default {
   components: {
     RecipientColumn,
     UserList,
     ParcelColumn,
+    LabelViewer,
   },
   props: {
     query: Object,
@@ -91,6 +97,7 @@ export default {
     });
     const tableWorker = props.list ?? useList();
     const userls = ref();
+    const labelRef = ref();
     tableWorker.initialize([], parcels.transform, {
       selectRecipient: {
         action: (item) => {
@@ -101,6 +108,11 @@ export default {
               tableWorker
             );
           });
+        },
+      },
+      openLabel: {
+        action: (item) => {
+          labelRef.value.open(item);
         },
       },
     });
@@ -148,6 +160,7 @@ export default {
 
     return {
       userls,
+      labelRef,
       ...toRefs(data),
       isLoading: computed(() => parcels.loading.value),
       structure,

@@ -29,8 +29,13 @@
             leave-to="opacity-0 scale-95"
           >
             <div
-              :class="{}"
-              class="inline-block bg-white w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform shadow-xl rounded-2xl"
+              :class="[
+                {
+                  'bg-white max-w-md my-8 shadow-xl rounded-2xl': !pilot,
+                },
+                containerClass,
+              ]"
+              class="inline-block w-full overflow-hidden text-left align-middle transition-all transform"
             >
               <slot name="container">
                 <slot name="body">
@@ -131,7 +136,9 @@ export default {
     dense: Boolean,
     noAction: Boolean,
     info: String,
+    containerClass: String,
     modelValue: Boolean,
+    pilot: Boolean,
   },
   setup(props, { emit }) {
     const isOpen = useModelWrapper(props, emit);
