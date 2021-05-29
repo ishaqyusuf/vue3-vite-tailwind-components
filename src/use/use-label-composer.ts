@@ -29,19 +29,19 @@ export async function useLabelComposer(track_code) {
   const init = () => {
     _parcel.value = item.value;
     data.value = {
-      _parcel: _parcel.value,
+      parcel: _parcel.value,
       recipient: getRecipient(),
       dimension: getDimension(),
       weight: getWeight(),
       onHandId: getOnHandId(),
     };
   };
-  const _item = await parcel.fetchOne(track_code, { label_mode: true });
-  if (_item) return null;
+  item.value = await parcel.fetchOne(track_code, { label_mode: true });
+  if (!item.value) return null;
 
   init();
   return {
-    parcel: parcel,
+    parcel: _parcel,
     data,
   };
 }

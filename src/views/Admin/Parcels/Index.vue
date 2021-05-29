@@ -30,7 +30,7 @@
         <MenuLinkItem>Quick Update Parcel</MenuLinkItem>
         <MenuLinkItem>Update Tracking</MenuLinkItem>
         <MenuLinkItem>Invoice</MenuLinkItem>
-        <MenuItem @click="tableWorker.excute('openLabel', item)"
+        <MenuItem @click="tableWorker.execute('openLabel', item)"
           >Label</MenuItem
         >
         <MenuItem @click="tableWorker.execute('selectRecipient', item)"

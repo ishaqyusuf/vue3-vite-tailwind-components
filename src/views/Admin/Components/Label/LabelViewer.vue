@@ -19,9 +19,10 @@ export default {
     const open = async (_item) => {
       item.value = _item;
       const label = await useLabelComposer(_item.track_code);
-      if (label) {
-        console.log(label);
-      }
+      //   if (label) {
+      console.log(label);
+      show.value = true;
+      //   }
     };
     return {
       show,
