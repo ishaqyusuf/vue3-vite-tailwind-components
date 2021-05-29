@@ -251,7 +251,7 @@ export default {
       const value = valued.value;
       const { itemText, source, itemValue, returnObject, items } = props;
       await loadSource();
-      const _items = source ? sourceData.items : items;
+      const _items = source ? sourceData.items : items?.value ?? items;
       var results = _items;
       if (value) {
         let rt = ["^", value].filter(Boolean).join("");

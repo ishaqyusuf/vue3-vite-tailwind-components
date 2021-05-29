@@ -38,9 +38,11 @@
         <Btn secondary dense tile> <i-mdi-chevron-right /> </Btn
       ></template>
       <template v-else>
-        <router-link :to="item.to" v-for="(item, index) in all" :key="index">
-          <Btn secondary tile> {{ item.page }} </Btn>
-        </router-link>
+        <template v-if="data.pages > 1">
+          <router-link :to="item.to" v-for="(item, index) in all" :key="index">
+            <Btn secondary tile> {{ item.page }} </Btn>
+          </router-link>
+        </template>
       </template>
     </div>
     <div class="inline-flex space-x-2" v-else>

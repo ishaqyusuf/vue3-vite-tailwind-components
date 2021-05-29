@@ -37,7 +37,10 @@ export default function useList<T>() {
 
   const checkAll = computed({
     get: () => {
-      return data.ids.every((id) => data.checkedIds.includes(id));
+      return (
+        data.ids.length > 0 &&
+        data.ids.every((id) => data.checkedIds.includes(id))
+      );
     },
     set: (isChecked) => {
       toggleAll(isChecked);

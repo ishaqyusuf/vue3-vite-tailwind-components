@@ -17,14 +17,14 @@
         <div class="flex flex-col">
           <div class="inline-flex">
             <Spacer />
-            <Btn text>Reset Default</Btn>
+            <Btn text @click="reloadPkgData">Reset Default</Btn>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-4">
             <div class="col-span-1 space-y-2 sm:col-span-6 lg:col-span-4">
               <Input
                 combobox
                 label="Courier"
-                :items="dataLoader.couriers.value"
+                :items="dataLoader.couriers"
                 dense
                 class="sm:col-span-2"
                 v-model="form.courier"
@@ -34,13 +34,7 @@
                 <div class="inline-flex w-full items-center justify-between">
                   <ClientCard class="w-full" :client="recipient">
                     <template #empty>
-                      <Input
-                        readonly
-                        dense
-                        @click="openRecipient"
-                        class=""
-                        v-model="form.courier"
-                      />
+                      <Input readonly dense @click="openRecipient" class="" />
                     </template>
                   </ClientCard>
                   <Btn v-if="recipient.id" icon @click="recipient = {}">
@@ -90,6 +84,7 @@
       <!-- @change="saveState('track_code', form.track_code)" -->
     </Card>
     <Parcels
+      :list="list"
       title="Scans Today"
       :query="{ today: true, by_me: true }"
     ></Parcels>
@@ -99,10 +94,12 @@
 <script lang="ts">
 import Index from "@/views/Admin/Parcels/Index.vue";
 import dataLoader from "@/hooks/dataLoader";
-import { reactive, ref } from "vue";
-import { Parcel, Recipient } from "@/@types/Interface";
+import { ref } from "vue";
+import { Parcel } from "@/@types/Interface";
 import UserList from "@/views/Admin/Components/UserList.vue";
 import ClientCard from "@/views/Admin/Components/ClientCard.vue";
+import parcel from "@/use/parcels/parcel";
+import useList from "@/use/useList";
 export default {
   props: {},
   components: {
@@ -111,16 +108,27 @@ export default {
     Parcels: Index,
   },
   setup(props, { emit }) {
-    dataLoader.initPkgData();
     dataLoader.initCouriers();
+    const list = useList();
+    const setData = (value) => {
+      form.value = Object.assign(form.value, value);
+    };
+    dataLoader.initPkgData(setData);
 
     const scanCode = ref();
     const scanning = ref(false);
     const recipient = ref<any>({});
-    const form = reactive<Parcel>({});
-    const performScan = () => {
-      console.log("....");
+    const form = ref<Parcel>({});
+
+    const performScan = async () => {
+      const data: any = form.value;
+      data.user_id = recipient.value?.id;
+      const _data = await parcel.createOne({ data });
+      if (_data.id) {
+        list.updateItem(_data.id, _data, false);
+      }
     };
+
     const openRecipient = () => {
       userls.value.open().then((user) => {
         if (user) {
@@ -131,8 +139,12 @@ export default {
     const userls = ref();
     const userInput = ref();
     return {
+      list,
       userls,
       recipient,
+      reloadPkgData: () => {
+        dataLoader.initPkgData(setData);
+      },
       userInput,
       scanCode,
       dataLoader,

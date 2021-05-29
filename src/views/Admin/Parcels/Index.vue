@@ -66,9 +66,9 @@ import router from "@/router";
 import RecipientColumn from "@/views/Admin/Parcels/RecipientColumn.vue";
 import ParcelColumn from "@/views/Admin/Parcels/ParcelColumn.vue";
 import table from "@/hooks/table";
-import { tableHook } from "@/hooks/table";
 import { TableStructure } from "@/@types/Interface";
 import PagerInterface from "@/@types/PagerInterface";
+import useList from "@/use/useList";
 export default {
   components: {
     RecipientColumn,
@@ -77,12 +77,13 @@ export default {
   props: {
     query: Object,
     title: { default: "Parcels" },
+    list: Object,
   },
   setup(props, ctx) {
     onMounted(() => {
       initialize();
     });
-    const tableWorker = tableHook();
+    const tableWorker = props.list ?? useList();
     tableWorker.initialize([], parcels.transform, {
       // delete: {
       //   // action: ...

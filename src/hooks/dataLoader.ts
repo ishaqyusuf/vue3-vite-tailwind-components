@@ -2,13 +2,20 @@ import { reactive, ref, toRefs } from "vue";
 import { $clientApi } from "@/core/services/client";
 import { $dev } from "@/core/utils/functions";
 import siteDataApi from "@/hooks/site-data-api";
+
 const couriers = ref<string[]>([]);
-const loaded = reactive({
+const locations = ref<string[]>([]);
+const trackNotes = ref<string[]>([]);
+const pkgData = ref<any>({});
+
+const loader = reactive({
   courier: false,
+  locations: false,
+  trackNote: false,
+  pkgData: false,
 });
 const data = reactive({
   courierLoaded: false,
-  couriers: [],
   locationLoaded: false,
   locations: [],
   trackNoteLoaded: false,
@@ -31,36 +38,37 @@ const getSomething = async (what) => {
   });
 };
 const initCouriers = async () => {
-  if (!data.courierLoaded) {
+  if (!loader.courier) {
     getSomething("/couriers").then((items) => {
-      data.couriers = items;
-      loaded.courier = true;
+      couriers.value = items;
+      loader.courier = true;
     });
   }
 };
-const initPkgData = async () => {
-  if (!data.pkgDataLoaded) {
+const initPkgData = async (loaded: any = null) => {
+  if (!loader.pkgData) {
     const data = await siteDataApi.get("parcel_data");
     const { content } = data;
     if (content) {
-      data.pkgData = content;
-      data.pkgDataLoaded = true;
+      pkgData.value = content;
+      loader.pkgData = true;
     }
   }
+  loaded && loaded(pkgData.value);
 };
 const initTrackNotes = async () => {
-  if (!data.trackNoteLoaded) {
+  if (!loader.trackNote) {
     getSomething("/track_notes").then((items) => {
-      data.trackNotes = items;
-      data.trackNoteLoaded = true;
+      trackNotes.value = items;
+      loader.trackNote = true;
     });
   }
 };
 const initLocations = async () => {
-  if (!data.locationLoaded) {
+  if (!loader.locations) {
     getSomething("/locations").then((items) => {
-      data.locations = items;
-      data.locationLoaded = true;
+      locations.value = items;
+      loader.locations = true;
     });
   }
 };
@@ -74,5 +82,9 @@ export default {
   initTrackNotes,
   updateCouriers,
   initPkgData,
-  ...toRefs(data),
+  // ....
+  couriers,
+  locations,
+  pkgData,
+  trackNotes,
 };
