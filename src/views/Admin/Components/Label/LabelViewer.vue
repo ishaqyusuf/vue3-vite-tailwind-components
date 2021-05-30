@@ -1,29 +1,33 @@
 <template>
   <Prompt v-model="show" pilot>
     <template #container>
-      <div class="max-w-md mx-auto bg-red-400">
+      <div class="flex flex-col space-y-2 items-center justify-center">
         <div id="shipping-label" class="flex" v-if="!loading && !dataUrl">
           <LabelTemplateOne
             :data="label.data"
             ref="labelTemplate"
           ></LabelTemplateOne>
-          <img class="mx-4" :src="dataUrl" v-if="dataUrl" />
+        </div>
+        <img class="mx-4" :src="dataUrl" v-if="dataUrl" />
+        <div class="flex space-x-2">
+          <Btn fab color="green-500" @click="printLabel"><i-mdi-printer /></Btn>
+          <Btn fab @click="download"><i-mdi-download /></Btn>
+          <Btn fab color="red-500" @click="closeLabel"><i-mdi-close /></Btn>
         </div>
       </div>
-
-      <Btn>d</Btn>
     </template>
   </Prompt>
 </template>
 
 <script lang="ts">
-import parcel from "@/use/parcels/parcel";
 import { ref } from "vue";
 import { useLabelComposer } from "@/use/use-label-composer";
 import domtoimage from "dom-to-image";
 import useTime from "@/hooks/time";
 import LabelTemplateOne from "@/views/Admin/Components/Label/LabelTemplateOne.vue";
 import alert from "@/hooks/alert";
+import printJS from "print-js";
+import { saveAs } from "file-saver";
 export default {
   props: {},
   components: { LabelTemplateOne },
@@ -33,18 +37,18 @@ export default {
     const label = ref();
     const labelTemplate = ref();
     const dataUrl = ref();
+    const blob = ref();
     const loading = ref(true);
     const open = async (_item) => {
       item.value = _item;
-
       show.value = true;
       loading.value = true;
       label.value = await useLabelComposer(_item.track_code);
       if (label.value) {
         loading.value = false;
         await useTime.delay(500);
-        // let blob = await domtoimage.toBlob(labelTemplate.value);
-        // dataUrl.value = window.URL.createObjectURL(blob);
+        blob.value = await domtoimage.toBlob(labelTemplate.value.$el);
+        dataUrl.value = window.URL.createObjectURL(blob.value);
         return;
       }
       show.value = false;
@@ -59,6 +63,19 @@ export default {
       label,
       item,
       open,
+      printLabel: () => {
+        printJS({
+          printable: `<img src="${dataUrl.value}">`,
+          type: "raw-html",
+        });
+      },
+      download: () => {
+        saveAs(blob.value, `${item.value.track_code}.png`);
+      },
+      closeLabel: () => {
+        blob.value = dataUrl.value = null;
+        show.value = false;
+      },
     };
   },
 };

@@ -1,8 +1,13 @@
 <template>
   <div class="" :class="{ 'text-right': rtl }">
-    <TMenu v-slot="{ open }" as="div" class="relative inline-block text-left">
+    <TMenu
+      v-slot="{ open }"
+      as="div"
+      ref="menu"
+      class="relative inline-block text-left"
+    >
       <TMenuButton class="focus:outline-none">
-        <slot />
+        <slot :open="open" />
       </TMenuButton>
 
       <transition
@@ -14,6 +19,7 @@
         leave-to-class="transform scale-95 opacity-0"
       >
         <TMenuItems
+          ref="items"
           :class="[!noWidth && width, { 'origin-top-right  right-0': rtl }]"
           class="absolute mt-1 bg-white z-10 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
         >
@@ -26,6 +32,7 @@
 
 <script lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
+import { ref } from "vue";
 
 export default {
   props: {
@@ -38,6 +45,14 @@ export default {
     TMenuButton: MenuButton,
     TMenuItems: MenuItems,
     TMenuItem: MenuItem,
+  },
+  setup(props, { emit }) {
+    const menu = ref();
+    const items = ref();
+    return {
+      menu,
+      items,
+    };
   },
 };
 </script>

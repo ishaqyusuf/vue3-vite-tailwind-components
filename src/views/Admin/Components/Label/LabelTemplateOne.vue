@@ -1,11 +1,5 @@
 <template>
   <div class="bg-white z-10 flex pr-1" style="padding-bottom: 0.5in !important">
-    <!-- <div
-      class="grid grid-rows-2 border-2 border-gray-700 font-bold text-gray-900"
-    >
-      <div class="row-span-1 border-b-2"></div>
-      <div class="row-span-1"></div>
-    </div> -->
     <div
       class="border-2 border-gray-700 grid grid-rows-2 w-full font-semibold text-gray-900"
       id="print-border"
@@ -25,7 +19,7 @@
               $dayjs.format(data.parcel.created_at, "YYYY-MM-DD")
             }}</span>
           </div>
-          <x-logo sm dark></x-logo>
+          <Logo sm dark></Logo>
         </div>
         <div class="border-b-2 border-gray-700 flex flex-1 p-2">
           <div class="flex-1 flex flex-col uppercase text-sm text-gray-700">
@@ -87,7 +81,6 @@
             style="height: 1in"
             :options="{ displayValue: false }"
           ></Barcode>
-          <!-- <ngx-barcode [bc-value]="label.oh_id" [bc-display-value]="true"></ngx-barcode> -->
           <div class="w-2/3 text-justify">
             <span
               class="track-code leading-none block text-center uppercase tracking-widest"
@@ -96,8 +89,6 @@
           </div>
         </div>
         <div id="bc2" class="flex justify-center" style="height: 0.6in">
-          <!-- <ngx-barcode [bc-value]="label.bar_code" [bc-height]="65" [bc-width]="2" [bc-font-size]="15"
-                    [bc-display-value]="true"></ngx-barcode> -->
           <Barcode
             :value="data.onHandId"
             class="w-4/5"

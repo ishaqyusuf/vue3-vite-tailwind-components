@@ -46,6 +46,8 @@ import { pick } from "lodash";
 export default {
   props: {
     parcel: Object,
+    prompt: Boolean,
+    lsHook: Object,
   },
   setup(props, { emit }) {
     onMounted(() => {
@@ -70,8 +72,12 @@ export default {
           "courier",
           "description",
         ]);
-        const updated = await parcel.updateParcel(data);
-        if (updated) emit("close");
+        const updated = await parcel.updateParcel(
+          data,
+          props.parcel.track_code,
+          props.lsHook
+        );
+        if (updated) emit("close", updated);
       },
       close: () => emit("close"),
     };

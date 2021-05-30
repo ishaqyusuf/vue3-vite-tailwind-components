@@ -19,7 +19,7 @@
       <span>Note box is empty</span>
     </EmptyContainer>
   </template>
-  <EditTracking :hook="listHook" ref="editor"></EditTracking>
+  <EditTracking :trackings-hook="listHook" ref="editor"></EditTracking>
 </template>
 
 <script lang="ts">

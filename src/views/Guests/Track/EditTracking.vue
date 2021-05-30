@@ -25,7 +25,8 @@ import dataLoader from "@/hooks/dataLoader";
 import trackerHook from "@/hooks/tracker";
 export default {
   props: {
-    hook: Object,
+    trackingsHook: Object,
+    parcelsHook: Object,
   },
   setup(props, { emit }) {
     const show = ref(false);
@@ -35,9 +36,11 @@ export default {
       dataLoader.initLocations();
       dataLoader.initTrackNotes();
     });
-    const init = (tracking: Tracking, extras = {}) => {
+    const parcelId = ref();
+    const init = (tracking: Tracking, extras = {}, _parcelId = null) => {
       title.value = tracking.id ? "Edit Tracking" : "Create New Tracking";
       // form.value = tracking;
+      parcelId.value = _parcelId;
       form.value = Object.assign({}, tracking, extras);
       // console.log(form);
       show.value = true;
@@ -52,9 +55,12 @@ export default {
       saveTracking: async () => {
         return new Promise((resolve, reject) => {
           trackerHook
-            .save(form.value, (item) =>
-              props.hook.updateItem(item.id, item, false)
-            )
+            .save(form.value, (item) => {
+              const { trackingsHook, parcelsHook } = props;
+              if (trackingsHook) trackingsHook.updateItem(item.id, item, false);
+              if (parcelsHook)
+                parcelsHook.updateItem(parcelId.value, { status: item.status });
+            })
             .then((data) => {
               return resolve(data);
             });

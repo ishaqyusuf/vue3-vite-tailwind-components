@@ -25,10 +25,19 @@
       <template v-slot:recipient="{ item, header }">
         <RecipientColumn :item="item" :list="tableWorker" />
       </template>
+      <template v-slot:more-actions="{ item, header }">
+        <Btn dense large icon @click="tableWorker.execute('openLabel', item)">
+          <i-mdi-label-outline />
+        </Btn>
+      </template>
       <template v-slot:menu-items="{ item }">
         <MenuLinkItem :to="item.to">Open Parcel</MenuLinkItem>
-        <MenuLinkItem>Quick Update Parcel</MenuLinkItem>
-        <MenuLinkItem>Update Tracking</MenuLinkItem>
+        <MenuItem @click="tableWorker.execute('parcelForm', item)"
+          >Quick Update Parcel</MenuItem
+        >
+        <MenuItem @click="tableWorker.execute('updateTracking', item)"
+          >Update Tracking</MenuItem
+        >
         <MenuLinkItem>Invoice</MenuLinkItem>
         <MenuItem @click="tableWorker.execute('openLabel', item)"
           >Label</MenuItem
@@ -65,6 +74,15 @@
     <Pager :data="pager" simple />
     <LabelViewer ref="labelRef"></LabelViewer>
     <UserList ref="userls" title="Select Client"></UserList>
+
+    <EditTracking
+      :parcels-hook="tableWorker"
+      ref="trackingEditor"
+    ></EditTracking>
+    <ParcelFormPrompt
+      :ls-hook="tableWorker"
+      ref="parcelForm"
+    ></ParcelFormPrompt>
   </Container>
 </template>
 
@@ -78,10 +96,15 @@ import { TableStructure } from "@/@types/Interface";
 import PagerInterface from "@/@types/PagerInterface";
 import useList from "@/use/useList";
 import UserList from "@/views/Admin/Components/UserList.vue";
+import useParcelListActions from "@/views/Admin/Parcels/use-parcel-list-actions";
 import LabelViewer from "@/views/Admin/Components/Label/LabelViewer.vue";
+import EditTracking from "@/views/Guests/Track/EditTracking.vue";
+import ParcelFormPrompt from "@/views/Admin/Parcel/ParcelFormPrompt.vue";
 export default {
   components: {
+    EditTracking,
     RecipientColumn,
+    ParcelFormPrompt,
     UserList,
     ParcelColumn,
     LabelViewer,
@@ -97,25 +120,21 @@ export default {
     });
     const tableWorker = props.list ?? useList();
     const userls = ref();
+    const parcelForm = ref();
     const labelRef = ref();
-    tableWorker.initialize([], parcels.transform, {
-      selectRecipient: {
-        action: (item) => {
-          userls.value.open().then(async (user) => {
-            await parcels.updateParcelRecipient(
-              item.track_code,
-              user,
-              tableWorker
-            );
-          });
-        },
-      },
-      openLabel: {
-        action: (item) => {
-          labelRef.value.open(item);
-        },
-      },
-    });
+    const trackingEditor = ref();
+    tableWorker.initialize(
+      [],
+      parcels.transform,
+      useParcelListActions({
+        userls,
+        parcels,
+        tableWorker,
+        labelRef,
+        trackingEditor,
+        parcelForm,
+      })
+    );
 
     const data = reactive<{
       items: any[];
@@ -159,8 +178,10 @@ export default {
     ];
 
     return {
+      trackingEditor,
       userls,
       labelRef,
+      parcelForm,
       ...toRefs(data),
       isLoading: computed(() => parcels.loading.value),
       structure,

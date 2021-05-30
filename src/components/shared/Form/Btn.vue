@@ -28,7 +28,7 @@
           'inline-flex items-center justify-center w-full space-x-2': true,
           'opacity-0': isLoading,
           'px-4 py-2': !dense && !fab && !icon && !text,
-          'px-2': dense,
+          'px-2': dense && !fab && !icon && !text,
           'text-sm': !xLarge && !large,
         }"
       >
@@ -115,10 +115,14 @@ export default {
       () => props.loading || nativeLoading.value || props.disabled
     );
     const _color = computed(() =>
-      color.includes("-") ? color : [color, contrast].join("-")
+      props.color.includes("-")
+        ? props.color
+        : [props.color, props.contrast].join("-")
     );
     const _tcolor = computed(() =>
-      color.includes("-") ? textColor : [textColor, contrast].join("-")
+      props.color.includes("-")
+        ? props.textColor
+        : [props.textColor, props.contrast].join("-")
     );
     const styles = computed(() => [
       isDisabled.value && "gray-scale",
@@ -129,13 +133,16 @@ export default {
       },
       icon && `text-${color == "blue" ? _tcolor.value : _color.value}`,
       { "border-black-800": dark },
-      { "w-9 h-9": fab },
+      { "w-9 h-9 inline-flex items-center": fab },
       { "rounded-full": rounded || fab },
       { "text-base focus:outline-none border-separate relative": true },
       { "rounded-lg": !tile },
-      { "text-lg h-12": large },
-      { "text-xl h-14": xLarge },
-      { "text-sm h-7": small },
+      { "text-lg": large },
+      { "text-xl": xLarge },
+      { "text-sm": small },
+      { "h-12": large && !icon && !text },
+      { "h-14": xLarge && !icon && !text },
+      { "h-7": small && !icon && !text },
       primary && `bg-${_color.value} text-white`,
       { "hover:bg-opacity-80": icon || primary || secondary },
       { "bg-white text-gray-700": secondary },

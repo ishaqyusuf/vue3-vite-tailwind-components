@@ -28,13 +28,17 @@ export default function useList<T>() {
     const item = data.itemByIds[id];
 
     if (item) {
-      data.itemByIds[id] = Object.freeze({
-        ...item,
-        ..._item,
-      });
-    } else _push ? push(_item) : unshift(_item);
+      data.itemByIds[id] = transFormData(
+        Object.freeze({
+          ...item,
+          ..._item,
+        })
+      );
+    } else {
+      const transformed = transFormData(_item);
+      _push ? push(transformed) : unshift(transformed);
+    }
   };
-
   const checkAll = computed({
     get: () => {
       return (

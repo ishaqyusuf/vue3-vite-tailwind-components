@@ -65,48 +65,58 @@
         {
           'py-2 px-3': dense,
           'py-3 px-6': !dense,
-          'opacity-0 group-hover:opacity-100': hideActions,
         },
       ]"
       class="text-right relative text-sm font-medium"
       v-if="action"
     >
-      <div class="inline-flex">
+      <div class="inline-flex space-x-2">
         <slot name="actions" :item="item">
-          <slot name="more-actions" :item="item"></slot>
-          <slot name="delete-btn" :item="item">
-            <Btn
-              dense
-              v-if="deletable"
-              :icon="!textAction"
-              color="red-600"
-              large
-              async
-              :action="deleteItem"
-              confirm
-              :text="textAction"
-            >
-              <i-mdi-delete-outline v-if="!textAction" />
-              <span v-else class="text-green-600">Delete</span>
-            </Btn>
-          </slot>
-          <slot name="edit-btn" :item="item">
-            <Btn
-              dense
-              :icon="!textAction"
-              v-if="editable"
-              large
-              :text="textAction"
-            >
-              <i-mdi-pencil-box-multiple-outline v-if="!textAction" />
-              <span v-else class="text-green-600">Edit</span>
-            </Btn>
-          </slot>
+          <div
+            class="inline-flex space-x-2"
+            :class="{
+              'opacity-0 group-hover:opacity-100': hideActions,
+            }"
+          >
+            <slot name="more-actions" :item="item"></slot>
+            <slot name="delete-btn" :item="item">
+              <Btn
+                dense
+                v-if="deletable"
+                :icon="!textAction"
+                color="red-600"
+                large
+                async
+                :action="deleteItem"
+                confirm
+                :text="textAction"
+              >
+                <i-mdi-delete-outline v-if="!textAction" />
+                <span v-else class="text-green-600">Delete</span>
+              </Btn>
+            </slot>
+
+            <slot name="edit-btn" :item="item">
+              <Btn
+                dense
+                :icon="!textAction"
+                v-if="editable"
+                large
+                :text="textAction"
+              >
+                <i-mdi-pencil-box-multiple-outline v-if="!textAction" />
+                <span v-else class="text-green-600">Edit</span>
+              </Btn>
+            </slot>
+          </div>
           <slot name="more-btn" :item="item">
-            <Menu rtl v-if="moreAction">
+            <Menu rtl v-if="moreAction" ref="menu">
               <slot name="menu-btn" :item="item">
                 <Btn dense :icon="!textAction" large :text="textAction">
-                  <i-mdi-dots-horizontal v-if="!textAction" />
+                  <i-mdi-dots-vertical
+                    class="text-black-400"
+                    v-if="!textAction"
+                  />
                   <span v-else>More</span>
                 </Btn>
               </slot>
@@ -115,17 +125,6 @@
               </template>
             </Menu>
           </slot>
-          <!-- <SimpleMenu open-on-hover rtl v-if="moreAction">
-            <slot name="menu-btn" :item="item">
-              <Btn dense :icon="!textAction" large :text="textAction">
-                <i-mdi-dots-horizontal v-if="!textAction" />
-                <span v-else>More</span>
-              </Btn>
-            </slot>
-            <template v-slot:items>
-              <slot name="menu-items" :item="item" />
-            </template>
-          </SimpleMenu> -->
         </slot>
       </div>
     </td>
