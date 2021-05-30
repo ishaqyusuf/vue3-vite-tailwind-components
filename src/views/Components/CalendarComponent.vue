@@ -11,15 +11,16 @@
       </template>
     </Menu> -->
     <!-- <DateInput v-model="date"></DateInput> -->
+
     <DatePicker v-model="date" />
   </Container>
 </template>
 
 <script lang="ts">
 import { reactive, ref } from "vue";
-
 export default {
   props: {},
+  components: {},
   setup(props, { emit }) {
     const form = reactive({
       date: "",
