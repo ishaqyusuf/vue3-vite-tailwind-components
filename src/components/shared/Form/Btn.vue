@@ -181,7 +181,8 @@ export default {
           emit("result", props.await ? await props.action() : props.action());
           nativeLoading.value = false;
         }
-      } else emit("click");
+      }
+      //  else emit("click");
     };
     return {
       click,

@@ -7,10 +7,14 @@
           <i-mdi-plus />
           <span>New Route</span>
         </Btn>
-        <Btn>
-          <i-mdi-plus />
-          <span>New Shipment</span>
-        </Btn>
+        <ShipmentEditorPrompt>
+          <template #btn="{ open }">
+            <Btn @click="open({}, listr)">
+              <i-mdi-plus />
+              <span>New Shipment</span>
+            </Btn>
+          </template>
+        </ShipmentEditorPrompt>
       </div>
     </div>
     <StandardTable
@@ -30,7 +34,11 @@
 <script lang="ts">
 import useShipmentsList from "@/use/list/use-shipments-list";
 import useList from "@/use/useList";
+import ShipmentEditorPrompt from "@/views/Admin/Shipments/ShipmentEditorPrompt.vue";
 export default {
+  components: {
+    ShipmentEditorPrompt,
+  },
   props: {},
   setup(props, { emit }) {
     const listr = useList();

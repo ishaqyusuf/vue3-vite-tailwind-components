@@ -31,7 +31,9 @@
             <div
               :class="[
                 {
-                  'bg-white max-w-md my-8 shadow-xl rounded-2xl': !pilot,
+                  'bg-white max-w-md my-8 shadow-xl': !pilot,
+                  'rounded-2xl': rounded,
+                  'rounded-lg': !tile && !rounded,
                 },
                 containerClass,
               ]"
@@ -134,6 +136,8 @@ export default {
     action: Boolean,
     cancelable: Boolean,
     dense: Boolean,
+    rounded: Boolean,
+    tile: Boolean,
     noAction: Boolean,
     info: String,
     containerClass: String,
@@ -151,10 +155,12 @@ export default {
       isOpen,
       async okBtn() {
         if (props.okAction) {
-          const { msg, error } = await props.okAction();
-          if (msg) alert.register(msg, error);
-        }
-        closeModal(true);
+          const response = await props.okAction();
+          if (response) {
+            const { msg, error } = response;
+            if (msg) alert.register(msg, error);
+          }
+        } else closeModal(true);
       },
       closeModal,
     };
