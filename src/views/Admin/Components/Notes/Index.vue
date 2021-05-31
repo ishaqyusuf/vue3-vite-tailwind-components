@@ -45,12 +45,7 @@ export default {
     const groupType = props.parcel_slug ? "parcel" : "shipment";
     const lsHook = useList();
     const parentId = ref<number>(0);
-    lsHook.initialize([], (item, result) => {
-      const name = item.title.split(".");
-      result.format = name.pop();
-      result.name = name.join(".");
-      return result;
-    });
+    lsHook.initialize([]);
     var query: any = {};
     props.parcel_slug
       ? (query.pid = props.parcel_slug)
