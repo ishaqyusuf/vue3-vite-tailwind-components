@@ -10,6 +10,9 @@ const transformer = (item, data) => {
   data.status_color = item.shipment.status == "Active" ? "green" : "red";
   return data;
 };
+const actions: any = {};
 export default {
+  transformer,
+  actions,
   structure,
 };

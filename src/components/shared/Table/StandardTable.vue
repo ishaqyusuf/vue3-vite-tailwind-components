@@ -88,7 +88,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     onMounted(() => {});
-    const { checkAll = false } = props.worker;
+    const { checkAll } = props.worker;
     const slots = ref<string[]>(
       [
         ...props.structure?.map((struct) => {

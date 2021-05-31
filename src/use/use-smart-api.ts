@@ -2,38 +2,36 @@ import { $clientApi } from "@/core/services/client";
 import { $dev } from "@/core/utils/functions";
 import alert from "@/hooks/alert";
 import qs from "qs";
-const get = async (path: any[], query = {}) => {
+const get = async (url, query = {}) => {
   try {
-    const { data } = await $clientApi.get(
-      `/${path.join("/")}?${qs.stringify(query)}`
-    );
+    const { data } = await $clientApi.get(`/${url}?${qs.stringify(query)}`);
     return data;
   } catch (err) {
     $dev.error(err);
   }
   return null;
 };
-const create = async (path: any[], form) => {
+const create = async (url, form) => {
   try {
-    const { data } = await $clientApi.post(`/${path.join("/")}`, form);
+    const { data } = await $clientApi.post(`/${url}`, form);
     return data;
   } catch (err) {
     $dev.error(err);
   }
   return null;
 };
-const update = async (path: any[], form) => {
+const update = async (url, form) => {
   try {
-    const { data } = await $clientApi.patch(`/${path.join("/")}`, form);
+    const { data } = await $clientApi.patch(`/${url}`, form);
     return data;
   } catch (err) {
     $dev.error(err);
   }
   return null;
 };
-const destroy = async (path: any[]) => {
+const destroy = async (url) => {
   try {
-    const { data } = await $clientApi.delete(`/${path.join("/")}`);
+    const { data } = await $clientApi.delete(`/${url}`);
     return data;
   } catch (err) {
     $dev.error(err);
@@ -51,23 +49,26 @@ const toast = (data, options) => {
 export default {
   request: async (
     type: "index" | "get" | "create" | "update" | "delete",
-    path: any[],
-    data,
+    path: any,
+    data: any = null,
     options = {}
   ) => {
+    let url = ["/", ...(typeof path === "string" ? path : path.join("/"))].join(
+      ""
+    );
     let req;
     switch (type) {
       case "get":
-        req = get(path, data);
+        req = get(url, data);
         break;
       case "create":
-        req = create(path, data);
+        req = create(url, data);
         break;
       case "update":
-        req = update(path, data);
+        req = update(url, data);
         break;
       case "delete":
-        req = destroy(path);
+        req = destroy(url);
         break;
     }
     const response = await req;
@@ -77,4 +78,5 @@ export default {
   create,
   update,
   destroy,
+  toast,
 };

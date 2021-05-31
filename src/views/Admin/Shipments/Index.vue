@@ -1,24 +1,48 @@
 <template>
   <Container class="space-y-4">
-    <CardTitle>Shipments</CardTitle>
+    <div class="inline-flex justify-between w-full items-center">
+      <CardTitle>Shipments</CardTitle>
+      <div class="inline-flex space-x-2">
+        <Btn secondary>
+          <i-mdi-plus />
+          <span>New Route</span>
+        </Btn>
+        <Btn>
+          <i-mdi-plus />
+          <span>New Shipment</span>
+        </Btn>
+      </div>
+    </div>
     <StandardTable
       checkable
       action
       hide-actions
       dense
       deletable
-      :structure=""
+      :worker="listr"
+      hide-checks
+      more-action
+      :structure="structure"
     ></StandardTable>
   </Container>
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
-
+import useShipmentsList from "@/use/use-shipments-list";
+import useList from "@/use/useList";
 export default {
   props: {},
   setup(props, { emit }) {
-    return {};
+    const listr = useList();
+    listr.initialize(
+      [],
+      useShipmentsList.transformer,
+      useShipmentsList.actions
+    );
+    return {
+      listr,
+      ...useShipmentsList,
+    };
   },
 };
 </script>
