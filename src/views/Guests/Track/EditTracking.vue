@@ -3,16 +3,27 @@
     <template #info>
       <div class="my-4 px-4 grid grid-cols-12 gap-4 items-center">
         <Label class="col-span-4">Status</Label>
-        <Input v-model="form.status" :items="trackNotes" class="col-span-8" />
+        <Input
+          v-model="form.status"
+          combobox
+          :items="stats"
+          class="col-span-8"
+        />
         <Label class="col-span-4">Summary</Label>
         <Input
           v-model="form.content"
+          combobox
           :items="trackNotes"
           textarea
           class="col-span-8"
         />
         <Label class="col-span-4">Location</Label>
-        <Input v-model="form.location" class="col-span-8" :items="locations" />
+        <Input
+          v-model="form.location"
+          combobox
+          class="col-span-8"
+          :items="locations"
+        />
       </div>
     </template>
   </Prompt>

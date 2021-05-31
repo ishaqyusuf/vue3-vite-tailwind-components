@@ -18,7 +18,9 @@
         :active="index == state.index"
         @mouseenter="state.index = index"
       >
-        {{ getObjectValue(item, itemText, item) }}
+        <Truncify class="text-left">
+          {{ getObjectValue(item, itemText, item) }}
+        </Truncify>
       </SimpleMenuItem>
     </ul>
   </transition>

@@ -91,7 +91,7 @@ export default function useList<T>() {
 
   const transFormData = (item) => {
     const transform = transformer.value;
-    const data = transform ? transform(item) : {};
+    const data = transform ? transform(item, {}) : {};
     return Object.assign({}, item, data);
   };
   const deleteItem = async (id, _alert = true) => {

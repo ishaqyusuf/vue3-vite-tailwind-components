@@ -45,11 +45,11 @@ export default {
     const groupType = props.parcel_slug ? "parcel" : "shipment";
     const lsHook = useList();
     const parentId = ref<number>(0);
-    lsHook.initialize([], (item) => {
+    lsHook.initialize([], (item, result) => {
       const name = item.title.split(".");
-      item.format = name.pop();
-      item.name = name.join(".");
-      return item;
+      result.format = name.pop();
+      result.name = name.join(".");
+      return result;
     });
     var query: any = {};
     props.parcel_slug

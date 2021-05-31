@@ -11,7 +11,7 @@ const init = (_query = null) => {
   query.value = _query ?? {};
   api.fetchMany(query).then((data) => {
     const { items, pager } = data;
-    items.value = transformAll(items);
+    items.value = items;
     pager.value = pager;
     loading.value = false;
   });
@@ -23,11 +23,7 @@ const deleteParcels = (parcels) => {
     alert.register("Selected items has been deleted");
   });
 };
-const transformAll = (items) => {
-  return items.map((item) => transform(item));
-};
-const transform = (item) => {
-  const data: any = {};
+const transform = (item, data) => {
   let details: any[] = [
     { value: item.weight_str, style: "blue" },
     { value: item.courier, style: "purple" },
@@ -50,8 +46,6 @@ const transform = (item) => {
       parcel_slug: item.track_code,
     },
   };
-
-  // if (item.recipient)
   return data;
 };
 export default {
@@ -61,5 +55,4 @@ export default {
   pager,
   deleteParcels,
   transform,
-  transformAll,
 };
