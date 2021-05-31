@@ -27,4 +27,8 @@ export default {
     const data = await useSmartApi.request("delete", ["shipments", id]);
     return data;
   },
+  update: async (id, form, options = {}) => {
+    const data = await useSmartApi.request("update", ["shipments", id], form);
+    return data;
+  },
 };

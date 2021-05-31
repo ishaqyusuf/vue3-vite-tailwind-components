@@ -1,0 +1,31 @@
+<template>
+  <div>
+    <slot name="btn" :open="open"></slot>
+    <ShipmentEditor ref="dialog"></ShipmentEditor>
+  </div>
+</template>
+
+<script lang="ts">
+import { ref } from "vue";
+import ShipmentEditor from "@/views/Admin/Shipments/ShipmentEditor.vue";
+export default {
+  components: {
+    ShipmentEditor,
+  },
+  props: {},
+  setup(props, { emit }) {
+    const title = ref("");
+    const dialog = ref();
+    const open = async (shipment: any = {}, list = null) => {
+      return dialog.value.editShipment(shipment, list).then((result) => {});
+    };
+    return {
+      open,
+      dialog,
+      title,
+    };
+  },
+};
+</script>
+
+<style scoped></style>
