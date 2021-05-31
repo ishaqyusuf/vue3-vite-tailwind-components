@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import useShipmentsList from "@/use/use-shipments-list";
+import useShipmentsList from "@/use/list/use-shipments-list";
 import useList from "@/use/useList";
 export default {
   props: {},

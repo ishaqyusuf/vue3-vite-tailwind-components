@@ -1,7 +1,7 @@
 <template></template>
 
 <script lang="ts">
-import useShipmentsApi from "@/use/use-shipments-api";
+import useShipmentsApi from "@/use/api/use-shipments-api";
 import { ref } from "vue";
 
 export default {

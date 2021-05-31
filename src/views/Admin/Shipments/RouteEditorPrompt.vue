@@ -1,23 +1,23 @@
 <template>
   <div>
     <slot name="btn" :open="open"></slot>
-    <ShipmentEditor ref="dialog"></ShipmentEditor>
+    <RouteEditor ref="dialog"></RouteEditor>
   </div>
 </template>
 
 <script lang="ts">
 import { ref } from "vue";
-import ShipmentEditor from "@/views/Admin/Shipments/ShipmentEditor.vue";
+import RouteEditor from "@/views/Admin/Shipments/RouteEditor.vue";
 export default {
   components: {
-    ShipmentEditor,
+    RouteEditor,
   },
   props: {},
   setup(props, { emit }) {
     const title = ref("");
     const dialog = ref();
-    const open = async (shipment: any = {}, list = null) => {
-      return dialog.value.editShipment(shipment, list).then((result) => {});
+    const open = async (route: any = {}, list = null) => {
+      return dialog.value.editRoute(route, list).then((result) => {});
     };
     return {
       open,

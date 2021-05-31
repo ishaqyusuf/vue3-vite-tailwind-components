@@ -1,7 +1,7 @@
 <template></template>
 
 <script lang="ts">
-import useShipmentsApi from "@/use/use-shipments-api";
+import useShipmentsApi from "@/use/api/use-shipments-api";
 import { ref } from "vue";
 
 export default {
@@ -11,14 +11,14 @@ export default {
     const resolver = ref();
     const title = ref();
     const rejecter = ref();
-    const editShipment = async (shipment: any = {}, list = null) => {
-      title.value = shipment.title ?? "Create Shipment";
+    const editRoute = async (route: any = {}, list = null) => {
+      title.value = route.title ?? "Create Route";
       return new Promise((resolve, reject) => {
         resolver.value = resolve;
         rejecter.value = reject;
       });
     };
-    const saveShipment = async () => {
+    const saveRoute = async () => {
       const formData = {
         data: form.value,
       };
@@ -30,8 +30,8 @@ export default {
     };
     return {
       title,
-      editShipment,
-      saveShipment,
+      editRoute,
+      saveRoute,
     };
   },
 };
