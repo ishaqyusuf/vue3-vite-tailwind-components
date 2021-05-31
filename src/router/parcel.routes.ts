@@ -5,6 +5,9 @@ const routes: Array<RouteRecordRaw> = [
     name: "parcels",
     path: "/parcels",
     component: () => import("../views/Admin/Parcels/Index.vue"),
+    meta: {
+      title: "Parcels",
+    },
   },
   {
     path: "/parcel/:parcel_slug",

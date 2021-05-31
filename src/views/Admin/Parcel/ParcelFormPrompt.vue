@@ -25,12 +25,13 @@ export default {
     const show = ref(false);
     const parcel = ref();
     const open = (_parcel) => {
-      parcel.value = parcel;
+      parcel.value = _parcel;
       show.value = true;
     };
 
     return {
       parcel,
+      open,
       show,
       onClose: (parcel) => {
         show.value = false;

@@ -31,19 +31,29 @@
         </Btn>
       </template>
       <template v-slot:menu-items="{ item }">
-        <MenuLinkItem :to="item.to">Open Parcel</MenuLinkItem>
-        <MenuItem @click="tableWorker.execute('parcelForm', item)"
-          >Quick Update Parcel</MenuItem
+        <MenuLinkItem :to="item.to">
+          <i-mdi-open-in-app class="mr-3" />
+          Open Parcel</MenuLinkItem
         >
-        <MenuItem @click="tableWorker.execute('updateTracking', item)"
-          >Update Tracking</MenuItem
+        <MenuItem @click="tableWorker.execute('openParcelForm', item)">
+          <i-mdi-package-variant class="mr-3" />
+          Update Parcel</MenuItem
         >
-        <MenuLinkItem>Invoice</MenuLinkItem>
-        <MenuItem @click="tableWorker.execute('openLabel', item)"
-          >Label</MenuItem
+        <MenuItem @click="tableWorker.execute('updateTracking', item)">
+          <i-mdi-map-marker-plus-outline class="mr-3" />
+          Update Tracking</MenuItem
         >
-        <MenuItem @click="tableWorker.execute('selectRecipient', item)"
-          >Update Recipient</MenuItem
+        <MenuLinkItem to="{}">
+          <i-mdi-receipt class="mr-3" />
+          Invoice</MenuLinkItem
+        >
+        <MenuItem @click="tableWorker.execute('openLabel', item)">
+          <i-mdi-label-variant-outline class="mr-3" />
+          Label</MenuItem
+        >
+        <MenuItem @click="tableWorker.execute('selectRecipient', item)">
+          <i-mdi-account-plus-outline class="mr-3" />
+          Update Recipient</MenuItem
         >
       </template>
     </StandardTable>

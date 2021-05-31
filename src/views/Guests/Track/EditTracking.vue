@@ -3,7 +3,7 @@
     <template #info>
       <div class="my-4 px-4 grid grid-cols-12 gap-4 items-center">
         <Label class="col-span-4">Status</Label>
-        <Input v-model="form.status" class="col-span-8" />
+        <Input v-model="form.status" :items="trackNotes" class="col-span-8" />
         <Label class="col-span-4">Summary</Label>
         <Input
           v-model="form.content"
@@ -34,6 +34,7 @@ export default {
     const form = ref<Tracking>({});
     onMounted(() => {
       dataLoader.initLocations();
+      dataLoader.initStats();
       dataLoader.initTrackNotes();
     });
     const parcelId = ref();

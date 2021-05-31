@@ -8,6 +8,7 @@ import TitleHelper from "../utils/title";
 import useConfigs from "../use/configs";
 import user from "../use/user";
 import menu from "@/hooks/menu";
+import useRouteTitle from "@/use/use-route-title";
 export const routes: Array<RouteRecordRaw> = [
   ...basic.routes,
   ...auth.routes,
@@ -22,7 +23,8 @@ const router = createRouter({
 router.beforeEach((to: any, from: any, next: any) => {
   NProgress.start();
   menu.close();
-  TitleHelper(to, from, next);
+  useRouteTitle(to, from, next);
+  // TitleHelper(to, from, next);
   useConfigs.fullScreen.value = to.matched.some(
     (route) => route.meta.fullScreen
   );

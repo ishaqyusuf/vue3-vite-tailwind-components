@@ -11,7 +11,7 @@
       class="border inline-flex divide-x rounded-lg shadow-sm -space-x-px"
     >
       <template v-if="data.last_page > 9"
-        ><Btn secondary tile dense>
+        ><Btn secondary tile>
           <i-mdi-chevron-left />
         </Btn>
         <router-link
@@ -35,7 +35,7 @@
             {{ item.page }}
           </Btn>
         </router-link>
-        <Btn secondary dense tile> <i-mdi-chevron-right /> </Btn
+        <Btn secondary tile> <i-mdi-chevron-right /> </Btn
       ></template>
       <template v-else>
         <template v-if="data.pages > 1">

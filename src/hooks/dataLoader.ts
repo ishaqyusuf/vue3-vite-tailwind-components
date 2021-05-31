@@ -7,22 +7,16 @@ const couriers = ref<string[]>([]);
 const locations = ref<string[]>([]);
 const trackNotes = ref<string[]>([]);
 const pkgData = ref<any>({});
+const stats = ref<any>([]);
 
 const loader = reactive({
   courier: false,
   locations: false,
   trackNote: false,
   pkgData: false,
+  stats: false,
 });
-const data = reactive({
-  courierLoaded: false,
-  locationLoaded: false,
-  locations: [],
-  trackNoteLoaded: false,
-  trackNotes: [],
-  pkgDataLoaded: false,
-  pkgData: {},
-});
+
 const getSomething = async (what) => {
   return new Promise<never[]>((resolve, reject) => {
     $clientApi
@@ -44,6 +38,13 @@ const initCouriers = async () => {
       loader.courier = true;
     });
   }
+};
+const initStats = async () => {
+  if (!loader.stats)
+    getSomething("/statuses").then((items) => {
+      stats.value = items;
+      loader.stats = true;
+    });
 };
 const initPkgData = async (loaded: any = null) => {
   if (!loader.pkgData) {
@@ -82,6 +83,8 @@ export default {
   initTrackNotes,
   updateCouriers,
   initPkgData,
+  initStats,
+  stats,
   // ....
   couriers,
   locations,
