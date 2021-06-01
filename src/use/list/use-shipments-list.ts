@@ -2,7 +2,12 @@ import { TableStructure } from "@/@types/Interface";
 import useShipmentApi from "../api/use-shipments-api";
 const structure: TableStructure[] = [
   { name: "id_date", title: "#/Date" },
-  { name: "track_code", title: "Shippings" },
+  { name: "track_code", title: "Shipment" },
+  {
+    name: "shipment_route",
+    title: "Route",
+    computed: (item) => item.route.title,
+  },
   { name: "parcels", title: "Parcels" },
   { name: "status", title: "Status" },
 ];
@@ -14,7 +19,13 @@ const transformer = (item, data) => {
       slug: item.slug,
     },
   };
-  data.after_track_code = item.route.title;
+  data.shipment_route_link = {
+    name: "shipment",
+    params: {
+      slug: item.slug,
+    },
+  };
+  // data.after_track_code = item.route.title;
   return data;
 };
 const fetch = async (useList, pager, query = {}) => {
