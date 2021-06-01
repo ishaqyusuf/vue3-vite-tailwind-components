@@ -21,15 +21,19 @@ export default {
     tile: Boolean,
     styleMobile: Boolean,
     dark: Boolean,
+    pilot: Boolean,
   },
   setup(props, { emit }) {
     const pref = props.styleMobile ? "" : "sm:";
-    const styles = [
-      [pref, "shadow-xl"],
-      [pref, !props.dark ? "bg-white" : "bg-white"],
-    ]
-      .map((f) => f.filter(Boolean).join(""))
-      .join(" ");
+    const styles = props.pilot
+      ? []
+      : [
+          [pref, "shadow-xl"],
+          [pref, !props.dark ? "bg-white" : "bg-white"],
+        ]
+          .filter(Boolean)
+          .map((f) => f.filter(Boolean).join(""))
+          .join(" ");
     return {
       styles,
     };

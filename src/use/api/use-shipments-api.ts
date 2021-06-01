@@ -1,3 +1,4 @@
+import { ShipmentOverview } from "@/@types/Interface";
 import useSmartApi from "./use-smart-api";
 export default {
   index: async (query, options = {}) => {
@@ -11,7 +12,7 @@ export default {
       query,
       options
     );
-    return data;
+    return data as ShipmentOverview;
   },
   create: async (form, options = {}) => {
     const data = await useSmartApi.request(

@@ -93,3 +93,47 @@ export interface TableWorker {
   loading?: Ref<boolean>;
   deleteSelection?;
 }
+export interface Shipment {
+  active?;
+  active_until?;
+  archived_at?;
+  automatic?;
+  created_at?;
+  end_date?;
+  id?;
+  prefix?;
+  shipment_id?;
+  slug?;
+  start_date?;
+  status?;
+  title?;
+  track_code?;
+}
+export interface ShipmentMeta {
+  date?;
+  date_range?;
+  dates?: any[];
+  from_date?: string;
+  inactive_after_date?: string;
+  inactive_after_parcel_count?: number;
+  include_archiver?;
+  include_storage?;
+  mutliple_date?;
+  statuses?;
+  to_date?;
+}
+export interface ShipmentRoute {
+  created_at?: string;
+  id?: number;
+  next_index?: number;
+  prefix?: string;
+  slug?: string;
+  status?: string;
+  title?: string;
+}
+export interface ShipmentOverview {
+  meta?: ShipmentMeta;
+  parcels?;
+  route?: ShipmentRoute;
+  shipment?: Shipment;
+}

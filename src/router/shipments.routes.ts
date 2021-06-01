@@ -18,7 +18,55 @@ const routes: Array<RouteRecordRaw> = [
         name: "shipment",
         props: true,
         path: "",
+        meta: {
+          title: "Shipment",
+        },
         component: () => import("../views/Admin/Shipment/Overview.vue"),
+      },
+      {
+        name: "shipment-activity",
+        props: true,
+        path: "activities",
+        meta: {
+          title: "Activites | Shipment",
+        },
+        component: () => import("../views/Admin/Shipment/Activity.vue"),
+      },
+      {
+        name: "shipment-progress",
+        props: true,
+        path: "route-progress",
+        meta: {
+          title: "Route Progress | Shipment",
+        },
+        component: () => import("../views/Admin/Shipment/RouteProgress.vue"),
+      },
+      {
+        name: "shipment-notes",
+        props: true,
+        path: "",
+        meta: {
+          title: "Notes",
+        },
+        component: () => import("../views/Admin/Shipment/Note.vue"),
+      },
+      {
+        name: "shipment-documents",
+        props: true,
+        path: "",
+        meta: {
+          title: "Documents",
+        },
+        component: () => import("../views/Admin/Shipment/Documents.vue"),
+      },
+      {
+        name: "shipment-parcels",
+        props: true,
+        path: "active-parcels",
+        meta: {
+          title: "Active Parcels",
+        },
+        component: () => import("../views/Admin/Shipment/ActiveParcels.vue"),
       },
       //   {
       //     name: "parcel-documents",
