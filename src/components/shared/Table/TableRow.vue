@@ -11,12 +11,13 @@
   >
     <td
       scope="col"
-      class="px-6"
+      class=""
       :class="[
         {
           'opacity-0 group-hover:opacity-100': !checked && hideChecks,
-          'py-2': dense,
-          'py-3': !dense,
+
+          'py-2 px-3 w-12': dense,
+          'py-3 px-6 w-16': !dense,
         },
       ]"
       v-if="checkable"
@@ -49,16 +50,18 @@
           </slot>
         </span>
         <template v-else>
-          <button class="bg-gray-100 px-1 leading-6" v-if="struct.btnLink">
-            {{ struct.computed ? struct.computed(item) : item[struct.name] }}
-          </button>
-          <router-link :to="item[struct.name + '_link']" v-else>
-            {{ struct.computed ? struct.computed(item) : item[struct.name] }}
-          </router-link>
+          <div class="block">
+            <button class="bg-gray-100 px-1 leading-6" v-if="struct.btnLink">
+              {{ struct.computed ? struct.computed(item) : item[struct.name] }}
+            </button>
+            <router-link :to="item[struct.name + '_link']" v-else>
+              {{ struct.computed ? struct.computed(item) : item[struct.name] }}
+            </router-link>
+          </div>
         </template>
       </slot>
       <slot :name="'after_' + struct.name" :header="struct" :item="item">
-        {{ item["after_" + struct.name] }}
+        <span class="text-opacity-50"> {{ item["after_" + struct.name] }}</span>
       </slot>
     </td>
     <td
@@ -161,7 +164,7 @@ export default {
       item,
       checked,
       deleteItem: async () => {
-        await worker.deleteItem(props.index);
+        await worker.deleteItem(item.value);
       },
     };
   },

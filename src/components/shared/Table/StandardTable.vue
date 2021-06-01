@@ -1,7 +1,10 @@
 <template>
   <div>
     <div
-      class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+      class="shadow overflow-hidden border-b border-gray-200"
+      :class="{
+        'rounded-lg': !tile,
+      }"
       v-if="ids.length > 0"
     >
       <table
@@ -12,11 +15,11 @@
           <tr>
             <th
               scope="col"
-              class="w-16 text-xs font-medium text-gray-500 uppercase tracking-wider"
+              class="text-left"
               :class="[
                 {
-                  'py-2': dense,
-                  'py-3': !dense,
+                  'py-2 px-3 w-12': dense,
+                  'py-3 px-6 w-16': !dense,
                 },
               ]"
               v-if="checkable"
@@ -25,11 +28,11 @@
             </th>
             <th
               scope="col"
-              class="text-left px-6 text-xs font-medium text-gray-500 uppercase tracking-wider"
+              class="text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               :class="[
                 {
-                  'py-2': dense,
-                  'py-3': !dense,
+                  'py-2 px-3': dense,
+                  'py-3 px-6': !dense,
                 },
               ]"
               v-for="(item, index) in structure"
@@ -44,8 +47,8 @@
               class="text-xs font-medium text-gray-500 uppercase tracking-wider"
               :class="[
                 {
-                  'py-2': dense,
-                  'py-3': !dense,
+                  'py-2 px-3': dense,
+                  'py-3 px-6': !dense,
                 },
               ]"
               v-if="action"

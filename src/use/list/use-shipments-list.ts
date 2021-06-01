@@ -1,7 +1,7 @@
 import { TableStructure } from "@/@types/Interface";
 import useShipmentApi from "../api/use-shipments-api";
 const structure: TableStructure[] = [
-  { name: "date", title: "Date" },
+  { name: "id_date", title: "#/Date" },
   { name: "track_code", title: "Shippings" },
   { name: "parcels", title: "Parcels" },
   { name: "status", title: "Status" },
@@ -11,7 +11,7 @@ const transformer = (item, data) => {
   data.track_code_link = {
     name: "shipment",
     params: {
-      slug: item.lug,
+      slug: item.slug,
     },
   };
   data.after_track_code = item.route.title;
@@ -23,7 +23,13 @@ const fetch = async (useList, pager, query = {}) => {
   useList.refresh(data?.items);
   pager.value = data?.pager;
 };
-const actions: any = {};
+const actions: any = {
+  delete: {
+    action: async (item) => {
+      const data = await useShipmentApi.delete(item.track_code);
+    },
+  },
+};
 export default {
   transformer,
   fetch,

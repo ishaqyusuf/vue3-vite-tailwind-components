@@ -1,3 +1,4 @@
+import useParcel from "@/use/parcels/parcel";
 export default function useParceListActions({
   userls,
   parcels,
@@ -7,6 +8,11 @@ export default function useParceListActions({
   parcelForm,
 }) {
   return {
+    delete: {
+      action: async (item) => {
+        const data = await useParcel.deleteOne(item.track_code);
+      },
+    },
     selectRecipient: {
       action: (item) => {
         userls.value.open().then(async (user) => {

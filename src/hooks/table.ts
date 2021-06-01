@@ -22,6 +22,7 @@ const refreshable = (oq, nq, noRefreshKeys = [""], keys = ["page"]) => {
 export default {
   props: {
     editable: Boolean,
+    tile: Boolean,
     deletable: Boolean,
     hideActions: Boolean,
     hideChecks: Boolean,

@@ -94,9 +94,9 @@ export default function useList<T>() {
     const data = transform ? transform(item, {}) : {};
     return Object.assign({}, item, data);
   };
-  const deleteItem = async (id, _alert = true) => {
-    return performAction("delete", id, () => {
-      removeItem(id, true);
+  const deleteItem = async (item, _alert = true) => {
+    return performAction("delete", item, () => {
+      removeItem(item.id, true);
     });
   };
   const deleteMany = async (ids: number[]) => {
