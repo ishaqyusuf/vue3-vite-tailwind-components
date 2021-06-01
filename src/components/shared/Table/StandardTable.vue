@@ -75,7 +75,7 @@
         </tbody>
       </table>
     </div>
-    <EmptyContainer>
+    <EmptyContainer v-else>
       <slot name="empty">
         <i-mdi-timer-sand-empty class="text-7xl text-gray-400" />
         <span>List is empty</span>

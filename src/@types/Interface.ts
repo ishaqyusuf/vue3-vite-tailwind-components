@@ -69,6 +69,7 @@ export interface TableStructure {
   fontMedium?: boolean;
   btnProps?: object;
   btnLink?: boolean;
+  computed?: any;
 }
 export interface TableWorker {
   toggleAll?;

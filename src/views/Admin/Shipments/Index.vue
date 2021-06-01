@@ -34,6 +34,7 @@
 <script lang="ts">
 import useShipmentsList from "@/use/list/use-shipments-list";
 import useList from "@/use/useList";
+import { ref } from "vue";
 import ShipmentEditorPrompt from "@/views/Admin/Shipments/ShipmentEditorPrompt.vue";
 export default {
   components: {
@@ -47,7 +48,10 @@ export default {
       useShipmentsList.transformer,
       useShipmentsList.actions
     );
+    const pager = ref({});
+    useShipmentsList.fetch(listr, pager);
     return {
+      pager,
       listr,
       ...useShipmentsList,
     };

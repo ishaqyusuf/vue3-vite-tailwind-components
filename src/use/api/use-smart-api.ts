@@ -1,10 +1,10 @@
-import { $clientApi } from "@/core/services/client";
+import { $clientApi } from "@services/client";
 import { $dev } from "@/core/utils/functions";
 import alert from "@/hooks/alert";
 import qs from "qs";
 const get = async (url, query = {}) => {
   try {
-    const { data } = await $clientApi.get(`/${url}?${qs.stringify(query)}`);
+    const { data } = await $clientApi.get(`${url}?${qs.stringify(query)}`);
     return data;
   } catch (err) {
     $dev.error(err);
@@ -13,7 +13,7 @@ const get = async (url, query = {}) => {
 };
 const create = async (url, form) => {
   try {
-    const { data } = await $clientApi.post(`/${url}`, form);
+    const { data } = await $clientApi.post(`${url}`, form);
     return data;
   } catch (err) {
     $dev.error(err);
@@ -22,7 +22,7 @@ const create = async (url, form) => {
 };
 const update = async (url, form) => {
   try {
-    const { data } = await $clientApi.patch(`/${url}`, form);
+    const { data } = await $clientApi.patch(`${url}`, form);
     return data;
   } catch (err) {
     $dev.error(err);
@@ -31,7 +31,7 @@ const update = async (url, form) => {
 };
 const destroy = async (url) => {
   try {
-    const { data } = await $clientApi.delete(`/${url}`);
+    const { data } = await $clientApi.delete(`${url}`);
     return data;
   } catch (err) {
     $dev.error(err);
@@ -73,6 +73,7 @@ export default {
     }
     const response = await req;
     toast(response, options);
+    return response;
   },
   get,
   create,

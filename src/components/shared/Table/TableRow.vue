@@ -44,20 +44,21 @@
         <span class="block" v-if="!item[struct.name + '_link']">
           <slot :name="struct.name + '_prefix'" :header="struct" :item="item">
           </slot>
-          {{ item[struct.name] }}
+          {{ struct.computed ? struct.computed(item) : item[struct.name] }}
           <slot :name="struct.name + '_suffix'" :header="struct" :item="item">
           </slot>
         </span>
         <template v-else>
           <button class="bg-gray-100 px-1 leading-6" v-if="struct.btnLink">
-            {{ item[struct.name] }}
+            {{ struct.computed ? struct.computed(item) : item[struct.name] }}
           </button>
-          <router-link :to="item[struct.name + '_link']" v-else>{{
-            item[struct.name]
-          }}</router-link>
+          <router-link :to="item[struct.name + '_link']" v-else>
+            {{ struct.computed ? struct.computed(item) : item[struct.name] }}
+          </router-link>
         </template>
       </slot>
       <slot :name="'after_' + struct.name" :header="struct" :item="item">
+        {{ item["after_" + struct.name] }}
       </slot>
     </td>
     <td

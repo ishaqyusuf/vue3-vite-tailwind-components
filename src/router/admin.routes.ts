@@ -1,8 +1,10 @@
 import { RouteRecordRaw } from "vue-router";
 
 import parcelRoutes from "./parcel.routes";
+import shipmentsRoutes from "./shipments.routes";
 const routes: Array<RouteRecordRaw> = [
   ...parcelRoutes.routes,
+  ...shipmentsRoutes.routes,
   {
     name: "dashboard",
     path: "/dashboard",
@@ -27,11 +29,6 @@ const routes: Array<RouteRecordRaw> = [
     name: "scanner",
     path: "/parcel-scanner",
     component: () => import("../views/Admin/Scanner/Index.vue"),
-  },
-  {
-    name: "shipments",
-    path: "/shipments",
-    component: () => import("../views/Admin/Shipments/Index.vue"),
   },
   {
     name: "roles",
