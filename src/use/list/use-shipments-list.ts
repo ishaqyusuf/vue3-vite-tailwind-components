@@ -20,9 +20,9 @@ const transformer = (item, data) => {
     },
   };
   data.shipment_route_link = {
-    name: "shipment",
+    name: "shipment-route",
     params: {
-      slug: item.slug,
+      slug: item.route.slug,
     },
   };
   // data.after_track_code = item.route.title;

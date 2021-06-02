@@ -267,7 +267,7 @@ export default {
     });
     const inputType = ref(props.type);
     watch(
-      [valued, props.items, props.source, state].filter(Boolean),
+      () => [valued, props.items, props.source, state].filter(Boolean),
       async (value, old) => {
         initResults();
       }

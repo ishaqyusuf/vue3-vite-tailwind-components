@@ -9,9 +9,11 @@ const shipment = ref<Shipment>({});
 const shipmentRoute = ref<ShipmentRoute>({});
 const loading = ref(true);
 const stylus = ref<any>({});
-function initialize(slug) {
+const slug = ref();
+function initialize(_slug) {
+  slug.value = _slug;
   loading.value = true;
-  useShipmentsApi.get(slug).then((data) => {
+  useShipmentsApi.get(_slug).then((data) => {
     shipment.value = data.shipment ?? {};
     overview.value = data;
     shipmentRoute.value = data.route ?? {};
@@ -29,6 +31,7 @@ export default {
   loading,
   stylus,
   shipment,
+  slug,
   overview,
   shipmentRoute,
   initialize,

@@ -50,11 +50,10 @@ export default {
     });
     const parcelId = ref();
     const init = (tracking: Tracking, extras = {}, _parcelId = null) => {
-      title.value = tracking.id ? "Edit Tracking" : "Create New Tracking";
+      title.value = tracking.id ? "Edit Activity" : "Create New Activity";
       // form.value = tracking;
       parcelId.value = _parcelId;
       form.value = Object.assign({}, tracking, extras);
-      // console.log(form);
       show.value = true;
     };
 
@@ -74,7 +73,8 @@ export default {
                 parcelsHook.updateItem(parcelId.value, { status: item.status });
             })
             .then((data) => {
-              return resolve(data);
+              resolve(data);
+              show.value = false;
             });
         });
       },

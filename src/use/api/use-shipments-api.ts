@@ -12,7 +12,7 @@ export default {
       query,
       options
     );
-    return data as ShipmentOverview;
+    return data; // as ShipmentOverview;
   },
   create: async (form, options = {}) => {
     const data = await useSmartApi.request(

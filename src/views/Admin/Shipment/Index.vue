@@ -1,11 +1,11 @@
 <template>
-  <Container v-if="!loading">
-    <div class="">
+  <div v-if="!loading">
+    <App class="pt-4 sm:pt-6">
       <CardContent class="flex flex-col">
         <div class="flex justify-between items-start">
           <div class="flex flex-col">
             <CardTitle flat-y>
-              {{ shipmentRoute.title }}
+              <router-link to="{}">{{ shipmentRoute.title }}</router-link>
               <span class="text-black-200 font-light px-2">|</span>
               {{ shipment.title }}</CardTitle
             >
@@ -52,11 +52,11 @@
           </TabItem>
         </Tabs>
       </CardContent>
-    </div>
-    <div class="bg-white min-h-screen">
+    </App>
+    <Bg app secondary>
       <router-view></router-view>
-    </div>
-  </Container>
+    </Bg>
+  </div>
 </template>
 
 <script lang="ts">

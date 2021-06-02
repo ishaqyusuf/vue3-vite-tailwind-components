@@ -1,8 +1,10 @@
 <template>
   <div
     :class="{
-      'py-4 sm:py-6': !simple || !pilot,
-      'min-h-screen': (!simple && !slim) || !pilot,
+      'min-h-screen': fs,
+      'bg-white': primary,
+      'bg-gray-50': secondary,
+      'bg-gray-100': tertiary,
     }"
     class="max-w-xs mx-auto sm:max-w-lg md:max-w-4xl lg:max-w-5xl xl:max-w-6xl"
   >
@@ -15,9 +17,10 @@ import { ref } from "vue";
 
 export default {
   props: {
-    simple: Boolean,
-    pilot: Boolean,
-    slim: Boolean,
+    fs: Boolean,
+    primary: Boolean,
+    secondary: Boolean,
+    tertiary: Boolean,
   },
   setup(props, { emit }) {
     return {};
