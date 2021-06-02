@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!loading">
+  <App vintage fs v-if="!loading">
     <App class="pt-4 sm:pt-6">
       <CardContent class="flex flex-col">
         <div class="flex justify-between items-start">
@@ -56,7 +56,7 @@
     <Bg app secondary>
       <router-view></router-view>
     </Bg>
-  </div>
+  </App>
 </template>
 
 <script lang="ts">

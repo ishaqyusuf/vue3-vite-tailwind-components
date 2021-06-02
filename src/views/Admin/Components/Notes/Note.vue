@@ -34,16 +34,9 @@ export default {
     FileUploader,
   },
   props: {
+    parent: { type: Object, required: true },
     dataId: { type: Number, required: true },
     useList: { type: Object, required: true },
-    type: {
-      type: String,
-      required: true,
-      validator(val) {
-        return ["parcel", "shipment", "document"].includes(val);
-      },
-    },
-    parentId: { type: Number, required: true },
   },
   setup(props, { emit }) {
     const item = computed(() => props.useList.itemByIds.value[props.dataId]);
@@ -54,8 +47,7 @@ export default {
         {
           data: {
             content: note.value,
-            post_parent: props.parentId,
-            type: props.type,
+            ...props.parent,
           },
         },
         slug

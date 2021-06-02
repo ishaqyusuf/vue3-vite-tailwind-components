@@ -51,14 +51,7 @@ export default {
   props: {
     dataId: { type: Number, required: true },
     useList: { type: Object, required: true },
-    type: {
-      type: String,
-      required: true,
-      validator(val) {
-        return ["parcel", "shipment", "document"].includes(val);
-      },
-    },
-    parentId: { type: Number, required: true },
+    parent: { type: Object, required: true },
   },
   setup(props, { emit }) {
     const item = computed(() => props.useList.itemByIds.value[props.dataId]);
@@ -70,8 +63,7 @@ export default {
       const form = {
         data: {
           title: file.name,
-          group_type: props.type,
-          post_parent: props.parentId,
+          ...props.parent,
         },
       };
       uploading.value = true;

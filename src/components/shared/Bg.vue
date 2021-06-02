@@ -6,6 +6,7 @@
       'bg-gray-50': secondary,
       'bg-gray-100': tertiary,
     }"
+    class="min-h-full"
   >
     <App v-if="app"><slot></slot></App>
     <slot v-else></slot>

@@ -1,7 +1,7 @@
 <template>
-  <Container pilot
+  <App vintage pad-y
     ><ActivityComponent slim ref="activity"></ActivityComponent>
-  </Container>
+  </App>
 </template>
 
 <script lang="ts">
