@@ -30,7 +30,7 @@ const transformer = (item, data) => {
 };
 const fetch = async (useList, pager, query = {}) => {
   const data = await useShipmentApi.index(query);
-  console.log(data);
+
   useList.refresh(data?.items);
   pager.value = data?.pager;
 };

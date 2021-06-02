@@ -51,6 +51,7 @@ export default {
     const item = computed(() => props.useList.itemByIds.value[props.dataId]);
 
     const saveNote = async () => {
+      if (!note.value) return;
       const slug = props.dataId > 0 && item.value.id;
       const _note = await useNotes.saveNote(
         {
@@ -61,7 +62,6 @@ export default {
         },
         slug
       );
-      console.log(_note);
       props.useList.updateItem(_note.id, _note, false);
       note.value = "";
       closeEditor();

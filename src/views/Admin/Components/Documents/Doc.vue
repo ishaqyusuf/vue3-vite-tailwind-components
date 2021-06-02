@@ -24,7 +24,17 @@
           <i-mdi-download />
         </Btn>
       </div>
-      <i-mdi-pdf-box class="text-5xl text-red-400" />
+      <div class="text-5xl">
+        <i-mdi-pdf-box v-if="item.pdf" class="text-red-400" />
+        <i-mdi-file-excel-outline class="text-green-400" v-if="item.excel" />
+        <i-mdi-file-document-outline v-if="item.doc" />
+        <i-mdi-file-image-outline v-if="item.img" />
+        <i-mdi-file-powerpoint-outline v-if="item.ppt" />
+        <i-mdi-file-word-outline v-if="item.word" />
+        <i-mdi-file-video-outline v-if="item.video" />
+        <i-mdi-xml v-if="item.code" />
+        <!-- <i-mdi-file-multiple-outline /> -->
+      </div>
       <!-- <i-mdi-file-delimited-outline v-if=""/>
       <i-mdi-file-excel-outline/>
       <i-mdi-file-document-outline/>
@@ -43,7 +53,7 @@
 import alert from "@/hooks/alert";
 import useDocs from "@/use/api/useDocs";
 import FileUploader from "@/views/Admin/Components/Documents/FileUploader.vue";
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 export default {
   components: {
     FileUploader,
@@ -73,9 +83,10 @@ export default {
       uploading.value = false;
     };
     const deleteDocument = async () => {
+      const _item = item.value;
       await useDocs.deletDoc(item.value.slug);
       alert.success("Document has been deleted.");
-      props.useList.deleteItem(props.dataId);
+      props.useList.deleteItem(_item);
     };
 
     return {

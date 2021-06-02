@@ -1,26 +1,12 @@
-<template>
-  <ActivityComponent ref="activity"></ActivityComponent>
-</template>
+<template></template>
 
 <script lang="ts">
-import useShipmentsApi from "@/use/api/use-shipments-api";
-import user from "@/use/user";
-import { onMounted, ref } from "vue";
-import useShipmentOverview from "./use-shipment-overview";
+import { ref } from "vue";
+
 export default {
   props: {},
   setup(props, { emit }) {
-    const activity = ref();
-    onMounted(() => {
-      activity.value.init(
-        useShipmentOverview.slug,
-        useShipmentsApi.get,
-        user.can("updateShipment")
-      );
-    });
-    return {
-      activity,
-    };
+    return {};
   },
 };
 </script>

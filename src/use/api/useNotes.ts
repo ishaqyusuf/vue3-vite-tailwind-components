@@ -9,6 +9,7 @@ const getNotes = async (query) => {
 const saveNote = async (form, slug = null) => {
   const url = ["notes", slug].filter(Boolean).join("/");
   const req = slug ? $clientApi.patch(url, form) : $clientApi.post(url, form);
+
   const { data } = await req;
   return data;
 };

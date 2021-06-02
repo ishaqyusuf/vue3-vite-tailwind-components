@@ -1,18 +1,12 @@
 <template>
   <Loader v-if="ls.loading.value"></Loader>
-  <div class="space-y-2 mx-4" v-else>
+  <div class="grid grid-cols-1 sm:grid-cols-12 sm:gap-4" v-else>
     <Doc
       :parent="parent"
-      class="col-span-1 sm:col-span-4 xl:col-span-3"
-      :data-id="-1"
+      class="col-span-1 sm:col-span-4 md:col-span-3 xl:col-span-2"
+      :data-id="id"
       :use-list="ls"
-    ></Doc>
-    <Doc
-      :parent="parent"
-      class="col-span-1 sm:col-span-4 xl:col-span-3"
-      :data-id="-1"
-      :use-list="ls"
-      v-for="(id, index) in ls.ids.value"
+      v-for="(id, index) in [-1, ...ls.ids.value]"
       :key="index"
     ></Doc>
     <EmptyContainer v-if="ls.ids.value.length == 0">
@@ -25,7 +19,7 @@ import useList from "@/use/useList";
 import { ref, computed } from "vue";
 import Doc from "./Doc.vue";
 import EmptyContainer from "@/components/shared/EmptyContainer.vue";
-
+import { useFileFormat } from "@/use/use-file-format";
 export default {
   components: {
     Doc,
@@ -39,7 +33,12 @@ export default {
     const permission = ref();
     const parent = ref({});
     const init = async (slug, api, _permission) => {
-      ls.initialize([]);
+      const ff = useFileFormat();
+      ls.initialize([], (item, res) => {
+        const ft = item.title.split(".").pop();
+        res[ff.get(ft)] = true;
+        return res;
+      });
       const data = await api(slug, { docs: true });
       parent.value = data.parent;
       ls.refresh(data.items);
