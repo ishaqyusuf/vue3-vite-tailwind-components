@@ -12,12 +12,12 @@ const saveNote = async (form, slug = null) => {
   const { data } = await req;
   return data;
 };
-const deletNote = async (slug) => {
+const deleteNote = async (slug) => {
   const { data } = await $clientApi.delete("notes/" + slug);
   return data;
 };
 export default {
   getNotes,
   saveNote,
-  deletNote,
+  deleteNote,
 };

@@ -10,7 +10,7 @@
     <Note
       :parent="parent"
       class="col-span-1 sm:col-span-4 xl:col-span-3"
-      :data-id="-1"
+      :data-id="id"
       :use-list="ls"
       v-for="(id, index) in ls.ids.value"
       :key="index"
@@ -30,7 +30,9 @@ export default {
     Note,
     EmptyContainer,
   },
-  props: {},
+  props: {
+    slug: String,
+  },
   setup(props, { emit }) {
     const loading = ref(false);
     const ls = useList();

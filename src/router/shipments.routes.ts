@@ -44,7 +44,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         name: "shipment-notes",
         props: true,
-        path: "",
+        path: "notes",
         meta: {
           title: "Notes",
         },
@@ -53,7 +53,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         name: "shipment-documents",
         props: true,
-        path: "",
+        path: "documents",
         meta: {
           title: "Documents",
         },

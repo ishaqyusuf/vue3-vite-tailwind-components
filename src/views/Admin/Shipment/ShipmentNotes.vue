@@ -12,7 +12,7 @@ import useShipmentsApi from "@/use/api/use-shipments-api";
 import user from "@/use/user";
 export default {
   props: {
-    props: String,
+    slug: String,
   },
   components: {
     NotePage,
