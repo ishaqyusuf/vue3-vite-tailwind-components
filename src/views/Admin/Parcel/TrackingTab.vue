@@ -32,7 +32,7 @@ import EditTracking from "@/views/Guests/Track/EditTracking.vue";
 import { tableHook } from "@/hooks/table";
 export default {
   props: {
-    parcel_slug: String,
+    slug: String,
   },
   components: {
     TrackingStatusItem,
@@ -40,7 +40,7 @@ export default {
   },
   setup(props, { emit }) {
     onMounted(async () => {
-      const data = await trackerHook.search(props.parcel_slug);
+      const data = await trackerHook.search(props.slug);
       listHook.refresh(data.trackings ?? []);
     });
     const editor = ref();

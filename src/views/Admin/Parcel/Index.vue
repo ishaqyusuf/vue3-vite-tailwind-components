@@ -48,11 +48,11 @@ export default {
     OverviewCard,
   },
   props: {
-    parcel_slug: String,
+    slug: String,
   },
 
   setup(props, { emit }) {
-    useParcel.initParcelOverview(props.parcel_slug);
+    useParcel.initParcelOverview(props.slug);
     // useUser
     //   .createUser(
     //     {

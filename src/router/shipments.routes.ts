@@ -21,7 +21,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: "Shipment",
         },
-        component: () => import("../views/Admin/Shipment/Overview.vue"),
+        component: () => import("../views/Admin/Shipment/ShipmentOverview.vue"),
       },
       {
         name: "shipment-activity",
@@ -30,7 +30,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: "Activites | Shipment",
         },
-        component: () => import("../views/Admin/Shipment/Activity.vue"),
+        component: () => import("../views/Admin/Shipment/ShipmentActivity.vue"),
       },
       {
         name: "shipment-progress",
@@ -48,7 +48,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: "Notes",
         },
-        component: () => import("../views/Admin/Shipment/Note.vue"),
+        component: () => import("../views/Admin/Shipment/ShipmentNotes.vue"),
       },
       {
         name: "shipment-documents",
@@ -57,7 +57,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: "Documents",
         },
-        component: () => import("../views/Admin/Shipment/Documents.vue"),
+        component: () => import("../views/Admin/Shipment/ShipmentDocs.vue"),
       },
       {
         name: "shipment-parcels",

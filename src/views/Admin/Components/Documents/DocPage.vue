@@ -16,7 +16,7 @@
       :key="index"
     ></Doc>
     <EmptyContainer v-if="ls.ids.value.length == 0">
-      <i-mdi-note-text class="text-6xl" />
+      <i-mdi-water-outline class="text-6xl" />
     </EmptyContainer>
   </div>
 </template>
@@ -40,7 +40,7 @@ export default {
     const parent = ref({});
     const init = async (slug, api, _permission) => {
       ls.initialize([]);
-      const data = await api(slug, { notes: true });
+      const data = await api(slug, { docs: true });
       parent.value = data.parent;
       ls.refresh(data.items);
       permission.value = _permission;

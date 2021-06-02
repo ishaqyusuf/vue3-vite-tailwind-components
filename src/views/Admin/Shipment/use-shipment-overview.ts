@@ -14,6 +14,7 @@ function initialize(_slug) {
   slug.value = _slug;
   loading.value = true;
   useShipmentsApi.get(_slug).then((data) => {
+    console.log(data);
     shipment.value = data.shipment ?? {};
     overview.value = data;
     shipmentRoute.value = data.route ?? {};

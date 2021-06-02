@@ -10,7 +10,7 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/parcel/:parcel_slug",
+    path: "/parcel/:slug",
     component: () => import("../views/Admin/Parcel/Index.vue"),
     props: true,
     children: [
@@ -24,14 +24,13 @@ const routes: Array<RouteRecordRaw> = [
         name: "parcel-documents",
         props: true,
         path: "documents",
-        component: () =>
-          import("../views/Admin/Components/Documents/Index.vue"),
+        component: () => import("../views/Admin/Parcel/ParcelDocs.vue"),
       },
       {
         name: "parcel-notes",
         props: true,
         path: "notes",
-        component: () => import("../views/Admin/Components/Notes/Index.vue"),
+        component: () => import("../views/Admin/Parcel/ParcelNotes.vue"),
       },
     ],
   },

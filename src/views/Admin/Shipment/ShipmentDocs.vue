@@ -1,32 +1,33 @@
 <template>
-  <App vintage pad-y
-    ><ActivityComponent slim ref="activity"></ActivityComponent>
+  <App vintage pad-y>
+    <DocPage ref="docs"></DocPage>
   </App>
 </template>
 
 <script lang="ts">
+import { onMounted, ref } from "vue";
+import DocPage from "@/views/Admin/Components/Documents/DocPage.vue";
+import useShipmentOverview from "./use-shipment-overview";
 import useShipmentsApi from "@/use/api/use-shipments-api";
 import user from "@/use/user";
-import { onMounted, ref } from "vue";
-import ActivityComponent from "@/views/Guests/Track/ActivityComponent.vue";
 export default {
-  components: {
-    ActivityComponent,
-  },
   props: {
     slug: String,
   },
+  components: {
+    DocPage,
+  },
   setup(props, { emit }) {
-    const activity = ref();
+    const docs = ref();
     onMounted(() => {
-      activity.value.init(
+      docs.value.init(
         props.slug,
         useShipmentsApi.get,
         user.can("updateShipment")
       );
     });
     return {
-      activity,
+      docs,
     };
   },
 };

@@ -49,7 +49,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: "Notes",
         },
-        component: () => import("../views/Admin/ShipmentRoute/Note.vue"),
+        component: () => import("../views/Admin/ShipmentRoute/Notes.vue"),
       },
       {
         name: "route-documents",

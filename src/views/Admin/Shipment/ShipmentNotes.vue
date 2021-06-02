@@ -1,32 +1,33 @@
 <template>
-  <App vintage pad-y
-    ><ActivityComponent slim ref="activity"></ActivityComponent>
+  <App vintage pad-y>
+    <NotePage ref="notes"></NotePage>
   </App>
 </template>
 
 <script lang="ts">
+import { onMounted, ref } from "vue";
+import NotePage from "@/views/Admin/Components/Notes/NotePage.vue";
+import useShipmentOverview from "./use-shipment-overview";
 import useShipmentsApi from "@/use/api/use-shipments-api";
 import user from "@/use/user";
-import { onMounted, ref } from "vue";
-import ActivityComponent from "@/views/Guests/Track/ActivityComponent.vue";
 export default {
-  components: {
-    ActivityComponent,
-  },
   props: {
-    slug: String,
+    props: String,
+  },
+  components: {
+    NotePage,
   },
   setup(props, { emit }) {
-    const activity = ref();
+    const notes = ref();
     onMounted(() => {
-      activity.value.init(
+      notes.value.init(
         props.slug,
         useShipmentsApi.get,
         user.can("updateShipment")
       );
     });
     return {
-      activity,
+      notes,
     };
   },
 };

@@ -43,7 +43,7 @@ const transform = (item, data) => {
   data.to = {
     name: "parcel-overview",
     params: {
-      parcel_slug: item.track_code,
+      slug: item.track_code,
     },
   };
   return data;
