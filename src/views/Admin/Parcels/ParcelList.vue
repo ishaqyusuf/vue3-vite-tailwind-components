@@ -1,5 +1,10 @@
 <template>
-  <Container class="space-y-4 relative">
+  <Container
+    class="space-y-4 relative"
+    :class="{
+      'mb-12': list.data.checkedIds.length > 0,
+    }"
+  >
     <StandardTable
       checkable
       floating-action
@@ -90,7 +95,15 @@
 </template>
 
 <script lang="ts">
-import { ref, reactive, toRefs, onMounted, computed, watch } from "vue";
+import {
+  ref,
+  reactive,
+  toRefs,
+  onMounted,
+  computed,
+  watch,
+  onBeforeUnmount,
+} from "vue";
 import parcels from "@/use/parcels";
 import router from "@/router";
 import RecipientColumn from "@/views/Admin/Parcels/RecipientColumn.vue";
@@ -125,9 +138,14 @@ export default {
   },
   setup(props, ctx) {
     onMounted(() => {
-      console.log(useRoute().query);
-      initialize();
+      initialize(useRoute().query);
+      // window.addEventListener('scroll',scrollListener);
     });
+    const unmounted = ref(false);
+    onBeforeUnmount(() => {
+      unmounted.value = true;
+    });
+
     const list = props.ls ?? useList();
     const userls = ref();
     const parcelForm = ref();
@@ -154,8 +172,11 @@ export default {
       pager: {},
     });
     watch(useRouteData, (value, oldValue) => {
-      const { params, query } = value;
-      initialize(useRoute().query);
+      setTimeout(() => {
+        if (unmounted.value) return;
+        const { params, query } = value;
+        initialize(query);
+      }, 200);
     });
     const initialize = async (sq = {}, clearState = false) => {
       const _data = await parcels.fetchMany(
@@ -163,6 +184,7 @@ export default {
       );
       list.refresh(_data.items);
       data.pager = _data.pager;
+      window.scroll(0, 0);
     };
     const structure: TableStructure[] = [
       { name: "id_date", title: "#/Date" },

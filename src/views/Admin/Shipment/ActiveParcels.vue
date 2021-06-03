@@ -10,6 +10,7 @@
         <Input
           v-model="filter"
           select
+          @selected="changeView"
           dense
           item-text="title"
           :items="filters"
@@ -44,11 +45,21 @@ export default {
     const list = useList();
     const query = ref({});
     const filters = [
-      { show_add: false, title: "Active Parcels", query: {} },
+      {
+        show_add: false,
+        title: "Active Parcels",
+        query: {
+          page: 1,
+        },
+      },
       { show_add: true, title: "Shippable Parcels", query: {} },
     ];
     const filter = ref<any>(filters[0]);
+    const changeView = (view) => {
+      console.log(view);
+    };
     return {
+      changeView,
       filters,
       query,
       filter,

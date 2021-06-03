@@ -19,9 +19,6 @@ export const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
-  scrollBehavior: (to, from, savedPosition) => {
-    return { x: 0, y: 0 };
-  },
 });
 router.beforeEach((to: any, from: any, next: any) => {
   NProgress.start();
