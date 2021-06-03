@@ -10,10 +10,12 @@
       v-if="!btn"
       class="border inline-flex divide-x rounded-lg shadow-sm -space-x-px"
     >
-      <template v-if="data.last_page > 9"
-        ><Btn secondary no-ring tile>
-          <i-mdi-chevron-left />
-        </Btn>
+      <template v-if="data.last_page > 9">
+        <router-link :to="prev.to" :disabled="prev.disabled">
+          <Btn secondary no-ring tile>
+            <i-mdi-chevron-left />
+          </Btn>
+        </router-link>
         <router-link
           :to="item.to"
           :disabled="item.current"
@@ -35,10 +37,12 @@
             {{ item.page }}
           </Btn>
         </router-link>
-        <Btn secondary tile> <i-mdi-chevron-right /> </Btn
-      ></template>
+        <router-link :to="next.to" :disabled="next.disabled">
+          <Btn secondary no-ring tile> <i-mdi-chevron-right /> </Btn>
+        </router-link>
+      </template>
       <template v-else>
-        <template v-if="data.pages > 1">
+        <template v-if="data.last_page > 1">
           <router-link :to="item.to" v-for="(item, index) in all" :key="index">
             <Btn secondary no-ring tile> {{ item.page }} </Btn>
           </router-link>
@@ -53,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { computed, onMounted, reactive, ref, toRefs, watch } from "vue";
+import { onMounted, reactive, ref, toRefs, watch } from "vue";
 import useRouteData from "@/use/use-route-data";
 
 export default {
@@ -63,42 +67,62 @@ export default {
     btn: Boolean,
   },
   setup(props, { emit }) {
-    const pages = [];
-
     onMounted(() => {
       refreshPages();
     });
-    watch(useRouteData, (value, old) => {
-      refreshPages();
-    });
-    const pg = reactive<{ rSide: any[]; lSide: any[]; all: any[] }>({
+    watch(
+      () => props.data,
+      (value, old) => {
+        refreshPages();
+      }
+    );
+    const pages = reactive<{
+      rSide: any[];
+      next: any;
+      prev: any;
+      lSide: any[];
+      all: any[];
+    }>({
       rSide: [],
       lSide: [],
       all: [],
+      next: {},
+      prev: {},
     });
+
     const refreshPages = () => {
-      pg.rSide = links(props.data.current_page);
-      pg.lSide = links(props.data.last_page - 3);
-      pg.all = links(1, props.data.last_page);
+      pages.rSide = links(props.data.current_page);
+      pages.lSide = links(props.data.last_page - 3);
+      pages.all = links(1, props.data.last_page);
+      const lp = props.data.last_page;
+      const np = props.data.current_page + 1;
+      const pp = props.data.current_page - 1;
+      pages.next = toPg(np > lp ? np : -1);
+      pages.prev = toPg(pp > 0 ? pp : -1);
     };
+    const toPg = (p) => {
+      return {
+        disabled: p < 1 || p > props.data.last_page,
+        current: props.data.current_page == p,
+        page: p,
+        to: {
+          query: {
+            ...useRouteData.query,
+            page: p,
+          },
+        },
+      };
+    };
+
     const links = (base, count = 3): any =>
       Array(count)
         .fill({})
         .map((a, i) => {
           var pg = i + base;
-          return {
-            current: props.data.current_page == pg,
-            page: pg,
-            to: {
-              query: {
-                ...useRouteData.query,
-                page: pg,
-              },
-            },
-          };
+          return toPg(pg);
         });
     return {
-      ...toRefs(pg),
+      ...toRefs(pages),
     };
   },
 };
