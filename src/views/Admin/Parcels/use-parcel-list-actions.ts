@@ -2,7 +2,7 @@ import useParcel from "@/use/parcels/parcel";
 export default function useParceListActions({
   userls,
   parcels,
-  tableWorker,
+  list,
   labelRef,
   trackingEditor,
   parcelForm,
@@ -16,11 +16,7 @@ export default function useParceListActions({
     selectRecipient: {
       action: (item) => {
         userls.value.open().then(async (user) => {
-          await parcels.updateParcelRecipient(
-            item.track_code,
-            user,
-            tableWorker
-          );
+          await parcels.updateParcelRecipient(item.track_code, user, list);
         });
       },
     },

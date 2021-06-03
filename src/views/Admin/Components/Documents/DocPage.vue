@@ -9,9 +9,6 @@
       v-for="(id, index) in [-1, ...ls.ids.value]"
       :key="index"
     ></Doc>
-    <EmptyContainer v-if="ls.ids.value.length == 0">
-      <i-mdi-water-outline class="text-6xl" />
-    </EmptyContainer>
   </div>
 </template>
 <script lang="ts">

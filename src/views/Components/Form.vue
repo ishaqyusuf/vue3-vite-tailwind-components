@@ -55,7 +55,7 @@
         prefix="NGN"
         v-model="input3"
         password
-        label="Valued Input"
+        label="Valued Input: input3"
       ></Input>
       <Input v-model="input4" clearable label="Input"></Input>
       <Input
@@ -76,8 +76,8 @@
         v-model="input8"
         :items="itemsObject"
         item-text="title"
-        auto-complete
-        label="Auto Input Object 2"
+        select
+        label="Auto Input Object 2: inpute8"
       ></Input>
       <Input v-model="input6" :items="couriers" select label="Select Input">
         <template #inner>Hello world</template>

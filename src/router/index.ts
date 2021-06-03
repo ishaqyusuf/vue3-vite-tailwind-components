@@ -4,11 +4,11 @@ import basic from "./basic.routes";
 import component from "./component.routes";
 import admin from "./admin.routes";
 import NProgress from "@/utils/progress";
-import TitleHelper from "../utils/title";
 import useConfigs from "../use/configs";
 import user from "../use/user";
 import menu from "@/hooks/menu";
 import useRouteTitle from "@/use/use-route-title";
+import useRouteData from "@/use/use-route-data";
 export const routes: Array<RouteRecordRaw> = [
   ...basic.routes,
   ...auth.routes,
@@ -19,6 +19,9 @@ export const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+  scrollBehavior: (to, from, savedPosition) => {
+    return { x: 0, y: 0 };
+  },
 });
 router.beforeEach((to: any, from: any, next: any) => {
   NProgress.start();
@@ -43,6 +46,9 @@ router.beforeEach((to: any, from: any, next: any) => {
 });
 // When each route is finished evaluating...
 router.afterEach((routeTo, routeFrom) => {
+  useRouteData.params = routeTo.params;
+  useRouteData.query = routeTo.query;
+
   // Complete the animation of the route progress bar.
   NProgress.done();
 });

@@ -1,70 +1,21 @@
 <template>
-  <Container class="space-y-4">
-    <div class="text-2xl font-bold text-gray-700">{{ title }}</div>
+  <Container class="space-y-4 relative">
+    <div class="inline-flex items-center w-full">
+      <div class="block text-2xl font-bold text-gray-700">
+        <Truncify>{{ title }}</Truncify>
+      </div>
+      <slot name="after-title"></slot>
+    </div>
 
-    <StandardTable
-      checkable
-      floating-action
-      action
-      hide-actions
-      dense
-      deletable
-      :worker="tableWorker"
-      :structure="structure"
-      stickyAction
-      hide-checks
-      more-action
-    >
-      <template v-slot:id_date="{ item }">
-        <span class="block font-semibold">#{{ item.id }}</span>
-        <span class="block">{{ $dayjs.readable(item.created_at) }}</span>
-      </template>
-      <template v-slot:track_code="{ item, header }">
-        <ParcelColumn :item="item" :header="header" />
-      </template>
-      <template v-slot:recipient="{ item, header }">
-        <RecipientColumn :item="item" :list="tableWorker" />
-      </template>
-      <template v-slot:more-actions="{ item, header }">
-        <Btn dense large icon @click="tableWorker.execute('openLabel', item)">
-          <i-mdi-label-outline />
-        </Btn>
-      </template>
-      <template v-slot:menu-items="{ item }">
-        <MenuLinkItem :to="item.to">
-          <i-mdi-open-in-app class="mr-3" />
-          Open Parcel</MenuLinkItem
-        >
-        <MenuItem @click="tableWorker.execute('openParcelForm', item)">
-          <i-mdi-package-variant class="mr-3" />
-          Update Parcel</MenuItem
-        >
-        <MenuItem @click="tableWorker.execute('updateTracking', item)">
-          <i-mdi-map-marker-plus-outline class="mr-3" />
-          Update Tracking</MenuItem
-        >
-        <MenuLinkItem to="{}">
-          <i-mdi-receipt class="mr-3" />
-          Invoice</MenuLinkItem
-        >
-        <MenuItem @click="tableWorker.execute('openLabel', item)">
-          <i-mdi-label-variant-outline class="mr-3" />
-          Label</MenuItem
-        >
-        <MenuItem @click="tableWorker.execute('selectRecipient', item)">
-          <i-mdi-account-plus-outline class="mr-3" />
-          Update Recipient</MenuItem
-        >
-      </template>
-    </StandardTable>
+    <ParcelList :list="list"></ParcelList>
 
     <TableAction
-      :worker="tableWorker"
-      show
-      deletable
+      :worker="list"
+      :show="showAction"
+      :deletable="deleteAction"
       @delete="parcels.deleteParcels(items.filter((item) => item.checked))"
-      label
-      hasMore
+      :label="labelAction"
+      :hasMore="hasMoreAction"
     >
       <!-- @delete="deleteMany" @print="printMany" @edit="editMany" -->
       <template v-slot:menu>
@@ -85,14 +36,8 @@
     <LabelViewer ref="labelRef"></LabelViewer>
     <UserList ref="userls" title="Select Client"></UserList>
 
-    <EditTracking
-      :parcels-hook="tableWorker"
-      ref="trackingEditor"
-    ></EditTracking>
-    <ParcelFormPrompt
-      :ls-hook="tableWorker"
-      ref="parcelForm"
-    ></ParcelFormPrompt>
+    <EditTracking :parcels-hook="list" ref="trackingEditor"></EditTracking>
+    <ParcelFormPrompt :ls-hook="list" ref="parcelForm"></ParcelFormPrompt>
   </Container>
 </template>
 
@@ -120,31 +65,20 @@ export default {
     LabelViewer,
   },
   props: {
+    deleteAction: Boolean,
+    labelAction: Boolean,
+    showAction: Boolean,
+    hasMoreAction: Boolean,
     query: Object,
     title: { default: "Parcels" },
-    list: Object,
   },
   setup(props, ctx) {
-    onMounted(() => {
-      initialize();
-    });
-    const tableWorker = props.list ?? useList();
+    onMounted(() => {});
+    const list = useList();
     const userls = ref();
     const parcelForm = ref();
     const labelRef = ref();
     const trackingEditor = ref();
-    tableWorker.initialize(
-      [],
-      parcels.transform,
-      useParcelListActions({
-        userls,
-        parcels,
-        tableWorker,
-        labelRef,
-        trackingEditor,
-        parcelForm,
-      })
-    );
 
     const data = reactive<{
       items: any[];
@@ -159,47 +93,18 @@ export default {
         // tableHook.refreshable(query, getQuery.value, ["pid"]) && initialize();
       }
     );
-    const getQuery = computed(() => router.currentRoute.value.query);
-    var query: any = {};
-    const initialize = async () => {
-      const _data = await parcels.fetchMany(
-        Object.assign({}, props.query ?? {}, router.currentRoute.value.query)
-      );
-      query = getQuery.value;
-      // data.items = parcels.transformAll(_data.items);
-
-      tableWorker.refresh(_data.items);
-      data.pager = _data.pager;
-    };
-    const structure: TableStructure[] = [
-      { name: "id_date", title: "#/Date" },
-      {
-        name: "track_code",
-        title: "Parcel",
-      },
-      {
-        name: "recipient",
-        title: "Recipient",
-      },
-      {
-        name: "status",
-        title: "Status",
-      },
-    ];
 
     return {
       trackingEditor,
       userls,
+      list,
       labelRef,
       parcelForm,
       ...toRefs(data),
-      isLoading: computed(() => parcels.loading.value),
-      structure,
       parcels,
       openModal: ref(true),
-      tableWorker,
       updateRecipient: async (item, user) => {
-        await parcels.updateParcelRecipient(item.track_code, user, tableWorker);
+        // await parcels.updateParcelRecipient(item.track_code, user, tableWorker);
       },
     };
   },
