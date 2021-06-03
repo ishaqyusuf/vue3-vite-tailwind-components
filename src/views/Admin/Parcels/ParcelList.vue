@@ -173,16 +173,16 @@ export default {
     });
     watch(useRouteData, (value, oldValue) => {
       setTimeout(() => {
+        // console.log()
         if (unmounted.value) return;
         const { params, query } = value;
         initialize(query);
       }, 200);
     });
     const initialize = async (sq = {}, clearState = false) => {
-      const _data = await parcels.fetchMany(
-        Object.assign({}, props.query ?? {}, sq, clearState)
-      );
-      list.refresh(_data.items);
+      const q = Object.assign({}, props.query ?? {}, sq);
+      const _data = await parcels.fetchMany(q);
+      list.refresh(_data.items, clearState);
       data.pager = _data.pager;
       window.scroll(0, 0);
     };

@@ -137,3 +137,9 @@ export interface ShipmentOverview {
   route?: ShipmentRoute;
   shipment?: Shipment;
 }
+
+export interface ApiOptions {
+  success?: String;
+  error?: String;
+  showError?: Boolean;
+}

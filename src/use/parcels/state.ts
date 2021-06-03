@@ -33,7 +33,7 @@ const transform = (item, data) => {
       value: item.shipment.prefix,
       style: "green",
       to: user.can("readShipment") && {
-        name: "shipment-editor",
+        name: "shipment",
         params: {
           slug: item.shipment.slug,
         },

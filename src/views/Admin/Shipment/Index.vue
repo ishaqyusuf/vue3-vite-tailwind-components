@@ -1,7 +1,7 @@
 <template>
   <App vintage fs v-if="!loading">
     <App class="pt-4 sm:pt-6">
-      <CardContent class="flex flex-col">
+      <CardContent class="flex flex-col space-y-4">
         <div class="flex justify-between items-start">
           <div class="flex flex-col">
             <CardTitle flat-y>
@@ -9,7 +9,7 @@
               <span class="text-black-200 font-light px-2">|</span>
               {{ shipment.title }}</CardTitle
             >
-            <CardSubtitle flat-y class="">
+            <CardSubtitle flat-y class="inline-flex space-x-2">
               <span
                 class="rounded-lg text-sm px-2 font-medium"
                 :class="[
@@ -19,6 +19,12 @@
               >
                 {{ shipment.status }}</span
               >
+              <span
+                class="inline-flex space-x-1 font-semibold text-green-500 text-sm items-center"
+              >
+                <i-mdi-package-variant />
+                <span>{{ overview.parcels }}</span>
+              </span>
             </CardSubtitle>
           </div>
           <div class="inline-flex space-x-2 items-center">

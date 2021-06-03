@@ -19,11 +19,25 @@
     </div>
     <ParcelList :ls="list" :query="query" show-action>
       <template v-slot:custom-actions>
-        <Btn v-if="filter.show_add" dark rounded color="green-600">
+        <Btn
+          v-if="filter.show_add"
+          dark
+          rounded
+          async
+          :action="addToShipment"
+          color="green-600"
+        >
           <i-mdi-archive-outline />
           <span>Add to shipment</span>
         </Btn>
-        <Btn v-else dark rounded color="red-600">
+        <Btn
+          v-else
+          dark
+          rounded
+          async
+          :action="removeFromShipment"
+          color="red-600"
+        >
           <i-mdi-close />
           <span>Remove from shipment</span>
         </Btn>
@@ -39,6 +53,7 @@ import ParcelList from "@/views/Admin/Parcels/ParcelList.vue";
 import { useRoute } from "vue-router";
 import router from "@/router";
 import useShipmentOverview from "@/views/Admin/Shipment/use-shipment-overview";
+import useShipmentsApi from "@/use/api/use-shipments-api";
 export default {
   components: {
     ParcelList,
@@ -50,31 +65,59 @@ export default {
       shipment_mode: true,
       shipment_id: useShipmentOverview.shipment.value.id,
     });
-    console.log(useShipmentOverview.shipment.value.id);
     const filters = [
       {
         show_add: false,
         title: "Active Parcels",
         query: {
-          page: 1,
+          parcels: "active",
         },
       },
-      { show_add: true, title: "Shippable Parcels", query: {} },
+      {
+        show_add: true,
+        title: "Shippable Parcels",
+        query: {
+          parcels: "shippables",
+        },
+      },
     ];
     const route = ref();
     onMounted(() => {
       route.value = useRoute();
     });
     const filter = ref<any>(filters[0]);
-    const changeView = (view) => {
+    const changeView = () => {
       const { params, name, query } = route.value;
+      list.clearChecks();
       router.push({
         name,
         params,
         query: filter.value.query,
       });
     };
+    const updateShipment = async (form) => {
+      const data = await useShipmentsApi.update(route.value.params.slug, form, {
+        success: "Shipment updated!",
+      });
+
+      useShipmentOverview.overview.value.parcels = data.parcels;
+      changeView();
+    };
+    const removeFromShipment = async () => {
+      await updateShipment({
+        deselect: list.data.checkedIds,
+        parcels_mode: true,
+      });
+    };
+    const addToShipment = async () => {
+      await updateShipment({
+        select: list.data.checkedIds,
+        parcels_mode: true,
+      });
+    };
     return {
+      removeFromShipment,
+      addToShipment,
       changeView,
       filters,
       query,

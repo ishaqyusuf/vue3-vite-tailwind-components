@@ -54,6 +54,7 @@ export default {
   // mixins: [btnMixins],
   props: {
     tile: Boolean,
+    noRing: Boolean,
     fab: Boolean,
     icon: { type: [Boolean] },
     dense: Boolean,
@@ -131,6 +132,7 @@ export default {
         "border focus:ring-2 font-poppins shadow-lg":
           !tertiary && !text && !icon,
       },
+      { "focus:ring-2": (!tertiary && !text && !icon) || !props.noRing },
       icon && `text-${color == "blue" ? _tcolor.value : _color.value}`,
       { "border-black-800": dark },
       { "w-9 h-9 inline-flex items-center": fab },

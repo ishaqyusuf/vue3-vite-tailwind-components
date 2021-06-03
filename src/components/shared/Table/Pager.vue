@@ -11,7 +11,7 @@
       class="border inline-flex divide-x rounded-lg shadow-sm -space-x-px"
     >
       <template v-if="data.last_page > 9"
-        ><Btn secondary tile>
+        ><Btn secondary no-ring tile>
           <i-mdi-chevron-left />
         </Btn>
         <router-link
@@ -20,7 +20,7 @@
           v-for="(item, index) in rSide"
           :key="index"
         >
-          <Btn :secondary="!item.current" color="purple-500" tile>
+          <Btn :secondary="!item.current" no-ring color="purple-500" tile>
             {{ item.page }}
           </Btn>
         </router-link>
@@ -31,7 +31,7 @@
           v-for="(item, index) in lSide"
           :key="index"
         >
-          <Btn :secondary="!item.current" color="purple-500" tile>
+          <Btn :secondary="!item.current" no-ring color="purple-500" tile>
             {{ item.page }}
           </Btn>
         </router-link>
@@ -40,7 +40,7 @@
       <template v-else>
         <template v-if="data.pages > 1">
           <router-link :to="item.to" v-for="(item, index) in all" :key="index">
-            <Btn secondary tile> {{ item.page }} </Btn>
+            <Btn secondary no-ring tile> {{ item.page }} </Btn>
           </router-link>
         </template>
       </template>
@@ -53,8 +53,8 @@
 </template>
 
 <script lang="ts">
-import { data } from "cypress/types/jquery";
-import { computed, ref, toRef, toRefs } from "vue";
+import { computed, onMounted, reactive, ref, toRefs, watch } from "vue";
+import useRouteData from "@/use/use-route-data";
 
 export default {
   props: {
@@ -64,7 +64,24 @@ export default {
   },
   setup(props, { emit }) {
     const pages = [];
-    const links = (base, count = 3) =>
+
+    onMounted(() => {
+      refreshPages();
+    });
+    watch(useRouteData, (value, old) => {
+      refreshPages();
+    });
+    const pg = reactive<{ rSide: any[]; lSide: any[]; all: any[] }>({
+      rSide: [],
+      lSide: [],
+      all: [],
+    });
+    const refreshPages = () => {
+      pg.rSide = links(props.data.current_page);
+      pg.lSide = links(props.data.last_page - 3);
+      pg.all = links(1, props.data.last_page);
+    };
+    const links = (base, count = 3): any =>
       Array(count)
         .fill({})
         .map((a, i) => {
@@ -74,15 +91,14 @@ export default {
             page: pg,
             to: {
               query: {
+                ...useRouteData.query,
                 page: pg,
               },
             },
           };
         });
     return {
-      rSide: computed(() => links(props.data.current_page)),
-      lSide: computed(() => links(props.data.last_page - 3)),
-      all: computed(() => links(1, props.data.last_page)),
+      ...toRefs(pg),
     };
   },
 };
