@@ -33,9 +33,12 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import useList from "@/use/useList";
 import ParcelList from "@/views/Admin/Parcels/ParcelList.vue";
+import { useRoute } from "vue-router";
+import router from "@/router";
+import useShipmentOverview from "@/views/Admin/Shipment/use-shipment-overview";
 export default {
   components: {
     ParcelList,
@@ -43,7 +46,11 @@ export default {
   props: {},
   setup(props, { emit }) {
     const list = useList();
-    const query = ref({});
+    const query = ref<any>({
+      shipment_mode: true,
+      shipment_id: useShipmentOverview.shipment.value.id,
+    });
+    console.log(useShipmentOverview.shipment.value.id);
     const filters = [
       {
         show_add: false,
@@ -54,9 +61,18 @@ export default {
       },
       { show_add: true, title: "Shippable Parcels", query: {} },
     ];
+    const route = ref();
+    onMounted(() => {
+      route.value = useRoute();
+    });
     const filter = ref<any>(filters[0]);
     const changeView = (view) => {
-      console.log(view);
+      const { params, name, query } = route.value;
+      router.push({
+        name,
+        params,
+        query: filter.value.query,
+      });
     };
     return {
       changeView,

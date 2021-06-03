@@ -204,8 +204,8 @@ export default {
       if (autoComplete) {
         // if (!item) valued.value = currentValue.value;
         // else
-        emit("selected", valued.value);
       }
+      emit("selected", valued.value);
     }
     const sourceData = reactive({
       source: "",
