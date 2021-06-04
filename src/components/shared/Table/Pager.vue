@@ -59,7 +59,7 @@ export default {
         ...links(Math.max(1, current_page - 1)),
         ...[
           last_page > 9 && "...",
-          last_page < 4 && [current_page, last_page].join("/"),
+          // last_page < 4 && [current_page, last_page].join("/"),
         ]
           .filter(Boolean)
           .map((t) => {

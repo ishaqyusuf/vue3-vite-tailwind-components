@@ -34,7 +34,7 @@
 <script lang="ts">
 import useShipmentsList from "@/use/list/use-shipments-list";
 import useList from "@/use/useList";
-import ShipmentEditorPrompt from "@/views/Admin/Shipments/ShipmentEditorPrompt.vue";
+import ShipmentEditorPrompt from "@/views/Admin/Shipment/Components/ShipmentFormDialog.vue";
 export default {
   components: {
     ShipmentEditorPrompt,

@@ -10,6 +10,8 @@ const shipmentRoute = ref<ShipmentRoute>({});
 const loading = ref(true);
 const stylus = ref<any>({});
 const slug = ref();
+
+const statusList = ["Active", "Inactive", "Completed", "Cancel", "Draft"];
 function initialize(_slug) {
   slug.value = _slug;
   loading.value = true;
@@ -28,6 +30,7 @@ function initialize(_slug) {
   });
 }
 export default {
+  statusList,
   loading,
   stylus,
   shipment,

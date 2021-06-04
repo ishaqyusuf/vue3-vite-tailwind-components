@@ -1,12 +1,29 @@
-<template></template>
+<template>
+  <App pad-y>
+    <ShipmentForm grid ref="form"></ShipmentForm>
+  </App>
+</template>
 
 <script lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import useShipmentOverview from "./use-shipment-overview";
+import ShipmentForm from "@/views/Admin/Shipment/Components/ShipmentForm.vue";
 
 export default {
   props: {},
+  components: {
+    ShipmentForm,
+  },
   setup(props, { emit }) {
-    return {};
+    const form = ref();
+    onMounted(() => {
+      form.value
+        .editShipment(useShipmentOverview.shipment)
+        .then((result) => {});
+    });
+    return {
+      form,
+    };
   },
 };
 </script>

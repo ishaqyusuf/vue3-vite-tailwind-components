@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { ref } from "vue";
-import ShipmentEditor from "@/views/Admin/Shipments/ShipmentEditor.vue";
+import ShipmentEditor from "@/views/Admin/Shipment/Components/ShipmentForm.vue";
 export default {
   components: {
     ShipmentEditor,

@@ -1,118 +1,138 @@
 <template>
   <div
-    class="relative space-y-1"
+    class=""
     :class="{
+      'space-y-1': !grid,
       'text-black-100': dark,
+      'grid grid-cols-12': grid,
+      'items-center': centerGrid,
     }"
   >
     <slot name="label">
-      <Label :dark="dark" v-if="label">{{ label }}</Label>
+      <div
+        :class="{
+          'col-span-5': grid,
+          'mt-2': !centerGrid,
+        }"
+      >
+        <slot name="grid-label">
+          <Label :dark="dark" class="block" v-if="label">{{ label }}</Label>
+        </slot>
+        <slot name="label-info"></slot>
+      </div>
     </slot>
     <div
-      class="px-2 space-x-2 inline-flex items-center w-full"
+      class="relative"
       :class="{
-        'ring-2': focused && !disabled,
-        'rounded-full': rounded,
-        'rounded-md': !tile,
-        'bg-white': !dark,
-        'text-black-100 border-black-300': dark,
-        'gray-scale': disabled,
-        'px-2': !dense,
-        'px-1': dense,
-        border: !plain,
+        'col-span-7': grid,
       }"
     >
-      <span class="font-semibold" v-if="prefix">{{ prefix }}</span>
-      <slot name="prependInner"></slot>
-      <textarea
-        v-if="textarea"
-        ref="input"
-        @input="typing"
-        @focus="inputFocus"
-        @keydown.enter="enter"
-        :type="hideText ? 'password' : 'text'"
-        @blur="inputBlur"
-        v-model="valued"
-        :placeholder="placeholder"
-        @keydown.up="up"
-        @keydown.esc="closeInput"
-        @keydown.down="down"
-        class="focus:outline-none w-full h-full bg-transparent"
-        tabindex="0"
-        autocomplete="new-password"
-        :name="name"
-        :id="id"
-        :readonly="readonly || select"
+      <div
+        class="px-2 space-x-2 inline-flex items-center w-full"
         :class="{
-          'cursor-pointer': select,
-          'py-1': dense,
-          'py-2': !dense,
+          'ring-2': focused && !disabled,
+          'rounded-full': rounded,
+          'rounded-md': !tile,
+          'bg-white': !dark,
+          'text-black-100 border-black-300': dark,
+          'gray-scale': disabled,
+          'px-2': !dense,
+          'px-1': dense,
+          border: !plain,
         }"
-      ></textarea>
-      <input
-        ref="input"
-        v-else
-        @input="typing"
-        @focus="inputFocus"
-        @keydown.enter="enter"
-        :type="hideText ? 'password' : 'text'"
-        :placeholder="placeholder"
-        @blur="inputBlur"
-        v-model="valued"
-        @keydown.up="up"
-        @keydown.esc="closeInput"
-        @keydown.down="down"
-        class="focus:outline-none w-full bg-transparent"
-        tabindex="0"
-        autocomplete="new-password"
-        :name="name"
-        :id="id"
-        :readonly="readonly || select"
-        :class="{
-          'cursor-pointer': select,
-          'py-1': dense,
-          'py-2': !dense,
-          'text-center': centerText,
-        }"
-      />
+      >
+        <span class="font-semibold" v-if="prefix">{{ prefix }}</span>
+        <slot name="prependInner"></slot>
+        <textarea
+          v-if="textarea"
+          ref="input"
+          @input="typing"
+          @focus="inputFocus"
+          @keydown.enter="enter"
+          :type="hideText ? 'password' : 'text'"
+          @blur="inputBlur"
+          v-model="valued"
+          :placeholder="placeholder"
+          @keydown.up="up"
+          @keydown.esc="closeInput"
+          @keydown.down="down"
+          class="focus:outline-none w-full h-full bg-transparent"
+          tabindex="0"
+          autocomplete="new-password"
+          :name="name"
+          :id="id"
+          :readonly="readonly || select"
+          :class="{
+            'cursor-pointer': select,
+            'py-1': dense,
+            'py-2': !dense,
+          }"
+        ></textarea>
+        <input
+          ref="input"
+          v-else
+          @input="typing"
+          @focus="inputFocus"
+          @keydown.enter="enter"
+          :type="hideText ? 'password' : 'text'"
+          :placeholder="placeholder"
+          @blur="inputBlur"
+          v-model="valued"
+          @keydown.up="up"
+          @keydown.esc="closeInput"
+          @keydown.down="down"
+          class="focus:outline-none w-full bg-transparent"
+          tabindex="0"
+          autocomplete="new-password"
+          :name="name"
+          :id="id"
+          :readonly="readonly || select"
+          :class="{
+            'cursor-pointer': select,
+            'py-1': dense,
+            'py-2': !dense,
+            'text-center': centerText,
+          }"
+        />
 
-      <button
-        class="focus:outline-none"
-        v-if="clearable && valued"
-        @click="clearInput"
-      >
-        <i-mdi-close />
-      </button>
-      <button
-        class="focus:outline-none"
-        v-if="password && valued"
-        @click="togglePassword"
-      >
-        <i-mdi-eye-outline v-if="hideText" />
-        <i-mdi-eye-off-outline v-else />
-      </button>
-      <i-mdi-chevron-down
-        v-if="items"
-        class="transform transition-all"
+        <button
+          class="focus:outline-none"
+          v-if="clearable && valued"
+          @click="clearInput"
+        >
+          <i-mdi-close />
+        </button>
+        <button
+          class="focus:outline-none"
+          v-if="password && valued"
+          @click="togglePassword"
+        >
+          <i-mdi-eye-outline v-if="hideText" />
+          <i-mdi-eye-off-outline v-else />
+        </button>
+        <i-mdi-chevron-down
+          v-if="items"
+          class="transform transition-all"
+          :class="{
+            'delay-100 font-semibold text-blue-300 rotate-180': focused,
+          }"
+        />
+        <span class="font-semibold" v-if="suffix">{{ suffix }}</span>
+        <slot name="appendInner"></slot>
+      </div>
+
+      <InputMenu
+        @selected="valued = $event"
+        v-bind="$props"
+        tabindex="1"
+        v-if="results && (listOpened || focused)"
+        :results="results"
         :class="{
-          'delay-100 font-semibold text-blue-300 rotate-180': focused,
+          'opacity-0': results.length == 0,
         }"
-      />
-      <span class="font-semibold" v-if="suffix">{{ suffix }}</span>
-      <slot name="appendInner"></slot>
+        :state="state"
+      ></InputMenu>
     </div>
-
-    <InputMenu
-      @selected="valued = $event"
-      v-bind="$props"
-      tabindex="1"
-      v-if="results && (listOpened || focused)"
-      :results="results"
-      :class="{
-        'opacity-0': results.length == 0,
-      }"
-      :state="state"
-    ></InputMenu>
   </div>
 </template>
 

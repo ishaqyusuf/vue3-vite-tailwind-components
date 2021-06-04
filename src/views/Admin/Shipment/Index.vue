@@ -1,5 +1,5 @@
 <template>
-  <App vintage fs v-if="!loading">
+  <App vintage class="flex flex-col" fs v-if="!loading">
     <App class="pt-4 sm:pt-6">
       <CardContent class="flex flex-col space-y-4">
         <div class="flex justify-between items-start">
@@ -28,12 +28,7 @@
             </CardSubtitle>
           </div>
           <div class="inline-flex space-x-2 items-center">
-            <Input
-              :items="['Active', 'Inactive', 'Completed', 'Cancel', 'Draft']"
-              select
-              dense
-              v-model="shipment.status"
-            />
+            <Input :items="statusList" select dense v-model="shipment.status" />
             <Btn dense>Edit</Btn>
           </div>
         </div>
@@ -59,7 +54,7 @@
         </Tabs>
       </CardContent>
     </App>
-    <Bg app secondary>
+    <Bg class="flex-1" app secondary>
       <router-view></router-view>
     </Bg>
   </App>

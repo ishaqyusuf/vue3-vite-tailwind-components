@@ -2,9 +2,11 @@ import { $clientApi } from "@services/client";
 import { $dev } from "@/core/utils/functions";
 import alert from "@/hooks/alert";
 import qs from "qs";
+import { ApiOptions } from "@/@types/Interface";
+import useApiCache from "@/utils/use-api-cache";
 const get = async (url, query = {}) => {
   try {
-    const { data } = await $clientApi.get(`${url}?${qs.stringify(query)}`);
+    const { data } = await $clientApi.get(url);
     return data;
   } catch (err) {
     $dev.error(err);
@@ -51,27 +53,38 @@ export default {
     type: "index" | "get" | "create" | "update" | "delete",
     path: any,
     data: any = null,
-    options = {}
+    options: ApiOptions = {}
   ) => {
-    let url = ["/", ...(typeof path === "string" ? path : path.join("/"))].join(
-      ""
-    );
-    let req;
-    switch (type) {
-      case "get":
-        req = get(url, data);
-        break;
-      case "create":
-        req = create(url, data);
-        break;
-      case "update":
-        req = update(url, data);
-        break;
-      case "delete":
-        req = destroy(url);
-        break;
+    let url = [
+      "/",
+      ...(typeof path === "string" ? path : path.join("/")),
+      type == "get" && `?${qs.stringify(data)}`,
+    ]
+      .filter(Boolean)
+      .join("");
+
+    let req, response;
+    if (options.cache) {
+      response = useApiCache.get(url, options);
     }
-    const response = await req;
+    if (!response) {
+      switch (type) {
+        case "get":
+          req = get(url);
+          break;
+        case "create":
+          req = create(url, data);
+          break;
+        case "update":
+          req = update(url, data);
+          break;
+        case "delete":
+          req = destroy(url);
+          break;
+      }
+      response = await req;
+      useApiCache.cache(response, url, options);
+    }
     toast(response, options);
     return response;
   },

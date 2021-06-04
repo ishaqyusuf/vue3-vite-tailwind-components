@@ -7,14 +7,14 @@
           <i-mdi-plus />
           <span>New Route</span>
         </Btn>
-        <ShipmentEditorPrompt>
+        <ShipmentFormDialog>
           <template #btn="{ open }">
             <Btn @click="open({}, listr)">
               <i-mdi-plus />
               <span>New Shipment</span>
             </Btn>
           </template>
-        </ShipmentEditorPrompt>
+        </ShipmentFormDialog>
       </div>
     </div>
     <StandardTable
@@ -96,10 +96,10 @@
 import useShipmentsList from "@/use/list/use-shipments-list";
 import useList from "@/use/useList";
 import { ref } from "vue";
-import ShipmentEditorPrompt from "@/views/Admin/Shipments/ShipmentEditorPrompt.vue";
+import ShipmentFormDialog from "@/views/Admin/Shipment/Components/ShipmentFormDialog.vue";
 export default {
   components: {
-    ShipmentEditorPrompt,
+    ShipmentFormDialog,
   },
   props: {},
   setup(props, { emit }) {
@@ -111,7 +111,9 @@ export default {
     );
     const pager = ref({});
     useShipmentsList.fetch(listr, pager);
+    const shipmentForm = ref({});
     return {
+      shipmentForm,
       pager,
       listr,
       ...useShipmentsList,

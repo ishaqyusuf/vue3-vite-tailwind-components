@@ -1,5 +1,7 @@
 export default {
   props: {
+    grid: Boolean,
+    centerGrid: Boolean,
     dark: Boolean,
     password: Boolean,
     value: {},

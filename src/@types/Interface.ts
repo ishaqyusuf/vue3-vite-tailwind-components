@@ -142,4 +142,5 @@ export interface ApiOptions {
   success?: String;
   error?: String;
   showError?: Boolean;
+  cache?: Boolean;
 }

@@ -1,5 +1,5 @@
 <template>
-  <li class="inline-flex space-x-2">
+  <li class="inline-flex space-x-2" @click="checked = !checked">
     <input v-model="checked" v-bind="$props" type="checkbox" />
     <slot name="label">
       <label
