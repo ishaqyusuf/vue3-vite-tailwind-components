@@ -5,7 +5,7 @@
       'mb-12': list.data.checkedIds.length > 0,
     }"
   >
-    <Pager :data="pager" simple />
+    <Pager :data="pager" />
     <StandardTable
       checkable
       floating-action

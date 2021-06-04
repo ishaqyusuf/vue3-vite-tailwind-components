@@ -6,52 +6,26 @@
       <SemiBold>{{ data.total }}</SemiBold>
       results
     </span>
-    <div
-      v-if="!btn"
-      class="border inline-flex divide-x rounded-lg shadow-sm -space-x-px"
-    >
-      <template v-if="data.last_page > 9">
-        <router-link :to="prev.to" :disabled="prev.disabled">
-          <Btn secondary no-ring tile>
-            <i-mdi-chevron-left />
-          </Btn>
-        </router-link>
-        <router-link
-          :to="item.to"
-          :disabled="item.current"
-          v-for="(item, index) in rSide"
-          :key="index"
-        >
-          <Btn :secondary="!item.current" no-ring color="purple-500" tile>
-            {{ item.page }}
-          </Btn>
-        </router-link>
-        <Btn tertiary tile>...</Btn>
-        <router-link
-          :disabled="item.current"
-          :to="item.to"
-          v-for="(item, index) in lSide"
-          :key="index"
-        >
-          <Btn :secondary="!item.current" no-ring color="purple-500" tile>
-            {{ item.page }}
-          </Btn>
-        </router-link>
-        <router-link :to="next.to" :disabled="next.disabled">
-          <Btn secondary no-ring tile> <i-mdi-chevron-right /> </Btn>
-        </router-link>
-      </template>
-      <template v-else>
-        <template v-if="data.last_page > 1">
-          <router-link :to="item.to" v-for="(item, index) in all" :key="index">
-            <Btn secondary no-ring tile> {{ item.page }} </Btn>
-          </router-link>
-        </template>
-      </template>
-    </div>
-    <div class="inline-flex space-x-2" v-else>
-      <Btn secondary>Previous</Btn>
-      <Btn secondary>Next</Btn>
+    <div class="inline-flex items-center space-x-1">
+      <router-link
+        v-for="(item, index) in pages"
+        :key="index"
+        class="text-gray-600"
+        :class="{
+          'rounded-full border p-1': item.prev || item.next,
+          'px-1.5 border-b-2 border-transparent': item.page != null,
+          'text-blue-700 font-semibold': item.page != null && item.current,
+          'hover:text-blue-500': item.page != null && !item.current,
+          'hover:bg-blue-700 hover:text-white':
+            (item.prev || item.next) && !item.disabled,
+        }"
+        :to="item.to"
+        :disabled="item.disabled"
+      >
+        <i-mdi-chevron-right class="text-sm" v-if="item.next" />
+        <i-mdi-chevron-left class="text-sm" v-if="item.prev" />
+        <span v-if="item.page">{{ item.page }}</span>
+      </router-link>
     </div>
   </div>
 </template>
@@ -67,42 +41,42 @@ export default {
     btn: Boolean,
   },
   setup(props, { emit }) {
-    onMounted(() => {
-      refreshPages();
-    });
+    onMounted(() => {});
     watch(
       () => props.data,
       (value, old) => {
         refreshPages();
       }
     );
-    const pages = reactive<{
-      rSide: any[];
-      next: any;
-      prev: any;
-      lSide: any[];
-      all: any[];
-    }>({
-      rSide: [],
-      lSide: [],
-      all: [],
-      next: {},
-      prev: {},
-    });
+    const pages = ref<any[]>([]);
 
     const refreshPages = () => {
-      pages.rSide = links(props.data.current_page);
-      pages.lSide = links(props.data.last_page - 3);
-      pages.all = links(1, props.data.last_page);
-      const lp = props.data.last_page;
-      const np = props.data.current_page + 1;
-      const pp = props.data.current_page - 1;
-      pages.next = toPg(np > lp ? np : -1);
-      pages.prev = toPg(pp > 0 ? pp : -1);
+      const { current_page, last_page } = props.data;
+      const np = current_page + 1;
+      const pp = current_page - 1;
+      pages.value = [
+        { ...toPg(pp), prev: true, page: null },
+        ...links(Math.max(1, current_page - 1)),
+        ...[
+          last_page > 9 && "...",
+          last_page < 4 && [current_page, last_page].join("/"),
+        ]
+          .filter(Boolean)
+          .map((t) => {
+            return {
+              page: t,
+              to: {},
+              disabled: true,
+            };
+          }),
+        ...(last_page > 9 ? links(last_page - 3) : []),
+        { ...toPg(np), next: true, page: null },
+      ].filter(Boolean);
     };
     const toPg = (p) => {
       return {
-        disabled: p < 1 || p > props.data.last_page,
+        disabled:
+          p < 1 || p > props.data.last_page || p == props.data.current_page,
         current: props.data.current_page == p,
         page: p,
         to: {
@@ -122,7 +96,7 @@ export default {
           return toPg(pg);
         });
     return {
-      ...toRefs(pages),
+      pages,
     };
   },
 };
