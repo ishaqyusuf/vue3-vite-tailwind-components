@@ -1,5 +1,6 @@
 <template>
   <div class="space-y-6">
+    {{ sRoute }}
     <Input
       label="Shipment Route"
       :grid="grid"
@@ -14,27 +15,16 @@
       :grid="grid"
       :dense="dense"
       :prefix="sRoute.prefix"
+      v-model="shipment.shipment_id"
     />
-    <Input
-      :items="statusList"
-      select
-      label="Status"
-      grid
-      dense
-      v-model="shipment.status"
-    />
-    <Input label="Status" :grid="grid" :dense="dense" prefix="JFK-" />
     <div class="grid grid-cols-12 w-full">
       <div class="col-span-5">
         <Label>Entry Mode</Label>
       </div>
       <div class="col-span-7">
         <RadioGroup v-model="mode">
-          <RadioGroupLabel class="sr-only">Entry Mode</RadioGroupLabel>
+          <!-- <RadioGroupLabel class="sr-only">Entry Mode</RadioGroupLabel> -->
           <div class="space-y-2">
-            <RadioItem>
-              <template v-slot:default="{ active, checked }"> abc </template>
-            </RadioItem>
             <RadioGroupOption
               as="template"
               v-for="mode in pkgEntryModes"
@@ -85,37 +75,67 @@
       </div>
     </div>
     <!-- <Input label="Parcel Entry Mode" grid select :items="" /> -->
-    {{ shipment }}
-    {{ form }}
-    <template v-if="mode.automatic">
+
+    <template v-if="!mode.automatic">
       <div class="cols-span-12 grid grid-cols-12">
         <Label class="col-span-5">Date</Label>
         <div class="col-span-7">
           <div class="inline-flex space-x-2">
-            <Checkbox label="Range" />
-            <Checkbox label="Multiple" />
-            <Checkbox label="Single" />
+            <RadioGroup v-model="dateType">
+              <div class="inline-flex space-x-2">
+                <RadioBtn
+                  v-for="(item, index) in dateTypes"
+                  :key="index"
+                  :value="item"
+                >
+                  {{ item.title }}</RadioBtn
+                >
+              </div>
+            </RadioGroup>
           </div>
-          <DatePicker class="col-span-8" v-model="form.date" />
+          <div class="col-span-8 inline-flex items-center space-x-2">
+            <template v-if="dateType.single">
+              <DatePicker class="" v-model="meta.date" />
+            </template>
+            <template v-if="dateType.range">
+              <DatePicker
+                class=""
+                :highlighted="{
+                  from: meta.from_date,
+                  to: meta.to_date,
+                }"
+                v-model="meta.from_date"
+              />
+              <i-mdi-unfold-more-vertical />
+              <DatePicker
+                class=""
+                :highlighted="{
+                  from: meta.from_date,
+                  to: meta.to_date,
+                }"
+                v-model="meta.to_date"
+              />
+            </template>
+            <DatePicker v-if="dateType.multi" class="" v-model="meta.dates" />
+          </div>
         </div>
       </div>
-      <Input
-        label="Date"
-        :grid="grid"
-        v-model="sRoute"
-        :items="sRoutes"
-        select
-        item-text="title"
-        :dense="dense"
-      />
     </template>
+    <Input
+      :items="statusList"
+      select
+      label="Status"
+      grid
+      dense
+      v-model="shipment.status"
+    />
   </div>
 </template>
 <script lang="ts">
 import useShipmentRoutesApi from "@/use/api/use-shipment-routes-api";
 import useShipmentsApi from "@/use/api/use-shipments-api";
 import useShipmentData from "@/use/data/use-shipment-data";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import {
   RadioGroup,
   RadioGroupLabel,
@@ -124,36 +144,43 @@ import {
 } from "@headlessui/vue";
 
 import useShipmentOverview from "@/views/Admin/Shipment/use-shipment-overview";
+import { Shipment, ShipmentMeta } from "@/@types/Interface";
 export default {
   props: {
     grid: Boolean,
     dense: Boolean,
   },
   components: {
-    RadioGroup,
+    TRadioGroup: RadioGroup,
     RadioGroupLabel,
     RadioGroupDescription,
     RadioGroupOption,
   },
   setup(props, { emit }) {
-    const form = ref<any>({});
+    const form = ref<Shipment>({});
+    const meta = ref<ShipmentMeta>({});
+
     const resolver = ref();
     const title = ref();
     const rejecter = ref();
 
-    const sRoutes = ref([]);
+    const sRoutes = ref<any[]>([]);
     const sRoute = ref<any>({});
 
     const mode = ref<any>({});
-
+    const dateType = ref<any>(useShipmentData.dateTypes[0]);
     const initialize = async () => {
       sRoutes.value =
         (await useShipmentRoutesApi.index({}, { cache: true }))?.items ?? [];
-      console.log(sRoutes.value);
+
+      mode.value = useShipmentData.pkgEntryModes.find(
+        (m) => m.automatic == form.value.automatic
+      );
     };
     const editShipment = async (shipment: any = {}, list = null) => {
       title.value = shipment.title ?? "Create Shipment";
-      form.value = shipment;
+      form.value = shipment.value;
+      sRoute.value = useShipmentOverview.shipmentRoute.value;
       initialize();
       return new Promise((resolve, reject) => {
         resolver.value = resolve;
@@ -184,11 +211,13 @@ export default {
       form,
       title,
       show,
+      meta,
       closeEditor,
       editShipment,
       saveShipment,
       ...useShipmentOverview,
       ...useShipmentData,
+      dateType,
     };
   },
 };

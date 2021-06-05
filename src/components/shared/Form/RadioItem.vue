@@ -1,5 +1,5 @@
 <template>
-  <RadioGroupOption v-slot="{ active, checked }">
+  <RadioGroupOption :value="value" v-slot="{ active, checked }">
     <slot :active="active" :checked="checked"></slot>
   </RadioGroupOption>
 </template>
@@ -11,7 +11,7 @@ export default {
     RadioGroupOption,
   },
   props: {
-    value: [String, Object, Number],
+    value: [String, Object, Number, Boolean],
   },
   setup(props, { emit }) {
     return {};

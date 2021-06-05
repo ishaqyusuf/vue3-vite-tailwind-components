@@ -1,5 +1,6 @@
 <template>
   <TRadioGroup v-model="value">
+    <slot></slot>
     <!-- <div class="space-y-2">
             <RadioGroupOption
               as="template"

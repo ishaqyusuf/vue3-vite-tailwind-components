@@ -17,6 +17,7 @@ export default {
   setup(props, { emit }) {
     const form = ref();
     onMounted(() => {
+      console.log("mounted");
       form.value
         .editShipment(useShipmentOverview.shipment)
         .then((result) => {});

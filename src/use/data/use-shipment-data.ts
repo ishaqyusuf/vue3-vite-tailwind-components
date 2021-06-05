@@ -16,17 +16,20 @@ export default {
         "Manually add parcels to the shipment through the parcels dashboard or the active parcels tab from shipment dashboard",
     },
   ],
-  dateType: [
+  dateTypes: [
     {
       id: 0,
+      single: true,
       title: "Single Date",
     },
     {
       id: 1,
+      range: true,
       title: "Date Range",
     },
     {
       id: 2,
+      multi: true,
       title: "Multiple Dates",
     },
   ],
