@@ -126,6 +126,7 @@ export interface ShipmentRoute {
   created_at?: string;
   id?: number;
   next_index?: number;
+  start_index?: number;
   prefix?: string;
   slug?: string;
   status?: string;

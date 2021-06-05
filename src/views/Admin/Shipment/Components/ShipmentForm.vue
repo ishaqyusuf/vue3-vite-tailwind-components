@@ -1,12 +1,12 @@
 <template>
   <div class="space-y-6">
-    {{ sRoute }}
     <Input
       label="Shipment Route"
       :grid="grid"
       v-model="sRoute"
       :items="sRoutes"
       select
+      @selected="routeChange"
       item-text="title"
       :dense="dense"
     />
@@ -15,7 +15,7 @@
       :grid="grid"
       :dense="dense"
       :prefix="sRoute.prefix"
-      v-model="shipment.shipment_id"
+      v-model="form.shipment_id"
     />
     <div class="grid grid-cols-12 w-full">
       <div class="col-span-5">
@@ -76,7 +76,7 @@
     </div>
     <!-- <Input label="Parcel Entry Mode" grid select :items="" /> -->
 
-    <template v-if="!mode.automatic">
+    <template v-if="mode.automatic">
       <div class="cols-span-12 grid grid-cols-12">
         <Label class="col-span-5">Date</Label>
         <div class="col-span-7">
@@ -127,8 +127,9 @@
       label="Status"
       grid
       dense
-      v-model="shipment.status"
+      v-model="form.status"
     />
+    <RouteDialog ref="routeForm" />
   </div>
 </template>
 <script lang="ts">
@@ -136,6 +137,7 @@ import useShipmentRoutesApi from "@/use/api/use-shipment-routes-api";
 import useShipmentsApi from "@/use/api/use-shipments-api";
 import useShipmentData from "@/use/data/use-shipment-data";
 import { ref } from "vue";
+import RouteDialog from "@/views/Admin/ShipmentRoute/Components/RouteDialog.vue";
 import {
   RadioGroup,
   RadioGroupLabel,
@@ -143,14 +145,14 @@ import {
   RadioGroupOption,
 } from "@headlessui/vue";
 
-import useShipmentOverview from "@/views/Admin/Shipment/use-shipment-overview";
-import { Shipment, ShipmentMeta } from "@/@types/Interface";
+import { ApiOptions, Shipment, ShipmentMeta } from "@/@types/Interface";
 export default {
   props: {
     grid: Boolean,
     dense: Boolean,
   },
   components: {
+    RouteDialog,
     TRadioGroup: RadioGroup,
     RadioGroupLabel,
     RadioGroupDescription,
@@ -161,7 +163,7 @@ export default {
     const meta = ref<ShipmentMeta>({});
 
     const resolver = ref();
-    const title = ref();
+    const title = ref("Create Shipment");
     const rejecter = ref();
 
     const sRoutes = ref<any[]>([]);
@@ -170,17 +172,40 @@ export default {
     const mode = ref<any>({});
     const dateType = ref<any>(useShipmentData.dateTypes[0]);
     const initialize = async () => {
-      sRoutes.value =
+      const _sroutes =
         (await useShipmentRoutesApi.index({}, { cache: true }))?.items ?? [];
+      sRoutes.value = [
+        {
+          id: -1,
+          title: "New Shipment Route",
+          prefix: "?",
+        },
+        ..._sroutes,
+      ];
 
       mode.value = useShipmentData.pkgEntryModes.find(
         (m) => m.automatic == form.value.automatic
       );
     };
-    const editShipment = async (shipment: any = {}, list = null) => {
-      title.value = shipment.title ?? "Create Shipment";
-      form.value = shipment.value;
-      sRoute.value = useShipmentOverview.shipmentRoute.value;
+    const routeForm = ref();
+    const routeChange = () => {
+      if (sRoute.value.id < 0) {
+        routeForm.value.open().then((data) => {
+          if (data) {
+            console.log(data);
+            sRoutes.value = [sRoutes.value[0], data, sRoutes.value.splice(1)];
+            sRoute.value = data;
+          }
+        });
+      }
+    };
+    const editShipment = async (slug: any, list = null) => {
+      if (slug) {
+        const { shipment, meta, route } = await useShipmentsApi.get(slug);
+        form.value = shipment;
+        meta.value = meta;
+        sRoute.value = route;
+      }
       initialize();
       return new Promise((resolve, reject) => {
         resolver.value = resolve;
@@ -191,11 +216,17 @@ export default {
     const saveShipment = async () => {
       const formData = {
         data: form.value,
+        meta: meta.value,
       };
-      const id = form.value.id;
-      const data = (await id)
-        ? useShipmentsApi.update(id, formData)
-        : useShipmentsApi.create(formData);
+      const id = form.value.slug;
+      const opts: ApiOptions = {
+        success: id ? "Shipment updated" : "Shipment Created",
+        showError: true,
+        error: "Something went wrong.",
+      };
+      const data = await (id
+        ? useShipmentsApi.update(id, formData, opts)
+        : useShipmentsApi.create(formData, opts));
       resolver.value(data);
       show.value = false;
     };
@@ -215,9 +246,10 @@ export default {
       closeEditor,
       editShipment,
       saveShipment,
-      ...useShipmentOverview,
+      routeChange,
       ...useShipmentData,
       dateType,
+      routeForm,
     };
   },
 };

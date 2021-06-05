@@ -2,9 +2,9 @@
   <div
     class="w-full items-center justify-center inline-flex text-sm text-gray-400"
     :class="{
-      'rounded-tl-full rounded-bl-full pl-2': day.date == 7,
-      'rounded-tr-full rounded-br-full': day.date == 14,
-      'bg-gray-200': day.date >= 7 && day.date <= 14,
+      'rounded-tl-full rounded-bl-full pl-2': day.isHighlightStart,
+      'rounded-tr-full rounded-br-full': day.isHighlighEnd,
+      'bg-gray-200': day.isHightlighted,
     }"
   >
     <slot>

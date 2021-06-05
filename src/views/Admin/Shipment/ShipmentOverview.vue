@@ -1,5 +1,5 @@
 <template>
-  <App pad-y>
+  <App fs pad-y>
     <ShipmentForm grid ref="form"></ShipmentForm>
   </App>
 </template>
@@ -17,9 +17,8 @@ export default {
   setup(props, { emit }) {
     const form = ref();
     onMounted(() => {
-      console.log("mounted");
       form.value
-        .editShipment(useShipmentOverview.shipment)
+        .editShipment(useShipmentOverview.slug.value)
         .then((result) => {});
     });
     return {
