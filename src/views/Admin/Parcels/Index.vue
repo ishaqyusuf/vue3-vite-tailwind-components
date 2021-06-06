@@ -32,7 +32,6 @@
         </Btn>
       </template>
     </TableAction>
-    <Pager :data="pager" simple />
     <LabelViewer ref="labelRef"></LabelViewer>
     <UserList ref="userls" title="Select Client"></UserList>
 

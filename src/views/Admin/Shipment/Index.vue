@@ -61,7 +61,6 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
 import useShipmentOverview from "./use-shipment-overview";
 export default {
   props: {

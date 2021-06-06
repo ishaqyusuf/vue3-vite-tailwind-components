@@ -37,7 +37,7 @@
               <span>{{ item.location }}</span>
             </template>
           </div>
-          <div class="">
+          <div class="space-y-1">
             <span
               class="text-lg block leading-none font-semibold text-gray-600"
             >
@@ -45,7 +45,7 @@
             </span>
             <span
               v-if="item.content"
-              class="sm:w-2/3 lg:w-4/5 block text-base text-mat-gray-700"
+              class="sm:w-2/3 lg:w-4/5 block text-gray-500"
               >{{ item.content }}</span
             >
           </div>

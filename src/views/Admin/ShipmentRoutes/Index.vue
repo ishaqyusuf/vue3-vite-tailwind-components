@@ -7,14 +7,14 @@
           <i-mdi-plus />
           <span>New Route</span>
         </Btn>
-        <ShipmentEditorPrompt>
+        <ShipmentFormDialog>
           <template #btn="{ open }">
-            <Btn @click="open({}, listr)">
+            <Btn @click="open(null, listr)">
               <i-mdi-plus />
               <span>New Shipment</span>
             </Btn>
           </template>
-        </ShipmentEditorPrompt>
+        </ShipmentFormDialog>
       </div>
     </div>
     <StandardTable
@@ -34,10 +34,10 @@
 <script lang="ts">
 import useShipmentsList from "@/use/list/use-shipments-list";
 import useList from "@/use/useList";
-import ShipmentEditorPrompt from "@/views/Admin/Shipment/Components/ShipmentFormDialog.vue";
+import ShipmentFormDialog from "@/views/Admin/Shipment/Components/ShipmentFormDialog.vue";
 export default {
   components: {
-    ShipmentEditorPrompt,
+    ShipmentFormDialog,
   },
   props: {},
   setup(props, { emit }) {

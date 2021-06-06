@@ -4,7 +4,7 @@
       v-slot="{ open }"
       as="div"
       ref="menu"
-      class="relative inline-block text-left"
+      class="relative z-10 text-left"
     >
       <TMenuButton class="focus:outline-none">
         <slot :open="open" />
@@ -21,7 +21,7 @@
         <TMenuItems
           ref="items"
           :class="[!noWidth && width, { 'origin-top-right  right-0': rtl }]"
-          class="absolute mt-1 bg-white z-10 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+          class="absolute mt-1 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
         >
           <slot name="items" :open="open" />
         </TMenuItems>

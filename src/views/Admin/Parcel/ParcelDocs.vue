@@ -8,7 +8,7 @@
 import { onMounted, ref } from "vue";
 import DocPage from "@/views/Admin/Components/Documents/DocPage.vue";
 import user from "@/use/user";
-import useParcelApi from "@/use/api/use-parcel-api";
+import useParcelApi from "@/use/api/use-parcels-api";
 export default {
   props: {
     slug: String,

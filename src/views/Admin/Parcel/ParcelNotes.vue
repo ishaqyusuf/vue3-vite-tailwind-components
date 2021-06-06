@@ -8,10 +8,10 @@
 import { onMounted, ref } from "vue";
 import NotePage from "@/views/Admin/Components/Notes/NotePage.vue";
 import user from "@/use/user";
-import useParcelApi from "@/use/api/use-parcel-api";
+import useParcelApi from "@/use/api/use-parcels-api";
 export default {
   props: {
-    props: String,
+    slug: String,
   },
   components: {
     NotePage,

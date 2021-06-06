@@ -1,64 +1,31 @@
 <template>
-  <Loader v-if="listHook.loading.value"></Loader>
-  <template v-else>
-    <div class="inline-flex w-full justify-end">
-      <Btn @click="edit({})">Update Tracking</Btn>
-    </div>
-    <div class="">
-      <TrackingStatusItem
-        v-for="(id, index) in ids"
-        :index="id"
-        :editable="isEditable"
-        :hook="listHook"
-        @edit="edit"
-        :key="index"
-      ></TrackingStatusItem>
-    </div>
-    <EmptyContainer v-if="ids.length == 0">
-      <i-mdi-note-text class="text-6xl" />
-      <span>Note box is empty</span>
-    </EmptyContainer>
-  </template>
-  <EditTracking :trackings-hook="listHook" ref="editor"></EditTracking>
+  <ActivityComponent slim ref="activity"></ActivityComponent>
 </template>
 
 <script lang="ts">
 import { ref, onMounted, computed } from "vue";
-import TrackingStatusItem from "@/views/Guests/Track/TrackingStatusItem.vue";
-import trackerHook from "@/hooks/tracker";
-import useParcel from "@/use/parcels/parcel";
 import user from "@/use/user";
-import EditTracking from "@/views/Guests/Track/EditTracking.vue";
-import { tableHook } from "@/hooks/table";
+import ActivityComponent from "@/views/Guests/Track/ActivityComponent.vue";
+import useParcelsApi from "@/use/api/use-parcels-api";
 export default {
   props: {
     slug: String,
   },
   components: {
-    TrackingStatusItem,
-    EditTracking,
+    ActivityComponent,
   },
   setup(props, { emit }) {
     onMounted(async () => {
-      const data = await trackerHook.search(props.slug);
-      listHook.refresh(data.trackings ?? []);
+      activity.value.init(
+        props.slug,
+        useParcelsApi.get,
+        user.can("createTrack")
+      );
     });
-    const editor = ref();
-    const listHook = tableHook();
-    listHook.initialize([]);
+    const activity = ref();
+
     return {
-      ...trackerHook,
-      listHook,
-      user,
-      editor,
-      edit: (item) => {
-        editor.value.init(item, {
-          post_parent: useParcel.parcel.value?.id,
-          type: null,
-        });
-      },
-      isEditable: computed(() => user.can("updatePkg")),
-      ids: computed(() => listHook.data.ids),
+      activity,
     };
   },
 };

@@ -19,8 +19,10 @@
 </template>
 
 <script lang="ts">
+import router from "@/router";
 import { ref } from "vue";
 import ShipmentForm from "./ShipmentForm.vue";
+import useRouteComposer from "@/use/use-route-composer";
 export default {
   components: {
     ShipmentForm,
@@ -30,11 +32,17 @@ export default {
     const title = ref("");
     const dialog = ref();
     const show = ref(false);
-    const open = async (shipment, list: any = null) => {
+    const open = async (slug, list: any = null) => {
       show.value = true;
+      title.value = slug ? "Edit Shipment" : "Create Shipment";
       setTimeout(() => {
-        dialog.value.editShipment(shipment, list).then((result) => {
+        dialog.value.editShipment(slug, list).then((result) => {
           show.value = false;
+          if (list) {
+            console.log(result);
+            list.updateItem(result.id, result, false);
+            router.push(useRouteComposer.shipment(result.slug));
+          }
         });
       }, 500);
     };

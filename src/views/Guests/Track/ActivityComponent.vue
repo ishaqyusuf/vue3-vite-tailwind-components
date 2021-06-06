@@ -46,6 +46,7 @@ export default {
     const init = async (slug, api, _permission) => {
       ls.initialize([]);
       const data = await api(slug, { tracking: true });
+      console.log(data);
       patcher.value = data.parent;
       ls.refresh(data.items);
       permission.value = _permission;

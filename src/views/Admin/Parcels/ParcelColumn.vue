@@ -26,7 +26,7 @@
       :to="item.to"
     >
       <Truncify
-        class="table table-fixed text-left uppercase font-medium tracking-widest"
+        class="table table-fixed text-left uppercase font-medium tracking-widest hover:text-blue-500"
       >
         {{ item.track_code }}
       </Truncify>
@@ -35,14 +35,14 @@
         <template v-for="(detail, index) in item.details" :key="index">
           <router-link v-if="detail.to" :to="detail.to" disabled>
             <span
-              :class="[`bg-${detail.style}-${itemHover ? '200' : '100'}`]"
+              :class="[`bg-${detail.style}-${itemHover ? '100' : '100'}`]"
               class="rounded-lg shadow-lg px-1"
               >{{ detail.value }}</span
             >
           </router-link>
           <span
             v-else
-            :class="[`bg-${detail.style}-${itemHover ? '200' : '100'}`]"
+            :class="[`bg-${detail.style}-${itemHover ? '100' : '100'}`]"
             class="rounded-lg shadow-lg px-1"
             >{{ detail.value }}</span
           >
@@ -71,7 +71,7 @@ export default {
       headerHover: computed(() => props.header.hover),
       itemHover,
       floatingMenuMouseEnter: async () => {
-        await time.delay(200);
+        await time.delay(3000);
         floatingMenuHover.value = true;
       },
       floatingMenuMouseLeave: async () => {
