@@ -1,10 +1,12 @@
 <template>
   <div>
-    <slot name="btn" :open="open"></slot>
+    <slot name="btn" :open="init"></slot>
     <Prompt
       v-model="show"
       @closed="show = false"
       ok="Create"
+      cancelable
+      hide-cancel
       :ok-action="dialog?.saveShipment"
       :title="title"
     >
@@ -32,11 +34,12 @@ export default {
     const title = ref("");
     const dialog = ref();
     const show = ref(false);
-    const open = async (slug, list: any = null) => {
+    const init = (_slug: any = null, list: any = null) => {
       show.value = true;
-      title.value = slug ? "Edit Shipment" : "Create Shipment";
+      title.value = _slug ? "Edit Shipment" : "Create Shipment";
       setTimeout(() => {
-        dialog.value.editShipment(slug, list).then((result) => {
+        console.log(list);
+        dialog.value.editShipment(_slug).then((result) => {
           show.value = false;
           if (list) {
             console.log(result);
@@ -48,7 +51,7 @@ export default {
     };
     return {
       show,
-      open,
+      init,
       dialog,
       title,
     };

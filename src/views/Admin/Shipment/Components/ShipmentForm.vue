@@ -188,7 +188,7 @@ export default {
         });
       }
     };
-    const editShipment = async (slug: any) => {
+    const editShipment = async (slug = null) => {
       if (slug) {
         const { shipment, meta: _meta, route } = await useShipmentsApi.get(
           slug,
