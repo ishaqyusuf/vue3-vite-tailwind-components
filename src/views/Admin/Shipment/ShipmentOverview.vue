@@ -20,13 +20,12 @@ export default {
     onMounted(() => {
       var slug = useShipmentOverview.slug.value;
       form.value.editShipment(slug).then((result) => {
-        if (result.slug != slug) {
+        if (result && result.slug != slug) {
           router.push({
             name: "shipment",
             params: { slug },
           });
         } else {
-          console.log(result);
           useShipmentOverview.refresh(result);
         }
       });

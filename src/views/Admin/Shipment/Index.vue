@@ -3,29 +3,36 @@
     <App class="pt-4 sm:pt-6">
       <CardContent class="flex flex-col space-y-4">
         <div class="flex justify-between items-start">
-          <div class="flex flex-col">
-            <CardTitle flat-y>
-              <router-link to="{}">{{ shipmentRoute.title }}</router-link>
-              <span class="text-black-200 font-light px-2">|</span>
-              {{ shipment.title }}</CardTitle
-            >
-            <CardSubtitle flat-y class="inline-flex space-x-2">
-              <span
-                class="rounded-lg text-sm px-2 font-medium"
-                :class="[
-                  'text-' + stylus.status_color + '-700',
-                  'bg-' + stylus.status_color + '-100',
-                ]"
+          <div class="inline-flex space-x-2">
+            <div class="flex flex-col">
+              <CardTitle flat-y>
+                <div class="inline-flex space-x-2">
+                  <router-link :to="{ name: 'shipments' }">
+                    <i-mdi-arrow-left class="text-gray-600" />
+                  </router-link>
+                  <router-link to="{}">{{ shipmentRoute.title }}</router-link>
+                </div>
+                <span class="text-black-200 font-light px-2">|</span>
+                {{ shipment.title }}</CardTitle
               >
-                {{ shipment.status }}</span
-              >
-              <span
-                class="inline-flex space-x-1 font-semibold text-green-500 text-sm items-center"
-              >
-                <i-mdi-package-variant />
-                <span>{{ overview.parcels }}</span>
-              </span>
-            </CardSubtitle>
+              <CardSubtitle flat-y class="inline-flex space-x-2">
+                <span
+                  class="rounded-lg text-sm px-2 font-medium"
+                  :class="[
+                    'text-' + stylus.status_color + '-700',
+                    'bg-' + stylus.status_color + '-100',
+                  ]"
+                >
+                  {{ shipment.status }}</span
+                >
+                <span
+                  class="inline-flex space-x-1 font-semibold text-green-500 text-sm items-center"
+                >
+                  <i-mdi-package-variant />
+                  <span>{{ overview.parcels }}</span>
+                </span>
+              </CardSubtitle>
+            </div>
           </div>
           <div class="inline-flex space-x-2 items-center">
             <Input :items="statusList" select dense v-model="shipment.status" />

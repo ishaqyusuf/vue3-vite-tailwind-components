@@ -24,7 +24,8 @@ const create = async (url, form) => {
 };
 const update = async (url, form) => {
   try {
-    const { data } = await $clientApi.patch(`${url}`, form);
+    const response = await $clientApi.patch(`${url}`, form);
+    const { data } = response;
     return data;
   } catch (err) {
     $dev.error(err);

@@ -2,8 +2,6 @@ import { Shipment, ShipmentOverview, ShipmentRoute } from "@/@types/Interface";
 import useShipmentsApi from "@/use/api/use-shipments-api";
 import { ref } from "vue";
 
-export function useShipmentOverview(props, list) {}
-
 const overview = ref<ShipmentOverview>({});
 const shipment = ref<Shipment>({});
 const shipmentRoute = ref<ShipmentRoute>({});

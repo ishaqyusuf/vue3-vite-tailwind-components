@@ -9,7 +9,7 @@
         </Btn>
         <ShipmentFormDialog>
           <template #btn="{ open }">
-            <Btn @click="open({ slug: null }, listr)">
+            <Btn @click="open(null, listr)">
               <i-mdi-plus />
               <span>New Shipment</span>
             </Btn>

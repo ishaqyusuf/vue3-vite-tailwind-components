@@ -17,111 +17,119 @@
       :prefix="sRoute.prefix"
       v-model="form.shipment_id"
     />
-    <div class="grid grid-cols-12 w-full">
-      <div class="col-span-5">
-        <Label>Entry Mode</Label>
-      </div>
-      <div class="col-span-7">
-        <RadioGroup v-model="mode">
-          <!-- <RadioGroupLabel class="sr-only">Entry Mode</RadioGroupLabel> -->
-          <div class="space-y-2">
-            <RadioGroupOption
-              as="template"
-              v-for="mode in pkgEntryModes"
-              :key="mode.id"
-              :value="mode"
-              v-slot="{ active, checked }"
-            >
-              <div
-                :class="[
-                  active
-                    ? 'ring-2 ring-offset-2 ring-offset-blue-300 ring-white ring-opacity-60'
-                    : '',
-                  checked
-                    ? 'bg-blue-900 bg-opacity-75 text-white '
-                    : 'bg-white ',
-                ]"
-                class="relative flex p-2 rounded-lg shadow-md cursor-pointer focus:outline-none"
+    <template v-if="!prompt">
+      <div
+        class="w-full"
+        :class="{
+          'grid grid-cols-12': grid,
+          'space-y-1': !grid,
+        }"
+      >
+        <div class="col-span-5">
+          <Label>Entry Mode</Label>
+        </div>
+        <div class="col-span-7">
+          <RadioGroup v-model="form.automatic">
+            <!-- <RadioGroupLabel class="sr-only">Entry Mode</RadioGroupLabel> -->
+            <div class="space-y-2">
+              <RadioGroupOption
+                as="template"
+                v-for="mode in pkgEntryModes"
+                :key="mode.id"
+                :value="mode.automatic"
+                v-slot="{ active, checked }"
               >
-                <div class="flex items-center justify-between w-full">
-                  <div class="flex items-center">
-                    <div class="text-sm">
-                      <RadioGroupLabel
-                        as="p"
-                        :class="checked ? 'text-white' : 'text-gray-900'"
-                        class="font-medium"
-                      >
-                        {{ mode.title }}
-                      </RadioGroupLabel>
-                      <RadioGroupDescription
-                        as="span"
-                        :class="
-                          checked ? 'text-light-blue-100' : 'text-gray-500'
-                        "
-                        class="inline"
-                      >
-                        <span> {{ mode.subtitle }}</span>
-                      </RadioGroupDescription>
+                <div
+                  :class="[
+                    active
+                      ? 'ring-2 ring-offset-2 ring-offset-blue-300 ring-white ring-opacity-60'
+                      : '',
+                    checked
+                      ? 'bg-blue-900 bg-opacity-75 text-white '
+                      : 'bg-white ',
+                  ]"
+                  class="relative flex p-2 rounded-lg shadow-md cursor-pointer focus:outline-none"
+                >
+                  <div class="flex items-center justify-between w-full">
+                    <div class="flex items-center">
+                      <div class="text-sm">
+                        <RadioGroupLabel
+                          as="p"
+                          :class="checked ? 'text-white' : 'text-gray-900'"
+                          class="font-medium"
+                        >
+                          {{ mode.title }}
+                        </RadioGroupLabel>
+                        <RadioGroupDescription
+                          as="span"
+                          :class="
+                            checked ? 'text-light-blue-100' : 'text-gray-500'
+                          "
+                          class="inline"
+                        >
+                          <span> {{ mode.subtitle }}</span>
+                        </RadioGroupDescription>
+                      </div>
+                    </div>
+                    <div v-show="checked" class="flex-shrink-0 text-gray-300">
+                      <i-mdi-checkbox-marked-circle />
                     </div>
                   </div>
-                  <div v-show="checked" class="flex-shrink-0 text-gray-300">
-                    <i-mdi-checkbox-marked-circle />
-                  </div>
                 </div>
-              </div>
-            </RadioGroupOption>
-          </div>
-        </RadioGroup>
-      </div>
-    </div>
-    <!-- <Input label="Parcel Entry Mode" grid select :items="" /> -->
-
-    <template v-if="mode.automatic">
-      <div class="cols-span-12 grid grid-cols-12">
-        <Label class="col-span-5">Date</Label>
-        <div class="col-span-7 flex flex-col">
-          <div class="inline-flex space-x-2">
-            <Checkbox v-model="meta.date_range" label="Date Range"></Checkbox>
-          </div>
-          <div class="inline-flex items-center space-x-2">
-            <template v-if="meta.date_range == true">
-              <DatePicker
-                class=""
-                :highlighted="{
-                  from: meta.date,
-                  to: meta.to_date,
-                }"
-                v-model="meta.date"
-              />
-              <i-mdi-unfold-more-vertical />
-              <DatePicker
-                class=""
-                :highlighted="{
-                  from: meta.date,
-                  to: meta.to_date,
-                }"
-                v-model="meta.to_date"
-              />
-            </template>
-            <template v-else>
-              <DatePicker class="" v-model="meta.date" />
-            </template>
-          </div>
+              </RadioGroupOption>
+            </div>
+          </RadioGroup>
         </div>
       </div>
-    </template>
-    <Input
-      :items="statusList"
-      select
-      label="Status"
-      grid
-      dense
-      v-model="form.status"
-    />
+      <!-- <Input label="Parcel Entry Mode" grid select :items="" /> -->
 
-    <CardActions class="w-full px-0" v-if="!prompt">
-      <Btn color="green-500" async :action="save">Save Changes</Btn>
-    </CardActions>
+      <template v-if="form.automatic">
+        <div class="cols-span-12 grid grid-cols-12">
+          <Label class="col-span-5">Date</Label>
+          <div class="col-span-7 flex flex-col">
+            <div class="inline-flex space-x-2">
+              <Checkbox v-model="meta.date_range" label="Date Range"></Checkbox>
+            </div>
+            <div class="inline-flex items-center space-x-2">
+              <template v-if="meta.date_range == true">
+                <DatePicker
+                  class=""
+                  :highlighted="{
+                    from: meta.date,
+                    to: meta.to_date,
+                  }"
+                  v-model="meta.date"
+                />
+                <i-mdi-unfold-more-vertical />
+                <DatePicker
+                  class=""
+                  :highlighted="{
+                    from: meta.date,
+                    to: meta.to_date,
+                  }"
+                  v-model="meta.to_date"
+                />
+              </template>
+              <template v-else>
+                <DatePicker class="" v-model="meta.date" />
+              </template>
+            </div>
+          </div>
+        </div>
+      </template>
+      <Input
+        :items="statusList"
+        select
+        label="Status"
+        grid
+        dense
+        v-model="form.status"
+      />
+
+      <CardActions class="w-full px-0" v-if="!prompt">
+        <Btn color="green-500" async :action="save">Save Changes</Btn>
+      </CardActions>
+    </template>
     <RouteDialog ref="routeForm" />
   </div>
 </template>
@@ -169,7 +177,10 @@ export default {
     const sRoutes = ref<ShipmentRoute[]>([]);
     const sRoute = ref<ShipmentRoute>({});
 
-    const mode = ref<any>({});
+    const mode = ref<any>({
+      automatic: false,
+      id: 0,
+    });
     const dateType = ref<any>(useShipmentData.dateTypes[0]);
     const routeForm = ref();
     const routeChange = () => {
@@ -224,9 +235,6 @@ export default {
         },
         ..._sroutes,
       ];
-      mode.value = useShipmentData.pkgEntryModes.find(
-        (m) => m.automatic == form.value.automatic
-      );
     };
     const save = async () => {
       var srid = sRoute.value.id as any;
@@ -235,8 +243,9 @@ export default {
         return;
       }
       form.value.shipment_route_id = srid;
+      const { prefix } = sRoute.value;
       const formData: any = {
-        data: form.value,
+        data: Object.assign(form.value, { prefix }),
         meta: { ...meta.value, from_date: meta.value.date },
       };
       !props.prompt && (formData.overview = true);

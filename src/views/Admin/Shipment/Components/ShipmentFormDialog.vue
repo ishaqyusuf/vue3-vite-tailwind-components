@@ -7,13 +7,13 @@
       ok="Create"
       cancelable
       hide-cancel
-      :ok-action="dialog?.saveShipment"
+      :ok-action="dialog?.save"
       :title="title"
     >
       <template #info>
         <div class="p-4 max-h-96 overflow-auto">
           <!-- <ShipmentForm></ShipmentForm> -->
-          <ShipmentForm dense ref="dialog"></ShipmentForm>
+          <ShipmentForm dense prompt ref="dialog"></ShipmentForm>
         </div>
       </template>
     </Prompt>
@@ -34,23 +34,23 @@ export default {
     const title = ref("");
     const dialog = ref();
     const show = ref(false);
-    const init = (_slug: any = null, list: any = null) => {
+    const init = (slug: any = null, list: any = null) => {
       show.value = true;
-      title.value = _slug ? "Edit Shipment" : "Create Shipment";
+      title.value = slug ? "Edit Shipment" : "Create Shipment";
       setTimeout(() => {
-        console.log(list);
-        dialog.value.editShipment(_slug).then((result) => {
+        dialog.value.editShipment(slug).then((result) => {
           show.value = false;
-          if (list) {
-            console.log(result);
-            list.updateItem(result.id, result, false);
-            router.push(useRouteComposer.shipment(result.slug));
-          }
+
+          router.push(useRouteComposer.shipment(result.slug));
         });
       }, 500);
     };
+    const save = async () => {
+      await dialog.value.saveShipment();
+    };
     return {
       show,
+      save,
       init,
       dialog,
       title,

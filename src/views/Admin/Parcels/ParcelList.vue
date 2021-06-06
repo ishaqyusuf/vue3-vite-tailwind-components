@@ -174,7 +174,6 @@ export default {
     });
     watch(useRouteData, (value, oldValue) => {
       setTimeout(() => {
-        // console.log()
         if (unmounted.value) return;
         const { params, query } = value;
         initialize(query);

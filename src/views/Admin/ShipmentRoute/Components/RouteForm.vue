@@ -1,5 +1,6 @@
 <template>
   <div class="space-y-6">
+    {{ form }}
     <Input
       label="Route Title"
       :grid="grid"
@@ -17,7 +18,7 @@
       :grid="grid"
       :dense="dense"
       type="number"
-      v-model="form.next_index"
+      v-model="form.start_index"
     />
     <Input
       label="Next Index"
@@ -32,6 +33,7 @@
 import useShipmentRoutesApi from "@/use/api/use-shipment-routes-api";
 import { ref } from "vue";
 import { ApiOptions, ShipmentMeta, ShipmentRoute } from "@/@types/Interface";
+import alert from "@/hooks/alert";
 export default {
   props: {
     grid: Boolean,
@@ -60,6 +62,12 @@ export default {
         data: form.value,
         meta: meta.value,
       };
+      if (!formData.data.start_index) {
+        alert.error("Set a valid route index");
+        return;
+      }
+      if (!formData.data.next_index)
+        formData.data.next_index = formData.data.start_index;
       const id = form.value.slug;
       const opts: ApiOptions = {
         success: id ? "Route updated" : "Route Created",
