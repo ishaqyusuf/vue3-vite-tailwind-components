@@ -16,18 +16,21 @@ function initialize(_slug) {
   slug.value = _slug;
   loading.value = true;
   useShipmentsApi.get(_slug).then((data) => {
-    shipment.value = data.shipment ?? {};
-    overview.value = data;
-    shipmentRoute.value = data.route ?? {};
-    const status = shipment.value.status;
-    const statsColor = {
-      Active: "yellow",
-      Completed: "green",
-      Cancelled: "red",
-    };
-    stylus.value.status_color = statsColor[status] ?? "gray";
-    loading.value = false;
+    refresh(data);
   });
+}
+function refresh(data) {
+  shipment.value = data.shipment ?? {};
+  overview.value = data;
+  shipmentRoute.value = data.route ?? {};
+  const status = shipment.value.status;
+  const statsColor = {
+    Active: "yellow",
+    Completed: "green",
+    Cancelled: "red",
+  };
+  stylus.value.status_color = statsColor[status] ?? "gray";
+  loading.value = false;
 }
 export default {
   statusList,
@@ -38,4 +41,5 @@ export default {
   overview,
   shipmentRoute,
   initialize,
+  refresh,
 };

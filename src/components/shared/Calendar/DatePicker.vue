@@ -1,6 +1,6 @@
 <template>
   <Menu no-width>
-    <Input readonly :valueFormat="inputFormatter" v-model="correctDate">
+    <Input readonly :valueFormat="inputFormatter" v-model="inputValue">
       <template #prependInner>
         <i-mdi-calendar-outline />
       </template>

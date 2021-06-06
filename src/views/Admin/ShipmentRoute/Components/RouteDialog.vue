@@ -37,6 +37,7 @@ export default {
       title.value = slug ? "Edit Route" : "Create Route";
       setTimeout(() => {
         dialog.value.edit(slug, list).then((result) => {
+          show.value = false;
           resolver.value(result);
         });
       }, 500);

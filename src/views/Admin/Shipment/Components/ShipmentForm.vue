@@ -79,44 +79,33 @@
     <template v-if="mode.automatic">
       <div class="cols-span-12 grid grid-cols-12">
         <Label class="col-span-5">Date</Label>
-        <div class="col-span-7">
+        <div class="col-span-7 flex flex-col">
           <div class="inline-flex space-x-2">
-            <RadioGroup v-model="dateType">
-              <div class="inline-flex space-x-2">
-                <RadioBtn
-                  v-for="(item, index) in dateTypes"
-                  :key="index"
-                  :value="item"
-                >
-                  {{ item.title }}</RadioBtn
-                >
-              </div>
-            </RadioGroup>
+            <Checkbox v-model="meta.date_range" label="Date Range"></Checkbox>
           </div>
-          <div class="col-span-8 inline-flex items-center space-x-2">
-            <template v-if="dateType.single">
-              <DatePicker class="" v-model="meta.date" />
-            </template>
-            <template v-if="dateType.range">
+          <div class="inline-flex items-center space-x-2">
+            <template v-if="meta.date_range == true">
               <DatePicker
                 class=""
                 :highlighted="{
-                  from: meta.from_date,
+                  from: meta.date,
                   to: meta.to_date,
                 }"
-                v-model="meta.from_date"
+                v-model="meta.date"
               />
               <i-mdi-unfold-more-vertical />
               <DatePicker
                 class=""
                 :highlighted="{
-                  from: meta.from_date,
+                  from: meta.date,
                   to: meta.to_date,
                 }"
                 v-model="meta.to_date"
               />
             </template>
-            <DatePicker v-if="dateType.multi" class="" v-model="meta.dates" />
+            <template v-else>
+              <DatePicker class="" v-model="meta.date" />
+            </template>
           </div>
         </div>
       </div>
@@ -129,6 +118,10 @@
       dense
       v-model="form.status"
     />
+
+    <CardActions class="w-full px-0" v-if="!prompt">
+      <Btn color="green-500" async :action="save">Save Changes</Btn>
+    </CardActions>
     <RouteDialog ref="routeForm" />
   </div>
 </template>
@@ -145,11 +138,18 @@ import {
   RadioGroupOption,
 } from "@headlessui/vue";
 
-import { ApiOptions, Shipment, ShipmentMeta } from "@/@types/Interface";
+import {
+  ApiOptions,
+  Shipment,
+  ShipmentMeta,
+  ShipmentRoute,
+} from "@/@types/Interface";
+import alert from "@/hooks/alert";
 export default {
   props: {
     grid: Boolean,
     dense: Boolean,
+    prompt: Boolean,
   },
   components: {
     RouteDialog,
@@ -166,11 +166,53 @@ export default {
     const title = ref("Create Shipment");
     const rejecter = ref();
 
-    const sRoutes = ref<any[]>([]);
-    const sRoute = ref<any>({});
+    const sRoutes = ref<ShipmentRoute[]>([]);
+    const sRoute = ref<ShipmentRoute>({});
 
     const mode = ref<any>({});
     const dateType = ref<any>(useShipmentData.dateTypes[0]);
+    const routeForm = ref();
+    const routeChange = () => {
+      if (!form.value.slug) form.value.shipment_id = sRoute.value.next_index;
+      let srid = sRoute.value.id as any;
+      if (srid < 0) {
+        routeForm.value.open().then((data) => {
+          if (data) {
+            sRoutes.value = [
+              sRoutes.value[0],
+              data,
+              ...sRoutes.value.splice(1),
+            ];
+            sRoute.value = data;
+          }
+        });
+      }
+    };
+    const editShipment = async (slug: any, list = null) => {
+      if (slug) {
+        const { shipment, meta: _meta, route } = await useShipmentsApi.get(
+          slug,
+          {
+            overview: true,
+          }
+        );
+        form.value = shipment;
+        meta.value = _meta;
+        sRoute.value = route;
+        dateType.value =
+          useShipmentData.dateTypes.find(
+            (dt) =>
+              (_meta.date_range && dt.range) ||
+              (_meta.multiple_date && dt.multi)
+          ) ?? useShipmentData.dateTypes[0];
+      }
+      initialize();
+      return new Promise((resolve, reject) => {
+        resolver.value = resolve;
+        rejecter.value = reject;
+        show.value = true;
+      });
+    };
     const initialize = async () => {
       const _sroutes =
         (await useShipmentRoutesApi.index({}, { cache: true }))?.items ?? [];
@@ -182,42 +224,22 @@ export default {
         },
         ..._sroutes,
       ];
-
       mode.value = useShipmentData.pkgEntryModes.find(
         (m) => m.automatic == form.value.automatic
       );
     };
-    const routeForm = ref();
-    const routeChange = () => {
-      if (sRoute.value.id < 0) {
-        routeForm.value.open().then((data) => {
-          if (data) {
-            console.log(data);
-            sRoutes.value = [sRoutes.value[0], data, sRoutes.value.splice(1)];
-            sRoute.value = data;
-          }
-        });
+    const save = async () => {
+      var srid = sRoute.value.id as any;
+      if (srid < 0) {
+        alert.error("Invalid shipment route");
+        return;
       }
-    };
-    const editShipment = async (slug: any, list = null) => {
-      if (slug) {
-        const { shipment, meta, route } = await useShipmentsApi.get(slug);
-        form.value = shipment;
-        meta.value = meta;
-        sRoute.value = route;
-      }
-      initialize();
-      return new Promise((resolve, reject) => {
-        resolver.value = resolve;
-        rejecter.value = reject;
-        show.value = true;
-      });
-    };
-    const saveShipment = async () => {
-      const formData = {
+      form.value.shipment_route_id = srid;
+      const formData: any = {
         data: form.value,
-        meta: meta.value,
+        meta: { ...meta.value, from_date: meta.value.date },
       };
+      !props.prompt && (formData.overview = true);
       const id = form.value.slug;
       const opts: ApiOptions = {
         success: id ? "Shipment updated" : "Shipment Created",
@@ -229,6 +251,7 @@ export default {
         : useShipmentsApi.create(formData, opts));
       resolver.value(data);
       show.value = false;
+      // return null;
     };
     const show = ref(false);
     const closeEditor = () => {
@@ -245,7 +268,7 @@ export default {
       meta,
       closeEditor,
       editShipment,
-      saveShipment,
+      save,
       routeChange,
       ...useShipmentData,
       dateType,

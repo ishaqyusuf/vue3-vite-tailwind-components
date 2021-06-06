@@ -48,7 +48,6 @@ export default {
     const edit = async (slug: any, list = null) => {
       if (slug) {
         const data = await useShipmentRoutesApi.get(slug);
-        console.log(data);
       }
       return new Promise((resolve, reject) => {
         resolver.value = resolve;

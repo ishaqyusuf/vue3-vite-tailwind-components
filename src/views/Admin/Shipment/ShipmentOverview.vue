@@ -1,5 +1,5 @@
 <template>
-  <App fs pad-y>
+  <App fs class="py-10">
     <ShipmentForm grid ref="form"></ShipmentForm>
   </App>
 </template>
@@ -8,6 +8,7 @@
 import { onMounted, ref } from "vue";
 import useShipmentOverview from "./use-shipment-overview";
 import ShipmentForm from "@/views/Admin/Shipment/Components/ShipmentForm.vue";
+import router from "@/router";
 
 export default {
   props: {},
@@ -17,9 +18,18 @@ export default {
   setup(props, { emit }) {
     const form = ref();
     onMounted(() => {
-      form.value
-        .editShipment(useShipmentOverview.slug.value)
-        .then((result) => {});
+      var slug = useShipmentOverview.slug.value;
+      form.value.editShipment(slug).then((result) => {
+        if (result.slug != slug) {
+          router.push({
+            name: "shipment",
+            params: { slug },
+          });
+        } else {
+          console.log(result);
+          useShipmentOverview.refresh(result);
+        }
+      });
     });
     return {
       form,

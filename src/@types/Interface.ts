@@ -103,6 +103,7 @@ export interface Shipment {
   id?;
   prefix?;
   shipment_id?;
+  shipment_route_id?;
   slug?;
   start_date?;
   status?;
@@ -111,15 +112,15 @@ export interface Shipment {
 }
 export interface ShipmentMeta {
   date?;
-  date_range?;
+  date_range?: Boolean;
   dates?: any[];
   from_date?: string;
   inactive_after_date?: string;
   inactive_after_parcel_count?: number;
-  include_archiver?;
+  include_archived?;
   include_storage?;
-  mutliple_date?;
-  statuses?;
+  mutliple_date?: Boolean;
+  statuses?: any[];
   to_date?;
 }
 export interface ShipmentRoute {
@@ -131,6 +132,7 @@ export interface ShipmentRoute {
   slug?: string;
   status?: string;
   title?: string;
+  free_indices?: number;
 }
 export interface ShipmentOverview {
   meta?: ShipmentMeta;

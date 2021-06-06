@@ -23,7 +23,7 @@ export default {
   components: {},
   setup(props, { emit }) {
     const form = reactive({
-      date: "",
+      date: "2021-07-24T10:18:00.000Z",
     });
     return {
       ...form,
