@@ -37,7 +37,7 @@ const fetch = async (useList, pager, query = {}) => {
 const actions: any = {
   delete: {
     action: async (item) => {
-      const data = await useShipmentApi.delete(item.track_code);
+      const data = await useShipmentApi.delete(item.slug);
     },
   },
 };

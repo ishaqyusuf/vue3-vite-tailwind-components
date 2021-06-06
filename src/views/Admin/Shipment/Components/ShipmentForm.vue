@@ -247,6 +247,7 @@ export default {
       const formData: any = {
         data: Object.assign(form.value, { prefix }),
         meta: { ...meta.value, from_date: meta.value.date },
+        overview: true,
       };
       !props.prompt && (formData.overview = true);
       const id = form.value.slug;
@@ -258,6 +259,7 @@ export default {
       const data = await (id
         ? useShipmentsApi.update(id, formData, opts)
         : useShipmentsApi.create(formData, opts));
+      console.log(data);
       resolver.value(data);
       show.value = false;
       // return null;

@@ -26,8 +26,9 @@ export default {
             params: { slug },
           });
         } else {
-          useShipmentOverview.refresh(result);
+          // useShipmentOverview.refresh(result);
         }
+        console.log(result);
       });
     });
     return {
