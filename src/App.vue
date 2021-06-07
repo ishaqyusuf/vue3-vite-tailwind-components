@@ -9,7 +9,7 @@
 <script lang="ts">
 import { ref, onMounted, computed } from "vue";
 import Header from "@components/navs/Header.vue";
-import user from "@/use/user";
+import user from "@/use/user-account";
 import useConfig from "@/use/configs";
 export default {
   props: {},

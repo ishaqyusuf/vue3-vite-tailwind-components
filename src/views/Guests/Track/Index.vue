@@ -62,7 +62,7 @@
 import { ref, onMounted } from "vue";
 import TrackingResult from "@/views/Guests/Track/TrackingResult.vue";
 import trackerHook from "@/hooks/tracker";
-import useUser from "@/use/user";
+import useUser from "@/use/user-account";
 export default {
   components: { TrackingResult },
   props: {

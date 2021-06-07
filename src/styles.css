@@ -8,3 +8,6 @@
 .link-style {
   @apply text-base font-medium text-gray-600 hover:text-gray-900;
 }
+.gray-scale {
+  filter: grayscale(1);
+}

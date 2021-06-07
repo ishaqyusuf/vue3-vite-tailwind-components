@@ -7,7 +7,7 @@
 <script lang="ts">
 import { onMounted, ref } from "vue";
 import DocPage from "@/views/Admin/Components/Documents/DocPage.vue";
-import user from "@/use/user";
+import user from "@/use/user-account";
 import useParcelApi from "@/use/api/use-parcels-api";
 export default {
   props: {

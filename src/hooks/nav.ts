@@ -1,4 +1,4 @@
-import { Actions } from "@/use/user/actions";
+import { Actions } from "@/use/user-account/actions";
 
 const createMenu = (
   title,
@@ -48,7 +48,7 @@ export default {
     ],
     [
       createMenu("Profile", { name: "dashboard" }),
-      createMenu("Settings", { name: "dashboard" }, "readAdmin"),
+      createMenu("Settings", { name: "settings" }),
     ],
     [employees, customer, roles, dept],
     [createMenu("Sign Out", { name: "logout" }, null, "hover:bg-red-500")],

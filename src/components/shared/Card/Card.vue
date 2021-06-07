@@ -6,6 +6,7 @@
       styles,
       {
         'text-white': dark,
+        'py-4': pad,
       },
     ]"
   >
@@ -21,6 +22,7 @@ export default {
     tile: Boolean,
     styleMobile: Boolean,
     dark: Boolean,
+    pad: Boolean,
     pilot: Boolean,
   },
   setup(props, { emit }) {

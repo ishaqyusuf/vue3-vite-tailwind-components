@@ -2,7 +2,7 @@
 
 <script lang="ts">
 import { ref, onMounted } from "vue";
-import user from "@/use/user";
+import user from "@/use/user-account";
 import router from "@/router";
 export default {
   props: {},

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { axiosConfig } from "./config";
-import user from "@/use/user";
+import user from "@/use/user-account";
 import device from "@/hooks/device";
 import NProgress from "@/utils/progress";
 import qs from "qs";

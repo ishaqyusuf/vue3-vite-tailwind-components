@@ -64,7 +64,7 @@
 </template>
 <script lang="ts">
 import { watch } from "vue";
-import useUser from "@use/user";
+import useUser from "@use/user-account";
 import Nav from "./Nav.vue";
 import menu from "@/hooks/menu";
 import nav from "@/hooks/nav";

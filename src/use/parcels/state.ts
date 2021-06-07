@@ -1,7 +1,7 @@
 import { ref, toRefs, computed, reactive } from "vue";
 import api from "./api";
 import alert from "@/hooks/alert";
-import user from "@/use/user";
+import user from "@/use/user-account";
 const items = ref<any[]>([]);
 const pager = ref(null);
 const query = ref();

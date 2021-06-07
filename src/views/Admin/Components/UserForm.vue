@@ -68,7 +68,7 @@ import { ref, onMounted, reactive, watch, computed } from "vue";
 import { Recipient, User } from "@/@types/Interface";
 import AddressForm from "@/views/Admin/Components/AddressForm.vue";
 import useUser from "@/use/api/useUser";
-import user from "@/use/user";
+import user from "@/use/user-account";
 import useHrm from "@/use/api/useHrm";
 export default {
   components: {

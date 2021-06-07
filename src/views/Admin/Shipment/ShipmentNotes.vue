@@ -8,7 +8,7 @@
 import { onMounted, ref } from "vue";
 import NotePage from "@/views/Admin/Components/Notes/NotePage.vue";
 import useShipmentsApi from "@/use/api/use-shipments-api";
-import user from "@/use/user";
+import user from "@/use/user-account";
 export default {
   props: {
     slug: String,

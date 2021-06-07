@@ -11,7 +11,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/Settings/Index.vue"),
     children: [
       {
-        path: "/profile",
+        path: "profile",
         component: () => import("../views/Settings/Profile/Index.vue"),
         name: "profile",
         meta: {
@@ -19,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/address-book",
+        path: "address-book",
         component: () => import("../views/Settings/AddressBook/Index.vue"),
         name: "address-setting",
         meta: {
@@ -27,15 +27,15 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/invoice-settings",
+        path: "invoice-settings",
         component: () => import("../views/Settings/InvoiceSetting/Index.vue"),
-        name: "invoice-settings",
+        name: "invoice-setting",
         meta: {
           title: "Invoice Settings",
         },
       },
       {
-        path: "/parcel-settings",
+        path: "parcel-settings",
         component: () => import("../views/Settings/ParcelSetting/Index.vue"),
         name: "parcel-setting",
         meta: {
@@ -43,7 +43,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/shipment-settings",
+        path: "shipment-settings",
         component: () => import("../views/Settings/ShipmentSetting/Index.vue"),
         name: "shipment-setting",
         meta: {
@@ -51,7 +51,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/label-settings",
+        path: "label-settings",
         component: () => import("../views/Settings/LabelSetting/Index.vue"),
         name: "label-setting",
         meta: {

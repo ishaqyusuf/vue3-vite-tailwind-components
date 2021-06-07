@@ -1,11 +1,11 @@
 <template>
   <div
-    class="inline-flex space-x-3 justify-end"
+    class="inline-flex w-full space-x-3 justify-end"
     :class="[
       !tile && 'rounded-b-lg',
       {
         'bg-gray-50': !plain,
-        'px-4 py-3 sm:px-6': !pilot,
+        'px-4 sm:px-6': !pilot,
       },
     ]"
   >

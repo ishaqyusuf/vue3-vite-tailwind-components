@@ -1,3 +1,4 @@
+P
 <template>
   <template v-if="user.can(item.permission)">
     <Link :to="item.to" v-if="!item.children" :class="item.css">{{
@@ -21,7 +22,7 @@
 
 <script lang="ts">
 import { ref } from "vue";
-import user from "@/use/user";
+import user from "@/use/user-account";
 export default {
   props: {
     item: { required: true, type: Object },

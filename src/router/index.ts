@@ -5,7 +5,7 @@ import component from "./component.routes";
 import admin from "./admin.routes";
 import NProgress from "@/utils/progress";
 import useConfigs from "../use/configs";
-import user from "../use/user";
+import user from "../use/user-account";
 import menu from "@/hooks/menu";
 import useRouteTitle from "@/use/use-route-title";
 import useRouteData from "@/use/use-route-data";

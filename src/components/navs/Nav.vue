@@ -44,7 +44,7 @@
 
 <script lang="ts">
 import { computed } from "vue";
-import user from "@use/user";
+import user from "@use/user-account";
 import navHook from "@/hooks/nav";
 import NavLink from "@/components/navs/NavLink.vue";
 export default {

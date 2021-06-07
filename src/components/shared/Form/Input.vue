@@ -33,9 +33,10 @@
           'ring-2': focused && !disabled,
           'rounded-full': rounded,
           'rounded-md': !tile,
-          'bg-white': !dark,
+          'bg-white': !dark && !disabled,
           'text-black-100 border-black-300': dark,
-          'gray-scale': disabled,
+          'gray-scale bg-gray-100 bg-opacity-50': disabled,
+
           'px-2': !dense,
           'px-1': dense,
           border: !plain,
@@ -64,6 +65,7 @@
           :readonly="readonly || select"
           :class="{
             'cursor-pointer': select,
+            'cursor-default': disabled || readonly,
             'py-1': dense,
             'py-2': !dense,
           }"
@@ -89,6 +91,7 @@
           :readonly="readonly || select"
           :class="{
             'cursor-pointer': select,
+            'cursor-default': disabled || readonly,
             'py-1': dense,
             'py-2': !dense,
             'text-center': centerText,

@@ -112,7 +112,7 @@
 
 <script lang="ts">
 import { reactive, ref } from "vue";
-import useUser from "@/use/user";
+import useUser from "@/use/user-account";
 export default {
   props: {},
   setup(props, { emit }) {

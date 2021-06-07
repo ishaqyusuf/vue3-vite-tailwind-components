@@ -8,7 +8,7 @@
       'px-0': flatX,
     }"
   >
-    <slot></slot>
+    <span class="leading-snug block pt-1"> <slot></slot> </span>
   </div>
 </template>
 

@@ -7,6 +7,8 @@
       'p-4': !dense,
       'py-0': flatY,
       'px-0': flatX,
+      'pt-0': flatT,
+      'pb-0': flatB,
     }"
     class="font-poppins text-xl leading-7 mb-1 font-semibold text-gray-900 inline-flex"
   >

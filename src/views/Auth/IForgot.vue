@@ -66,7 +66,7 @@
 
 <script lang="ts">
 import { ref, onMounted } from "vue";
-import useUser from "@/use/user";
+import useUser from "@/use/user-account";
 import router from "@/router";
 import useAlert from "@/hooks/alert";
 export default {
