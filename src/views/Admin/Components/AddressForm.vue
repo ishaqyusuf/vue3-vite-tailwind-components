@@ -39,6 +39,7 @@
 <script lang="ts">
 import { useModelWrapper } from "@/use/modelWrapper";
 import { useGeo } from "@/hooks/useGeo";
+import { onMounted } from "vue";
 export default {
   props: {
     userForm: Boolean,
@@ -47,13 +48,18 @@ export default {
   setup(props, { emit }) {
     const geo = useGeo();
     const address = useModelWrapper(props, emit);
-    geo.initialize(
-      address.value.country,
-      address.value.state,
-      address.value.city,
-      (country) => (address.value.phone.code = country.code)
-    );
 
+    onMounted(() => {
+      const { country, state, city } = address.value;
+      geo.initialize(
+        {
+          country,
+          state,
+          city,
+        },
+        (country) => (address.value.phone.code = country.code)
+      );
+    });
     return {
       address,
       geo,
