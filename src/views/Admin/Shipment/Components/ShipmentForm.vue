@@ -126,7 +126,7 @@
         v-model="form.status"
       />
 
-      <CardActions class="w-full px-0" v-if="!prompt">
+      <CardActions plain pilot class="w-full px-0" v-if="!prompt">
         <Btn color="green-500" async :action="save">Save Changes</Btn>
       </CardActions>
     </template>

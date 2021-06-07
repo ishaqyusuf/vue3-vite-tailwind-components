@@ -1,5 +1,5 @@
 <template>
-  <App vintage class="flex flex-col" fs v-if="!loading">
+  <App vintage primary class="flex flex-col" fs v-if="!loading">
     <App class="pt-4 sm:pt-6">
       <CardContent class="flex flex-col space-y-4">
         <div class="flex justify-between items-start">
@@ -36,7 +36,6 @@
           </div>
           <div class="inline-flex space-x-2 items-center">
             <Input :items="statusList" select dense v-model="shipment.status" />
-            <Btn dense>Edit</Btn>
           </div>
         </div>
         <Tabs pilot>
@@ -61,7 +60,7 @@
         </Tabs>
       </CardContent>
     </App>
-    <Bg class="flex-1" app secondary>
+    <Bg class="flex-1" app tertiary>
       <router-view></router-view>
     </Bg>
   </App>

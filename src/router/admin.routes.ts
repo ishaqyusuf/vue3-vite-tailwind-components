@@ -3,10 +3,12 @@ import { RouteRecordRaw } from "vue-router";
 import parcelRoutes from "./parcel.routes";
 import shipmentRoutesRoutes from "./shipment-routes.routes";
 import shipmentsRoutes from "./shipments.routes";
+import settingsRoutes from "./settings.routes";
 const routes: Array<RouteRecordRaw> = [
   ...shipmentRoutesRoutes.routes,
   ...parcelRoutes.routes,
   ...shipmentsRoutes.routes,
+  ...settingsRoutes.routes,
   {
     name: "dashboard",
     path: "/dashboard",
