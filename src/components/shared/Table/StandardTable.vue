@@ -64,6 +64,7 @@
           <TableRow
             v-for="(id, index) in ids"
             v-bind="$props"
+            class="cursor-default"
             :index="id"
             :key="index"
             @emitAction="emitAction"

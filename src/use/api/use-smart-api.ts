@@ -58,7 +58,7 @@ export default {
   ) => {
     let url = [
       "/",
-      ...(typeof path === "string" ? path : path.join("/")),
+      ...(typeof path === "string" ? path : path.filter(Boolean).join("/")),
       type == "get" && `?${qs.stringify(data)}`,
     ]
       .filter(Boolean)

@@ -1,8 +1,8 @@
 <template>
   <div>
     <template v-if="userForm">
-      <Input name="" label="Full Name" />
-      <Input name="" label="Email" />
+      <Input name="" v-model="address.first_name" label="Full Name" />
+      <Input name="" v-model="address.email" label="Email" />
     </template>
     <Input
       name="phone"

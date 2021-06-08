@@ -32,12 +32,12 @@ async function saveAddress(form, success = null, error = null) {
     $dev.error(error);
   }
 }
-function transform(item) {
-  item.line_1 = [item.city, [item.state, item.country].filter(Boolean)]
+function transform(item, obj) {
+  obj.line_1 = [item.city, [item.state, item.country].filter(Boolean)]
     .filter(Boolean)
     .join(", ");
-  item.mobile = [item.phone?.code, item.phone?.no].filter(Boolean).join(" ");
-  return item;
+  obj.mobile = [item.phone?.code, item.phone?.no].filter(Boolean).join(" ");
+  return obj;
 }
 export default {
   transform,
