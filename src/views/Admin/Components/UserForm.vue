@@ -57,7 +57,7 @@
             user-form
             class="space-y-3"
             v-model="address"
-            v-if="extraData"
+            v-if="extraData || addressMode"
           ></AddressForm>
         </div>
       </div>
@@ -66,7 +66,7 @@
 </template>
 
 <script lang="ts">
-import { ref, onMounted, reactive, watch, computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { Recipient, User } from "@/@types/Interface";
 import AddressForm from "@/views/Admin/Components/AddressForm.vue";
 import useUser from "@/use/api/useUser";
@@ -103,9 +103,9 @@ export default {
           okAction.value = saveAddress;
           if (data) {
             address.value = data;
-            show.value = true;
           }
         }
+        show.value = true;
       });
     };
 
@@ -146,6 +146,7 @@ export default {
         {
           onSuccess: (data) => {
             dataCreated(data.id, data);
+            console.log(data);
           },
         }
       );

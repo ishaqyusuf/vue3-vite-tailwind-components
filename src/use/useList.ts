@@ -130,14 +130,23 @@ export default function useList<T>() {
       if (typeof getAction === "function") await getAction(id);
       else getAction.async ? await getAction.action(id) : getAction.action(id);
     }
-    then();
+    then && then();
   };
   const execute = async (_action, payload = null, then: any = null) => {
-    const getAction = actions.value[_action];
-    if (getAction)
-      getAction.async
-        ? await getAction.action(payload)
-        : getAction.action(payload);
+    // const getAction = actions.value[_action];
+    // if (getAction)
+    //   getAction.async
+    //     ? await getAction.action(payload)
+    //     : getAction.action(payload);
+    const getAction: any = actions.value[_action];
+    if (getAction) {
+      if (typeof getAction === "function") await getAction(payload);
+      else
+        getAction.async
+          ? await getAction.action(payload)
+          : getAction.action(payload);
+    }
+    then && then();
   };
   type tableAction = {
     [id in string]: {

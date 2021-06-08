@@ -1,15 +1,9 @@
 <template>
   <div>
     <template v-if="userForm">
-      <Input name="" v-model="address.first_name" label="Full Name" />
+      <Input name="" v-model="address.name" label="Full Name" />
       <Input name="" v-model="address.email" label="Email" />
     </template>
-    <Input
-      name="phone"
-      label="Phone"
-      :prefix="address.phone.code"
-      v-model="address.phone.no"
-    />
     <Input
       name="country"
       label="Country"
@@ -19,11 +13,22 @@
       v-model="address.country"
     />
     <Input
+      name="phone"
+      label="Phone"
+      :prefix="address.phone.code"
+      v-model="address.phone.no"
+    />
+    <Input
+      name="address_1"
+      label="Street Address"
+      v-model="address.address_1"
+    />
+    <Input
       name="state"
       label="State"
       auto-complete
       :items="geo.states.value"
-      @selected="geo.countryChange(address.state)"
+      @selected="geo.stateChange(address.state)"
       v-model="address.state"
     />
     <Input

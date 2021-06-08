@@ -1,9 +1,10 @@
 <template>
   <div>
     <div
-      class="shadow overflow-hidden border-b border-gray-200"
+      class="overflow-hidden border-gray-200"
       :class="{
         'rounded-lg': !tile,
+        'shadow border-b': !vintage,
       }"
       v-if="ids.length > 0"
     >
@@ -12,9 +13,10 @@
         :class="{ 'divide-y': !noDivide }"
       >
         <thead
-          class="bg-gray-50"
+          class=""
           :class="{
             hidden: noHead,
+            'bg-gray-50': !vintage,
           }"
         >
           <tr>
