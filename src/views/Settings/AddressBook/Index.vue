@@ -3,7 +3,7 @@
   <DopeCard title="Address List" subtitle="List of all your address">
     <CardContent class="space-y-2">
       <div class="inline-flex w-full justify-end">
-        <Btn @click="addressList.openUserForm()">
+        <Btn @click="openUserForm()">
           <i-mdi-plus />
           New Address
         </Btn>
@@ -19,6 +19,7 @@ import DopeCard from "@/views/Settings/DopeCard.vue";
 import userAccount from "@/use/user-account";
 import DefaultAddress from "@/views/Settings/AddressBook/DefaultAddress.vue";
 import AddressList from "@/views/Settings/AddressBook/AddressList.vue";
+import useAddressBook from "@/use/list/use-address-book";
 
 export default {
   props: {},
@@ -32,6 +33,7 @@ export default {
 
     return {
       addressList,
+      ...useAddressBook,
       isAdmin,
     };
   },

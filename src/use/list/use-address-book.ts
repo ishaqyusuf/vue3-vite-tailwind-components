@@ -54,6 +54,8 @@ const openUserForm = (
   });
 };
 export default {
+  openUserForm,
+  userForm,
   isAdmin,
   init,
   structure,
