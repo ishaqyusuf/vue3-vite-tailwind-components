@@ -11,7 +11,12 @@
         class="min-w-full table w-full border-collapse divide-gray-200"
         :class="{ 'divide-y': !noDivide }"
       >
-        <thead class="bg-gray-50" v-if="!noHead">
+        <thead
+          class="bg-gray-50"
+          :class="{
+            hidden: noHead,
+          }"
+        >
           <tr>
             <th
               scope="col"

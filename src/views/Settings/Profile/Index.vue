@@ -1,7 +1,7 @@
 <template>
   <ProfileData></ProfileData>
   <PasswordReset></PasswordReset>
-  <DeactivateAccount></DeactivateAccount>
+  <!-- <DeactivateAccount></DeactivateAccount> -->
 </template>
 
 <script lang="ts">

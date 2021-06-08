@@ -205,7 +205,7 @@ export default {
     // );
     const validateInput = (value) => {
       const { autoComplete, combobox, source, itemText, itemValue } = props;
-      if (autoComplete && (itemText || itemValue)) {
+      if (autoComplete) {
         const item = props.items.find(
           (item) => (itemText ? item[itemText] : item) == value
         );
@@ -223,9 +223,10 @@ export default {
       }
       state.isTyping = state.focused = false;
       const { autoComplete, combobox, itemText, itemValue } = props;
-      // const item = validateInput(valued.value);
       if (autoComplete) {
-        // if (!item) valued.value = currentValue.value;
+        const item = validateInput(valued.value);
+
+        if (!item) valued.value = currentValue.value;
         // else
       }
       emit("selected", valued.value);
@@ -289,6 +290,10 @@ export default {
       initResults();
     });
     const inputType = ref(props.type);
+
+    watch(valued, (value, old) => {
+      if (props.items) initResults();
+    });
     watch(
       () => [valued, props.items, props.source, state].filter(Boolean),
       async (value, old) => {

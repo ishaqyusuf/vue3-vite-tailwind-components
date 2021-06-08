@@ -3,6 +3,7 @@
     title="Profile Data"
     subtitle="Update your account profile information"
   >
+    <!-- {{userAccount.}} -->
     <CardContent class="space-y-4 mb-4">
       <Input label="First Name" grid v-model="form.first_name" />
       <Input label="Last Name" grid v-model="form.last_name" />
@@ -11,13 +12,14 @@
         label="Country"
         auto-complete
         :items="geo.countries.value"
+        @selected="geo.countryChange(phone.country)"
         grid
         v-model="phone.country"
       />
       <Input label="Phone" grid v-model="phone.no" :prefix="phone.code" />
     </CardContent>
     <CardActions plain>
-      <Btn color="green-500">
+      <Btn async :action="save" color="green-500">
         <span class="px-2">Save</span>
       </Btn>
     </CardActions>
@@ -40,25 +42,33 @@ export default {
     const phone = ref<any>({});
     const geo = useGeo();
     onMounted(() => {
-      const acct = userAccount.user.value;
+      var acct = userAccount.user.value;
       form.value = pick(acct, ["first_name", "last_name", "email"]);
-      phone.value = acct.phone ?? {};
-      const { country } = props.value;
-      // geo.initialize(
-      //   {
-      //     country,
-      //     opts: {
-      //       noState: true,
-      //     },
-      //   },
-      //   (country) => {
-      //     phone.value.code = country.code;
-      //   }
-      // );
+      phone.value = JSON.parse(acct.phone) ?? {};
+      const { country } = phone.value;
+      geo.initialize(
+        {
+          country,
+        },
+        {
+          noState: true,
+        },
+        (country) => {
+          phone.value.code = country.code;
+        }
+      );
     });
+    async function save() {
+      const { first_name, last_name } = form.value;
+      await userAccount.update({
+        data: { first_name, last_name, phone: phone.value },
+      });
+    }
     return {
       form,
+      save,
       phone,
+      userAccount,
       geo,
     };
   },

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white shadow-sm border-b z-50 relative">
+  <div class="bg-white shadow-sm border-b z-40 relative">
     <div
       class="max-w-7xl transform transition-all delay-1000 py-1 mx-auto px-4 sm:px-6"
     >

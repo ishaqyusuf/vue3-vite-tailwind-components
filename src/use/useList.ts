@@ -61,7 +61,7 @@ export default function useList<T>() {
   const initialize = (
     items: any[] = [],
     _transformer: any = null,
-    _actions: tableAction = {}
+    _actions = {}
   ) => {
     reset();
     transformer.value = _transformer;
@@ -125,9 +125,11 @@ export default function useList<T>() {
     data.itemByIds[item.id] = Object.freeze(item);
   };
   const performAction = async (_action, id, then) => {
-    const getAction = actions.value[_action];
-    if (getAction)
-      getAction.async ? await getAction.action(id) : getAction.action(id);
+    const getAction: any = actions.value[_action];
+    if (getAction) {
+      if (typeof getAction === "function") await getAction(id);
+      else getAction.async ? await getAction.action(id) : getAction.action(id);
+    }
     then();
   };
   const execute = async (_action, payload = null, then: any = null) => {

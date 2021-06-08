@@ -40,13 +40,14 @@ const destroy = async (url) => {
   }
   return null;
 };
-const toast = (data, options) => {
+const toast = (data, options: ApiOptions) => {
   if (data?.error && options.showError) {
     alert.error(data.error);
   } else {
     options.success && alert.success(options.success);
   }
   if (!data && options.error) alert.error(options.error);
+  if (!data?.error && options.onSuccess) options.onSuccess(data);
 };
 export default {
   request: async (

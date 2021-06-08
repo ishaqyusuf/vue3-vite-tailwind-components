@@ -3,6 +3,7 @@ import { $dev } from "@/core/utils/functions";
 import userState from "./state";
 import alert from "@/hooks/alert";
 import router from "@/router";
+import useSmartApi from "../api/use-smart-api";
 
 const home = { name: "home" };
 
@@ -32,6 +33,22 @@ const login = async (
     $dev.error(err);
   }
   return {};
+};
+const update = async (form, success = "Profile Updated!") => {
+  const data = useSmartApi.request("update", "user", form, {
+    success,
+    showError: true,
+  });
+};
+const changePassword = async (form) => {
+  const data = useSmartApi.request("update", "user/password", form, {
+    success: "Password Updated!",
+    showError: true,
+    onSuccess: (data) => {
+      userState.logout();
+      router.push({ name: "login" });
+    },
+  });
 };
 const createAccount = async (form) => {
   try {
@@ -115,9 +132,11 @@ export default {
   login,
   logout,
   createAccount,
+  update,
   validate,
   deactivate,
   iforgot,
   validateToken,
   updatePassword,
+  changePassword,
 };

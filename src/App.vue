@@ -1,13 +1,15 @@
 <template>
   <div class="sm:bg-gray-100">
-    <AlertContainer />
+    <div class="relative z-50">
+      <AlertContainer class="" />
+    </div>
     <Header v-if="!fullScreen"></Header>
     <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts">
-import { ref, onMounted, computed } from "vue";
+import { onMounted, computed } from "vue";
 import Header from "@components/navs/Header.vue";
 import user from "@/use/user-account";
 import useConfig from "@/use/configs";

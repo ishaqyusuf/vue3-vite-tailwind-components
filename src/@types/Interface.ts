@@ -65,7 +65,7 @@ export interface TrackingResult {
 
 export interface TableStructure {
   name: string;
-  title: string;
+  title?: string;
   fontMedium?: boolean;
   btnProps?: object;
   btnLink?: boolean;
@@ -146,4 +146,6 @@ export interface ApiOptions {
   error?: String;
   showError?: Boolean;
   cache?: Boolean;
+  deepCache?: Boolean;
+  onSuccess?: Function;
 }

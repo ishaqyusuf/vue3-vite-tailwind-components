@@ -1,5 +1,6 @@
 import { $clientApi } from "@/core/services/client";
 import { $dev } from "@/core/utils/functions";
+import useSmartApi from "@/use/api/use-smart-api";
 import qs from "qs";
 import { ref } from "vue";
 
@@ -11,10 +12,12 @@ export function useGeo() {
   const cities = ref([]);
   const options = ref<GeoOptions>({});
   const countryChanged = ref<any>();
-  const get = async (url) => {
+  const get = async (query = {}) => {
     try {
-      const response = await $clientApi.get(url);
-      const { data } = response;
+      const data = await useSmartApi.request("get", "geodata", query, {
+        cache: true,
+        deepCache: true,
+      });
       return data;
     } catch (error) {
       $dev.error(error);
@@ -22,9 +25,9 @@ export function useGeo() {
     return {};
   };
   const countryChange = async (_country, state = null) => {
+    if (!_country) return;
     const q = { country: _country, no_state: options.value.noState };
-    const url = `/geodata?${qs.stringify(q)}`;
-    const { items, data } = await get(url);
+    const { items, data } = await get(q);
     data.country = _country;
     const { phonecode } = data;
     data.code = [phonecode && "+", phonecode].filter(Boolean).join("");
@@ -37,11 +40,10 @@ export function useGeo() {
   };
   const stateChange = async (_state) => {
     if (options.value.noCity) return;
-    const url = `/geodata?${qs.stringify({
+    const { items } = await get({
       country: country.value?.country,
       state: _state,
-    })}`;
-    const { items } = await get(url);
+    });
     cities.value = items;
   };
   return {
@@ -50,14 +52,16 @@ export function useGeo() {
     cities,
     country,
     initialize: (
-      { country = null, state = null, city = null, opts = {} },
+      form: any = {},
+      opts: GeoOptions = {},
       onCountryChanged: any = null
     ) => {
       countryChanged.value = onCountryChanged;
       options.value = opts;
-      get("/geodata").then((data) => {
+      get().then((data) => {
         countries.value = data.items;
-        if (country) countryChange(country, state);
+        if (form.country && !opts.noState)
+          countryChange(form.country, form.state);
       });
     },
     countryChange,
