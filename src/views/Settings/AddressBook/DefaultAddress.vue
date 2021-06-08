@@ -7,7 +7,6 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
 import DopeCard from "@/views/Settings/DopeCard.vue";
 export default {
   props: {},

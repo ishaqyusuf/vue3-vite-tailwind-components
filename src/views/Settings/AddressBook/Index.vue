@@ -17,14 +17,16 @@
 import { ref, onMounted } from "vue";
 import DopeCard from "@/views/Settings/DopeCard.vue";
 import userAccount from "@/use/user-account";
+import DefaultAddress from "@/views/Settings/AddressBook/DefaultAddress.vue";
 import AddressList from "@/views/Settings/AddressBook/AddressList.vue";
+
 export default {
   props: {},
-  components: { DopeCard, AddressList },
+  components: { DopeCard, AddressList, DefaultAddress },
   setup(props, { emit }) {
     const addressList = ref();
     const isAdmin = ref<boolean>();
-    onMounted(async () => {
+    onMounted(() => {
       isAdmin.value = userAccount.can("readAdmin");
     });
 
