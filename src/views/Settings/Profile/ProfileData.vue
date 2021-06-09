@@ -44,7 +44,7 @@ export default {
     onMounted(() => {
       var acct = userAccount.user.value;
       form.value = pick(acct, ["first_name", "last_name", "email"]);
-      phone.value = JSON.parse(acct.phone) ?? {};
+      phone.value = JSON.parse(acct.phone ?? "{}");
       const { country } = phone.value;
       geo.initialize(
         {

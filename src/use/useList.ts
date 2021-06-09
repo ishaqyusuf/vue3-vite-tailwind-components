@@ -88,7 +88,7 @@ export default function useList<T>() {
     data.ids = data.checkedIds = data.items = [];
   };
   const transformer = ref<any>(null);
-
+  const isEmpty = computed(() => data.ids.length == 0);
   const transFormData = (item) => {
     const transform = transformer.value;
     const data = transform ? transform(item, {}) : {};
@@ -169,6 +169,7 @@ export default function useList<T>() {
     refresh,
     data,
     ...toRefs(data),
+    isEmpty,
     deleteItem,
     clearChecks,
     deleteMany,
