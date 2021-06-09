@@ -8,9 +8,9 @@
     title="Select Address"
   >
     <template #info>
-      <div class="p-4 max-h-96 overflow-auto">
-        <div class="space-y-3 flex flex-col px-4">
-          <AddressList picker @select="selectAddress"></AddressList>
+      <div class="py-2 max-h-96 overflow-auto">
+        <div class="space-y-3 flex flex-col">
+          <AddressList picker @addressSelected="selectAddress"></AddressList>
         </div>
       </div>
     </template>
@@ -19,26 +19,30 @@
 
 <script lang="ts">
 import { ref } from "vue";
-import AddressForm from "@/views/Admin/Components/AddressForm.vue";
+import AddressList from "@/views/Settings/AddressBook/AddressList.vue";
 export default {
   components: {
-    AddressForm,
+    AddressList,
   },
   props: {},
   setup(props, { emit }) {
     const show = ref(false);
     const resolver = ref();
     const list = ref();
-    const select = async (list) => {
+    const select = async () => {
       return new Promise((resolve, reject) => {
         resolver.value = resolve;
-        list.value = list;
+        // list.value = list;
         show.value = true;
       });
     };
-    const selectAddress = (address) => {};
+    const selectAddress = (id) => {
+      resolver.value(id);
+      show.value = false;
+    };
     return {
       selectAddress,
+      select,
       list,
       show,
     };

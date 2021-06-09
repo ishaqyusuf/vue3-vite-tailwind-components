@@ -10,7 +10,7 @@
     >
       <table
         class="min-w-full table w-full border-collapse divide-gray-200"
-        :class="{ 'divide-y': !noDivide }"
+        :class="{ 'divide-y': !noDivide && !noHead }"
       >
         <thead
           class=""
@@ -64,6 +64,10 @@
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
           <TableRow
+            @click="rowClick(id)"
+            :class="{
+              selector: 'cursor-pointer',
+            }"
             v-for="(id, index) in ids"
             v-bind="$props"
             class="cursor-default"
@@ -137,6 +141,9 @@ export default defineComponent({
       ids: computed(() => props.worker.data.ids),
       emitAction: (action, data) => {
         emit(action, data);
+      },
+      rowClick: (rowId) => {
+        if (props.selector) emit("selected", rowId);
       },
     };
   },

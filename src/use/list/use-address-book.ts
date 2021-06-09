@@ -1,5 +1,6 @@
 import { TableStructure } from "@/@types/Interface";
 import { ref } from "vue";
+import { MetaDataType } from "../api/use-meta-data-api";
 import useSmartApi from "../api/use-smart-api";
 import useAddress from "../api/useAddress";
 import useList from "../useList";
@@ -62,3 +63,21 @@ export default {
   getAddress,
   list,
 };
+
+export const defaultAddresses = [
+  {
+    title: "Head Office",
+    subtitle: "",
+    type: MetaDataType.DefaultAddress,
+  },
+  {
+    title: "Default Shipping Address",
+    subtitle: "",
+    type: MetaDataType.DefaultAddress,
+  },
+  {
+    title: "Default Recipient Address",
+    subtitle: "",
+    type: MetaDataType.DefaultAddress,
+  },
+];

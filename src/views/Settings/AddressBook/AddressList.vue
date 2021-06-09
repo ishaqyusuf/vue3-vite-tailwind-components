@@ -5,6 +5,8 @@
       no-head
       dense
       :action="!picker"
+      @selected="selected"
+      selector
       vintage
       :worker="list"
       :structure="structure"
@@ -43,8 +45,11 @@ export default {
     onMounted(async () => {
       await useAddressBook.init();
     });
-
+    const selected = (rowId) => {
+      emit("addressSelected", rowId);
+    };
     return {
+      selected,
       ...useAddressBook,
     };
   },

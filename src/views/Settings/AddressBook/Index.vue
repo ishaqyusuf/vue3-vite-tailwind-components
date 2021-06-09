@@ -1,15 +1,13 @@
 <template>
   <DefaultAddress v-if="isAdmin"></DefaultAddress>
   <DopeCard title="Address List" subtitle="List of all your address">
-    <CardContent class="space-y-2">
-      <div class="inline-flex w-full justify-end">
-        <Btn @click="openUserForm()">
-          <i-mdi-plus />
-          New Address
-        </Btn>
-      </div>
-      <AddressList ref="addressList"></AddressList>
-    </CardContent>
+    <template #action>
+      <Btn @click="openUserForm()">
+        <i-mdi-plus />
+        New Address
+      </Btn>
+    </template>
+    <AddressList ref="addressList"></AddressList>
   </DopeCard>
 </template>
 

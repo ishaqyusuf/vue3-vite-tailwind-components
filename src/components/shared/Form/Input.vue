@@ -12,7 +12,7 @@
       <div
         :class="{
           'col-span-5': grid,
-          'mt-2': !centerGrid,
+          'mt-2': !centerGrid && grid,
         }"
       >
         <slot name="grid-label">
