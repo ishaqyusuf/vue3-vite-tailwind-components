@@ -18,7 +18,7 @@ export default {
     dataId: { required: true, type: Number },
   },
   setup(props, { emit }) {
-    const client = computed(() => props.lsHook.itemByIds.value[props.dataId]);
+    const client = computed(() => props.lsHook.itemsById.value[props.dataId]);
     return {
       client,
       select: () => {

@@ -4,10 +4,11 @@
     subtitle="Setup default parcel data"
   >
     <CardContent class="space-y-4">
+      {{ itemsById }}
       <TextColorListItem :use-list="list" :data-id="-1"></TextColorListItem>
       <TextColorListItem
         :use-list="list"
-        v-for="(id, index) in list.ids"
+        v-for="(id, index) in ids"
         :data-id="id"
         :key="index"
       ></TextColorListItem>
@@ -21,7 +22,7 @@
 
 <script lang="ts">
 import DopeCard from "@/views/Settings/DopeCard.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, toRefs } from "vue";
 import useMetaDataApi, { MetaDataType } from "@/use/api/use-meta-data-api";
 import useList from "@/use/useList";
 import { TableStructure } from "@/@types/Interface";
@@ -54,6 +55,7 @@ export default {
     return {
       updatePkg,
       list,
+      ...list,
       structure,
     };
   },

@@ -1,12 +1,15 @@
 <template>
+  <DefaultParcelStatus></DefaultParcelStatus>
   <DefaultParcel></DefaultParcel>
 </template>
 
 <script lang="ts">
 import { ref, onMounted } from "vue";
-import DefaultParcel from "@/views/Settings/ParcelSetting/DefaultParcel.vue";
+import DefaultParcelStatus from "./DefaultParcelStatus.vue";
+import DefaultParcel from "./DefaultParcel.vue";
 export default {
   components: {
+    DefaultParcelStatus,
     DefaultParcel,
   },
   props: {},

@@ -40,21 +40,29 @@ export default {
     structure: { type: Object, required: true },
     pager: Array,
     onDelete: Object,
-    worker: { type: Object as PropType<IUseList>, required: true },
+    // worker: { type: Object as PropType<IUseList>, required: true },
+    useList: useListPropType(),
   },
   refreshable,
 };
-
+export function useListPropType() {
+  return {
+    type: Object as PropType<IUseList>,
+    default: () => {
+      return {};
+    },
+  };
+}
 export function tableHook<T>() {
   const data = reactive<{
     items: any[]; //T[];
     ids: number[];
-    itemByIds: { [id in number]: any };
+    itemsById: { [id in number]: any };
     checkedIds: number[];
   }>({
     items: [],
     ids: [],
-    itemByIds: {},
+    itemsById: {},
     checkedIds: [],
   });
   const loading = ref(false);
@@ -62,15 +70,15 @@ export function tableHook<T>() {
   const extendedItems = computed(() => {
     return data.ids.map((id) => ({
       id,
-      item: transFormData(data.itemByIds[id]),
+      item: transFormData(data.itemsById[id]),
       isChecked: data.checkedIds.includes(id),
     }));
   });
   const updateItem = (id, _item: T, _push = true) => {
-    const item = data.itemByIds[id];
+    const item = data.itemsById[id];
 
     if (item) {
-      data.itemByIds[id] = Object.freeze({
+      data.itemsById[id] = Object.freeze({
         ...item,
         ..._item,
       });
@@ -107,11 +115,11 @@ export function tableHook<T>() {
   const refresh = (_items: any[] = [], clearState = false) => {
     if (clearState) data.checkedIds = [];
     data.items = [];
-    data.itemByIds = {};
+    data.itemsById = {};
     data.ids.splice(0);
     // [data.items, data.ids].map((arr) => arr.splice(0));
     const newItems = (items.value = data.items = _items.map((item) => {
-      const freezed = (data.itemByIds[item.id] = Object.freeze(item));
+      const freezed = (data.itemsById[item.id] = Object.freeze(item));
       data.ids.indexOf(item.id) < 0 && data.ids.push(item.id);
       return freezed;
     }));
@@ -153,7 +161,7 @@ export function tableHook<T>() {
     addItem(item);
   };
   const addItem = (item) => {
-    data.itemByIds[item.id] = Object.freeze(item);
+    data.itemsById[item.id] = Object.freeze(item);
   };
   const performAction = async (_action, id, then) => {
     const getAction = actions.value[_action];

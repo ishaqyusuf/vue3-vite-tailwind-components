@@ -51,6 +51,7 @@
 
 <script lang="ts">
 import alert from "@/hooks/alert";
+import { useListPropType } from "@/hooks/table";
 import useDocs from "@/use/api/useDocs";
 import FileUploader from "@/views/Admin/Components/Documents/FileUploader.vue";
 import { computed, ref } from "vue";
@@ -60,11 +61,11 @@ export default {
   },
   props: {
     dataId: { type: Number, required: true },
-    useList: { type: Object, required: true },
+    useList: useListPropType(),
     parent: { type: Object, required: true },
   },
   setup(props, { emit }) {
-    const item = computed(() => props.useList.itemByIds.value[props.dataId]);
+    const item = computed(() => props.useList.itemsById.value[props.dataId]);
     const uploading = ref(false);
 
     const uploadFile = async (files) => {

@@ -92,7 +92,7 @@ export default {
       emit("edit", item.value);
     };
     const item = computed(() =>
-      props.hook ? props.hook.data.itemByIds[props.index] : props.item
+      props.hook ? props.hook.data.itemsById[props.index] : props.item
     );
     return {
       item,

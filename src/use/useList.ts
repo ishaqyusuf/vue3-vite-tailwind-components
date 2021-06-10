@@ -5,30 +5,30 @@ export default function useList<T>() {
   const data = reactive<{
     items: any[]; //T[];
     ids: number[];
-    itemByIds: { [id in number]: any };
+    itemsById: { [id in number]: any };
     checkedIds: number[];
   }>({
     items: [],
     ids: [],
-    itemByIds: {},
+    itemsById: {},
     checkedIds: [],
   });
-  const refItemByIds = ref<{ [id in number]: any }>({});
+  const refitemsById = ref<{ [id in number]: any }>({});
 
   const loading = ref(false);
   const items = ref<any[]>([]);
   const extendedItems = computed(() => {
     return data.ids.map((id) => ({
       id,
-      item: transFormData(data.itemByIds[id]),
+      item: transFormData(data.itemsById[id]),
       isChecked: data.checkedIds.includes(id),
     }));
   });
   const updateItem = (id, _item: T, _push = true) => {
-    const item = data.itemByIds[id];
+    const item = data.itemsById[id];
 
     if (item) {
-      data.itemByIds[id] = transFormData(
+      data.itemsById[id] = transFormData(
         Object.freeze({
           ...item,
           ..._item,
@@ -72,11 +72,11 @@ export default function useList<T>() {
   const refresh = (_items: any[] = [], clearState = false) => {
     if (clearState) data.checkedIds = [];
     data.items = [];
-    refItemByIds.value = data.itemByIds = {};
+    refitemsById.value = data.itemsById = {};
     data.ids.splice(0);
     // [data.items, data.ids].map((arr) => arr.splice(0));
     items.value = data.items = _items.map((item) => {
-      const freezed = (refItemByIds.value[item.id] = data.itemByIds[
+      const freezed = (refitemsById.value[item.id] = data.itemsById[
         item.id
       ] = transFormData(Object.freeze(item)));
       data.ids.indexOf(item.id) < 0 && data.ids.push(item.id);
@@ -122,7 +122,7 @@ export default function useList<T>() {
     addItem(item);
   };
   const addItem = (item) => {
-    data.itemByIds[item.id] = Object.freeze(item);
+    data.itemsById[item.id] = Object.freeze(item);
   };
   const performAction = async (_action, id, then) => {
     const getAction: any = actions.value[_action];
@@ -157,7 +157,7 @@ export default function useList<T>() {
   const actions = ref<tableAction>({});
   return {
     reset,
-    refItemByIds,
+    refitemsById,
     performAction,
     checkAll,
     toggleAll,

@@ -65,6 +65,7 @@
 
 <script lang="ts">
 import { IUseList } from "@/@types/Interface";
+import { useListPropType } from "@/hooks/table";
 import { ref, computed, watch } from "vue";
 
 export default {
@@ -76,7 +77,7 @@ export default {
     print: Boolean,
     label: Boolean,
     hasMore: Boolean,
-    useList: { type: Object as () => IUseList, required: true },
+    useList: useListPropType(),
   },
   setup(props, { emit }) {
     const { data } = props.useList;

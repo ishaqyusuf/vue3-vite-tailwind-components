@@ -100,10 +100,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted, ref, PropType } from "vue";
+import {
+  defineComponent,
+  computed,
+  onMounted,
+  ref,
+  PropType,
+  toRefs,
+} from "vue";
 import { TransitionRoot } from "@headlessui/vue";
 import table from "@/hooks/table";
-import { IUseList } from "@/@types/Interface";
 import EmptyContainer from "@/components/shared/EmptyContainer.vue";
 export default defineComponent({
   components: {
@@ -112,7 +118,6 @@ export default defineComponent({
   },
   props: {
     ...table.props,
-    useList: { type: Object as PropType<IUseList>, required: true },
   },
   setup(props, { emit }) {
     onMounted(() => {});
@@ -138,7 +143,8 @@ export default defineComponent({
     return {
       checkAll,
       slots,
-      ids: computed(() => props.useList.data.ids),
+      ...toRefs(props.useList.data),
+      // ids: computed(() => props.useList.data.ids),
       emitAction: (action, data) => {
         emit(action, data);
       },

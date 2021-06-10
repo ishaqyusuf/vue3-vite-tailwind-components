@@ -10,17 +10,27 @@
         </template>
       </Input>
     </div>
+    <div
+      class="p-2 cursor-default inline-flex justify-between items-center"
+      v-else
+    >
+      <span
+        class="px-1 rounded-lg"
+        :class="[`text-${item.color}-700 bg-${item.color}-100`]"
+        >{{ item.status }}</span
+      >
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { IUseList } from "@/@types/Interface";
-import { computed, PropType, ref } from "vue";
+import { computed, ref } from "vue";
 import { pick } from "lodash";
+import { useListPropType } from "@/hooks/table";
 export default {
   props: {
     dataId: { type: Number, required: true },
-    useList: { type: Object as PropType<IUseList>, required: true },
+    useList: useListPropType(),
   },
   setup(props, { emit }) {
     const item = computed(() => props.useList.itemsById[props.dataId]);

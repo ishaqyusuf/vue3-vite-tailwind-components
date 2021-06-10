@@ -9,7 +9,7 @@ import userAccount from "../user-account";
 const list = useList();
 
 const getAddress = (id) => {
-  return list.itemByIds[id];
+  return list.itemsById[id];
 };
 const structure: TableStructure[] = [
   {

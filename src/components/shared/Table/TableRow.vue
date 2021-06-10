@@ -148,23 +148,23 @@ export default {
     index: { type: Number, required: true },
   },
   setup(props, { emit }) {
-    const { data, ...worker } = props.worker;
+    const { data, ...useList } = props.useList;
 
-    const item = computed(() => data.itemByIds[props.index]);
+    const item = computed(() => data.itemsById[props.index]);
 
     const checked = computed({
       get: () => {
         return data.checkedIds?.includes(props.index);
       },
       set: (isChecked) => {
-        worker.setCheckedItemsById({ id: props.index, isChecked });
+        useList.setCheckedItemsById({ id: props.index, isChecked });
       },
     });
     return {
       item,
       checked,
       deleteItem: async () => {
-        await worker.deleteItem(item.value);
+        await useList.deleteItem(item.value);
       },
     };
   },

@@ -35,6 +35,7 @@
 </template>
 
 <script lang="ts">
+import { useListPropType } from "@/hooks/table";
 import useNotes from "@/use/api/useNotes";
 import FileUploader from "@/views/Admin/Components/Documents/FileUploader.vue";
 import { computed, ref } from "vue";
@@ -45,10 +46,10 @@ export default {
   props: {
     parent: { type: Object, required: true },
     dataId: { type: Number, required: true },
-    useList: { type: Object, required: true },
+    useList: useListPropType(),
   },
   setup(props, { emit }) {
-    const item = computed(() => props.useList.itemByIds.value[props.dataId]);
+    const item = computed(() => props.useList.itemsById.value[props.dataId]);
 
     const saveNote = async () => {
       if (!note.value) return;

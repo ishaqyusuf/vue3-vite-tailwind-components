@@ -29,7 +29,7 @@ export default {
   },
   setup(props, { emit }) {
     const address = computed(
-      () => useAddressBook.list.itemByIds.value[props.data.post_parent]
+      () => useAddressBook.list.itemsById.value[props.data.post_parent]
     );
     const selectAddress = async () => {
       if (useAddressBook.list.isEmpty.value) {

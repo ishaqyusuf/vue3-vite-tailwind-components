@@ -84,7 +84,7 @@ export interface IUseList {
   data?;
   ids?: Ref<number[]>;
   items?: Ref<any[]>;
-  itemByIds?: Ref<{ [id in number]: any }>;
+  itemsById?: Ref<{ [id in number]: any }>;
   checkedIds?: Ref<number[]>;
   reset?;
   clearChecks?;
