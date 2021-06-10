@@ -3,8 +3,16 @@
     title="Default Parcel Configuration"
     subtitle="Setup default parcel data"
   >
-    <CardContent class="space-y-4"> </CardContent>
-    <Table></Table>
+    <CardContent class="space-y-4">
+      <TextColorListItem :use-list="list" :data-id="-1"></TextColorListItem>
+      <TextColorListItem
+        :use-list="list"
+        v-for="(id, index) in list.ids"
+        :data-id="id"
+        :key="index"
+      ></TextColorListItem>
+    </CardContent>
+
     <CardActions plain>
       <Btn async :action="updatePkg" color="green-500">Save</Btn>
     </CardActions>
@@ -16,15 +24,24 @@ import DopeCard from "@/views/Settings/DopeCard.vue";
 import { onMounted, ref } from "vue";
 import useMetaDataApi, { MetaDataType } from "@/use/api/use-meta-data-api";
 import useList from "@/use/useList";
+import { TableStructure } from "@/@types/Interface";
+import TextColorListItem from "@/views/Settings/Components/TextColorListItem.vue";
 export default {
   props: {},
   components: {
+    TextColorListItem,
     DopeCard,
   },
   setup(props, { emit }) {
-    const ls = ref<any[]>([]);
     const list = useList();
     list.initialize();
+
+    const structure = ref<TableStructure[]>([
+      {
+        name: "title",
+      },
+      { name: "color" },
+    ]);
     onMounted(async () => {
       const { items } = await useMetaDataApi.index({
         type: MetaDataType.PARCEL_STATUS,
@@ -36,7 +53,8 @@ export default {
     const updatePkg = () => {};
     return {
       updatePkg,
-      ls,
+      list,
+      structure,
     };
   },
 };
