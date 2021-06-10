@@ -22,11 +22,12 @@
       </div>
     </slot>
     <div
-      class="relative"
+      class="relative inline-flex items-center space-x-1"
       :class="{
         'col-span-7': grid,
       }"
     >
+      <slot name="prependOuter"></slot>
       <div
         class="px-2 space-x-2 inline-flex items-center w-full"
         :class="{
@@ -123,7 +124,7 @@
         <span class="font-semibold" v-if="suffix">{{ suffix }}</span>
         <slot name="appendInner"></slot>
       </div>
-
+      <slot name="appendOuter"></slot>
       <InputMenu
         @selected="valued = $event"
         v-bind="$props"

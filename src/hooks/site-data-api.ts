@@ -36,4 +36,6 @@ export type SiteDataType =
   | "parcel_data"
   | "invoice_config"
   | "parcel_tracking"
+  | "parcel_status"
+  | "shipment_status"
   | "label_config";

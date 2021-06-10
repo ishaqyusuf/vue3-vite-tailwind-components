@@ -1,11 +1,17 @@
-<template></template>
+<template>
+  <DefaultParcel></DefaultParcel>
+</template>
 
 <script lang="ts">
-import { ref } from "vue";
-
+import { ref, onMounted } from "vue";
+import DefaultParcel from "@/views/Settings/ParcelSetting/DefaultParcel.vue";
 export default {
+  components: {
+    DefaultParcel,
+  },
   props: {},
   setup(props, { emit }) {
+    onMounted(async () => {});
     return {};
   },
 };

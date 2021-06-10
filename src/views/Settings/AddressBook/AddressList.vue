@@ -1,6 +1,6 @@
 <template>
   <div>
-    <StandardTable
+    <Table
       :deletable="!picker"
       no-head
       dense
@@ -8,7 +8,7 @@
       @selected="selected"
       selector
       vintage
-      :worker="list"
+      :use-list="list"
       :structure="structure"
     >
       <template v-slot:main="{ item, header }">
@@ -25,7 +25,7 @@
           Edit
         </Btn>
       </template>
-    </StandardTable>
+    </Table>
     <UserForm title="Address" address-mode ref="userForm"></UserForm>
   </div>
 </template>

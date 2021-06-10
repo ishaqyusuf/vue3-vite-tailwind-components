@@ -5,7 +5,7 @@
       !tile && 'rounded-b-lg',
       {
         'bg-gray-50': !plain,
-        'px-4 sm:px-6': !pilot,
+        'px-4 py-2 sm:px-6': !pilot,
       },
     ]"
   >

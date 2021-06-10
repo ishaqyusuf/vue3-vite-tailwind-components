@@ -64,7 +64,7 @@
 </template>
 
 <script lang="ts">
-import { TableWorker } from "@/@types/Interface";
+import { IUseList } from "@/@types/Interface";
 import { ref, computed, watch } from "vue";
 
 export default {
@@ -76,10 +76,10 @@ export default {
     print: Boolean,
     label: Boolean,
     hasMore: Boolean,
-    worker: { type: Object as () => TableWorker, required: true },
+    useList: { type: Object as () => IUseList, required: true },
   },
   setup(props, { emit }) {
-    const { data } = props.worker;
+    const { data } = props.useList;
     const checkedCount = () => data.checkedIds.length;
     const selection = ref<number>(checkedCount());
     watch(data, (value, old) => {
@@ -88,7 +88,7 @@ export default {
     return {
       selection,
       close: () => {
-        props.worker.clearChecks();
+        props.useList.clearChecks();
       },
       emitAction: (action) => {
         emit("emitAction", action);

@@ -7,17 +7,17 @@
     <Btn @click="addRandom">Add Bottom</Btn>
     <span>page:{{ page }}</span>
   </div>
-  <StandardTable
+  <Table
     dense
     :structure="structure"
-    :worker="tableData"
+    :use-list="tableData"
     checkable
     action
     deletable
   >
     <template v-slot:more-actions="{ item }"> </template>
-  </StandardTable>
-  <TableAction :worker="tableData" show edit deletable print></TableAction>
+  </Table>
+  <TableAction :use-list="tableData" show edit deletable print></TableAction>
 </template>
 
 <script lang="ts">

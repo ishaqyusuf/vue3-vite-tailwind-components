@@ -12,7 +12,7 @@
         :picker="picker"
       ></DefaultAddressCard>
     </div>
-    <AddressPicker ref="picker"></AddressPicker>
+    <div class="absolute"><AddressPicker ref="picker"></AddressPicker></div>
   </DopeCard>
 </template>
 

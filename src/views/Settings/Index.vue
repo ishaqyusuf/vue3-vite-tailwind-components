@@ -20,7 +20,6 @@
           </Card>
         </div>
         <div class="w-3/4 lg:w-4/5 xl:w-5/6 space-y-4 sm:pb-10">
-          <CardTitle flat-y>Account Setting</CardTitle>
           <router-view></router-view>
         </div>
       </CardContent>

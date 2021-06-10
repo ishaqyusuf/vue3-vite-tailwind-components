@@ -3,8 +3,7 @@
     v-model="show"
     @closed="show = false"
     cancelable
-    hide-cancel
-    hide-okay
+    no-action
     title="Select Address"
   >
     <template #info>

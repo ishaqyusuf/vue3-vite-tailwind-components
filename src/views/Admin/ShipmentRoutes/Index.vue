@@ -17,17 +17,17 @@
         </ShipmentFormDialog>
       </div>
     </div>
-    <StandardTable
+    <Table
       checkable
       action
       hide-actions
       dense
       deletable
-      :worker="listr"
+      :use-list="listr"
       hide-checks
       more-action
       :structure="structure"
-    ></StandardTable>
+    ></Table>
   </Container>
 </template>
 

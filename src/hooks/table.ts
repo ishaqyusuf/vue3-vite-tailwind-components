@@ -1,4 +1,4 @@
-import { TableWorker } from "@/@types/Interface";
+import { IUseList } from "@/@types/Interface";
 import { any } from "cypress/types/bluebird";
 import { ref, computed, reactive, toRefs, PropType } from "vue";
 import alert from "./alert";
@@ -40,7 +40,7 @@ export default {
     structure: { type: Object, required: true },
     pager: Array,
     onDelete: Object,
-    worker: { type: Object as PropType<TableWorker>, required: true },
+    worker: { type: Object as PropType<IUseList>, required: true },
   },
   refreshable,
 };

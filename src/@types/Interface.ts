@@ -71,7 +71,7 @@ export interface TableStructure {
   btnLink?: boolean;
   computed?: any;
 }
-export interface TableWorker {
+export interface IUseList {
   toggleAll?;
   checkAll?;
   extendedItems?;

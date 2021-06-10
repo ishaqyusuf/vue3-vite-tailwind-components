@@ -39,10 +39,11 @@ export default {
       props.picker.select().then(async (post_parent) => {
         if (post_parent) {
           var _data = {
-            ...pick(props.data, ["id", "title", "type"]),
+            ...(!props.data.id
+              ? pick(props.data, ["id", "title", "type"])
+              : {}),
             ...{ post_parent },
           };
-          console.log(_data);
           const data = await useMetaDataApi.save(
             props.data.id,
             {
@@ -55,7 +56,6 @@ export default {
             }
           );
           if (data && data.id) {
-            console.log(data);
             props.data.id = data.id;
             props.data.post_parent = post_parent;
           }

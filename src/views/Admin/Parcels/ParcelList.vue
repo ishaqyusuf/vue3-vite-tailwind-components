@@ -6,14 +6,14 @@
     }"
   >
     <Pager :data="pager" />
-    <StandardTable
+    <Table
       checkable
       floating-action
       action
       hide-actions
       dense
       deletable
-      :worker="list"
+      :use-list="list"
       :structure="structure"
       stickyAction
       hide-checks
@@ -60,10 +60,10 @@
           Update Recipient</MenuItem
         >
       </template>
-    </StandardTable>
+    </Table>
 
     <TableAction
-      :worker="list"
+      :use-list="list"
       :show="showAction"
       :deletable="deleteAction"
       @delete="parcels.deleteParcels(items.filter((item) => item.checked))"

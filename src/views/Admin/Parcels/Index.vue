@@ -10,7 +10,7 @@
     <ParcelList :list="list"></ParcelList>
 
     <TableAction
-      :worker="list"
+      :use-list="list"
       :show="showAction"
       :deletable="deleteAction"
       @delete="parcels.deleteParcels(items.filter((item) => item.checked))"
@@ -105,7 +105,7 @@ export default {
       parcels,
       openModal: ref(true),
       updateRecipient: async (item, user) => {
-        // await parcels.updateParcelRecipient(item.track_code, user, tableWorker);
+        // await parcels.updateParcelRecipient(item.track_code, user, IUseList);
       },
     };
   },

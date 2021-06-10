@@ -103,7 +103,7 @@
 import { defineComponent, computed, onMounted, ref, PropType } from "vue";
 import { TransitionRoot } from "@headlessui/vue";
 import table from "@/hooks/table";
-import { TableWorker } from "@/@types/Interface";
+import { IUseList } from "@/@types/Interface";
 import EmptyContainer from "@/components/shared/EmptyContainer.vue";
 export default defineComponent({
   components: {
@@ -112,11 +112,11 @@ export default defineComponent({
   },
   props: {
     ...table.props,
-    worker: { type: Object as PropType<TableWorker>, required: true },
+    useList: { type: Object as PropType<IUseList>, required: true },
   },
   setup(props, { emit }) {
     onMounted(() => {});
-    const { checkAll } = props.worker;
+    const { checkAll } = props.useList;
     const slots = ref<string[]>(
       [
         ...props.structure?.map((struct) => {
@@ -138,7 +138,7 @@ export default defineComponent({
     return {
       checkAll,
       slots,
-      ids: computed(() => props.worker.data.ids),
+      ids: computed(() => props.useList.data.ids),
       emitAction: (action, data) => {
         emit(action, data);
       },

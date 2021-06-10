@@ -17,13 +17,13 @@
         </ShipmentFormDialog>
       </div>
     </div>
-    <StandardTable
+    <Table
       checkable
       action
       hide-actions
       dense
       deletable
-      :worker="listr"
+      :use-list="listr"
       hide-checks
       more-action
       :structure="structure"
@@ -69,9 +69,9 @@
           Update Recipient</MenuItem
         >
       </template>
-    </StandardTable>
+    </Table>
 
-    <TableAction :worker="listr" show deletable label hasMore>
+    <TableAction :use-list="listr" show deletable label hasMore>
       <!-- @delete="parcels.deleteParcels(items.filter((item) => item.checked))" -->
       <!-- @delete="deleteMany" @print="printMany" @edit="editMany" -->
       <template v-slot:menu>
