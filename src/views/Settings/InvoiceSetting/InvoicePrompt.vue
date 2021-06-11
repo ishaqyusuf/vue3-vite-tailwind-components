@@ -33,6 +33,7 @@ export default {
     const formData = ref<any>({});
     const resolver = ref();
     const open = async (slug = null) => {
+      formData.value = {};
       if (slug)
         await useInvoiceTemplateApi.get(
           slug,
@@ -45,27 +46,32 @@ export default {
         );
       // await useMetaLoader.units()
       return new Promise((resolve) => {
-        resolver.value = resolver;
+        resolver.value = resolve;
         show.value = true;
       });
     };
     const save = async () => {
       const data = formData.value;
-      await useInvoiceTemplateApi.save(
-        data.slug,
-        { data },
-        {
-          showError: true,
-          error: "Unable to complete",
-          onSuccess: (result) => {
-            resolver.value();
-          },
-        }
-      );
+      await useInvoiceTemplateApi
+        .save(
+          data.slug,
+          { data },
+          {
+            showError: true,
+            error: "Unable to complete",
+            onSuccess: (result) => {
+              resolver.value(result);
+            },
+          }
+        )
+        .then((res) => {
+          show.value = false;
+        });
     };
     return {
       open,
       save,
+      resolver,
       formData,
       show,
     };

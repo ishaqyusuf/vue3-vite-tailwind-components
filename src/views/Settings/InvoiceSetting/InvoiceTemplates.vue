@@ -38,7 +38,12 @@
       deletable
     >
       <template #invoice="{ item, header }">
-        <span>{{ item.title }}</span>
+        <div class="flex flex-col space-y-1">
+          <span>{{ item.title }}</span>
+          <span class="text-sm text-opacity-80">
+            {{ unit.currency }} {{ item.formula }} / {{ unit.weight }}
+          </span>
+        </div>
       </template>
       <template #edit-btn="{ item }">
         <Btn dense icon large @click="openInvoiceTemplateForm(item.slug)">
@@ -59,6 +64,7 @@ import DopeCard from "../DopeCard.vue";
 import InvoicePrompt from "./InvoicePrompt.vue";
 import CardTitle from "@/components/shared/Card/CardTitle.vue";
 import { MetaDataType, useMetaApi } from "@/use/api/use-meta-data-api";
+import useMetaLoader from "@/use/api/use-meta-loader";
 
 export default {
   props: {},
@@ -71,11 +77,13 @@ export default {
     });
     const invoice = ref<any>({});
     const useInvoiceApi = useMetaApi(MetaDataType.DEFAULT_INVOICE);
+    const unit = ref<any>({});
     onMounted(async () => {
       const { items } = await useInvoiceTemplateApi.index({ list_mode: true });
       list.refresh(items);
       const inv = await useInvoiceApi.index({ single: true });
       invoice.value = inv;
+      unit.value = await useMetaLoader.units();
     });
     const invoiceTemplate = ref();
     const structure = ref<TableStructure[]>([
@@ -84,7 +92,9 @@ export default {
       },
     ]);
     const openInvoiceTemplateForm = (slug = null) => {
-      invoiceTemplate.value.open(slug);
+      invoiceTemplate.value.open(slug).then((data) => {
+        if (data) list.updateItem(data.id, data, false);
+      });
     };
     const saveInvoice = async () => {
       const data = invoice.value;
@@ -105,6 +115,7 @@ export default {
       invoiceTemplate,
       ...list,
       list,
+      unit,
       structure,
       invoice,
       saveInvoice,
