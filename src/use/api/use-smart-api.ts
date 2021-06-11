@@ -2,7 +2,7 @@ import { $clientApi } from "@services/client";
 import { $dev } from "@/core/utils/functions";
 import alert from "@/hooks/alert";
 import qs from "qs";
-import { ApiOptions } from "@/@types/Interface";
+import { ApiReqOptions } from "@/@types/Interface";
 import useApiCache from "@/utils/use-api-cache";
 const get = async (url, query = {}) => {
   try {
@@ -40,7 +40,7 @@ const destroy = async (url) => {
   }
   return null;
 };
-const toast = (data, options: ApiOptions) => {
+const toast = (data, options: ApiReqOptions) => {
   if (data?.error && options.showError) {
     alert.error(data.error);
   } else {
@@ -54,7 +54,7 @@ export default {
     type: "index" | "get" | "create" | "update" | "delete",
     path: any,
     data: any = null,
-    options: ApiOptions = {}
+    options: ApiReqOptions = {}
   ) => {
     let url = [
       "/",
@@ -63,7 +63,6 @@ export default {
     ]
       .filter(Boolean)
       .join("");
-
     let req, response;
     if (options.cache) {
       response = useApiCache.get(url, options);

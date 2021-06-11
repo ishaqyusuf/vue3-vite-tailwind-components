@@ -58,6 +58,14 @@ const routes: Array<RouteRecordRaw> = [
           title: "Label Settings",
         },
       },
+      {
+        path: "unit-settings",
+        component: () => import("../views/Settings/UnitSetting/Index.vue"),
+        name: "unit-setting",
+        meta: {
+          title: "Units & Currency",
+        },
+      },
     ],
   },
 ];

@@ -147,7 +147,7 @@ import {
 } from "@headlessui/vue";
 
 import {
-  ApiOptions,
+  ApiReqOptions,
   Shipment,
   ShipmentMeta,
   ShipmentRoute,
@@ -251,7 +251,7 @@ export default {
       };
       !props.prompt && (formData.overview = true);
       const id = form.value.slug;
-      const opts: ApiOptions = {
+      const opts: ApiReqOptions = {
         success: id ? "Shipment updated" : "Shipment Created",
         showError: true,
         error: "Something went wrong.",

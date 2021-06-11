@@ -62,13 +62,13 @@ export interface TrackingResult {
   parcel?: Parcel;
   error?: any;
 }
-
 export interface TableStructure {
   name: string;
   title?: string;
   fontMedium?: boolean;
   btnProps?: object;
   btnLink?: boolean;
+  td?: boolean;
   computed?: any;
 }
 export interface IUseList {
@@ -140,12 +140,15 @@ export interface ShipmentOverview {
   route?: ShipmentRoute;
   shipment?: Shipment;
 }
-
-export interface ApiOptions {
+export interface ApiReqOptions {
   success?: String;
   error?: String;
   showError?: Boolean;
   cache?: Boolean;
   deepCache?: Boolean;
   onSuccess?: Function;
+}
+export interface ApiOptions {
+  form?: any;
+  data?: any;
 }

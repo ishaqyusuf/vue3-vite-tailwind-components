@@ -2,7 +2,6 @@
   <div
     class=""
     :class="{
-      'space-y-1': !grid,
       'text-black-100': dark,
       'grid grid-cols-12': grid,
       'items-center': centerGrid,
@@ -22,15 +21,16 @@
       </div>
     </slot>
     <div
-      class="relative inline-flex items-center space-x-1"
+      class="relative w-full space-x-1"
       :class="{
         'col-span-7': grid,
       }"
     >
       <slot name="prependOuter"></slot>
       <div
-        class="px-2 space-x-2 inline-flex items-center w-full"
+        class="px-2 space-x-2 inline-flex items-center"
         :class="{
+          'w-full': grid,
           'ring-2': focused && !disabled,
           'rounded-full': rounded,
           'rounded-md': !tile,
@@ -141,7 +141,7 @@
 </template>
 
 <script lang="ts">
-import { reactive, ref, onMounted, toRefs, watch } from "vue";
+import { reactive, ref, onMounted, toRefs, watch, isRef } from "vue";
 import input from "@/hooks/input";
 import time from "@/hooks/time";
 import { useModelWrapper } from "@/use/modelWrapper";
@@ -160,10 +160,10 @@ export default {
             const realItem = items.find(
               (item) => item[itemValue] == modelValue
             );
-            if (itemText) return realItem[itemText];
+            if (itemText && realItem) return realItem[itemText];
           }
         }
-        if (isObject && itemText && !itemValue) {
+        if (isObject && itemText && modelValue && !itemValue) {
           // returned value is an object
           return modelValue[itemText];
         }
@@ -171,11 +171,15 @@ export default {
           if (isObject) {
             if (itemText) return modelValue[itemText];
             if (itemValue && !itemText)
-              return props.items.find((item) => item[itemValue] == modelValue);
+              return itemList().find((item) => item[itemValue] == modelValue);
           }
         }
       }
       return valueFormat ? valueFormat(modelValue) : modelValue;
+    };
+    const itemList = () => {
+      const _items = props.items;
+      return isRef(_items) ? _items.value : _items;
     };
     const setValue = (value) => {
       const { itemText, itemValue, autoComplete, source } = props;
@@ -183,7 +187,7 @@ export default {
       if (itemText) {
         const val = isObject
           ? value
-          : props.items.find((item) => item[itemText] == value);
+          : itemList().find((item) => item[itemText] == value);
         if (val) {
           if (itemValue) return val[itemValue];
           return val;
@@ -207,7 +211,7 @@ export default {
     const validateInput = (value) => {
       const { autoComplete, combobox, source, itemText, itemValue } = props;
       if (autoComplete) {
-        const item = props.items.find(
+        const item = itemList().find(
           (item) => (itemText ? item[itemText] : item) == value
         );
         return item;

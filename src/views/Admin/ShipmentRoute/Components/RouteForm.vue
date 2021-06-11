@@ -32,7 +32,7 @@
 <script lang="ts">
 import useShipmentRoutesApi from "@/use/api/use-shipment-routes-api";
 import { ref } from "vue";
-import { ApiOptions, ShipmentMeta, ShipmentRoute } from "@/@types/Interface";
+import { ApiReqOptions, ShipmentMeta, ShipmentRoute } from "@/@types/Interface";
 import alert from "@/hooks/alert";
 export default {
   props: {
@@ -69,7 +69,7 @@ export default {
       if (!formData.data.next_index)
         formData.data.next_index = formData.data.start_index;
       const id = form.value.slug;
-      const opts: ApiOptions = {
+      const opts: ApiReqOptions = {
         success: id ? "Route updated" : "Route Created",
         showError: true,
         error: "Something went wrong.",

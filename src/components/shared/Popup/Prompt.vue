@@ -37,7 +37,7 @@
                 },
                 containerClass,
               ]"
-              class="inline-block w-full overflow-hidden text-left align-middle transition-all transform"
+              class="inline-block w-full text-left align-middle transition-all transform"
             >
               <slot name="container">
                 <slot name="body">

@@ -33,6 +33,7 @@
           'py-3 px-6': !dense,
           'font-medium': struct.fontMedium,
         },
+        struct.td,
       ]"
       v-for="(struct, index) in structure"
       @mouseenter="struct.hover = true"
@@ -163,6 +164,7 @@ export default {
     return {
       item,
       checked,
+      editItem: async () => {},
       deleteItem: async () => {
         await useList.deleteItem(item.value);
       },

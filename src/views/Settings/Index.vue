@@ -16,6 +16,9 @@
               Shipment
             </TabLinkItem>
             <TabLinkItem :to="{ name: 'label-setting' }"> Label </TabLinkItem>
+            <TabLinkItem :to="{ name: 'unit-setting' }">
+              Unit & Currency
+            </TabLinkItem>
             <!-- <TabLinkItem :to="{name: ''}"> Company </TabLinkItem> -->
           </Card>
         </div>

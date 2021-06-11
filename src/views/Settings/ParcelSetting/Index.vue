@@ -1,21 +1,29 @@
 <template>
-  <DefaultParcelStatus></DefaultParcelStatus>
+  <DefaultStatus
+    title="Parcel Status"
+    subtitle="Set default parcel status list"
+    :type="MetaDataType.PARCEL_STATUS"
+  ></DefaultStatus>
   <DefaultParcel></DefaultParcel>
 </template>
 
 <script lang="ts">
-import { ref, onMounted } from "vue";
-import DefaultParcelStatus from "./DefaultParcelStatus.vue";
+import { MetaDataType } from "@/use/api/use-meta-data-api";
+import { onMounted } from "vue";
 import DefaultParcel from "./DefaultParcel.vue";
+import DefaultStatus from "../Components/DefaultStatus.vue";
+
 export default {
   components: {
-    DefaultParcelStatus,
     DefaultParcel,
+    DefaultStatus,
   },
   props: {},
   setup(props, { emit }) {
     onMounted(async () => {});
-    return {};
+    return {
+      MetaDataType,
+    };
   },
 };
 </script>
