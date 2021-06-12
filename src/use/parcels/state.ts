@@ -2,6 +2,8 @@ import { ref, toRefs, computed, reactive } from "vue";
 import api from "./api";
 import alert from "@/hooks/alert";
 import user from "@/use/user-account";
+import useStatusColor from "../data/use-status-color";
+import useMetaLoader from "../api/use-meta-loader";
 const items = ref<any[]>([]);
 const pager = ref(null);
 const query = ref();
@@ -46,6 +48,21 @@ const transform = (item, data) => {
       slug: item.track_code,
     },
   };
+  if (item.invoice) {
+    data.invoice_color = useStatusColor.getColor(
+      item.invoice.status,
+      useMetaLoader.invoiceStatus.value
+    );
+  }
+  const statusColor = useStatusColor.getColor(
+    item.status,
+    useMetaLoader.parcelStatus.value
+  );
+  details.push({
+    value: item.status,
+    style: statusColor,
+  });
+  data.status_color = statusColor;
   return data;
 };
 export default {

@@ -14,7 +14,7 @@
           <Spinner class="absolute mx-2 top-1/3 right-0" v-if="scanning" />
         </div>
 
-        <div class="flex flex-col">
+        <div class="sflex flex-col hidden">
           <div class="inline-flex">
             <Spacer />
             <Btn text @click="reloadPkgData">Reset Default</Btn>
@@ -87,6 +87,7 @@
       :list="list"
       title="Scans Today"
       :query="{ today: true, by_me: true }"
+      ref="parcels"
     ></Parcels>
   </div>
 </template>
@@ -116,6 +117,7 @@ export default {
     dataLoader.initPkgData(setData);
 
     const scanCode = ref();
+    const parcels = ref();
     const scanning = ref(false);
     const recipient = ref<any>({});
     const form = ref<Parcel>({});
@@ -125,6 +127,7 @@ export default {
       data.user_id = recipient.value?.id;
       const _data = await parcel.createOne({ data });
       if (_data.id) {
+        // parcels.value.saveItem(_data);
         list.updateItem(_data.id, _data, false);
       }
     };
@@ -148,6 +151,7 @@ export default {
       userInput,
       scanCode,
       dataLoader,
+      parcels,
       form,
       scanning,
       performScan,

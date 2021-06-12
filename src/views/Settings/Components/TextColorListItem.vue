@@ -11,33 +11,23 @@
         icon
         ><i-mdi-close
       /></Btn>
-      <Input dense v-model="form.status">
-        <template #appendOuter>
-          <div class="inline-flex items-center space-x-2">
-            <Input
-              select
-              dense
-              :items="[
-                'blue',
-                'black',
-                'gray',
-                'red',
-                'yellow',
-                'purple',
-                'green',
-              ]"
-              v-model="form.color"
-            />
-            <span
-              class="px-1 rounded-md text-sm"
-              :class="[`text-${form.color}-700 bg-${form.color}-100`]"
-            >
-              {{ form.status }}
-            </span>
-          </div>
-        </template>
-      </Input>
-      <Btn async :action="saveItem">Save</Btn>
+      <div class="inline-flex items-end space-x-2">
+        <Input label="Status" dense v-model="form.status" />
+        <Input
+          select
+          dense
+          label="Color"
+          :items="['blue', 'black', 'gray', 'red', 'yellow', 'purple', 'green']"
+          v-model="form.color"
+        />
+        <span
+          class="px-1 rounded-md text-sm"
+          :class="[`text-${form.color}-700 bg-${form.color}-100`]"
+        >
+          {{ form.status }}
+        </span>
+        <Btn async :action="saveItem">Save</Btn>
+      </div>
     </div>
     <div
       class="p-3 w-full cursor-default inline-flex justify-between items-center"

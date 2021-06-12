@@ -26,13 +26,44 @@
       <template v-slot:track_code="{ item, header }">
         <ParcelColumn :item="item" :header="header" />
       </template>
-      <template v-slot:recipient="{ item, header }">
+      <template v-slot:recipient="{ item }">
         <RecipientColumn :item="item" :list="list" />
       </template>
       <template v-slot:more-actions="{ item, header }">
         <Btn dense large icon @click="list.execute('openLabel', item)">
           <i-mdi-label-outline />
         </Btn>
+      </template>
+      <template v-slot:invoice="{ item }">
+        <span
+          v-if="item.invoice"
+          class="rounded-lg px-1"
+          :class="[
+            `bg-${item.invoice_color}-100`,
+            `text-${item.invoice_color}-700`,
+          ]"
+          >{{ item.invoice.status }}</span
+        >
+        <span v-else>-</span>
+      </template>
+      <template v-slot:status="{ item }">
+        <Menu rtl ref="menu">
+          <slot name="menu-btn" :item="item">
+            <span
+              class="rounded-lg px-1"
+              :class="[
+                `bg-${item.status_color}-100`,
+                `text-${item.status_color}-700`,
+              ]"
+              >{{ item.status }}</span
+            >
+          </slot>
+          <template #items>
+            <MenuItem v-for="(_item, index) in parcelStatus" :key="index">
+              {{ _item.status }}
+            </MenuItem>
+          </template>
+        </Menu>
       </template>
       <template v-slot:menu-items="{ item }">
         <MenuLinkItem :to="item.to">
@@ -106,7 +137,6 @@ import {
   onBeforeUnmount,
 } from "vue";
 import parcels from "@/use/parcels";
-import router from "@/router";
 import RecipientColumn from "@/views/Admin/Parcels/RecipientColumn.vue";
 import ParcelColumn from "@/views/Admin/Parcels/ParcelColumn.vue";
 import { TableStructure } from "@/@types/Interface";
@@ -119,6 +149,7 @@ import EditTracking from "@/views/Guests/Track/EditTracking.vue";
 import ParcelFormPrompt from "@/views/Admin/Parcel/ParcelFormPrompt.vue";
 import useRouteData from "@/use/use-route-data";
 import { useRoute } from "vue-router";
+import useMetaLoader from "@/use/api/use-meta-loader";
 export default {
   components: {
     EditTracking,
@@ -135,10 +166,10 @@ export default {
     hasMoreAction: Boolean,
     query: Object,
     title: { default: "Parcels" },
-    ls: Object,
+    list: Object,
   },
   setup(props, ctx) {
-    onMounted(() => {
+    onMounted(async () => {
       initialize(useRoute().query);
       // window.addEventListener('scroll',scrollListener);
     });
@@ -147,7 +178,7 @@ export default {
       unmounted.value = true;
     });
 
-    const list = props.ls ?? useList();
+    const list = props.list ?? useList();
     const userls = ref();
     const parcelForm = ref();
     const labelRef = ref();
@@ -180,6 +211,8 @@ export default {
       }, 200);
     });
     const initialize = async (sq = {}, clearState = false) => {
+      await useMetaLoader.loadParcelStatus();
+      await useMetaLoader.loadInvoiceStatus();
       const q = Object.assign({}, props.query ?? {}, sq);
       const _data = await parcels.fetchMany(q);
       list.refresh(_data.items, clearState);
@@ -197,12 +230,19 @@ export default {
         title: "Recipient",
       },
       {
+        name: "invoice",
+        title: "Invoice",
+      },
+      {
         name: "status",
         title: "Status",
       },
     ];
-
+    const saveItem = (item) => {
+      list.updateItem(item.id, item, false);
+    };
     return {
+      saveItem,
       trackingEditor,
       userls,
       labelRef,
@@ -216,6 +256,7 @@ export default {
       updateRecipient: async (item, user) => {
         await parcels.updateParcelRecipient(item.track_code, user, list);
       },
+      ...useMetaLoader,
     };
   },
 };

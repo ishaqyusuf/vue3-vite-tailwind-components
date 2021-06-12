@@ -16,14 +16,20 @@
           <Input v-model="content.width" placeholder="W" />
           <Input v-model="content.height" placeholder="H" />
           <Input
-            v-model="content.weight_str"
+            v-model="content.dimension_unit"
             select
             :items="['in', 'cm', 'm']"
           />
         </template>
       </Input>
       <Input v-model="content.description" textarea grid label="Description" />
-      <Input v-model="content.status" select grid label="Status" />
+      <Input
+        v-model="content.status"
+        :items="statusList"
+        select
+        grid
+        label="Status"
+      />
       <!-- <Input v-model="content" readonly grid label=""/> -->
     </CardContent>
 
@@ -37,6 +43,7 @@
 import DopeCard from "@/views/Settings/DopeCard.vue";
 import { onMounted, ref } from "vue";
 import useSiteDataApi, { SiteData } from "@/use/api/use-site-data-api";
+import useMetaDataApi, { MetaDataType } from "@/use/api/use-meta-data-api";
 export default {
   props: {},
   components: {
@@ -47,15 +54,32 @@ export default {
     const editor = ref();
     const content = ref<any>({});
     const form = ref<any>({});
+    const statusList = ref<any[]>([]);
     onMounted(async () => {
       const data = await useSiteDataApi.index({ slug: SiteData.ParcelData });
       if (data) {
         form.value = data;
         content.value = data.content ?? {};
+        console.log(data);
       }
+
+      const { items } = await useMetaDataApi.index({
+        type: MetaDataType.PARCEL_STATUS,
+        list: true,
+      });
+      statusList.value = items;
     });
-    const updatePkg = () => {};
+    const updatePkg = async () => {
+      await useSiteDataApi.save(
+        form.value.id,
+        { data: { content: content.value } },
+        {
+          success: "Saved",
+        }
+      );
+    };
     return {
+      statusList,
       updatePkg,
       content,
       form,

@@ -21,23 +21,22 @@
       </div>
     </slot>
     <div
-      class="relative w-full space-x-1"
+      class="relative space-x-1"
       :class="{
-        'col-span-7': grid,
+        'col-span-7 inline-flex': grid,
       }"
     >
       <slot name="prependOuter"></slot>
+      <!-- 'w-full': grid, -->
       <div
-        class="px-2 space-x-2 inline-flex items-center"
+        class="px-2 space-x-2 inline-flex items-center w-full"
         :class="{
-          'w-full': grid,
           'ring-2': focused && !disabled,
+          'bg-white': !dark && !disabled,
           'rounded-full': rounded,
           'rounded-md': !tile,
-          'bg-white': !dark && !disabled,
           'text-black-100 border-black-300': dark,
           'gray-scale bg-gray-100 bg-opacity-50': disabled,
-
           'px-2': !dense,
           'px-1': dense,
           border: !plain,

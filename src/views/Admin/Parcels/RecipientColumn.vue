@@ -1,6 +1,7 @@
 <template>
   <div class="">
     <router-link
+      class="hover:text-blue-500"
       v-if="item.recipient"
       :to="{
         name: 'customer',

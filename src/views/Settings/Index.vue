@@ -15,7 +15,7 @@
             <TabLinkItem :to="{ name: 'shipment-setting' }">
               Shipment
             </TabLinkItem>
-            <TabLinkItem :to="{ name: 'label-setting' }"> Label </TabLinkItem>
+            <!-- <TabLinkItem :to="{ name: 'label-setting' }"> Label </TabLinkItem> -->
             <TabLinkItem :to="{ name: 'unit-setting' }">
               Unit & Currency
             </TabLinkItem>
