@@ -3,7 +3,7 @@
     <button
       :class="[
         active ? 'bg-purple-500 text-white' : 'text-gray-900',
-        'group flex rounded-md items-center w-full px-2 py-2 text-sm',
+        'group flex rounded-md items-center w-full px-2 py-2 text-sm relative z-50',
       ]"
     >
       <!-- <EditIcon

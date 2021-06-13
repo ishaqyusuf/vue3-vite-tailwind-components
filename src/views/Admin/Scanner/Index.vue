@@ -85,6 +85,7 @@
     </Card>
     <Parcels
       :list="list"
+      v-model="list"
       title="Scans Today"
       :query="{ today: true, by_me: true }"
       ref="parcels"

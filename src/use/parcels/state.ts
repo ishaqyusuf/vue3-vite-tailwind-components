@@ -41,6 +41,14 @@ const transform = (item, data) => {
         },
       },
     });
+  const statusColor = useStatusColor.getColor(
+    item.status,
+    useMetaLoader.parcelStatus.value
+  );
+  details.push({
+    value: item.status,
+    style: statusColor,
+  });
   data.details = details.filter((f) => f.value);
   data.to = {
     name: "parcel-overview",
@@ -54,14 +62,6 @@ const transform = (item, data) => {
       useMetaLoader.invoiceStatus.value
     );
   }
-  const statusColor = useStatusColor.getColor(
-    item.status,
-    useMetaLoader.parcelStatus.value
-  );
-  details.push({
-    value: item.status,
-    style: statusColor,
-  });
   data.status_color = statusColor;
   return data;
 };

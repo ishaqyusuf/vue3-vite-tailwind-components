@@ -59,7 +59,11 @@
             >
           </slot>
           <template #items>
-            <MenuItem v-for="(_item, index) in parcelStatus" :key="index">
+            <MenuItem
+              v-for="(_item, index) in parcelStatus"
+              @click="updateStatus(item, _item.status)"
+              :key="index"
+            >
               {{ _item.status }}
             </MenuItem>
           </template>
@@ -141,7 +145,6 @@ import RecipientColumn from "@/views/Admin/Parcels/RecipientColumn.vue";
 import ParcelColumn from "@/views/Admin/Parcels/ParcelColumn.vue";
 import { TableStructure } from "@/@types/Interface";
 import PagerInterface from "@/@types/PagerInterface";
-import useList from "@/use/useList";
 import UserList from "@/views/Admin/Components/UserList.vue";
 import useParcelListActions from "@/views/Admin/Parcels/use-parcel-list-actions";
 import LabelViewer from "@/views/Admin/Components/Label/LabelViewer.vue";
@@ -149,7 +152,9 @@ import EditTracking from "@/views/Guests/Track/EditTracking.vue";
 import ParcelFormPrompt from "@/views/Admin/Parcel/ParcelFormPrompt.vue";
 import useRouteData from "@/use/use-route-data";
 import { useRoute } from "vue-router";
+import { toRef } from "vue";
 import useMetaLoader from "@/use/api/use-meta-loader";
+import useList from "@/use/useList";
 export default {
   components: {
     EditTracking,
@@ -253,6 +258,9 @@ export default {
       parcels,
       openModal: ref(true),
       list,
+      updateStatus: async (item, status) => {
+        await parcels.updateParcel({ status }, item.track_code, list);
+      },
       updateRecipient: async (item, user) => {
         await parcels.updateParcelRecipient(item.track_code, user, list);
       },
