@@ -115,7 +115,7 @@
 </template>
 
 <script lang="ts">
-import useShipmentsList from "@/use/list/use-shipments-list";
+import useInvoiceList from "@/use/list/use-invoice-list";
 import useList from "@/use/useList";
 import { onMounted, ref } from "vue";
 import ShipmentFormDialog from "@/views/Admin/Shipment/Components/ShipmentFormDialog.vue";
@@ -129,13 +129,9 @@ export default {
   props: {},
   setup(props, { emit }) {
     const listr = useList();
-    listr.initialize(
-      [],
-      useShipmentsList.transformer,
-      useShipmentsList.actions
-    );
+    listr.initialize([], useInvoiceList.transformer, useInvoiceList.actions);
     const pager = ref({});
-    useShipmentsList.fetch(listr, pager);
+    useInvoiceList.fetch(listr, pager);
     const shipmentForm = ref({});
     onMounted(async () => {
       await useMetaLoader.loadShipmentStatus();
@@ -144,7 +140,7 @@ export default {
       shipmentForm,
       pager,
       listr,
-      ...useShipmentsList,
+      ...useInvoiceList,
     };
   },
 };
