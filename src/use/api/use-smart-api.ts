@@ -41,13 +41,12 @@ const destroy = async (url) => {
   return null;
 };
 const toast = (data, options: ApiReqOptions) => {
-  if (data?.error && options.showError) {
-    alert.error(data.error);
+  if (!data || data.error) {
+    if (options.showError) alert.error(options.error ?? data?.error);
   } else {
     options.success && alert.success(options.success);
+    if (options.onSuccess) options.onSuccess(data);
   }
-  if (!data && options.error) alert.error(options.error);
-  if (!data?.error && options.onSuccess) options.onSuccess(data);
 };
 export default {
   request: async (

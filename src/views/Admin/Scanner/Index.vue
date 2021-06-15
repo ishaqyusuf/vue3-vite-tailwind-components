@@ -84,11 +84,9 @@
       <!-- @change="saveState('track_code', form.track_code)" -->
     </Card>
     <Parcels
-      :list="list"
-      v-model="list"
       title="Scans Today"
       :query="{ today: true, by_me: true }"
-      ref="parcels"
+      ref="parcelList"
     ></Parcels>
   </div>
 </template>
@@ -96,12 +94,12 @@
 <script lang="ts">
 import Index from "@/views/Admin/Parcels/Index.vue";
 import dataLoader from "@/hooks/dataLoader";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { Parcel } from "@/@types/Interface";
 import UserList from "@/views/Admin/Components/UserList.vue";
 import ClientCard from "@/views/Admin/Components/ClientCard.vue";
 import parcel from "@/use/parcels/parcel";
-import useList from "@/use/useList";
+import alert from "@/hooks/alert";
 export default {
   props: {},
   components: {
@@ -111,25 +109,30 @@ export default {
   },
   setup(props, { emit }) {
     dataLoader.initCouriers();
-    const list = useList();
+    // const list = useList();
     const setData = (value) => {
       form.value = Object.assign(form.value, value);
     };
-    dataLoader.initPkgData(setData);
 
     const scanCode = ref();
-    const parcels = ref();
+    const parcelList = ref();
+
     const scanning = ref(false);
     const recipient = ref<any>({});
     const form = ref<Parcel>({});
 
+    const list = ref();
+    onMounted(() => {
+      dataLoader.initPkgData(setData);
+      list.value = parcelList.value.list;
+    });
     const performScan = async () => {
       const data: any = form.value;
       data.user_id = recipient.value?.id;
       const _data = await parcel.createOne({ data });
       if (_data.id) {
-        // parcels.value.saveItem(_data);
-        list.updateItem(_data.id, _data, false);
+        list.value.updateItem(_data.id, _data, false);
+        alert.success("Parcel Scanned");
       }
     };
 
@@ -152,7 +155,7 @@ export default {
       userInput,
       scanCode,
       dataLoader,
-      parcels,
+      parcelList,
       form,
       scanning,
       performScan,

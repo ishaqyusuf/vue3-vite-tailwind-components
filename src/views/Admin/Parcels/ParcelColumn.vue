@@ -26,26 +26,21 @@
       :to="item.to"
     >
       <Truncify
-        class="table table-fixed text-left uppercase font-medium tracking-widest hover:text-blue-500"
+        class="table table-fixed text-left uppercase text-gray-600 font-medium tracking-widest hover:text-blue-500"
       >
         {{ item.track_code }}
       </Truncify>
 
-      <div class="hidden md:flex font-semibold text-xs space-x-1">
+      <div class="hidden md:inline-flex font-semibold text-xs space-x-1">
         <template v-for="(detail, index) in item.details" :key="index">
           <router-link v-if="detail.to" :to="detail.to" disabled>
-            <span
-              :class="[`bg-${detail.style}-${itemHover ? '100' : '100'}`]"
-              class="rounded-lg shadow-lg px-1"
-              >{{ detail.value }}</span
-            >
+            <ColorLabel :color="detail.style">
+              {{ detail.value }}
+            </ColorLabel>
           </router-link>
-          <span
-            v-else
-            :class="[`bg-${detail.style}-${itemHover ? '100' : '100'}`]"
-            class="rounded-lg shadow-lg px-1"
-            >{{ detail.value }}</span
-          >
+          <ColorLabel v-else :color="detail.style">
+            {{ detail.value }}
+          </ColorLabel>
         </template>
       </div>
     </router-link>

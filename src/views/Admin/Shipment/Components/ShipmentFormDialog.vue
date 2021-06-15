@@ -39,9 +39,9 @@ export default {
       title.value = slug ? "Edit Shipment" : "Create Shipment";
       setTimeout(() => {
         dialog.value.editShipment(slug).then((result) => {
+          console.log(result);
+          // router.push(useRouteComposer.shipment(result.slug));
           show.value = false;
-
-          router.push(useRouteComposer.shipment(result.slug));
         });
       }, 500);
     };

@@ -17,7 +17,7 @@
         />
       </div>
     </div>
-    <ParcelList :ls="list" :query="query" show-action>
+    <ParcelList ref="parcelList" :query="query" show-action>
       <template v-slot:custom-actions>
         <Btn
           v-if="filter.show_add"
@@ -60,7 +60,12 @@ export default {
   },
   props: {},
   setup(props, { emit }) {
-    const list = useList();
+    const list = ref(); //useList();
+    const parcelList = ref();
+
+    onMounted(() => {
+      list.value = parcelList.value.list;
+    });
     const query = ref<any>({
       shipment_mode: true,
       shipment_id: useShipmentOverview.shipment.value.id,
@@ -88,7 +93,7 @@ export default {
     const filter = ref<any>(filters[0]);
     const changeView = () => {
       const { params, name, query } = route.value;
-      list.clearChecks();
+      list.value.clearChecks();
       router.push({
         name,
         params,
@@ -105,13 +110,13 @@ export default {
     };
     const removeFromShipment = async () => {
       await updateShipment({
-        deselect: list.data.checkedIds,
+        deselect: list.value.data.checkedIds,
         parcels_mode: true,
       });
     };
     const addToShipment = async () => {
       await updateShipment({
-        select: list.data.checkedIds,
+        select: list.value.data.checkedIds,
         parcels_mode: true,
       });
     };
@@ -120,6 +125,7 @@ export default {
       addToShipment,
       changeView,
       filters,
+      parcelList,
       query,
       filter,
       list,

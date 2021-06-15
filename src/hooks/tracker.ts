@@ -14,7 +14,9 @@ const search = async (code) => {
   try {
     const response = await $clientApi.get(`tracking/${code}`);
     const { data } = response;
+    console.log(data);
     result.value = data;
+    loading.value = false;
     return data;
   } catch (error) {
     $dev.error(error);
@@ -63,7 +65,7 @@ export default {
   save,
   result,
   remove,
-  isLoading: computed(() => loading.value),
+  loading,
   parcel: computed(() => result.value.parcel),
   noResult: computed(() => !loading.value && result.value.error),
   search,

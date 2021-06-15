@@ -77,7 +77,7 @@
 
 <script lang="ts">
 import tracker from "@/hooks/tracker";
-import { computed } from "@vue/runtime-core";
+import { computed, onMounted } from "@vue/runtime-core";
 export default {
   props: {
     index: Number,
@@ -86,13 +86,14 @@ export default {
     last: Boolean,
     mapping: Boolean,
     hook: Object,
+    data: Object,
   },
   setup(props, { emit }) {
     const editTracking = () => {
       emit("edit", item.value);
     };
-    const item = computed(() =>
-      props.hook ? props.hook.data.itemsById[props.index] : props.item
+    const item = computed(
+      () => props.data ?? props.hook.data.itemsById[props.index]
     );
     return {
       item,

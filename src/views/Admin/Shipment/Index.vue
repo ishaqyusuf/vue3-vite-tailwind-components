@@ -35,16 +35,25 @@
             </div>
           </div>
           <div class="inline-flex space-x-2 items-center">
-            <Input :items="statusList" select dense v-model="shipment.status" />
+            <Input
+              :items="useMetaLoader.shipmentStatus.value"
+              select
+              dense
+              @selected="updateShipment"
+              item-text="status"
+              item-value="status"
+              v-model="shipment.status"
+            />
+            <!-- <Input :items="statusList" select dense v-model="shipment.status" /> -->
           </div>
         </div>
         <Tabs pilot>
           <TabItem :to="{ name: 'shipment' }">
             <span>Overview</span>
           </TabItem>
-          <TabItem :to="{ name: 'shipment-activity' }">
+          <!-- <TabItem :to="{ name: 'shipment-activity' }">
             <span>Activity</span>
-          </TabItem>
+          </TabItem> -->
           <TabItem :to="{ name: 'shipment-progress' }">
             <span>Route Progress</span>
           </TabItem>
@@ -67,15 +76,38 @@
 </template>
 
 <script lang="ts">
+import useMetaLoader from "@/use/api/use-meta-loader";
+import useShipmentsApi from "@/use/api/use-shipments-api";
+import { onMounted } from "@vue/runtime-core";
 import useShipmentOverview from "./use-shipment-overview";
 export default {
   props: {
     slug: String,
   },
   setup(props, { emit }) {
-    useShipmentOverview.initialize(props.slug);
+    onMounted(async () => {
+      await useMetaLoader.loadShipmentStatus();
+      useShipmentOverview.initialize(props.slug);
+    });
+    const updateShipment = async (value) => {
+      await useShipmentsApi.save(
+        props.slug,
+        {
+          data: { status: useShipmentOverview.shipment.value.status },
+          overview: true,
+        },
+        {
+          success: "Status updated",
+          onSuccess: (result) => {
+            useShipmentOverview.refresh(result);
+          },
+        }
+      );
+    };
     return {
       ...useShipmentOverview,
+      useMetaLoader,
+      updateShipment,
     };
   },
 };

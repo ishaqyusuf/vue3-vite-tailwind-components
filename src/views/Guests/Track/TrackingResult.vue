@@ -3,7 +3,7 @@
     <div
       class="sm:max-w-6xl lg:max-w-5xl mx-auto sm:p-4 py-6 sm:py-10 space-y-6"
     >
-      <div v-if="isLoading" class="flex justify-center items-center">
+      <div v-if="searching" class="flex justify-center items-center">
         <Spinner />
       </div>
       <template v-else>
@@ -75,13 +75,12 @@
                   </div>
                 </div>
               </div>
-
-              <div v-if="result.trackings">
+              <div v-if="result.items">
                 <TrackingStatusItem
                   name="statusItem"
-                  v-for="(item, index) in result.trackings"
+                  v-for="(item, index) in result.items"
                   :key="index"
-                  :item="item"
+                  :data="item"
                   v-bind="$props"
                 ></TrackingStatusItem>
               </div>
@@ -116,6 +115,7 @@ export default {
   setup(props, { emit }) {
     return {
       dumped: ref(false),
+      searching: computed(() => trackerHook.loading.value),
       ...trackerHook,
     };
   },

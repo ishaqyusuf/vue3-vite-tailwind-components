@@ -1,5 +1,7 @@
 import { Shipment, ShipmentOverview, ShipmentRoute } from "@/@types/Interface";
+import useMetaLoader from "@/use/api/use-meta-loader";
 import useShipmentsApi from "@/use/api/use-shipments-api";
+import useStatusColor from "@/use/data/use-status-color";
 import { ref } from "vue";
 
 const overview = ref<ShipmentOverview>({});
@@ -22,12 +24,12 @@ function refresh(data) {
   overview.value = data;
   shipmentRoute.value = data.route ?? {};
   const status = shipment.value.status;
-  const statsColor = {
-    Active: "yellow",
-    Completed: "green",
-    Cancelled: "red",
-  };
-  stylus.value.status_color = statsColor[status] ?? "gray";
+
+  stylus.value.status_color = useStatusColor.getColor(
+    status,
+    useMetaLoader.shipmentStatus.value,
+    "gray"
+  );
   loading.value = false;
 }
 export default {

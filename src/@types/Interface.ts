@@ -59,6 +59,7 @@ export interface TrackingResult {
   in_system?: any;
   default_status?;
   trackings?: Tracking[];
+  items?: Tracking[];
   parcel?: Parcel;
   error?: any;
 }
@@ -131,6 +132,8 @@ export interface ShipmentRoute {
   prefix?: string;
   slug?: string;
   status?: string;
+  start_date?: string;
+  end_date?: string;
   title?: string;
   free_indices?: number;
 }

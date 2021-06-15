@@ -23,6 +23,7 @@
                 Scan
               </Btn></Link
             >
+            <NotificationMenu />
             <Menu rtl>
               <div class="inline-flex items-center space-x-1">
                 <Avatar class="border-2"></Avatar>
@@ -68,9 +69,11 @@ import useUser from "@use/user-account";
 import Nav from "./Nav.vue";
 import menu from "@/hooks/menu";
 import nav from "@/hooks/nav";
+import NotificationMenu from "@/components/navs/NotificationMenu.vue";
 export default {
   components: {
     Nav,
+    NotificationMenu,
   },
   setup(props, { emit }) {
     watch(useUser, (value, old) => {});

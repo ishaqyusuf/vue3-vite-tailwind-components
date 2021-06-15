@@ -63,17 +63,20 @@ import { ref, onMounted } from "vue";
 import TrackingResult from "@/views/Guests/Track/TrackingResult.vue";
 import trackerHook from "@/hooks/tracker";
 import useUser from "@/use/user-account";
+import ActivityComponent from "./ActivityComponent.vue";
 export default {
-  components: { TrackingResult },
+  components: { TrackingResult, ActivityComponent },
   props: {
     code: String,
   },
   setup(props, { emit }) {
+    const activity = ref();
     onMounted(() => {
       if (props.code) trackerHook.search(props.code);
     });
     return {
       user: useUser,
+      activity,
     };
   },
 };

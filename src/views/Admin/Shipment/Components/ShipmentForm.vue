@@ -17,6 +17,16 @@
       :prefix="sRoute.prefix"
       v-model="form.shipment_id"
     />
+    <Input
+      :items="useMetaLoader.shipmentStatus.value"
+      select
+      label="Status"
+      :grid="grid"
+      dense
+      item-text="status"
+      item-value="status"
+      v-model="form.status"
+    />
     <template v-if="!prompt">
       <div
         class="w-full"
@@ -87,42 +97,44 @@
         <div class="cols-span-12 grid grid-cols-12">
           <Label class="col-span-5">Date</Label>
           <div class="col-span-7 flex flex-col">
-            <div class="inline-flex space-x-2">
+            <!-- <div class="inline-flex space-x-2">
               <Checkbox v-model="meta.date_range" label="Date Range"></Checkbox>
-            </div>
+            </div> -->
             <div class="inline-flex items-center space-x-2">
-              <template v-if="meta.date_range == true">
-                <DatePicker
-                  class=""
-                  :highlighted="{
-                    from: meta.date,
-                    to: meta.to_date,
-                  }"
-                  v-model="meta.date"
-                />
-                <i-mdi-unfold-more-vertical />
-                <DatePicker
-                  class=""
-                  :highlighted="{
-                    from: meta.date,
-                    to: meta.to_date,
-                  }"
-                  v-model="meta.to_date"
-                />
-              </template>
-              <template v-else>
-                <DatePicker class="" v-model="meta.date" />
-              </template>
+              <!-- <template v-if="meta.date_range == true"> -->
+              <DatePicker
+                class=""
+                :highlighted="{
+                  from: form.start_date,
+                  to: form.end_date,
+                }"
+                v-model="form.start_date"
+              />
+              <i-mdi-unfold-more-vertical />
+              <DatePicker
+                class=""
+                :highlighted="{
+                  from: form.start_date,
+                  to: form.end_date,
+                }"
+                v-model="form.end_date"
+              />
+              <!-- </template> -->
+              <!-- <template v-else>
+                <DatePicker class="" v-model="form.start_date" />
+              </template> -->
             </div>
           </div>
         </div>
       </template>
       <Input
-        :items="statusList"
+        :items="useMetaLoader.shipmentStatus.value"
         select
         label="Status"
         grid
         dense
+        item-text="status"
+        item-value="status"
         v-model="form.status"
       />
 
@@ -153,11 +165,14 @@ import {
   ShipmentRoute,
 } from "@/@types/Interface";
 import alert from "@/hooks/alert";
+import useMetaLoader from "@/use/api/use-meta-loader";
+import useShipmentOverview from "../use-shipment-overview";
 export default {
   props: {
     grid: Boolean,
     dense: Boolean,
     prompt: Boolean,
+    overview: Boolean,
   },
   components: {
     RouteDialog,
@@ -247,21 +262,25 @@ export default {
       const formData: any = {
         data: Object.assign(form.value, { prefix }),
         meta: { ...meta.value, from_date: meta.value.date },
-        overview: true,
+        overview: props.overview == true,
       };
+      console.log(JSON.stringify(formData));
       !props.prompt && (formData.overview = true);
       const id = form.value.slug;
+
       const opts: ApiReqOptions = {
         success: id ? "Shipment updated" : "Shipment Created",
         showError: true,
         error: "Something went wrong.",
+        onSuccess: (result) => {
+          if (props.overview) useShipmentOverview.refresh(result);
+          console.log(formData);
+          console.log(result);
+          resolver.value(result);
+          show.value = false;
+        },
       };
-      const data = await (id
-        ? useShipmentsApi.update(id, formData, opts)
-        : useShipmentsApi.create(formData, opts));
-      console.log(data);
-      resolver.value(data);
-      show.value = false;
+      const data = await useShipmentsApi.save(id, formData, opts);
       // return null;
     };
     const show = ref(false);
@@ -284,6 +303,7 @@ export default {
       ...useShipmentData,
       dateType,
       routeForm,
+      useMetaLoader,
     };
   },
 };

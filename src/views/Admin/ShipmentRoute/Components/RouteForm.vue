@@ -1,6 +1,5 @@
 <template>
   <div class="space-y-6">
-    {{ form }}
     <Input
       label="Route Title"
       :grid="grid"

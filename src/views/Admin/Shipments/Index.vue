@@ -3,10 +3,10 @@
     <div class="inline-flex justify-between w-full items-center">
       <CardTitle>Shipments</CardTitle>
       <div class="inline-flex space-x-2">
-        <Btn secondary>
+        <!-- <Btn secondary>
           <i-mdi-plus />
           <span>New Route</span>
-        </Btn>
+        </Btn> -->
         <ShipmentFormDialog>
           <template #btn="{ open }">
             <Btn @click="open(null, listr)">
@@ -95,8 +95,9 @@
 <script lang="ts">
 import useShipmentsList from "@/use/list/use-shipments-list";
 import useList from "@/use/useList";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import ShipmentFormDialog from "@/views/Admin/Shipment/Components/ShipmentFormDialog.vue";
+import useMetaLoader from "@/use/api/use-meta-loader";
 export default {
   components: {
     ShipmentFormDialog,
@@ -112,6 +113,9 @@ export default {
     const pager = ref({});
     useShipmentsList.fetch(listr, pager);
     const shipmentForm = ref({});
+    onMounted(async () => {
+      await useMetaLoader.loadShipmentStatus();
+    });
     return {
       shipmentForm,
       pager,

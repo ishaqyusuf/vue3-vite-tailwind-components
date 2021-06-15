@@ -35,28 +35,17 @@
         </Btn>
       </template>
       <template v-slot:invoice="{ item }">
-        <span
-          v-if="item.invoice"
-          class="rounded-lg px-1"
-          :class="[
-            `bg-${item.invoice_color}-100`,
-            `text-${item.invoice_color}-700`,
-          ]"
-          >{{ item.invoice.status }}</span
-        >
+        <ColorLabel v-if="item.invoice" :color="item.invoice_color">{{
+          item.invoice.status
+        }}</ColorLabel>
         <span v-else>-</span>
       </template>
       <template v-slot:status="{ item }">
-        <Menu rtl ref="menu">
+        <Menu class="" rtl ref="menu">
           <slot name="menu-btn" :item="item">
-            <span
-              class="rounded-lg px-1"
-              :class="[
-                `bg-${item.status_color}-100`,
-                `text-${item.status_color}-700`,
-              ]"
-              >{{ item.status }}</span
-            >
+            <ColorLabel :color="item.status_color">{{
+              item.status
+            }}</ColorLabel>
           </slot>
           <template #items>
             <MenuItem
@@ -236,18 +225,18 @@ export default {
       },
       {
         name: "invoice",
-        title: "Invoice",
+        title: "Invoice Status",
       },
       {
         name: "status",
         title: "Status",
       },
     ];
-    const saveItem = (item) => {
+    const saveParcel = (item) => {
       list.updateItem(item.id, item, false);
     };
     return {
-      saveItem,
+      saveParcel,
       trackingEditor,
       userls,
       labelRef,

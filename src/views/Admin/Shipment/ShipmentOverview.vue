@@ -1,6 +1,6 @@
 <template>
   <App fs class="py-10">
-    <ShipmentForm grid ref="form"></ShipmentForm>
+    <ShipmentForm overview grid ref="form"></ShipmentForm>
   </App>
 </template>
 
