@@ -63,4 +63,8 @@ export type Actions =
   | "createInvoiceConfig"
   | "readInvoiceConfig"
   | "updateInvoiceConfig"
-  | "deleteInvoiceConfig";
+  | "deleteInvoiceConfig"
+  | "createInvoice"
+  | "readInvoice"
+  | "updateInvoice"
+  | "deleteInvoice";

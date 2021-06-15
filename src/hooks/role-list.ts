@@ -16,6 +16,7 @@ export default {
     [13, "Parcel Configuration", "ParcelConfig"],
     [16, "Label Configuration", "LabelConfig"],
     [14, "Invoice Configuration", "InvoiceConfig"],
+    [17, "Accounting & Invoice", "Invoice"],
     // [16, "Department Manager", "Dept"],
     // [17, "Department Manager", "Dept"],
   ],

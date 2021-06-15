@@ -18,12 +18,18 @@ const createMenu = (
 
 const parcel = createMenu("Parcel", { name: "parcels" }, "readPkg", "");
 const dashboard = createMenu("Dashboard", { name: "dashboard" }, "readDb", "");
-const customer = createMenu("Customer", { name: "customers" }, "readUser", "");
+const customer = createMenu(
+  "Customer",
+  { name: "users", params: { mode: "customers" } },
+  "readUser",
+  ""
+);
 const roles = createMenu("Roles", { name: "roles" }, "readRole", "");
 const dept = createMenu("Departments", { name: "dashboard" }, "readDept");
+const invoice = createMenu("Invoice", { name: "invoices" }, "readInvoice");
 const employees = createMenu(
   "Employees",
-  { name: "employees" },
+  { name: "users", params: { mode: "employees" } },
   "readAgent",
   ""
 );
@@ -45,6 +51,7 @@ export default {
       parcel,
       createMenu("Scan Parcel", { name: "scanner" }, "createPkg"),
       shipment,
+      invoice,
     ],
     [
       createMenu("Profile", { name: "dashboard" }),

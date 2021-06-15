@@ -4,30 +4,19 @@ import parcelRoutes from "./parcel.routes";
 import shipmentRoutesRoutes from "./shipment-routes.routes";
 import shipmentsRoutes from "./shipments.routes";
 import settingsRoutes from "./settings.routes";
+import userRoutes from "./users.routes";
+import invoiceRoutes from "./invoice.routes";
 const routes: Array<RouteRecordRaw> = [
   ...shipmentRoutesRoutes.routes,
   ...parcelRoutes.routes,
   ...shipmentsRoutes.routes,
   ...settingsRoutes.routes,
+  ...userRoutes.routes,
+  ...invoiceRoutes.routes,
   {
     name: "dashboard",
     path: "/dashboard",
     component: () => import("../views/Admin/Dashboard/Index.vue"),
-  },
-  {
-    name: "customers",
-    path: "/customers",
-    component: () => import("../views/Admin/Customers/Index.vue"),
-  },
-  {
-    name: "customer",
-    path: "/customer/:customer_slug",
-    component: () => import("../views/Admin/Customers/Customer/Index.vue"),
-  },
-  {
-    name: "employees",
-    path: "/employees",
-    component: () => import("../views/Admin/Employees/Index.vue"),
   },
   {
     name: "scanner",
