@@ -53,7 +53,7 @@ import ParcelList from "@/views/Admin/Parcels/ParcelList.vue";
 import { useRoute } from "vue-router";
 import router from "@/router";
 import useShipmentOverview from "@/views/Admin/Shipment/use-shipment-overview";
-import useShipmentsApi from "@/use/api/use-shipments-api";
+import { useShipmentsApi } from "@/use/api/use-api";
 export default {
   components: {
     ParcelList,

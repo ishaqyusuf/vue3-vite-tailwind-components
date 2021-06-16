@@ -1,7 +1,7 @@
 import { TableStructure } from "@/@types/Interface";
 import { ref } from "vue";
 import { MetaDataType } from "../api/use-meta-data-api";
-import useSmartApi from "../api/use-smart-api";
+import useSmartApi from "../api/use-api";
 import useAddress from "../api/useAddress";
 import useList from "../useList";
 import userAccount from "../user-account";

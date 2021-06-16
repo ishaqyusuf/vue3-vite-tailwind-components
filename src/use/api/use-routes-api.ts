@@ -1,4 +1,4 @@
-import useSmartApi from "./use-smart-api";
+import useSmartApi from "./use-api";
 export default {
   index: async (query, options = {}) => {
     const data = await useSmartApi.request("get", "shipments", query, options);

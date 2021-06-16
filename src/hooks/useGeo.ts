@@ -1,6 +1,6 @@
 import { $clientApi } from "@/core/services/client";
 import { $dev } from "@/core/utils/functions";
-import useSmartApi from "@/use/api/use-smart-api";
+import useSmartApi from "@/use/api/use-api";
 import qs from "qs";
 import { ref } from "vue";
 

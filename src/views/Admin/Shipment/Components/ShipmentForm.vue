@@ -147,7 +147,8 @@
 </template>
 <script lang="ts">
 import useShipmentRoutesApi from "@/use/api/use-shipment-routes-api";
-import useShipmentsApi from "@/use/api/use-shipments-api";
+
+import { useShipmentsApi } from "@/use/api/use-api";
 import useShipmentData from "@/use/data/use-shipment-data";
 import { ref } from "vue";
 import RouteDialog from "@/views/Admin/ShipmentRoute/Components/RouteDialog.vue";

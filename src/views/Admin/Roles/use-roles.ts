@@ -4,7 +4,7 @@ function initializeRoleTable(actions: any[] = []) {
     let permissions: any = {};
     crud.map((crud, index) => {
       let val = ro.id + (index + 1) / 10;
-      let permit = actions.includes(val || actions.includes(Math.floor(val)));
+      let permit = actions.includes(val) || actions.includes(Math.floor(val));
       permissions[crud] = permit;
     });
     ro.action = permissions;

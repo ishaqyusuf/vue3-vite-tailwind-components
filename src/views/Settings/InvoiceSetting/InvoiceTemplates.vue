@@ -57,7 +57,7 @@
 
 <script lang="ts">
 import { TableStructure } from "@/@types/Interface";
-import useInvoiceTemplateApi from "@/use/api/use-invoice-template-api";
+import { useInvoiceTemplatesApi } from "@/use/api/use-api";
 import useList from "@/use/useList";
 import { ref, onMounted } from "vue";
 import DopeCard from "../DopeCard.vue";
@@ -72,14 +72,14 @@ export default {
     const list = useList();
     list.initialize([], (item, trans) => trans, {
       delete: async (item) => {
-        await useInvoiceTemplateApi.delete(item.slug);
+        await useInvoiceTemplatesApi.delete(item.slug);
       },
     });
     const invoice = ref<any>({});
     const useInvoiceApi = useMetaApi(MetaDataType.DEFAULT_INVOICE);
     const unit = ref<any>({});
     onMounted(async () => {
-      const { items } = await useInvoiceTemplateApi.index({ list_mode: true });
+      const { items } = await useInvoiceTemplatesApi.index({ list_mode: true });
       list.refresh(items);
       const inv = await useInvoiceApi.index({ single: true });
       invoice.value = inv;

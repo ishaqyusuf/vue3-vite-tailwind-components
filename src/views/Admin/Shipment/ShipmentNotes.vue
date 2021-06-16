@@ -7,7 +7,7 @@
 <script lang="ts">
 import { onMounted, ref } from "vue";
 import NotePage from "@/views/Admin/Components/Notes/NotePage.vue";
-import useShipmentsApi from "@/use/api/use-shipments-api";
+import { useShipmentsApi } from "@/use/api/use-api";
 import user from "@/use/user-account";
 export default {
   props: {

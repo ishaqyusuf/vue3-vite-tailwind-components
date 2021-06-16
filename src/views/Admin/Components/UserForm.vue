@@ -72,7 +72,7 @@ import AddressForm from "@/views/Admin/Components/AddressForm.vue";
 import useUser from "@/use/api/useUser";
 import user from "@/use/user-account";
 import useHrm from "@/use/api/useHrm";
-import useSmartApi from "@/use/api/use-smart-api";
+import useSmartApi from "@/use/api/use-api";
 export default {
   components: {
     AddressForm,

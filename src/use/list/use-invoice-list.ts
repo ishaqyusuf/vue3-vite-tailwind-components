@@ -1,5 +1,5 @@
 import { ApiReqOptions, TableStructure } from "@/@types/Interface";
-import useInvoicesApi from "../api/use-invoices-api";
+import { useInvoicesApi } from "../api/use-api";
 import useMetaLoader from "../api/use-meta-loader";
 import useStatusColor from "../data/use-status-color";
 const structure: TableStructure[] = [

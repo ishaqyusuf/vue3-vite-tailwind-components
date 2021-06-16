@@ -77,7 +77,7 @@
 
 <script lang="ts">
 import useMetaLoader from "@/use/api/use-meta-loader";
-import useShipmentsApi from "@/use/api/use-shipments-api";
+import { useShipmentsApi } from "@/use/api/use-api";
 import { onMounted } from "@vue/runtime-core";
 import useShipmentOverview from "./use-shipment-overview";
 export default {

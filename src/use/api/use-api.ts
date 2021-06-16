@@ -4,6 +4,7 @@ import alert from "@/hooks/alert";
 import qs from "qs";
 import { ApiReqOptions } from "@/@types/Interface";
 import useApiCache from "@/utils/use-api-cache";
+import { useBaseApi } from "./use-base-api";
 const get = async (url, query = {}) => {
   try {
     const { data } = await $clientApi.get(url);
@@ -92,4 +93,22 @@ export default {
   update,
   destroy,
   toast,
+};
+
+export const useRolesApi = {
+  ...useBaseApi("roles"),
+};
+export const useShipmentsApi = {
+  ...useBaseApi("shipments"),
+};
+
+export const useParcelsApi = {
+  ...useBaseApi("parcels"),
+};
+
+export const useInvoicesApi = {
+  ...useBaseApi("invoices"),
+};
+export const useInvoiceTemplatesApi = {
+  ...useBaseApi("invoice-templates"),
 };

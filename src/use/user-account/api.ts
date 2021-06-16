@@ -3,7 +3,7 @@ import { $dev } from "@/core/utils/functions";
 import userState from "./state";
 import alert from "@/hooks/alert";
 import router from "@/router";
-import useSmartApi from "../api/use-smart-api";
+import useSmartApi from "../api/use-api";
 
 const home = { name: "home" };
 

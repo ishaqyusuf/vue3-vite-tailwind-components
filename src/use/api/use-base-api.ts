@@ -1,5 +1,5 @@
 import { ApiOptions, ApiReqOptions } from "@/@types/Interface";
-import useSmartApi from "./use-smart-api";
+import useSmartApi from "./use-api";
 export function useBaseApi(path, q = {}, api: ApiOptions = {}) {
   async function create(form, options: ApiReqOptions = {}) {
     const data = await useSmartApi.request(

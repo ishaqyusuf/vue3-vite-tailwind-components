@@ -3,14 +3,12 @@
     <div class="inline-flex justify-between w-full items-center">
       <CardTitle>Roles</CardTitle>
       <div class="inline-flex space-x-2">
-        <RoleEditorBtn>
-          <template #btn="{ open }">
-            <Btn @click="open({}, listr)">
-              <i-mdi-plus />
-              <span>New Role</span>
-            </Btn>
-          </template>
-        </RoleEditorBtn>
+        <router-link :to="{ name: 'role', params: { slug: 'new' } }">
+          <Btn>
+            <i-mdi-plus />
+            <span>New Role</span>
+          </Btn>
+        </router-link>
       </div>
     </div>
     <Table
@@ -45,9 +43,7 @@ export default {
       useShipmentsList.transformer,
       useShipmentsList.actions
     );
-    onMounted(() => {
-      console.log(useRoles.initializeRoleTable([1])[0]);
-    });
+    onMounted(() => {});
     return {
       listr,
       ...useShipmentsList,

@@ -1,6 +1,6 @@
 import { Shipment, ShipmentOverview, ShipmentRoute } from "@/@types/Interface";
 import useMetaLoader from "@/use/api/use-meta-loader";
-import useShipmentsApi from "@/use/api/use-shipments-api";
+import { useShipmentsApi } from "@/use/api/use-api";
 import useStatusColor from "@/use/data/use-status-color";
 import { ref } from "vue";
 

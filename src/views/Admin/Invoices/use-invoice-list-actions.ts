@@ -1,4 +1,4 @@
-import useInvoicesApi from "@/use/api/use-invoices-api";
+import { useInvoicesApi } from "@/use/api/use-api";
 export default function useInvoiceListActions({ userls }) {
   return {
     selectClient: async (item) => {
@@ -8,7 +8,6 @@ export default function useInvoiceListActions({ userls }) {
             user_id: user.id,
           },
         });
-        console.log("saving...");
       });
     },
   };

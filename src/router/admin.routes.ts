@@ -28,5 +28,10 @@ const routes: Array<RouteRecordRaw> = [
     path: "/roles",
     component: () => import("../views/Admin/Roles/Index.vue"),
   },
+  {
+    name: "role",
+    path: "/role/:slug",
+    component: () => import("../views/Admin/Roles/RoleEditor.vue"),
+  },
 ];
 export default { routes };

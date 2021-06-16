@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import time from "@/hooks/time";
-import useShipmentsApi from "@/use/api/use-shipments-api";
+import { useShipmentsApi } from "@/use/api/use-api";
 import { ref } from "vue";
 
 export default {

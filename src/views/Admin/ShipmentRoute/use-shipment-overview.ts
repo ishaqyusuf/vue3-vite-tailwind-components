@@ -1,5 +1,5 @@
 import { Shipment, ShipmentOverview, ShipmentRoute } from "@/@types/Interface";
-import useShipmentsApi from "@/use/api/use-shipments-api";
+import { useShipmentsApi } from "@/use/api/use-api";
 import { ref } from "vue";
 
 export function useShipmentOverview(props, list) {}

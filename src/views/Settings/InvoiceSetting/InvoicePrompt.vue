@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { useListPropType } from "@/hooks/table";
-import useInvoiceTemplateApi from "@/use/api/use-invoice-template-api";
+import { useInvoiceTemplatesApi } from "@/use/api/use-api";
 import { useMetaApi, MetaDataType } from "@/use/api/use-meta-data-api";
 import { ref } from "vue";
 import InvoiceTemplateForm from "./InvoiceTemplateForm.vue";
@@ -35,7 +35,7 @@ export default {
     const open = async (slug = null) => {
       formData.value = {};
       if (slug)
-        await useInvoiceTemplateApi.get(
+        await useInvoiceTemplatesApi.get(
           slug,
           {},
           {
@@ -52,7 +52,7 @@ export default {
     };
     const save = async () => {
       const data = formData.value;
-      await useInvoiceTemplateApi
+      await useInvoiceTemplatesApi
         .save(
           data.slug,
           { data },

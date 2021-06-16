@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import useShipmentsApi from "@/use/api/use-shipments-api";
+import { useShipmentsApi } from "@/use/api/use-api";
 import user from "@/use/user-account";
 import { onMounted, ref } from "vue";
 import ActivityComponent from "@/views/Guests/Track/ActivityComponent.vue";
