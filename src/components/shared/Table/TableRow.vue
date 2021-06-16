@@ -32,7 +32,11 @@
           'py-2 px-3': dense,
           'py-3 px-6': !dense,
           'font-medium': struct.fontMedium,
+          'text-left': !struct.textRight && !struct.textCenter,
+          'text-right': struct.textRight,
+          'text-center': struct.textCenter,
         },
+        item.colStyle,
         struct.td,
       ]"
       v-for="(struct, index) in structure"

@@ -64,7 +64,7 @@
           <i-mdi-label-variant-outline class="mr-3" />
           Label</MenuItem
         >
-        <MenuItem @click="listr.execute('selectRecipient', item)">
+        <MenuItem @click="listr.execute('selectClient', item)">
           <i-mdi-account-plus-outline class="mr-3" />
           Update Recipient</MenuItem
         >

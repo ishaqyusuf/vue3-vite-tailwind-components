@@ -44,7 +44,7 @@
 import { ref, reactive, toRefs, onMounted, computed, watch } from "vue";
 import parcels from "@/use/parcels";
 import router from "@/router";
-import RecipientColumn from "@/views/Admin/Parcels/RecipientColumn.vue";
+import RecipientColumn from "@/views/Admin/Parcels/ClientColumn.vue";
 import ParcelColumn from "@/views/Admin/Parcels/ParcelColumn.vue";
 import { TableStructure } from "@/@types/Interface";
 import PagerInterface from "@/@types/PagerInterface";

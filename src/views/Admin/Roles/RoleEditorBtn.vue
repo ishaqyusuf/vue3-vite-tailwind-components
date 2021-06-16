@@ -1,16 +1,16 @@
 <template>
   <div>
     <slot name="btn" :open="open"></slot>
-    <ShipmentEditor ref="dialog"></ShipmentEditor>
+    <RoleEditor ref="dialog"></RoleEditor>
   </div>
 </template>
 
 <script lang="ts">
 import { ref } from "vue";
-import ShipmentEditor from "@/views/Admin/Shipment/Components/ShipmentForm.vue";
+import RoleEditor from "@/views/Admin/Roles/RoleEditor.vue";
 export default {
   components: {
-    ShipmentEditor,
+    RoleEditor,
   },
   props: {},
   setup(props, { emit }) {

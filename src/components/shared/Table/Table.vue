@@ -35,12 +35,16 @@
             </th>
             <th
               scope="col"
-              class="text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              class="text-xs font-medium text-gray-500 uppercase tracking-wider"
               :class="[
                 {
                   'py-2 px-3': dense,
                   'py-3 px-6': !dense,
+                  'text-left': !item.textRight && !item.textCenter,
+                  'text-right': item.textRight,
+                  'text-center': item.textCenter,
                 },
+                item.colStyle,
               ]"
               v-for="(item, index) in structure"
               :key="index"

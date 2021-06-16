@@ -2,21 +2,21 @@
   <div class="">
     <router-link
       class="hover:text-blue-500"
-      v-if="item.recipient"
+      v-if="item.client"
       :to="{
         name: 'users',
         params: {
           mode: 'clients',
-          customer_slug: item.recipient.id,
+          customer_slug: item.client.id,
         },
       }"
     >
-      <span class="font-medium">{{ item.recipient.full_name }}</span>
+      <span class="font-medium">{{ item.client.full_name }}</span>
     </router-link>
 
     <span
       v-else
-      @click="list.execute('selectRecipient', item)"
+      @click="list.execute('selectClient', item)"
       class="font-medium bg-gray-200 hover:shadow-md uppercase text-xs tracking-widest cursor-pointer p-1 group-hover:bg-blue-800 group-hover:text-white"
       >Add Client
     </span>

@@ -69,7 +69,11 @@ export interface TableStructure {
   fontMedium?: boolean;
   btnProps?: object;
   btnLink?: boolean;
-  td?: boolean;
+  td?: string;
+  textCenter?: boolean;
+  colStyle?: string;
+  textRight?: boolean;
+  textLeft?: boolean;
   computed?: any;
 }
 export interface IUseList {

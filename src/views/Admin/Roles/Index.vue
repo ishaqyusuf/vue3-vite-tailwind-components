@@ -1,20 +1,16 @@
 <template>
   <Container class="space-y-4">
     <div class="inline-flex justify-between w-full items-center">
-      <CardTitle>Shipments</CardTitle>
+      <CardTitle>Roles</CardTitle>
       <div class="inline-flex space-x-2">
-        <Btn secondary>
-          <i-mdi-plus />
-          <span>New Route</span>
-        </Btn>
-        <ShipmentEditorPrompt>
+        <RoleEditorBtn>
           <template #btn="{ open }">
             <Btn @click="open({}, listr)">
               <i-mdi-plus />
-              <span>New Shipment</span>
+              <span>New Role</span>
             </Btn>
           </template>
-        </ShipmentEditorPrompt>
+        </RoleEditorBtn>
       </div>
     </div>
     <Table
@@ -34,10 +30,12 @@
 <script lang="ts">
 import useShipmentsList from "@/use/list/use-shipments-list";
 import useList from "@/use/useList";
-import ShipmentEditorPrompt from "@/views/Admin/Shipment/Components/ShipmentFormDialog.vue";
+import RoleEditorBtn from "@/views/Admin/Roles/RoleEditorBtn.vue";
+import { onMounted } from "vue";
+import useRoles from "./use-roles";
 export default {
   components: {
-    ShipmentEditorPrompt,
+    RoleEditorBtn,
   },
   props: {},
   setup(props, { emit }) {
@@ -47,6 +45,9 @@ export default {
       useShipmentsList.transformer,
       useShipmentsList.actions
     );
+    onMounted(() => {
+      console.log(useRoles.initializeRoleTable([1])[0]);
+    });
     return {
       listr,
       ...useShipmentsList,

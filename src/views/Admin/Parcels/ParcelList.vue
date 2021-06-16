@@ -27,7 +27,7 @@
         <ParcelColumn :item="item" :header="header" />
       </template>
       <template v-slot:recipient="{ item }">
-        <RecipientColumn :item="item" :list="list" />
+        <ClientColumn :item="item" :list="list" />
       </template>
       <template v-slot:more-actions="{ item, header }">
         <Btn dense large icon @click="list.execute('openLabel', item)">
@@ -79,7 +79,7 @@
           <i-mdi-label-variant-outline class="mr-3" />
           Label</MenuItem
         >
-        <MenuItem @click="list.execute('selectRecipient', item)">
+        <MenuItem @click="list.execute('selectClient', item)">
           <i-mdi-account-plus-outline class="mr-3" />
           Update Recipient</MenuItem
         >
@@ -130,7 +130,7 @@ import {
   onBeforeUnmount,
 } from "vue";
 import parcels from "@/use/parcels";
-import RecipientColumn from "@/views/Admin/Parcels/RecipientColumn.vue";
+import ClientColumn from "@/views/Admin/Parcels/ClientColumn.vue";
 import ParcelColumn from "@/views/Admin/Parcels/ParcelColumn.vue";
 import { TableStructure } from "@/@types/Interface";
 import PagerInterface from "@/@types/PagerInterface";
@@ -141,13 +141,12 @@ import EditTracking from "@/views/Guests/Track/EditTracking.vue";
 import ParcelFormPrompt from "@/views/Admin/Parcel/ParcelFormPrompt.vue";
 import useRouteData from "@/use/use-route-data";
 import { useRoute } from "vue-router";
-import { toRef } from "vue";
 import useMetaLoader from "@/use/api/use-meta-loader";
 import useList from "@/use/useList";
 export default {
   components: {
     EditTracking,
-    RecipientColumn,
+    ClientColumn,
     ParcelFormPrompt,
     UserList,
     ParcelColumn,

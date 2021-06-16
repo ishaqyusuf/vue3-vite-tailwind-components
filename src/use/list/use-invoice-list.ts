@@ -1,18 +1,24 @@
 import { ApiReqOptions, TableStructure } from "@/@types/Interface";
 import useInvoicesApi from "../api/use-invoices-api";
+import useMetaLoader from "../api/use-meta-loader";
+import useStatusColor from "../data/use-status-color";
 const structure: TableStructure[] = [
   { name: "id", title: "Invoice #" },
-  { name: "client", title: "Client" },
   {
     name: "created_at",
     title: "Date Created",
     // computed: (item) => item.route.title,
   },
+  { name: "client", title: "Client" },
   { name: "due_at", title: "Due Date" },
   { name: "status", title: "Status" },
-  { name: "bill_amount", title: "Amount" },
+  { name: "bill_amount", title: "Amount", textRight: true },
 ];
 const transformer = (item, data) => {
+  data.invoice_color = useStatusColor.getColor(
+    item.status,
+    useMetaLoader.invoiceStatus.value
+  );
   return data;
 };
 const fetch = async (useList, pager, query = {}, opts: ApiReqOptions = {}) => {

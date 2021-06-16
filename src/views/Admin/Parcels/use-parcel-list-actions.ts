@@ -13,7 +13,7 @@ export default function useParceListActions({
         const data = await useParcel.deleteOne(item.track_code);
       },
     },
-    selectRecipient: {
+    selectClient: {
       action: (item) => {
         userls.value.open().then(async (user) => {
           await parcels.updateParcelRecipient(item.track_code, user, list);

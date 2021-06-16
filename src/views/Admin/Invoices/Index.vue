@@ -51,7 +51,7 @@
       :structure="structure"
     >
       <template v-slot:id="{ item }">
-        <span class="block font-semibold">INV-{{ item.id }}</span>
+        <span class="">INV-{{ item.id }}</span>
       </template>
       <template v-slot:created_at="{ item }">
         <span class="block">{{ $dayjs.readable(item.created_at) }}</span>
@@ -65,7 +65,10 @@
         $ {{ item.bill_amount }}
       </template>
       <template v-slot:status="{ item }">
-        <span
+        <ColorLabel v-if="item.status" :color="item.invoice_color">
+          {{ item.status }}
+        </ColorLabel>
+        <!-- <span
           v-if="item.status"
           class="rounded-lg px-1 font-medium"
           :class="[
@@ -73,13 +76,13 @@
             'bg-' + item.status_color + '-50',
           ]"
           >{{ item.status }}</span
-        >
+        > -->
       </template>
       <template v-slot:client="{ item }">
-        <ClientCard sm v-if="item.client" :client="item.client"></ClientCard>
+        <ClientColumn :item="item" :list="listr"></ClientColumn>
       </template>
       <template v-slot:menu-items="{ item }">
-        <MenuLinkItem :to="item.to">
+        <!-- <MenuLinkItem :to="item.to">
           <i-mdi-open-in-app class="mr-3" />
           Open Parcel</MenuLinkItem
         >
@@ -99,22 +102,20 @@
           <i-mdi-label-variant-outline class="mr-3" />
           Label</MenuItem
         >
-        <MenuItem @click="listr.execute('selectRecipient', item)">
+        <MenuItem @click="listr.execute('selectClient', item)">
           <i-mdi-account-plus-outline class="mr-3" />
           Update Recipient</MenuItem
-        >
+        > -->
       </template>
     </Table>
 
     <TableAction :use-list="listr" show deletable label hasMore>
-      <!-- @delete="parcels.deleteParcels(items.filter((item) => item.checked))" -->
-      <!-- @delete="deleteMany" @print="printMany" @edit="editMany" -->
       <template v-slot:menu>
-        <MenuLinkItem>Open Parcel</MenuLinkItem>
+        <!-- <MenuLinkItem>Open Parcel</MenuLinkItem>
         <MenuLinkItem>Quick Update Parcel</MenuLinkItem>
         <MenuLinkItem>Update Tracking</MenuLinkItem>
         <MenuLinkItem>Invoice</MenuLinkItem>
-        <MenuLinkItem>Update Recipient</MenuLinkItem>
+        <MenuLinkItem>Update Recipient</MenuLinkItem> -->
       </template>
       <template v-slot:more>
         <Btn dark rounded large color="gray-700">
@@ -124,6 +125,7 @@
       </template>
     </TableAction>
     <Pager :data="pager" simple />
+    <UserList ref="userls" title="Select Client"></UserList>
   </Container>
 </template>
 
@@ -135,35 +137,46 @@ import ShipmentFormDialog from "@/views/Admin/Shipment/Components/ShipmentFormDi
 import useMetaLoader from "@/use/api/use-meta-loader";
 import SummaryCard from "./SummaryCard.vue";
 import useInvoicesData from "./use-invoices-data";
-import ClientCard from "@/views/Admin/Components/ClientCard.vue";
+import UserList from "../Components/UserList.vue";
+import ClientColumn from "@/views/Admin/Parcels/ClientColumn.vue";
+import useInvoiceListActions from "./use-invoice-list-actions";
 export default {
   components: {
+    ClientColumn,
     ShipmentFormDialog,
-    ClientCard,
     SummaryCard,
+    UserList,
   },
   props: {},
   setup(props, { emit }) {
     const listr = useList();
-    listr.initialize([], useInvoiceList.transformer, useInvoiceList.actions);
-    const pager = ref({});
-    useInvoiceList.fetch(
-      listr,
-      pager,
-      {
-        with_stat: true,
-      },
-      {
-        onSuccess: (result) => {
-          useInvoicesData.refreshSummary(result);
-        },
-      }
+    const userls = ref();
+    listr.initialize(
+      [],
+      useInvoiceList.transformer,
+      useInvoiceListActions({ userls })
     );
+    const pager = ref({});
+
     const shipmentForm = ref({});
+
     onMounted(async () => {
-      await useMetaLoader.loadShipmentStatus();
+      await useMetaLoader.loadInvoiceStatus();
+      useInvoiceList.fetch(
+        listr,
+        pager,
+        {
+          with_stat: true,
+        },
+        {
+          onSuccess: (result) => {
+            useInvoicesData.refreshSummary(result);
+          },
+        }
+      );
     });
     return {
+      userls,
       shipmentForm,
       pager,
       listr,
