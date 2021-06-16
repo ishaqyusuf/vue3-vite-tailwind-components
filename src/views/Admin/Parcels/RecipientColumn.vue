@@ -4,8 +4,9 @@
       class="hover:text-blue-500"
       v-if="item.recipient"
       :to="{
-        name: 'customer',
+        name: 'users',
         params: {
+          mode: 'clients',
           customer_slug: item.recipient.id,
         },
       }"

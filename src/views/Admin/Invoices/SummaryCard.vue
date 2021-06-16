@@ -2,7 +2,7 @@
   <div class="grid w-full grid-cols-2 sm:grid-cols-12 gap-4">
     <div
       class="rounded-md p-4 sm:col-span-3 sm:p-6 inline-flex justify-between items-center"
-      v-for="(item, index) in items"
+      v-for="(item, index) in summaries"
       :class="[`bg-${item.color}-100`]"
       :key="index"
     >
@@ -16,7 +16,7 @@
       </div>
       <div class="inline-flex flex-col items-center">
         <span class="text-sm">{{ item.title }}</span>
-        <span class="font-semibold bg- text-xl">$ 40k</span>
+        <span class="font-semibold bg- text-xl">$ {{ item.amount }}</span>
       </div>
     </div>
   </div>
@@ -24,20 +24,11 @@
 
 <script lang="ts">
 import { ref } from "vue";
-
+import useInvoicesData from "@/views/Admin/Invoices/use-invoices-data";
 export default {
   props: {},
   setup(props, { emit }) {
-    const items = ref([
-      {
-        color: "green",
-        title: "Paid",
-      },
-      { color: "yellow", title: "Unpaid" },
-      { color: "red", title: "Overdue" },
-      { color: "indigo", title: "Drafts" },
-    ]);
-    return { items };
+    return { ...useInvoicesData };
   },
 };
 </script>

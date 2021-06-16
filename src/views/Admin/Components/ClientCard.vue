@@ -9,10 +9,10 @@
         'space-x-2': dense,
       }"
     >
-      <Avatar></Avatar>
+      <Avatar v-bind="$props"></Avatar>
       <div class="">
         <Label>{{ client.full_name }}</Label>
-        <Truncify class="text-sm">{{ client.email }}</Truncify>
+        <Truncify class="text-sm text-gray-500">{{ client.email }}</Truncify>
       </div>
     </div>
   </div>
@@ -25,6 +25,7 @@ export default {
   props: {
     client: { type: Object, required: true },
     dense: Boolean,
+    sm: Boolean,
   },
   setup(props, { emit }) {
     watch(props, (value, old) => {});

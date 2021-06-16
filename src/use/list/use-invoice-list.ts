@@ -1,22 +1,22 @@
-import { TableStructure } from "@/@types/Interface";
+import { ApiReqOptions, TableStructure } from "@/@types/Interface";
 import useInvoicesApi from "../api/use-invoices-api";
 const structure: TableStructure[] = [
-  { name: "id_date", title: "Invoice #" },
-  { name: "track_code", title: "Client" },
+  { name: "id", title: "Invoice #" },
+  { name: "client", title: "Client" },
   {
-    name: "shipment_route",
+    name: "created_at",
     title: "Date Created",
-    computed: (item) => item.route.title,
+    // computed: (item) => item.route.title,
   },
-  { name: "parcels", title: "Due Date" },
+  { name: "due_at", title: "Due Date" },
   { name: "status", title: "Status" },
-  { name: "status", title: "Amount" },
+  { name: "bill_amount", title: "Amount" },
 ];
 const transformer = (item, data) => {
   return data;
 };
-const fetch = async (useList, pager, query = {}) => {
-  const data = await useInvoicesApi.index(query);
+const fetch = async (useList, pager, query = {}, opts: ApiReqOptions = {}) => {
+  const data = await useInvoicesApi.index(query, opts);
 
   useList.refresh(data?.items);
   pager.value = data?.pager;

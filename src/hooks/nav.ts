@@ -20,7 +20,7 @@ const parcel = createMenu("Parcel", { name: "parcels" }, "readPkg", "");
 const dashboard = createMenu("Dashboard", { name: "dashboard" }, "readDb", "");
 const customer = createMenu(
   "Customer",
-  { name: "users", params: { mode: "customers" } },
+  { name: "users", params: { mode: "clients" } },
   "readUser",
   ""
 );

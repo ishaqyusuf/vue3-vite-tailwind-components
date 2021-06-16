@@ -50,9 +50,19 @@
       more-action
       :structure="structure"
     >
-      <template v-slot:id_date="{ item }">
-        <span class="block font-semibold">#{{ item.id }}</span>
+      <template v-slot:id="{ item }">
+        <span class="block font-semibold">INV-{{ item.id }}</span>
+      </template>
+      <template v-slot:created_at="{ item }">
         <span class="block">{{ $dayjs.readable(item.created_at) }}</span>
+      </template>
+      <template v-slot:due_at="{ item }">
+        <span class="block">{{
+          item.due_at ? $dayjs.readable(item.due_at) : "-"
+        }}</span>
+      </template>
+      <template v-slot:bill_amount="{ item }">
+        $ {{ item.bill_amount }}
       </template>
       <template v-slot:status="{ item }">
         <span
@@ -64,6 +74,9 @@
           ]"
           >{{ item.status }}</span
         >
+      </template>
+      <template v-slot:client="{ item }">
+        <ClientCard sm v-if="item.client" :client="item.client"></ClientCard>
       </template>
       <template v-slot:menu-items="{ item }">
         <MenuLinkItem :to="item.to">
@@ -121,9 +134,12 @@ import { onMounted, ref } from "vue";
 import ShipmentFormDialog from "@/views/Admin/Shipment/Components/ShipmentFormDialog.vue";
 import useMetaLoader from "@/use/api/use-meta-loader";
 import SummaryCard from "./SummaryCard.vue";
+import useInvoicesData from "./use-invoices-data";
+import ClientCard from "@/views/Admin/Components/ClientCard.vue";
 export default {
   components: {
     ShipmentFormDialog,
+    ClientCard,
     SummaryCard,
   },
   props: {},
@@ -131,7 +147,18 @@ export default {
     const listr = useList();
     listr.initialize([], useInvoiceList.transformer, useInvoiceList.actions);
     const pager = ref({});
-    useInvoiceList.fetch(listr, pager);
+    useInvoiceList.fetch(
+      listr,
+      pager,
+      {
+        with_stat: true,
+      },
+      {
+        onSuccess: (result) => {
+          useInvoicesData.refreshSummary(result);
+        },
+      }
+    );
     const shipmentForm = ref({});
     onMounted(async () => {
       await useMetaLoader.loadShipmentStatus();

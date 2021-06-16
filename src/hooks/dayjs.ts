@@ -12,7 +12,7 @@ export default {
         } catch (error) {}
         return value;
       },
-      readable(value, short = false) {
+      readable(value, short = false, invalidValue = null) {
         try {
           let now = dayjs.utc().local();
           let d = dayjs.utc(value).local();
@@ -30,7 +30,7 @@ export default {
           let smartDate = diff == 1 ? format : d.format(format);
           return smartDate;
         } catch (error) {}
-        return value;
+        return invalidValue ?? value;
       },
       ...dayjs,
     };

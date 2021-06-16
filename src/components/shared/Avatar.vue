@@ -1,6 +1,6 @@
 <template>
   <img
-    class="inline-block rounded-full ring-2 ring-white"
+    class="inline-block rounded-full ring-2 ring-green-50"
     :class="{
       'h-6 w-6': sm,
       'h-8 w-8': !sm && !md && !lg && !xl,
