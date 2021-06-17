@@ -112,6 +112,9 @@ export const useInvoicesApi = {
 export const useInvoiceTemplatesApi = {
   ...useBaseApi("invoice-templates"),
 };
+export const useAddressApi = {
+  ...useBaseApi("address-book"),
+};
 
 export function useUsersApi(query = {}) {
   return {

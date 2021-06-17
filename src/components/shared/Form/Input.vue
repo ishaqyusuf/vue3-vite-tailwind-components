@@ -128,7 +128,7 @@
         @selected="valued = $event"
         v-bind="$props"
         tabindex="1"
-        v-if="results && (listOpened || focused)"
+        v-if="results && focused"
         :results="results"
         :class="{
           'opacity-0': results.length == 0,

@@ -2,7 +2,9 @@
   <Container class="space-y-4 relative">
     <div class="inline-flex justify-between items-center w-full">
       <div class="text-2xl font-bold text-gray-700">
-        <Truncify class="capitalize">{{ mode }}</Truncify>
+        <Truncify class="capitalize">{{
+          isClient ? "Clients" : "Employees"
+        }}</Truncify>
       </div>
       <div class="inline-flex space-x-2">
         <div class="inline-flex rounded-lg border divide-x bg-white">
@@ -55,9 +57,25 @@
           <i-carbon-edit />
         </Btn>
       </template>
+      <template v-slot:menu-items="{ item }">
+        <MenuItem @click="list.execute('updateRole', item)">
+          <i-carbon-inventory-management class="mr-3" />
+          Update Role</MenuItem
+        >
+        <MenuItem @click="list.execute('updatePassword', item)">
+          <i-carbon-password class="mr-3" />
+          Update Password</MenuItem
+        >
+      </template>
     </Table>
     <UserList ref="userls" title="Select Client"></UserList>
-    <UserForm title="User Form" ref="userForm"></UserForm>
+    <UserForm
+      :title="formConfig.title"
+      :employee-data="formConfig.eData"
+      :password-update="formConfig.password"
+      :with-role="!isClient"
+      ref="userForm"
+    ></UserForm>
     <Pager :data="pager" simple />
   </Container>
   <!-- <Container class="space-y-4" -->
@@ -65,12 +83,13 @@
 
 <script lang="ts">
 import PagerInterface from "@/@types/PagerInterface";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { userList } from "./use-user-list";
 import Exporter from "@/components/import/Exporter.vue";
 import { useExport } from "@/use/data/use-export";
 import UserList from "../Components/UserList.vue";
 import UserForm from "@/views/Admin/Components/UserForm.vue";
+import useRouteData from "@/use/use-route-data";
 export default {
   components: {
     Exporter,
@@ -81,15 +100,21 @@ export default {
     mode: String,
   },
   setup(props, { emit }) {
-    const useUsers = userList(props.mode);
+    let useUsers = userList(props.mode);
     const pager = ref<PagerInterface>({});
     const exportConfig = useExport(useUsers.structures);
-
-    onMounted(async () => {
+    onMounted(() => {
+      init();
+    });
+    async function init() {
       const data = await useUsers.api.index();
-      console.log(data);
       useUsers.list.refresh(data.items);
       pager.value = data.pager;
+    }
+    watch(useRouteData, (value, oldValue) => {
+      useUsers = userList(value.params.mode);
+      init();
+      console.log("...");
     });
     return {
       pager,
