@@ -50,11 +50,11 @@
             large
             color="gray-700"
           >
-            <i-mdi-pencil-outline />
+            <i-carbon-edit />
             <span>Edit</span>
           </Btn>
           <Btn v-if="deletable" dark rounded large color="red-700">
-            <i-mdi-trash-can-outline />
+            <i-carbon-delete />
             <span>Delete</span>
           </Btn>
         </div>

@@ -104,7 +104,7 @@
                 confirm
                 :text="textAction"
               >
-                <i-mdi-delete-outline v-if="!textAction" />
+                <i-carbon-delete v-if="!textAction" />
                 <span v-else class="text-green-600">Delete</span>
               </Btn>
             </slot>
@@ -117,7 +117,7 @@
                 large
                 :text="textAction"
               >
-                <i-mdi-pencil-box-multiple-outline v-if="!textAction" />
+                <i-carbon-edit v-if="!textAction" />
                 <span v-else class="text-green-600">Edit</span>
               </Btn>
             </slot>
@@ -126,7 +126,7 @@
             <Menu rtl v-if="moreAction" ref="menu">
               <slot name="menu-btn" :item="item">
                 <Btn dense :icon="!textAction" large :text="textAction">
-                  <i-mdi-dots-vertical
+                  <i-carbon-overflow-menu-horizontal
                     class="text-black-400"
                     v-if="!textAction"
                   />

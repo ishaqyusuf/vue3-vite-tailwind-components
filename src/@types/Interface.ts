@@ -72,6 +72,11 @@ export interface TableStructure {
   td?: string;
   textCenter?: boolean;
   colStyle?: string;
+  export?: boolean;
+  import?: boolean;
+  isVisible?: boolean;
+  hidden?: boolean;
+  colTitle?: string;
   textRight?: boolean;
   textLeft?: boolean;
   computed?: any;

@@ -54,7 +54,6 @@ import usersHook from "@/hooks/users";
 import useDebounceRef from "@/use/useDebounceRef";
 import UserListItem from "@/views/Admin/Components/UserListItem.vue";
 import UserForm from "@/views/Admin/Components/UserForm.vue";
-import { reject } from "cypress/types/bluebird";
 export default {
   components: {
     UserListItem,
@@ -78,7 +77,7 @@ export default {
       });
       listHook.refresh(items);
     };
-    const open = async () => {
+    const open = async (user = null) => {
       return new Promise((resolve, reject) => {
         loadUsers();
         resolver.value = resolve;

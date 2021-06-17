@@ -40,7 +40,7 @@
                 item-text="address_1"
                 item-value="id"
                 name="role"
-                label="Role"
+                label="Location"
               ></Input>
             </template>
             <Checkbox v-model="setPassword" label="Create Password"></Checkbox>
@@ -72,7 +72,7 @@ import AddressForm from "@/views/Admin/Components/AddressForm.vue";
 import useUser from "@/use/api/useUser";
 import user from "@/use/user-account";
 import useHrm from "@/use/api/useHrm";
-import useSmartApi from "@/use/api/use-api";
+import useSmartApi, { useUsersApi } from "@/use/api/use-api";
 export default {
   components: {
     AddressForm,
@@ -92,7 +92,7 @@ export default {
       phone: {},
     });
     const open = async (data) => {
-      return new Promise((resolve, reject) => {
+      return new Promise(async (resolve, reject) => {
         resolver.value = resolve;
         if (!addRole.value) {
           useHrm.loadRoles();
@@ -104,7 +104,18 @@ export default {
           if (data) {
             address.value = data;
           }
+        } else {
+          if (data) {
+            const {
+              form: frm,
+              meta,
+              address,
+            } = await useUsersApi().get(data.id, { edit_mode: true });
+            console.log(frm);
+            form.value = frm;
+          }
         }
+        console.log(data);
         show.value = true;
       });
     };

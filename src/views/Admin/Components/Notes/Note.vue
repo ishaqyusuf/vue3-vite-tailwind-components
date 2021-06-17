@@ -26,7 +26,7 @@
             <i-mdi-trash-can-outline />
           </Btn>
           <Btn @click="editNote" icon>
-            <i-mdi-pencil-outline />
+            <i-carbon-edit />
           </Btn>
         </div>
       </div>

@@ -6,8 +6,8 @@
       :to="{
         name: 'users',
         params: {
-          mode: 'clients',
-          customer_slug: item.client.id,
+          mode,
+          slug: item.client.id,
         },
       }"
     >
@@ -27,6 +27,7 @@
 export default {
   components: {},
   props: {
+    mode: { default: "clients" },
     item: { type: Object, required: true },
     list: { type: Object, required: true },
   },
