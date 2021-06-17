@@ -17,36 +17,49 @@
       hide-actions
       dense
       deletable
-      :use-list="listr"
+      :use-list="list"
       hide-checks
       more-action
       :structure="structure"
-    ></Table>
+    >
+      <template v-slot:title="{ item }"> </template>
+    </Table>
   </Container>
 </template>
 
 <script lang="ts">
-import useShipmentsList from "@/use/list/use-shipments-list";
+import { TableStructure } from "@/@types/Interface";
+import { useRolesApi } from "@/use/api/use-api";
 import useList from "@/use/useList";
-import RoleEditorBtn from "@/views/Admin/Roles/RoleEditorBtn.vue";
 import { onMounted } from "vue";
-import useRoles from "./use-roles";
 export default {
-  components: {
-    RoleEditorBtn,
-  },
+  components: {},
   props: {},
   setup(props, { emit }) {
-    const listr = useList();
-    listr.initialize(
+    const list = useList();
+    list.initialize(
       [],
-      useShipmentsList.transformer,
-      useShipmentsList.actions
+      (item, data) => {
+        data.title_link = {
+          name: "role",
+          params: {
+            slug: item.slug,
+          },
+        };
+        return data;
+      },
+      {}
     );
-    onMounted(() => {});
+    const structure: TableStructure[] = [
+      { title: "Role", name: "title", fontMedium: true },
+    ];
+    onMounted(async () => {
+      const data = await useRolesApi.index();
+      list.refresh(data.items);
+    });
     return {
-      listr,
-      ...useShipmentsList,
+      list,
+      structure,
     };
   },
 };

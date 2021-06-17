@@ -1,5 +1,5 @@
 import { TableStructure } from "@/@types/Interface";
-import useShipmentApi from "../api/use-shipments-api";
+import { useShipmentsApi } from "../api/use-api";
 const structure: TableStructure[] = [
   { name: "id_date", title: "#/Date" },
   { name: "track_code", title: "Shipment" },
@@ -29,7 +29,7 @@ const transformer = (item, data) => {
   return data;
 };
 const fetch = async (useList, pager, query = {}) => {
-  const data = await useShipmentApi.index(query);
+  const data = await useShipmentsApi.index(query);
 
   useList.refresh(data?.items);
   pager.value = data?.pager;
@@ -37,7 +37,7 @@ const fetch = async (useList, pager, query = {}) => {
 const actions: any = {
   delete: {
     action: async (item) => {
-      const data = await useShipmentApi.delete(item.slug);
+      const data = await useShipmentsApi.delete(item.slug);
     },
   },
 };

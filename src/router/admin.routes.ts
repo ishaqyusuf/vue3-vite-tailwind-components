@@ -24,13 +24,14 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/Admin/Scanner/Index.vue"),
   },
   {
-    name: "roles",
     path: "/roles",
+    name: "roles",
     component: () => import("../views/Admin/Roles/Index.vue"),
   },
   {
     name: "role",
     path: "/role/:slug",
+    props: true,
     component: () => import("../views/Admin/Roles/RoleEditor.vue"),
   },
 ];

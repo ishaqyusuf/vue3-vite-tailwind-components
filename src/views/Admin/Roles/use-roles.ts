@@ -18,7 +18,18 @@ function rolesObject(): { id; title; can; action?; all?: boolean }[] {
     return { id, title, can };
   });
 }
-
+function extractActions(items: { id; title; can; action?; all?: boolean }[]) {
+  let actions: any[] = [];
+  items.map((item) => {
+    if (item.all) actions.push(item.id);
+    else {
+      crud.map((c, i) => {
+        item.action[c] && actions.push(item.id + (1 + i / 10));
+      });
+    }
+  });
+  return actions;
+}
 const roles = [
   [1, "Parcel Manager", "Pkg"],
   [11, "Parcel Label", "Label"],
@@ -40,6 +51,7 @@ const roles = [
 ];
 
 export default {
+  extractActions,
   list: roles,
   objects: rolesObject,
   initializeRoleTable,

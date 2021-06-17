@@ -59,7 +59,11 @@
             <button class="bg-gray-100 px-1 leading-6" v-if="struct.btnLink">
               {{ struct.computed ? struct.computed(item) : item[struct.name] }}
             </button>
-            <router-link :to="item[struct.name + '_link']" v-else>
+            <router-link
+              class="hover:text-blue-600"
+              :to="item[struct.name + '_link']"
+              v-else
+            >
               {{ struct.computed ? struct.computed(item) : item[struct.name] }}
             </router-link>
           </div>
