@@ -1,6 +1,7 @@
 <template>
   <InvoiceTemplates></InvoiceTemplates>
   <DefaultStatus
+    readonly
     title="Invoice Status"
     subtitle="Set default invoice status list"
     :type="MetaDataType.INVOICE_STATUS"

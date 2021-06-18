@@ -60,7 +60,6 @@ export default {
       if (data) {
         form.value = data;
         content.value = data.content ?? {};
-        console.log(data);
       }
 
       const { items } = await useMetaDataApi.index({

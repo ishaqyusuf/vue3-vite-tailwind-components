@@ -1,6 +1,6 @@
 import { reactive } from "vue";
 
-const useRouteData = reactive({
+const useRouteData = reactive<{ params: any; query: any }>({
   params: {},
   query: {},
 });

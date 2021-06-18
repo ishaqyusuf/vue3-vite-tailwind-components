@@ -4,13 +4,14 @@
       <TextColorListItem
         :use-list="list"
         :type="type"
+        v-if="!readonly"
         :data-id="-1"
       ></TextColorListItem>
       <TextColorListItem
         :use-list="list"
         v-for="(id, index) in ids"
         :data-id="id"
-        :type="type"
+        v-bind="$props"
         :key="index"
       ></TextColorListItem>
     </CardContent>
@@ -29,6 +30,7 @@ export default {
     type: String,
     title: String,
     subtitle: String,
+    readonly: { type: Boolean },
   },
   components: {
     TextColorListItem,

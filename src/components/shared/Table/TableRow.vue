@@ -98,7 +98,6 @@
                 v-if="deletable"
                 :icon="!textAction"
                 color="red-600"
-                large
                 async
                 :action="deleteItem"
                 confirm
@@ -110,13 +109,7 @@
             </slot>
 
             <slot name="edit-btn" :item="item">
-              <Btn
-                dense
-                :icon="!textAction"
-                v-if="editable"
-                large
-                :text="textAction"
-              >
+              <Btn dense :icon="!textAction" v-if="editable" :text="textAction">
                 <i-carbon-edit v-if="!textAction" />
                 <span v-else class="text-green-600">Edit</span>
               </Btn>

@@ -30,6 +30,7 @@
     <Pager :data="pager" />
 
     <Table
+      v-if="initialized"
       :structure="structures"
       checkable
       action
@@ -40,7 +41,7 @@
       hide-checks
       more-action
     >
-      <template v-slot:user="{ item }">
+      <template v-slot:user="{ item, header }">
         <router-link
           class="hover:text-blue-600"
           :to="{
@@ -51,6 +52,12 @@
           <span class="block font-medium">{{ item.full_name }}</span>
           <span class="text-gray-500" v-if="item.email">{{ item.email }}</span>
         </router-link>
+      </template>
+      <template v-slot:position="{ item, header }">
+        <div class="cursor-pointer" @click="list.execute('updateRole', item)">
+          <span v-if="item.position">{{ item.position }}</span>
+          <Btn dense v-else>Set Role</Btn>
+        </div>
       </template>
       <template v-slot:more-actions="{ item, header }">
         <Btn dense large icon @click="list.execute('userForm', item)">
@@ -82,11 +89,9 @@
 </template>
 
 <script lang="ts">
-import PagerInterface from "@/@types/PagerInterface";
 import { onMounted, ref, watch } from "vue";
-import { userList } from "./use-user-list";
+import useUserList from "./use-user-list";
 import Exporter from "@/components/import/Exporter.vue";
-import { useExport } from "@/use/data/use-export";
 import UserList from "../Components/UserList.vue";
 import UserForm from "@/views/Admin/Components/UserForm.vue";
 import useRouteData from "@/use/use-route-data";
@@ -100,26 +105,14 @@ export default {
     mode: String,
   },
   setup(props, { emit }) {
-    let useUsers = userList(props.mode);
-    const pager = ref<PagerInterface>({});
-    const exportConfig = useExport(useUsers.structures);
     onMounted(() => {
-      init();
+      useUserList.initialize(props.mode);
     });
-    async function init() {
-      const data = await useUsers.api.index();
-      useUsers.list.refresh(data.items);
-      pager.value = data.pager;
-    }
     watch(useRouteData, (value, oldValue) => {
-      useUsers = userList(value.params.mode);
-      init();
-      console.log("...");
+      useUserList.initialize(value.params.mode);
     });
     return {
-      pager,
-      exportConfig,
-      ...useUsers,
+      ...useUserList,
     };
   },
 };

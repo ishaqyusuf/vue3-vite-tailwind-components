@@ -83,15 +83,25 @@
 
       <!-- @change="saveState('track_code', form.track_code)" -->
     </Card>
-    <Parcels
+
+    <ParcelList
       title="Scans Today"
       :query="{ today: true, by_me: true }"
       ref="parcelList"
-    ></Parcels>
+    >
+      <template #header>
+        <div class="inline-flex items-center w-full">
+          <div class="block text-2xl font-bold text-gray-700">
+            <Truncify>Scans Today</Truncify>
+          </div>
+        </div>
+      </template>
+    </ParcelList>
   </div>
 </template>
 
 <script lang="ts">
+import ParcelList from "../Parcels/ParcelList.vue";
 import Index from "@/views/Admin/Parcels/Index.vue";
 import dataLoader from "@/hooks/dataLoader";
 import { onMounted, ref } from "vue";
@@ -104,6 +114,7 @@ export default {
   props: {},
   components: {
     ClientCard,
+    ParcelList,
     UserList,
     Parcels: Index,
   },

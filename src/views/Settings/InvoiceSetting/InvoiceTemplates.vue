@@ -47,7 +47,7 @@
       </template>
       <template #edit-btn="{ item }">
         <Btn dense icon large @click="openInvoiceTemplateForm(item.slug)">
-          <i-mdi-pencil-box-multiple-outline />
+          <i-carbon-edit />
         </Btn>
       </template>
     </Table>

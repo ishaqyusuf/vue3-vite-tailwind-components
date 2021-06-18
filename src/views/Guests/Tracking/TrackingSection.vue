@@ -1,20 +1,19 @@
 <template>
   <div class="max-w-xs mx-auto sm:max-w-3xl">
-    <div class="flex min-h-screen items-center justify-center">
-      <div class="max-w-3xl space-y-2">
+    <div class="flex h-96 items-center justify-center">
+      <div class="max-w-xl space-y-2">
         <span class="block text-4xl font-bold">Track your parcels!</span>
         <span class="block"
           >EAFreight is commited at providing smooth and effective Logistics
           Solutions for every scale of business!</span
         >
-        <div class="sm:flex mobile:space-y-2 sm:space-x-2">
-          <Input
-            tile
-            v-model="eafn"
-            class="sm:w-2/3"
-            name="track_code"
-            placeholder="Enter your EAFreight Number"
-          />
+        <Input
+          tile
+          v-model="eafn"
+          name="track_code"
+          placeholder="Enter your EAFreight Number"
+        />
+        <div class="inline-flex w-full justify-end">
           <Btn
             tile
             class="mobile:w-full"
@@ -28,7 +27,6 @@
             "
             >TRACK IT</Btn
           >
-          <!-- <Btn class="">Track</Btn> -->
         </div>
       </div>
     </div>

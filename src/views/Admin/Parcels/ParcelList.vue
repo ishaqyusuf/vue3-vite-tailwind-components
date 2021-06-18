@@ -5,6 +5,7 @@
       'mb-12': list.data.checkedIds.length > 0,
     }"
   >
+    <slot name="header"></slot>
     <Pager :data="pager" />
     <Table
       checkable

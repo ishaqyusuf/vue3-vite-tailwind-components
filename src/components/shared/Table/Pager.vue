@@ -7,25 +7,27 @@
       results
     </span>
     <div class="inline-flex items-center space-x-1">
-      <router-link
-        v-for="(item, index) in pages"
-        :key="index"
-        class="text-gray-600"
-        :class="{
-          'rounded-full border p-1': item.prev || item.next,
-          'px-1.5 border-b-2 border-transparent': item.page != null,
-          'text-blue-700 font-semibold': item.page != null && item.current,
-          'hover:text-blue-500': item.page != null && !item.current,
-          'hover:bg-blue-700 hover:text-white':
-            (item.prev || item.next) && !item.disabled,
-        }"
-        :to="item.to"
-        :disabled="item.disabled"
-      >
-        <i-mdi-chevron-right class="text-sm" v-if="item.next" />
-        <i-mdi-chevron-left class="text-sm" v-if="item.prev" />
-        <span v-if="item.page">{{ item.page }}</span>
-      </router-link>
+      <template v-if="data.last_page > 1">
+        <router-link
+          v-for="(item, index) in pages"
+          :key="index"
+          class="text-gray-600"
+          :class="{
+            'rounded-full border p-1': item.prev || item.next,
+            'px-1.5 border-b-2 border-transparent': item.page != null,
+            'text-blue-700 font-semibold': item.page != null && item.current,
+            'hover:text-blue-500': item.page != null && !item.current,
+            'hover:bg-blue-700 hover:text-white':
+              (item.prev || item.next) && !item.disabled,
+          }"
+          :to="item.to"
+          :disabled="item.disabled"
+        >
+          <i-mdi-chevron-right class="text-sm" v-if="item.next" />
+          <i-mdi-chevron-left class="text-sm" v-if="item.prev" />
+          <span v-if="item.page">{{ item.page }}</span>
+        </router-link>
+      </template>
     </div>
   </div>
 </template>
@@ -94,7 +96,8 @@ export default {
         .map((a, i) => {
           var pg = i + base;
           return toPg(pg);
-        });
+        })
+        .filter(Boolean);
     return {
       pages,
     };

@@ -19,7 +19,7 @@ const createMenu = (
 const parcel = createMenu("Parcel", { name: "parcels" }, "readPkg", "");
 const dashboard = createMenu("Dashboard", { name: "dashboard" }, "readDb", "");
 const customer = createMenu(
-  "Customer",
+  "Clients",
   { name: "users", params: { mode: "clients" } },
   "readUser",
   ""

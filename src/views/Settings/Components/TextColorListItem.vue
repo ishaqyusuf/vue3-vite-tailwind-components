@@ -38,11 +38,9 @@
         class="px-1 text-sm font-medium"
         >{{ item.status }}</span
       >
-      <div class="inline-flex space-x-2">
-        <Btn icon @click="editItem"><i-mdi-pencil /></Btn>
-        <Btn icon async :action="deleteItem" confirm
-          ><i-mdi-delete-outline
-        /></Btn>
+      <div v-if="!readonly" class="inline-flex space-x-2">
+        <Btn icon @click="editItem"><i-carbon-edit /></Btn>
+        <Btn icon async :action="deleteItem" confirm><i-carbon-delete /></Btn>
       </div>
     </div>
   </div>
@@ -58,6 +56,7 @@ export default {
     dataId: { type: Number, required: true },
     useList: useListPropType(),
     type: String,
+    readonly: Boolean,
   },
   setup(props, { emit }) {
     const item = computed(() => props.useList.itemsById.value[props.dataId]);
