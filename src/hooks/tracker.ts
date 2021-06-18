@@ -14,7 +14,6 @@ const search = async (code) => {
   try {
     const response = await $clientApi.get(`tracking/${code}`);
     const { data } = response;
-    console.log(data);
     result.value = data;
     loading.value = false;
     return data;

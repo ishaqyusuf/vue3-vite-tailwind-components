@@ -21,7 +21,7 @@
       </div>
     </slot>
     <div
-      class="relative space-x-1"
+      class="relative space-x-1 mt-1"
       :class="{
         'col-span-7 inline-flex': grid,
       }"

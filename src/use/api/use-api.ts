@@ -121,3 +121,8 @@ export function useUsersApi(query = {}) {
     ...useBaseApi("usrs", query),
   };
 }
+export function useQuoteRequestApi(query = {}) {
+  return {
+    ...useBaseApi("quote-request", query),
+  };
+}

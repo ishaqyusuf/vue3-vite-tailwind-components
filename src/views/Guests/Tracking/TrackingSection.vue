@@ -1,9 +1,26 @@
 <template>
-  <div class="max-w-xs mx-auto sm:max-w-3xl">
-    <div class="flex h-96 items-center justify-center">
-      <div class="max-w-xl space-y-2">
-        <span class="block text-4xl font-bold">Track your parcels!</span>
-        <span class="block"
+  <App
+    style="
+      background: url(https://res.cloudinary.com/dba9u9ojd/image/upload/v1605563485/eaftrack/page-header-bg_a5j1kd.jpg)
+        center no-repeat;
+    "
+    class="h-screen text-white relative inline-flex justify-between items-center w-full"
+  >
+    <div class="w-3/5 relative z-10 flex flex-col">
+      <p class="text-5xl font-bold leading-tight">
+        Worldwide Logistics, Air <br />Freight Forwarding, Road Haulage.
+      </p>
+      <p class="text-mat-gray-700 text-lg leading-relaxed">
+        Express Air Freight is a leading third party freights and logistics
+        company based in New York, United State. We specialize in providing
+        supply-chain warehousing and transport services throughout the United
+        State, Europe and World at Large.
+      </p>
+    </div>
+    <Card class="max-w-sm relative z-10 py-5 bg-yellow-400">
+      <CardContent class="space-y-2">
+        <span class="text-4xl font-bold">Track Your Parcels</span>
+        <span class="block text-gray-600"
           >EAFreight is commited at providing smooth and effective Logistics
           Solutions for every scale of business!</span
         >
@@ -28,35 +45,12 @@
             >TRACK IT</Btn
           >
         </div>
-      </div>
-    </div>
-  </div>
-  <!-- <div
-    class="flex justify-center items-center relative"
-    :class="[
-      {
-        'x-section sm:h-90h': sectional,
-        'sm:h-30': mini,
-        'gr-esky': !mini,
-      },
-    ]"
-  >
+      </CardContent>
+    </Card>
     <div
-      class="grid grid-cols-5 sm:gap-6"
-      :class="[{ 'w-full lg:w-11/12 xl:w-10/12': !mini }]"
-    >
-      <figure
-        class="hidden sm:block col-span-5 sm:col-span-2 anim overflow-hidden"
-      >
-        <Img class="w-full h-full" no-gradient src="video-thumb_shlk51.jpg" />
-      </figure>
-      <div
-        class="col-span-5 sm:col-span-3 relative bg-yellow-500 xl:bg-transparent"
-      >
-        <div class="absolute all-0 shape-container hidden xl:block"></div>
-      </div>
-    </div>
-  </div> -->
+      class="absolute inset-0 bg-gradient-to-b opacity-40 from-black-500 via-black-700 to-black-300"
+    ></div>
+  </App>
 </template>
 
 <script lang="ts">

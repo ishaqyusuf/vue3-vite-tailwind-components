@@ -7,6 +7,8 @@
       {
         'text-white': dark,
         'py-4': pad,
+        'bg-white': !transparent && !dark,
+        'bg-black-700': !transparent && dark,
       },
     ]"
   >
@@ -24,6 +26,7 @@ export default {
     dark: Boolean,
     pad: Boolean,
     pilot: Boolean,
+    transparent: Boolean,
   },
   setup(props, { emit }) {
     const pref = props.styleMobile ? "" : "sm:";
@@ -31,7 +34,7 @@ export default {
       ? []
       : [
           [pref, "shadow-xl"],
-          [pref, !props.dark ? "bg-white" : "bg-white"],
+          // [pref, !props.dark ? "bg-white" : "bg-white"],
         ]
           .filter(Boolean)
           .map((f) => f.filter(Boolean).join(""))

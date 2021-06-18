@@ -135,7 +135,7 @@ import useList from "@/use/useList";
 import { onMounted, ref } from "vue";
 import ShipmentFormDialog from "@/views/Admin/Shipment/Components/ShipmentFormDialog.vue";
 import useMetaLoader from "@/use/api/use-meta-loader";
-import SummaryCard from "./SummaryCard.vue";
+import SummaryCard from "./InvoiceSummaryCard.vue";
 import useInvoicesData from "./use-invoices-data";
 import UserList from "../Components/UserList.vue";
 import ClientColumn from "@/views/Admin/Parcels/ClientColumn.vue";
