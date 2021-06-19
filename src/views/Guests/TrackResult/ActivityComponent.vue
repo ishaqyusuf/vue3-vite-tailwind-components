@@ -26,8 +26,8 @@
 
 <script lang="ts">
 import useList from "@/use/useList";
-import TrackingStatusItem from "@/views/Guests/Track/TrackingStatusItem.vue";
-import EditTracking from "@/views/Guests/Track/EditTracking.vue";
+import TrackingStatusItem from "@/views/Guests/TrackResult/TrackingStatusItem.vue";
+import EditTracking from "@/views/Guests/TrackResult/EditTracking.vue";
 import { computed, ref } from "vue";
 export default {
   props: {

@@ -52,7 +52,7 @@ import useList from "@/use/useList";
 import UserList from "@/views/Admin/Components/UserList.vue";
 import useParcelListActions from "@/views/Admin/Parcels/use-parcel-list-actions";
 import LabelViewer from "@/views/Admin/Components/Label/LabelViewer.vue";
-import EditTracking from "@/views/Guests/Track/EditTracking.vue";
+import EditTracking from "@/views/Guests/TrackResult/EditTracking.vue";
 import ParcelFormPrompt from "@/views/Admin/Parcel/ParcelFormPrompt.vue";
 import ParcelList from "@/views/Admin/Parcels/ParcelList.vue";
 export default {

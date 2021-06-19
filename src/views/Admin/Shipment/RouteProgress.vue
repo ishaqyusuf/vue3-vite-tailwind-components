@@ -8,7 +8,7 @@
 import { useShipmentsApi } from "@/use/api/use-api";
 import user from "@/use/user-account";
 import { onMounted, ref } from "vue";
-import ActivityComponent from "@/views/Guests/Track/ActivityComponent.vue";
+import ActivityComponent from "@/views/Guests/TrackResult/ActivityComponent.vue";
 export default {
   components: {
     ActivityComponent,

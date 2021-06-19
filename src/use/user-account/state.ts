@@ -81,6 +81,7 @@ const logout = async () => {
   user.value = {};
   permission.value = [];
 };
+const can = (action: Actions) => permission.value.includes(action);
 export default {
   token,
   getToken,
@@ -91,5 +92,6 @@ export default {
   loggedIn,
   permission,
   isCustomer: computed(() => permission.value.length == 0),
-  can: (action: Actions) => permission.value.includes(action),
+  can,
+  canMany: (actions: Actions[]) => actions.every((action) => can(action)),
 };

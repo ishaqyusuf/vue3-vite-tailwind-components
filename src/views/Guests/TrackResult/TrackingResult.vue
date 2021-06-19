@@ -101,7 +101,7 @@
 <script lang="ts">
 import trackerHook from "@/hooks/tracker";
 import { computed, ref } from "@vue/runtime-core";
-import TrackingStatusItem from "@/views/Guests/Track/TrackingStatusItem.vue";
+import TrackingStatusItem from "@/views/Guests/TrackResult/TrackingStatusItem.vue";
 export default {
   components: {
     TrackingStatusItem,

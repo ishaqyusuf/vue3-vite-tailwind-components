@@ -32,24 +32,39 @@
           <!-- <i-carbon-graph/> -->
         </template>
       </SummaryCard>
-      <Card class="col-span-8 h-72">
+      <Card class="col-span-8">
+        <CardTitle lg class="opacity-70" dense>Parcels</CardTitle>
+        <div class="h-64">
+          <ApexChart
+            type="line"
+            height="100%"
+            :options="lineChart.options"
+            :series="lineChart.series"
+          ></ApexChart>
+        </div>
+      </Card>
+      <Card class="col-span-4">
         <ApexChart
-          type="line"
+          type="donut"
           height="100%"
-          :options="options"
-          :series="series"
+          :options="pieChart.options"
+          :series="pieChart.series"
         ></ApexChart>
       </Card>
-      <Card class="col-span-4"></Card>
-      <Card class="col-span-6 h-60"></Card>
-      <Card class="col-span-6"></Card>
+      <Card class="col-span-6 h-60">
+        <CardTitle lg class="opacity-70" dense>Recent Shippings</CardTitle>
+        <RecentShipments></RecentShipments>
+      </Card>
+      <Card class="col-span-6">
+        <CardTitle lg class="opacity-70" dense>Recent Invoices</CardTitle>
+      </Card>
     </div>
   </Container>
 </template>
 
 <script lang="ts">
 import { useBaseApi } from "@/use/api/use-base-api";
-import { onMounted, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import SummaryCard from "@/views/Admin/Components/SummaryCard.vue";
 import ApexChart from "@/components/Chart.vue";
 export default {
@@ -60,8 +75,10 @@ export default {
   },
   setup(props, { emit }) {
     const stats = ref<any[]>([]);
+    const dataCollection = ref<any>();
     onMounted(() => {
       initialize();
+      fillData();
     });
     async function initialize() {
       const { stat, pie, ...data } = await useBaseApi("dashboard").index({
@@ -72,14 +89,50 @@ export default {
         item.color = colors[index];
         return item;
       });
-      plotGraph(data);
+      plotLineChart(data);
+      plotPieChart(pie);
     }
-    function plotGraph(data) {
+    function fillData() {
+      dataCollection.value = {
+        labels: [getRandomInt(), getRandomInt()],
+        datasets: [
+          {
+            label: "Data One",
+            backgroundColor: "#f87979",
+            data: [getRandomInt(), getRandomInt()],
+          },
+          {
+            label: "Data One",
+            backgroundColor: "#f87979",
+            data: [getRandomInt(), getRandomInt()],
+          },
+        ],
+      };
+    }
+    function getRandomInt() {
+      return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
+    }
+    function plotPieChart(pie) {
+      const { labels, data: series } = pie;
+      pieChart.series = series;
+      pieChart.options.labels = labels;
+      pieChart.options = { ...pieChart.options };
+    }
+    function plotLineChart(data) {
       const { dates, data: graphData } = data.parcel_graph;
-      series.value = [{ name: "Parcels", data: graphData ?? [] }];
-      options.value.xaxis.categories = dates ?? [];
+
+      lineChart.series = [{ name: "Parcels", data: graphData ?? [] }];
+      lineChart.options.xaxis.categories = dates ?? [];
+      lineChart.options = { ...lineChart.options };
+      // lineChart.options = {
+      //   ...lineChart.options,
+      //   xaxis: {
+      //     ...lineChart.options.xaxis,
+      //     categories: dates ?? [],
+      //   },
+      // };
     }
-    const options = ref({
+    const options = {
       stroke: {
         curve: "smooth",
       },
@@ -106,9 +159,28 @@ export default {
           },
         },
       },
+    };
+    const lineChart = reactive<{ options: any; series: any[] }>({
+      options,
+      series: [],
     });
-    const series = ref<any[]>([]);
-    return { options, stats, series };
+    const pieOptions = {
+      legend: { position: "bottom" },
+      labels: [],
+      plotOptions: {
+        pie: {
+          donut: {
+            size: "0%",
+          },
+        },
+      },
+    };
+
+    const pieChart = reactive<{ options: any; series: any[] }>({
+      options: pieOptions,
+      series: [],
+    });
+    return { stats, pieChart, lineChart, dataCollection };
   },
 };
 </script>

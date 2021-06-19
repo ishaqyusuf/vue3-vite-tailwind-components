@@ -5,8 +5,8 @@
 <script lang="ts">
 import { ref, onMounted, computed } from "vue";
 import user from "@/use/user-account";
-import ActivityComponent from "@/views/Guests/Track/ActivityComponent.vue";
-import {useParcelsApi} from "@/use/api/use-api";
+import ActivityComponent from "@/views/Guests/TrackResult/ActivityComponent.vue";
+import { useParcelsApi } from "@/use/api/use-api";
 export default {
   props: {
     slug: String,

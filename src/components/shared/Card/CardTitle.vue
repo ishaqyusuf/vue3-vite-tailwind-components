@@ -5,6 +5,7 @@
       'sm:text-lg': lg,
       'sm:text-xl': xl,
       'p-4': !dense,
+      'p-2': dense,
       'py-0': flatY,
       'px-0': flatX,
       'pt-0': flatT,

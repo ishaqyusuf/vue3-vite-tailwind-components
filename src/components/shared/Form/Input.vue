@@ -36,6 +36,7 @@
           'rounded-full': rounded,
           'rounded-md': !tile,
           'text-black-100 border-black-300': dark,
+          'text-black-700': !dark,
           'gray-scale bg-gray-100 bg-opacity-50': disabled,
           'px-2': !dense,
           'px-1': dense,

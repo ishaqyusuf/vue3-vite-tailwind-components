@@ -60,7 +60,7 @@
 
 <script lang="ts">
 import { ref, onMounted } from "vue";
-import TrackingResult from "@/views/Guests/Track/TrackingResult.vue";
+import TrackingResult from "@/views/Guests/TrackResult/TrackingResult.vue";
 import trackerHook from "@/hooks/tracker";
 import useUser from "@/use/user-account";
 import ActivityComponent from "./ActivityComponent.vue";

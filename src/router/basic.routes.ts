@@ -14,7 +14,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/tracking/:code",
     name: "track",
-    component: () => import("../views/Guests/Track/TrackIndex.vue"),
+    component: () => import("../views/Guests/TrackResult/TrackResultIndex.vue"),
     props: true,
   },
   {

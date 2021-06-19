@@ -138,7 +138,7 @@ import PagerInterface from "@/@types/PagerInterface";
 import UserList from "@/views/Admin/Components/UserList.vue";
 import useParcelListActions from "@/views/Admin/Parcels/use-parcel-list-actions";
 import LabelViewer from "@/views/Admin/Components/Label/LabelViewer.vue";
-import EditTracking from "@/views/Guests/Track/EditTracking.vue";
+import EditTracking from "@/views/Guests/TrackResult/EditTracking.vue";
 import ParcelFormPrompt from "@/views/Admin/Parcel/ParcelFormPrompt.vue";
 import useRouteData from "@/use/use-route-data";
 import { useRoute } from "vue-router";

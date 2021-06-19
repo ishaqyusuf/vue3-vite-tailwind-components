@@ -5,14 +5,16 @@ const createMenu = (
   to,
   permission: Actions = null,
   css = "",
-  children: any = null
+  children: any = null,
+  permissions: Actions[] = []
 ) => {
   return {
     title,
     to,
     css,
-    permission: permission,
+    permission,
     children,
+    permissions,
   };
 };
 
@@ -39,11 +41,14 @@ const shipment = createMenu(
   "readShipment",
   ""
 );
-const hrm = createMenu("H.R.M", null, null, "tracking-tight", [
-  customer,
-  employees,
-  roles,
-]);
+const hrm = createMenu(
+  "H.R.M",
+  null,
+  null,
+  "tracking-tight",
+  [customer, employees, roles, dept],
+  ["readUser", "readAgent", "readRole", "readDept"]
+);
 export default {
   avatarMenu: [
     [
@@ -64,6 +69,7 @@ export default {
     dashboard,
     parcel,
     shipment,
+    invoice,
     hrm,
     // Object.assign(customer, { css: "hidden lg:block" }),
     // Object.assign(employees, { css: "hidden lg:block" }),

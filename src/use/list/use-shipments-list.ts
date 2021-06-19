@@ -19,12 +19,13 @@ const transformer = (item, data) => {
       slug: item.slug,
     },
   };
-  data.shipment_route_link = {
-    name: "shipment-route",
-    params: {
-      slug: item.route.slug,
-    },
-  };
+  if (item.route)
+    data.shipment_route_link = {
+      name: "shipment-route",
+      params: {
+        slug: item.route.slug,
+      },
+    };
   // data.after_track_code = item.route.title;
   return data;
 };
@@ -32,7 +33,7 @@ const fetch = async (useList, pager, query = {}) => {
   const data = await useShipmentsApi.index(query);
 
   useList.refresh(data?.items);
-  pager.value = data?.pager;
+  if (pager) pager.value = data?.pager;
 };
 const actions: any = {
   delete: {
