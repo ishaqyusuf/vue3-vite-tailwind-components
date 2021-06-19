@@ -25,7 +25,7 @@ const fetch = async (useList, pager, query = {}, opts: ApiReqOptions = {}) => {
   const data = await useInvoicesApi.index(query, opts);
 
   useList.refresh(data?.items);
-  pager.value = data?.pager;
+  if (pager) pager.value = data?.pager;
 };
 const actions: any = {
   delete: {

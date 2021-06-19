@@ -51,12 +51,13 @@
           :series="pieChart.series"
         ></ApexChart>
       </Card>
-      <Card class="col-span-6 h-60">
+      <Card class="col-span-6">
         <CardTitle lg class="opacity-70" dense>Recent Shippings</CardTitle>
-        <RecentShipments></RecentShipments>
+        <RecentShipments class="max-h-60 overflow-auto"></RecentShipments>
       </Card>
       <Card class="col-span-6">
         <CardTitle lg class="opacity-70" dense>Recent Invoices</CardTitle>
+        <RecentInvoices class="max-h-60 overflow-auto"></RecentInvoices>
       </Card>
     </div>
   </Container>
@@ -67,9 +68,13 @@ import { useBaseApi } from "@/use/api/use-base-api";
 import { onMounted, reactive, ref } from "vue";
 import SummaryCard from "@/views/Admin/Components/SummaryCard.vue";
 import ApexChart from "@/components/Chart.vue";
+import RecentInvoices from "@/views/Admin/Dashboard/RecentInvoices.vue";
+import RecentShipments from "@/views/Admin/Dashboard/RecentShipments.vue";
 export default {
   props: {},
   components: {
+    RecentInvoices,
+    RecentShipments,
     SummaryCard,
     ApexChart,
   },
