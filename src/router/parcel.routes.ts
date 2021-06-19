@@ -4,14 +4,14 @@ const routes: Array<RouteRecordRaw> = [
   {
     name: "parcels",
     path: "/parcels",
-    component: () => import("../views/Admin/Parcels/Index.vue"),
+    component: () => import("../views/Admin/Parcels/ParcelsIndex.vue"),
     meta: {
       title: "Parcels",
     },
   },
   {
     path: "/parcel/:slug",
-    component: () => import("../views/Admin/Parcel/Index.vue"),
+    component: () => import("../views/Admin/Parcel/ParcelIndex.vue"),
     props: true,
     children: [
       {

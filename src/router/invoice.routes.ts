@@ -7,11 +7,11 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: "Invoices",
     },
-    component: () => import("../views/Admin/Invoices/Index.vue"),
+    component: () => import("../views/Admin/Invoices/InvoicesIndex.vue"),
   },
   {
     path: "/invoice/:slug",
-    component: () => import("../views/Admin/Invoices/Invoice/Index.vue"),
+    component: () => import("../views/Admin/Invoices/Invoice/InvoiceIndex.vue"),
     props: true,
     name: "invoice",
     meta: {

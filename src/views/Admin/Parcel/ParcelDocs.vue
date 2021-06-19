@@ -8,7 +8,7 @@
 import { onMounted, ref } from "vue";
 import DocPage from "@/views/Admin/Components/Documents/DocPage.vue";
 import user from "@/use/user-account";
-import useParcelApi from "@/use/api/use-parcels-api";
+import { useParcelsApi } from "@/use/api/use-api";
 export default {
   props: {
     slug: String,
@@ -19,7 +19,11 @@ export default {
   setup(props, { emit }) {
     const docs = ref();
     onMounted(() => {
-      docs.value.init(props.slug, useParcelApi.get, user.can("updateShipment"));
+      docs.value.init(
+        props.slug,
+        useParcelsApi.get,
+        user.can("updateShipment")
+      );
     });
     return {
       docs,

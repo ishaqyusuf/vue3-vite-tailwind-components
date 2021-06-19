@@ -102,7 +102,7 @@
 
 <script lang="ts">
 import ParcelList from "../Parcels/ParcelList.vue";
-import Index from "@/views/Admin/Parcels/Index.vue";
+import Index from "@/views/Admin/Parcels/ParcelsIndex.vue";
 import dataLoader from "@/hooks/dataLoader";
 import { onMounted, ref } from "vue";
 import { Parcel } from "@/@types/Interface";

@@ -16,17 +16,17 @@ const routes: Array<RouteRecordRaw> = [
   {
     name: "dashboard",
     path: "/dashboard",
-    component: () => import("../views/Admin/Dashboard/Index.vue"),
+    component: () => import("../views/Admin/Dashboard/DashboardIndex.vue"),
   },
   {
     name: "scanner",
     path: "/parcel-scanner",
-    component: () => import("../views/Admin/Scanner/Index.vue"),
+    component: () => import("../views/Admin/Scanner/ScannerIndex.vue"),
   },
   {
     path: "/roles",
     name: "roles",
-    component: () => import("../views/Admin/Roles/Index.vue"),
+    component: () => import("../views/Admin/Roles/RolesIndex.vue"),
   },
   {
     name: "role",

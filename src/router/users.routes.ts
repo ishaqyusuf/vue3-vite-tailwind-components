@@ -8,11 +8,11 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: "Users",
     },
-    component: () => import("../views/Admin/Users/Index.vue"),
+    component: () => import("../views/Admin/Users/UsersIndex.vue"),
   },
   {
     path: "/:mode/:slug",
-    component: () => import("../views/Admin/Users/User/Index.vue"),
+    component: () => import("../views/Admin/Users/User/UserIndex.vue"),
     props: true,
     name: "user",
     meta: {

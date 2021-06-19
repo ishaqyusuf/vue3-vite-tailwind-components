@@ -7,11 +7,13 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: "Shipment Routes",
     },
-    component: () => import("../views/Admin/ShipmentRoutes/Index.vue"),
+    component: () =>
+      import("../views/Admin/ShipmentRoutes/ShipmentRoutesIndex.vue"),
   },
   {
     path: "/shipment-route/:slug",
-    component: () => import("../views/Admin/ShipmentRoute/Index.vue"),
+    component: () =>
+      import("../views/Admin/ShipmentRoute/ShipmentRouteIndex.vue"),
     props: true,
     children: [
       {

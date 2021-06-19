@@ -123,6 +123,6 @@ export function useUsersApi(query = {}) {
 }
 export function useQuoteRequestApi(query = {}) {
   return {
-    ...useBaseApi("quote-request", query),
+    ...useBaseApi("quotes", query),
   };
 }

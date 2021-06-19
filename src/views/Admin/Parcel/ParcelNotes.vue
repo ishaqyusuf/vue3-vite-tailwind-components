@@ -8,7 +8,7 @@
 import { onMounted, ref } from "vue";
 import NotePage from "@/views/Admin/Components/Notes/NotePage.vue";
 import user from "@/use/user-account";
-import useParcelApi from "@/use/api/use-parcels-api";
+import { useParcelsApi } from "@/use/api/use-api";
 export default {
   props: {
     slug: String,
@@ -19,7 +19,7 @@ export default {
   setup(props, { emit }) {
     const notes = ref();
     onMounted(() => {
-      notes.value.init(props.slug, useParcelApi.get, user.can("updatePkg"));
+      notes.value.init(props.slug, useParcelsApi.get, user.can("updatePkg"));
     });
     return {
       notes,

@@ -2,7 +2,7 @@ import { RouteRecordRaw } from "vue-router";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "",
-    component: () => import("../views/Auth/Index.vue"),
+    component: () => import("../views/Auth/AuthIndex.vue"),
     meta: {
       fullScreen: true,
     },

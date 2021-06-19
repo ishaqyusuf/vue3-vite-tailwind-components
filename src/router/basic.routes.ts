@@ -9,18 +9,19 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/tracking",
     name: "tracking",
-    component: () => import("../views/Guests/Tracking/Index.vue"),
+    component: () => import("../views/Guests/Tracking/TrackingIndex.vue"),
   },
   {
     path: "/tracking/:code",
     name: "track",
-    component: () => import("../views/Guests/Track/Index.vue"),
+    component: () => import("../views/Guests/Track/TrackIndex.vue"),
     props: true,
   },
   {
     path: "/customer-service",
     name: "customer-service",
-    component: () => import("../views/CustomerService/Index.vue"),
+    component: () =>
+      import("../views/CustomerService/CustomerServiceIndex.vue"),
   },
   {
     path: "/:pathMatch(.*)*",

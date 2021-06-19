@@ -32,7 +32,14 @@
           <!-- <i-carbon-graph/> -->
         </template>
       </SummaryCard>
-      <Card class="col-span-8 h-60"></Card>
+      <Card class="col-span-8 h-72">
+        <ApexChart
+          type="line"
+          height="100%"
+          :options="options"
+          :series="series"
+        ></ApexChart>
+      </Card>
       <Card class="col-span-4"></Card>
       <Card class="col-span-6 h-60"></Card>
       <Card class="col-span-6"></Card>
@@ -41,14 +48,15 @@
 </template>
 
 <script lang="ts">
-import useApi from "@/use/api/use-api";
 import { useBaseApi } from "@/use/api/use-base-api";
 import { onMounted, ref } from "vue";
 import SummaryCard from "@/views/Admin/Components/SummaryCard.vue";
+import ApexChart from "@/components/Chart.vue";
 export default {
   props: {},
   components: {
     SummaryCard,
+    ApexChart,
   },
   setup(props, { emit }) {
     const stats = ref<any[]>([]);
@@ -56,16 +64,51 @@ export default {
       initialize();
     });
     async function initialize() {
-      const data = await useBaseApi("dashboard").index({ mode: "m" });
+      const { stat, pie, ...data } = await useBaseApi("dashboard").index({
+        mode: "m",
+      });
       const colors = ["green", "yellow", "red", "indigo"];
-      stats.value = data.stat.map((item, index) => {
+      stats.value = stat.map((item, index) => {
         item.color = colors[index];
         return item;
       });
+      plotGraph(data);
     }
-    return {
-      stats,
-    };
+    function plotGraph(data) {
+      const { dates, data: graphData } = data.parcel_graph;
+      series.value = [{ name: "Parcels", data: graphData ?? [] }];
+      options.value.xaxis.categories = dates ?? [];
+    }
+    const options = ref({
+      stroke: {
+        curve: "smooth",
+      },
+      chart: {
+        toolbar: { show: false },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      colors: ["#FF1654", "#247BA0"],
+      xaxis: {
+        categories: [],
+        type: "datetime",
+        labels: {
+          // format: "MMM d",
+          // formatter: function(value) {
+          //   return value + "$";
+          // },
+          datetimeFormatter: {
+            year: "yyyy",
+            month: "MMM 'yy",
+            day: "dd MMM",
+            hour: "HH:mm",
+          },
+        },
+      },
+    });
+    const series = ref<any[]>([]);
+    return { options, stats, series };
   },
 };
 </script>

@@ -8,11 +8,11 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: "Settings",
     },
-    component: () => import("../views/Settings/Index.vue"),
+    component: () => import("../views/Settings/SettingsIndex.vue"),
     children: [
       {
         path: "profile",
-        component: () => import("../views/Settings/Profile/Index.vue"),
+        component: () => import("../views/Settings/Profile/ProfileIndex.vue"),
         name: "profile",
         meta: {
           title: "Account Settings",
@@ -20,7 +20,8 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "address-book",
-        component: () => import("../views/Settings/AddressBook/Index.vue"),
+        component: () =>
+          import("../views/Settings/AddressBook/AddressBookIndex.vue"),
         name: "address-setting",
         meta: {
           title: "Address Book",
@@ -28,7 +29,8 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "invoice-settings",
-        component: () => import("../views/Settings/InvoiceSetting/Index.vue"),
+        component: () =>
+          import("../views/Settings/InvoiceSetting/InvoiceSettingIndex.vue"),
         name: "invoice-setting",
         meta: {
           title: "Invoice Settings",
@@ -36,7 +38,8 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "parcel-settings",
-        component: () => import("../views/Settings/ParcelSetting/Index.vue"),
+        component: () =>
+          import("../views/Settings/ParcelSetting/ParcelSettingIndex.vue"),
         name: "parcel-setting",
         meta: {
           title: "Parcel Configuration",
@@ -44,7 +47,8 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "shipment-settings",
-        component: () => import("../views/Settings/ShipmentSetting/Index.vue"),
+        component: () =>
+          import("../views/Settings/ShipmentSetting/ShipmentSettingIndex.vue"),
         name: "shipment-setting",
         meta: {
           title: "Shipment Configuration",
@@ -52,7 +56,8 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "label-settings",
-        component: () => import("../views/Settings/LabelSetting/Index.vue"),
+        component: () =>
+          import("../views/Settings/LabelSetting/LabelSettingIndex.vue"),
         name: "label-setting",
         meta: {
           title: "Label Settings",
@@ -60,7 +65,8 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "unit-settings",
-        component: () => import("../views/Settings/UnitSetting/Index.vue"),
+        component: () =>
+          import("../views/Settings/UnitSetting/UnitSettingIndex.vue"),
         name: "unit-setting",
         meta: {
           title: "Units & Currency",
