@@ -1,4 +1,4 @@
-import { ref, computed } from "vue";
+import { ref, reactive, computed } from "vue";
 import storage from "@utils/localStorage";
 import userApi from "./api";
 // import roleHook from "@/hooks/roles";
@@ -74,6 +74,11 @@ const authenticate = async () => {
     });
   });
 };
+const account = reactive<{
+  token?;
+  user?;
+  permission?;
+}>({});
 const logout = async () => {
   await userApi.logout();
   storage.remove("authorized_user_token");
@@ -84,6 +89,7 @@ const logout = async () => {
 const can = (action: Actions) => permission.value.includes(action);
 export default {
   token,
+  account,
   getToken,
   user,
   authenticate,

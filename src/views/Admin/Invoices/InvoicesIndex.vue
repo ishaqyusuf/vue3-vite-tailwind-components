@@ -30,7 +30,7 @@
         </Btn> -->
         <ShipmentFormDialog>
           <template #btn="{ open }">
-            <Btn @click="open(null, listr)">
+            <Btn @click="open(null, list)">
               <i-mdi-plus />
               <span>New Invoice</span>
             </Btn>
@@ -45,7 +45,7 @@
       hide-actions
       dense
       deletable
-      :use-list="listr"
+      :use-list="list"
       hide-checks
       more-action
       :structure="structure"
@@ -79,18 +79,18 @@
         > -->
       </template>
       <template v-slot:client="{ item }">
-        <ClientColumn :item="item" :list="listr"></ClientColumn>
+        <ClientColumn :item="item" :list="list"></ClientColumn>
       </template>
       <template v-slot:menu-items="{ item }">
         <!-- <MenuLinkItem :to="item.to">
           <i-mdi-open-in-app class="mr-3" />
           Open Parcel</MenuLinkItem
         >
-        <MenuItem @click="listr.execute('openParcelForm', item)">
+        <MenuItem @click="list.execute('openParcelForm', item)">
           <i-mdi-package-variant class="mr-3" />
           Update Parcel</MenuItem
         >
-        <MenuItem @click="listr.execute('updateTracking', item)">
+        <MenuItem @click="list.execute('updateTracking', item)">
           <i-mdi-map-marker-plus-outline class="mr-3" />
           Update Tracking</MenuItem
         >
@@ -98,18 +98,18 @@
           <i-mdi-receipt class="mr-3" />
           Invoice</MenuLinkItem
         >
-        <MenuItem @click="listr.execute('openLabel', item)">
+        <MenuItem @click="list.execute('openLabel', item)">
           <i-mdi-label-variant-outline class="mr-3" />
           Label</MenuItem
         >
-        <MenuItem @click="listr.execute('selectClient', item)">
+        <MenuItem @click="list.execute('selectClient', item)">
           <i-mdi-account-plus-outline class="mr-3" />
           Update Recipient</MenuItem
         > -->
       </template>
     </Table>
 
-    <TableAction :use-list="listr" show deletable label hasMore>
+    <TableAction :use-list="list" show deletable label hasMore>
       <template v-slot:menu>
         <!-- <MenuLinkItem>Open Parcel</MenuLinkItem>
         <MenuLinkItem>Quick Update Parcel</MenuLinkItem>
@@ -149,12 +149,12 @@ export default {
   },
   props: {},
   setup(props, { emit }) {
-    const listr = useList();
+    const list = useList();
     const userls = ref();
-    listr.initialize(
+    list.initialize(
       [],
       useInvoiceList.transformer,
-      useInvoiceListActions({ userls })
+      useInvoiceListActions({ userls, list })
     );
     const pager = ref({});
 
@@ -163,7 +163,7 @@ export default {
     onMounted(async () => {
       await useMetaLoader.loadInvoiceStatus();
       useInvoiceList.fetch(
-        listr,
+        list,
         pager,
         {
           with_stat: true,
@@ -179,7 +179,7 @@ export default {
       userls,
       shipmentForm,
       pager,
-      listr,
+      list,
       ...useInvoiceList,
     };
   },

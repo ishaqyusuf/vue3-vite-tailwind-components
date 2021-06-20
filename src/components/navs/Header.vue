@@ -76,7 +76,7 @@ export default {
   },
   setup(props, { emit }) {
     watch(useUser.user, (value, old) => {
-      console.log("user");
+      // console.log("user");
     });
     return {
       ...useUser,

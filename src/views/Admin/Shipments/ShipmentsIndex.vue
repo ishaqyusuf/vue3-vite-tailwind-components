@@ -43,7 +43,7 @@
           >{{ item.status }}</span
         >
       </template>
-      <template v-slot:menu-items="{ item }">
+      <!-- <template v-slot:menu-items="{ item }">
         <MenuLinkItem :to="item.to">
           <i-mdi-open-in-app class="mr-3" />
           Open Parcel</MenuLinkItem
@@ -68,7 +68,7 @@
           <i-mdi-account-plus-outline class="mr-3" />
           Update Recipient</MenuItem
         >
-      </template>
+      </template> -->
     </Table>
 
     <TableAction :use-list="listr" show deletable label hasMore>
