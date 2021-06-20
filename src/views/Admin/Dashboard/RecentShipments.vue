@@ -1,21 +1,23 @@
 <template>
-  <Table dense :use-list="list" :structure="structure">
-    <template v-slot:id_date="{ item }">
-      <span class="block font-semibold">#{{ item.id }}</span>
-      <span class="block">{{ $dayjs.readable(item.created_at) }}</span>
-    </template>
-    <template v-slot:status="{ item }">
-      <span
-        v-if="item.status"
-        class="rounded-lg px-1 font-medium"
-        :class="[
-          'text-' + item.status_color + '-700',
-          'bg-' + item.status_color + '-50',
-        ]"
-        >{{ item.status }}</span
-      >
-    </template>
-  </Table>
+  <Card>
+    <Table dense vintage :use-list="list" fixed :structure="structure">
+      <template v-slot:id_date="{ item }">
+        <span class="block font-semibold">#{{ item.id }}</span>
+        <span class="block">{{ $dayjs.readable(item.created_at) }}</span>
+      </template>
+      <template v-slot:status="{ item }">
+        <span
+          v-if="item.status"
+          class="rounded-lg px-1 font-medium"
+          :class="[
+            'text-' + item.status_color + '-700',
+            'bg-' + item.status_color + '-50',
+          ]"
+          >{{ item.status }}</span
+        >
+      </template>
+    </Table>
+  </Card>
 </template>
 
 <script lang="ts">

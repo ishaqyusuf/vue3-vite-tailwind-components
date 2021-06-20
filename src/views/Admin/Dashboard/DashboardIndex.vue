@@ -32,17 +32,17 @@
           <!-- <i-carbon-graph/> -->
         </template>
       </SummaryCard>
-      <Card class="col-span-8">
+      <div class="col-span-8">
         <CardTitle lg class="opacity-70" dense>Parcels</CardTitle>
-        <div class="h-64">
+        <Card class="h-64">
           <ApexChart
             type="line"
             height="100%"
             :options="lineChart.options"
             :series="lineChart.series"
           ></ApexChart>
-        </div>
-      </Card>
+        </Card>
+      </div>
       <Card class="col-span-4">
         <ApexChart
           type="donut"
@@ -51,14 +51,14 @@
           :series="pieChart.series"
         ></ApexChart>
       </Card>
-      <Card class="col-span-6">
+      <div class="col-span-6">
         <CardTitle lg class="opacity-70" dense>Recent Shippings</CardTitle>
-        <RecentShipments class="max-h-60 overflow-auto"></RecentShipments>
-      </Card>
-      <Card class="col-span-6">
+        <RecentShipments class="overflow-hidden h-60"></RecentShipments>
+      </div>
+      <div class="col-span-6">
         <CardTitle lg class="opacity-70" dense>Recent Invoices</CardTitle>
-        <RecentInvoices class="max-h-60 overflow-auto"></RecentInvoices>
-      </Card>
+        <RecentInvoices class="h-60"></RecentInvoices>
+      </div>
     </div>
   </Container>
 </template>

@@ -21,6 +21,7 @@ const refreshable = (oq, nq, noRefreshKeys = [""], keys = ["page"]) => {
 };
 export default {
   props: {
+    fixed: Boolean,
     selector: Boolean,
     editable: Boolean,
     vintage: Boolean,

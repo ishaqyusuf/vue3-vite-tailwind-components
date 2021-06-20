@@ -66,7 +66,12 @@
             ></th>
           </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
+        <tbody
+          class="bg-white divide-y divide-gray-200"
+          :class="{
+            'h-10 overflow-auto': fixed,
+          }"
+        >
           <TableRow
             @click="rowClick(id)"
             :class="{
@@ -148,7 +153,7 @@ export default defineComponent({
       checkAll,
       slots,
       ...toRefs(props.useList.data),
-      // ids: computed(() => props.useList.data.ids),
+      ids: computed(() => props.useList.data.ids),
       emitAction: (action, data) => {
         emit(action, data);
       },
