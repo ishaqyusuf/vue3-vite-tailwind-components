@@ -1,8 +1,8 @@
 <template>
-  <Container class="space-y-4 relative">
+  <Container class="relative">
     <div class="inline-flex items-center w-full">
-      <div class="block text-2xl font-bold text-gray-700">
-        <Truncify>{{ title }}</Truncify>
+      <div class="">
+        <CardTitle dense>{{ title }}</CardTitle>
       </div>
       <slot name="after-title"></slot>
     </div>

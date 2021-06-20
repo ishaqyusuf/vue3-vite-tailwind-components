@@ -24,7 +24,6 @@
 import router from "@/router";
 import { ref } from "vue";
 import ShipmentForm from "./ShipmentForm.vue";
-import useRouteComposer from "@/use/use-route-composer";
 export default {
   components: {
     ShipmentForm,
@@ -40,6 +39,12 @@ export default {
       setTimeout(() => {
         dialog.value.editShipment(slug).then((result) => {
           show.value = false;
+          router.push({
+            name: "shipment",
+            params: {
+              slug: result.slug,
+            },
+          });
         });
       }, 500);
     };

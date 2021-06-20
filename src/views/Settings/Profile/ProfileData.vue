@@ -3,7 +3,6 @@
     title="Profile Data"
     subtitle="Update your account profile information"
   >
-    <!-- {{userAccount.}} -->
     <CardContent class="space-y-4 mb-4">
       <Input label="First Name" grid v-model="form.first_name" />
       <Input label="Last Name" grid v-model="form.last_name" />

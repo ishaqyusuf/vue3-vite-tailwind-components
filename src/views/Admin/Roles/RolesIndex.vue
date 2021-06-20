@@ -1,7 +1,7 @@
 <template>
-  <Container class="space-y-4">
+  <Container class="space-y-2">
     <div class="inline-flex justify-between w-full items-center">
-      <CardTitle>Roles</CardTitle>
+      <CardTitle dense>Roles</CardTitle>
       <div class="inline-flex space-x-2">
         <router-link :to="{ name: 'role', params: { slug: 'new' } }">
           <Btn>

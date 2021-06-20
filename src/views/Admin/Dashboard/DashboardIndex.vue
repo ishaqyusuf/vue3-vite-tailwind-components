@@ -1,8 +1,8 @@
 <template>
-  <Container class="space-y-4">
+  <Container class="space-y-2">
     <div class="inline-flex justify-between w-full items-center">
-      <div class="inline-flex items-center space-x-2">
-        <CardTitle>Dashboard</CardTitle>
+      <div class="inline-flex items-center">
+        <CardTitle dense>Dashboard</CardTitle>
       </div>
       <div class="inline-flex space-x-2">
         <Menu rtl>
@@ -33,14 +33,16 @@
         </template>
       </SummaryCard>
       <div class="col-span-8">
-        <CardTitle lg class="opacity-70" dense>Parcels</CardTitle>
-        <Card class="h-64">
-          <ApexChart
-            type="line"
-            height="100%"
-            :options="lineChart.options"
-            :series="lineChart.series"
-          ></ApexChart>
+        <Card class="">
+          <CardTitle lg class="opacity-70" dense>Parcels</CardTitle>
+          <div class="h-64">
+            <ApexChart
+              type="line"
+              height="100%"
+              :options="lineChart.options"
+              :series="lineChart.series"
+            ></ApexChart>
+          </div>
         </Card>
       </div>
       <Card class="col-span-4">
@@ -53,11 +55,11 @@
       </Card>
       <div class="col-span-6">
         <CardTitle lg class="opacity-70" dense>Recent Shippings</CardTitle>
-        <RecentShipments class="overflow-hidden h-60"></RecentShipments>
+        <RecentShipments class="overflow-hidden h-64"></RecentShipments>
       </div>
       <div class="col-span-6">
         <CardTitle lg class="opacity-70" dense>Recent Invoices</CardTitle>
-        <RecentInvoices class="h-60"></RecentInvoices>
+        <RecentInvoices class="overflow-hidden h-64"></RecentInvoices>
       </div>
     </div>
   </Container>

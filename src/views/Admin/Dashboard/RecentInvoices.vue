@@ -1,6 +1,6 @@
 <template>
   <Card>
-    <Table dense vintage :use-list="list" :structure="structure">
+    <Table dense vintage fixed :use-list="list" :structure="structure">
       <template v-slot:id="{ item }">
         <span class="font-semibold">INV-{{ item.id }}</span>
         <span class="block">{{ $dayjs.readable(item.created_at) }}</span>

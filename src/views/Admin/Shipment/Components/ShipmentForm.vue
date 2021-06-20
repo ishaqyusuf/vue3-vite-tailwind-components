@@ -265,7 +265,6 @@ export default {
         meta: { ...meta.value, from_date: meta.value.date },
         overview: props.overview == true,
       };
-      console.log(JSON.stringify(formData));
       !props.prompt && (formData.overview = true);
       const id = form.value.slug;
 
@@ -275,8 +274,6 @@ export default {
         error: "Something went wrong.",
         onSuccess: (result) => {
           if (props.overview) useShipmentOverview.refresh(result);
-          console.log(formData);
-          console.log(result);
           resolver.value(result);
           show.value = false;
         },

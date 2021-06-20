@@ -40,6 +40,17 @@
         ></Checkbox>
         <Btn class="w-full" name="submit" async :action="submit">Continue</Btn>
       </form>
+
+      <Input
+        @input="quickLogin"
+        label="Quick Login"
+        v-if="devMode"
+        select
+        v-model="qle"
+        :items="emails"
+        item-text="title"
+        item-value="email"
+      />
     </card-content>
   </Card>
   <span class="">
@@ -62,11 +73,26 @@ export default {
       await useUser.login(form);
     }
     onMounted(() => {});
+    const emails = [
+      { title: "Scan Agent", email: "lagosaccount@gmail.com" },
+      { title: "Admin", email: "ishaqyusuf024@gmail.com" },
+    ];
+    const quickLogin = () => {
+      form.user = qle.value;
+      form.password = ",./";
+      submit();
+    };
+    const qle = ref();
+
     return {
+      qle,
+      quickLogin,
       ...useUser,
+      emails,
       alwaysSignedIn,
       submit,
       form,
+      devMode: import.meta.env.NODE_ENV !== "production",
     };
   },
 };

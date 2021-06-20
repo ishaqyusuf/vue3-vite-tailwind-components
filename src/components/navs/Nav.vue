@@ -24,7 +24,9 @@
         <Link :to="{ name: 'login' }">Contact</Link>
         <Link :to="{ name: 'login' }">About</Link>
       </template>
-      <NavLink :item="item" v-for="(item, index) in navs" :key="index" />
+      <template v-if="loggedIn && !guest">
+        <NavLink :item="item" v-for="(item, index) in navs" :key="index" />
+      </template>
     </div>
     <div class="sm:hidden py-4 flex flex-col space-y-2">
       <template v-if="!loggedIn">

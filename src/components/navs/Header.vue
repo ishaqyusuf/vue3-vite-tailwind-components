@@ -6,7 +6,6 @@
       <div class="flex justify-between py-2 items-center">
         <!-- <div class="inline-flex space-x-6"> -->
         <Logo md />
-
         <!-- </div> -->
         <Nav class="hidden sm:block" />
         <div class="hidden sm:inline-flex items-center space-x-4">
@@ -76,7 +75,9 @@ export default {
     NotificationMenu,
   },
   setup(props, { emit }) {
-    watch(useUser, (value, old) => {});
+    watch(useUser.user, (value, old) => {
+      console.log("user");
+    });
     return {
       ...useUser,
       loggedIn: useUser.loggedIn,

@@ -71,6 +71,7 @@ export default {
     shipment,
     invoice,
     hrm,
+    createMenu("Settings", { name: "settings" }),
     // Object.assign(customer, { css: "hidden lg:block" }),
     // Object.assign(employees, { css: "hidden lg:block" }),
   ],

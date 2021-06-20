@@ -13,13 +13,24 @@
       <Header v-if="!fullScreen"></Header>
       <router-view></router-view>
     </div>
+    <Card
+      class="fixed z-50 bottom-0 m-3 border-purple-500 border p-2 cursor-pointer overflow-auto"
+      @click="expand = !expand"
+      :class="{
+        'w-1/3 h-44': expand,
+        'w-1/6 h-10': !expand,
+      }"
+    >
+      <Truncify v-if="!expand">{{ user }}</Truncify>
+      <span v-else>{{ user }}</span>
+    </Card>
   </div>
 </template>
 
 <script lang="ts">
-import { onMounted, computed } from "vue";
+import { onMounted, ref, computed } from "vue";
 import Header from "@components/navs/Header.vue";
-import user from "@/use/user-account";
+import userAccount from "@/use/user-account";
 import useConfig from "@/use/configs";
 export default {
   props: {},
@@ -28,11 +39,14 @@ export default {
   },
   setup(props, { emit }) {
     onMounted(() => {
-      user.authenticate();
+      userAccount.authenticate();
     });
     const fullScreen = computed(() => useConfig.fullScreen.value);
+    const expand = ref(false);
     return {
       fullScreen,
+      ...userAccount,
+      expand,
     };
   },
 };

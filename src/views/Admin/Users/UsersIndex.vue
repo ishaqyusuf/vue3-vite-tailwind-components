@@ -1,12 +1,10 @@
 <template>
-  <Container class="space-y-4 relative">
+  <Container class="relative space-y-2">
     <div class="inline-flex justify-between items-center w-full">
-      <div class="text-2xl font-bold text-gray-700">
-        <Truncify class="capitalize">{{
-          isClient ? "Clients" : "Employees"
-        }}</Truncify>
-      </div>
-      <div class="inline-flex space-x-2">
+      <CardTitle dense class="capitalize">{{
+        isClient ? "Clients" : "Employees"
+      }}</CardTitle>
+      <div class="inline-flex items-center space-x-2">
         <div class="inline-flex rounded-lg border divide-x bg-white">
           <Exporter>
             <template #btn="{ open }">

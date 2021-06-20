@@ -1,7 +1,7 @@
 <template>
-  <Container class="space-y-4">
+  <Container class="">
     <div class="inline-flex justify-between w-full items-center">
-      <CardTitle>Shipments</CardTitle>
+      <CardTitle dense>Shipments</CardTitle>
       <div class="inline-flex space-x-2">
         <!-- <Btn secondary>
           <i-mdi-plus />

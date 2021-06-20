@@ -1,8 +1,8 @@
 <template>
-  <Container class="space-y-4">
+  <Container class="">
     <div class="inline-flex justify-between w-full items-center">
       <div class="inline-flex items-center space-x-2">
-        <CardTitle>Invoices</CardTitle>
+        <CardTitle dense>Invoices</CardTitle>
         <Menu rtl>
           <Btn
             tertiary
@@ -38,7 +38,7 @@
         </ShipmentFormDialog>
       </div>
     </div>
-    <SummaryCard />
+    <SummaryCard class="mb-4" />
     <Table
       checkable
       action
