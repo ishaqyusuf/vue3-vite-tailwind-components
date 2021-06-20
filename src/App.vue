@@ -1,10 +1,18 @@
 <template>
-  <div class="sm:bg-gray-100">
-    <div class="relative z-50">
-      <AlertContainer class="" />
+  <div
+    class=""
+    :class="{
+      'inline-flex w-full': false,
+    }"
+  >
+    <!-- <SideNavigation></SideNavigation> -->
+    <div class="sm:bg-gray-100 flex-1">
+      <div class="relative z-50">
+        <AlertContainer class="" />
+      </div>
+      <Header v-if="!fullScreen"></Header>
+      <router-view></router-view>
     </div>
-    <Header v-if="!fullScreen"></Header>
-    <router-view></router-view>
   </div>
 </template>
 

@@ -2,11 +2,10 @@
   <Card>
     <Table dense vintage :use-list="list" :structure="structure">
       <template v-slot:id="{ item }">
-        <span class="">INV-{{ item.id }}</span>
-      </template>
-      <template v-slot:created_at="{ item }">
+        <span class="font-semibold">INV-{{ item.id }}</span>
         <span class="block">{{ $dayjs.readable(item.created_at) }}</span>
       </template>
+      <template v-slot:created_at="{ item }"> </template>
       <template v-slot:due_at="{ item }">
         <span class="block">{{
           item.due_at ? $dayjs.readable(item.due_at) : "-"
@@ -21,9 +20,16 @@
         </ColorLabel>
       </template>
       <template v-slot:client="{ item }">
-        <ClientColumn :item="item" :list="list"></ClientColumn>
-      </template> </Table
-  ></Card>
+        <ClientColumn readonly :item="item" :list="list">
+          <template #empty="{ item }">
+            <router-link :to="{ name: 'invoices' }">
+              <Btn dense secondary>Add Client</Btn>
+            </router-link>
+          </template>
+        </ClientColumn>
+      </template>
+    </Table></Card
+  >
 </template>
 
 <script lang="ts">
@@ -31,8 +37,9 @@ import useMetaLoader from "@/use/api/use-meta-loader";
 import useInvoiceList from "@/use/list/use-invoice-list";
 import useList from "@/use/useList";
 import { onMounted, ref } from "vue";
-
+import ClientColumn from "@/views/Admin/Parcels/ClientColumn.vue";
 export default {
+  components: { ClientColumn },
   props: {},
   setup(props, { emit }) {
     const list = useList();

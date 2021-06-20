@@ -25,7 +25,7 @@
       </div>
       <div
         :class="{
-          'inline-flex items-center justify-center w-full space-x-2': true,
+          'inline-flex items-center justify-center w-full space-x-2': !text,
           'opacity-0': isLoading,
           'px-4 py-2': !dense && !fab && !icon && !text,
           'px-2': dense && !fab && !icon && !text,
