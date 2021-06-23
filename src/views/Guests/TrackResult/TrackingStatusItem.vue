@@ -62,10 +62,10 @@
           </span>
           <template v-else>
             <div class="sm:space-x-1 sm:flex">
-              <Btn confirm dense :action="deleteAction" color="red-400">
+              <Btn confirm dense :action="deleteAction" color="red">
                 Delete
               </Btn>
-              <Btn dense @click="editTracking" color="green-400"> Edit </Btn>
+              <Btn dense @click="editTracking" color="green"> Edit </Btn>
             </div>
           </template>
           <!-- </div> -->

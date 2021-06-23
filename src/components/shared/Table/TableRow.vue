@@ -97,7 +97,7 @@
                 dense
                 v-if="deletable"
                 :icon="!textAction"
-                color="red-600"
+                color="red"
                 async
                 :action="deleteItem"
                 confirm

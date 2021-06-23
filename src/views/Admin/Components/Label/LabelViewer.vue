@@ -10,9 +10,9 @@
         </div>
         <img class="mx-4" :src="dataUrl" v-if="dataUrl" />
         <div class="flex space-x-2">
-          <Btn fab color="green-500" @click="printLabel"><i-mdi-printer /></Btn>
+          <Btn fab color="green" @click="printLabel"><i-mdi-printer /></Btn>
           <Btn fab @click="download"><i-mdi-download /></Btn>
-          <Btn fab color="red-500" @click="closeLabel"><i-mdi-close /></Btn>
+          <Btn fab color="red" @click="closeLabel"><i-mdi-close /></Btn>
         </div>
       </div>
     </template>

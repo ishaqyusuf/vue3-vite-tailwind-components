@@ -25,19 +25,12 @@
           rounded
           async
           :action="addToShipment"
-          color="green-600"
+          color="green"
         >
           <i-mdi-archive-outline />
           <span>Add to shipment</span>
         </Btn>
-        <Btn
-          v-else
-          dark
-          rounded
-          async
-          :action="removeFromShipment"
-          color="red-600"
-        >
+        <Btn v-else dark rounded async :action="removeFromShipment" color="red">
           <i-mdi-close />
           <span>Remove from shipment</span>
         </Btn>

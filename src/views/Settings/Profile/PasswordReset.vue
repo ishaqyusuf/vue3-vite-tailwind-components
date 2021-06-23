@@ -24,7 +24,7 @@
       />
     </CardContent>
     <CardActions plain>
-      <Btn async :action="updatePass" color="green-500">Update Password</Btn>
+      <Btn async :action="updatePass" color="green">Update Password</Btn>
     </CardActions>
   </DopeCard>
 </template>

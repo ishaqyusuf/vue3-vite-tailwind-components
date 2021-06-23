@@ -7,7 +7,7 @@
       <Input type="password" label="Current Password" grid v-model="password" />
     </CardContent>
     <CardActions plain>
-      <Btn color="red-500">Deactivate</Btn>
+      <Btn color="red">Deactivate</Btn>
     </CardActions>
   </DopeCard>
 </template>

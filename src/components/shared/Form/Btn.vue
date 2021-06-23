@@ -86,7 +86,7 @@ export default {
     confirm: Boolean,
     autoIgnore: Boolean,
     dark: Boolean,
-    contrast: { type: Number, default: 600 },
+    contrast: { type: Number, default: 500 },
 
     text: Boolean,
   },

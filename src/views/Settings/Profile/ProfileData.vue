@@ -18,7 +18,7 @@
       <Input label="Phone" grid v-model="phone.no" :prefix="phone.code" />
     </CardContent>
     <CardActions plain>
-      <Btn async :action="save" color="green-500">
+      <Btn async :action="save" color="green">
         <span class="px-2">Save</span>
       </Btn>
     </CardActions>

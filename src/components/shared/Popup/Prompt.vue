@@ -81,7 +81,7 @@
                     <Btn
                       v-if="!hideCancel"
                       @click="closeModal(false)"
-                      color="red-500"
+                      color="red"
                     >
                       {{ cancel }}</Btn
                     >
@@ -89,7 +89,7 @@
                       v-if="!hideOk"
                       :async="okAction != null"
                       :action="okBtn"
-                      color="green-500"
+                      color="green"
                     >
                       {{ ok }}
                     </Btn>

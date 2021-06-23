@@ -1,7 +1,14 @@
 const colors = require("tailwindcss/colors");
 
+const whitelist = [
+  //gray-800 red-700 red-400 green-500 gray-700
+  ["purple", "red", "blue", "black"].map((c) => {}).flat(),
+];
 module.exports = {
-  purge: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+  purge: {
+    content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+    whitelist,
+  },
   darkMode: "class", // or 'media' or 'class'
   theme: {
     screens: {

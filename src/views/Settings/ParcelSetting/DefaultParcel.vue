@@ -34,7 +34,7 @@
     </CardContent>
 
     <CardActions plain>
-      <Btn async :action="updatePkg" color="green-500">Save</Btn>
+      <Btn async :action="updatePkg" color="green">Save</Btn>
     </CardActions>
   </DopeCard>
 </template>

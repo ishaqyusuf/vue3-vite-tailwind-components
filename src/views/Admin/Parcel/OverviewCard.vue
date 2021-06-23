@@ -23,7 +23,7 @@
         </ClientCard>
         <Btn
           v-if="parcel.recipient"
-          color="red-500"
+          color="red"
           @click="updateRecipient({ user_id: null })"
           text
           >Remove</Btn

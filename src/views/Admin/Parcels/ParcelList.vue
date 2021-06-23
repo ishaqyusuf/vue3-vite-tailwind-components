@@ -105,7 +105,7 @@
       </template>
       <template v-slot:more>
         <slot name="custom-actions">
-          <Btn dark rounded large color="gray-700">
+          <Btn dark rounded large color="black">
             <i-mdi-archive-outline />
             <span>Archive</span>
           </Btn>

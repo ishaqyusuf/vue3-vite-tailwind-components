@@ -25,7 +25,7 @@
         </div>
         <div class="inline-flex space-x-4">
           <Menu v-if="hasMore">
-            <Btn dark rounded large color="gray-800">
+            <Btn dark rounded large color="black">
               <i-mdi-dots-horizontal />
               <span>More</span>
             </Btn>
@@ -34,11 +34,11 @@
             </template>
           </Menu>
           <slot name="more" />
-          <Btn v-if="label" dark rounded large color="gray-800">
+          <Btn v-if="label" dark rounded large color="black">
             <i-mdi-printer />
             <span>Label</span>
           </Btn>
-          <Btn v-if="print" dark rounded large color="gray-800">
+          <Btn v-if="print" dark rounded large color="black">
             <i-mdi-printer />
             <span>Print</span>
           </Btn>
@@ -48,7 +48,7 @@
             dark
             rounded
             large
-            color="gray-700"
+            color="black"
           >
             <i-carbon-edit />
             <span>Edit</span>

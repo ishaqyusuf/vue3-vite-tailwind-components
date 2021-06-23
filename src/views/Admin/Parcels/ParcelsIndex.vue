@@ -26,7 +26,7 @@
         <MenuLinkItem>Update Recipient</MenuLinkItem>
       </template>
       <template v-slot:more>
-        <Btn dark rounded large color="gray-700">
+        <Btn dark rounded large color="black">
           <i-mdi-archive-outline />
           <span>Archive</span>
         </Btn>
