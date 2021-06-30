@@ -64,6 +64,15 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "form-settings",
+        component: () =>
+          import("../views/Settings/FormSettings/FormSettingsIndex.vue"),
+        name: "form-setting",
+        meta: {
+          title: "Form Settings",
+        },
+      },
+      {
         path: "unit-settings",
         component: () =>
           import("../views/Settings/UnitSetting/UnitSettingIndex.vue"),

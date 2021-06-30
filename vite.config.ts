@@ -33,13 +33,13 @@ export default defineConfig({
   plugins: [
     vue(),
     ViteComponents({
-      // dirs: ["src/components/shared"],
-      // deep: true,
-      directoryAsNamespace: true,
-    }),
-    Components({
+      dirs: ["src/components/shared"],
+      deep: true,
+      // directoryAsNamespace: true,
       customComponentResolvers: ViteIconsResolver(),
     }),
+    // Components({
+    // }),
     ViteIcons(),
     vueJsx({
       // options are passed on to @vue/babel-plugin-jsx

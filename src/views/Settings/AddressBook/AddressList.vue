@@ -21,9 +21,7 @@
         </div>
       </template>
       <template v-slot:more-actions="{ item, header }">
-        <Btn dense secondary @click="list.execute('editAddress', item)">
-          Edit
-        </Btn>
+        <Btn dense secondary @click="openUserForm(item)"> Edit </Btn>
       </template>
     </Table>
     <UserForm title="Address" address-mode ref="userForm"></UserForm>

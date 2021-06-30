@@ -5,7 +5,7 @@ export default {
    * @param  {...any} args
    */
   error: (...args) => {
-    if (import.meta.env.NODE_ENV !== "production") {
+    if (import.meta.env.MODE !== "production") {
       // console.error(...args);
       // alertHook.register("Oops Snap!. Something went wrong, try again!", true);
     } else {
@@ -17,7 +17,7 @@ export default {
    * @param  {...any} args
    */
   log: (...args) => {
-    if (import.meta.env.NODE_ENV !== "production") {
+    if (import.meta.env.MODE !== "production") {
     } else {
     }
   },
@@ -26,7 +26,7 @@ export default {
    * @param  {...any} args
    */
   warn: (...args) => {
-    if (import.meta.env.NODE_ENV !== "production") {
+    if (import.meta.env.MODE !== "production") {
       console.warn(...args);
     } else {
       console.warn("Something is wrong");

@@ -6,6 +6,7 @@ export default {
     password: Boolean,
     value: {},
     items: Array,
+    static: Boolean,
     name: String,
     id: String,
     itemText: String,

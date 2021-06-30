@@ -92,7 +92,7 @@ export default {
       alwaysSignedIn,
       submit,
       form,
-      devMode: import.meta.env.NODE_ENV !== "production",
+      devMode: import.meta.env.MODE !== "production",
     };
   },
 };

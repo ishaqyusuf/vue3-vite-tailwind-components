@@ -118,6 +118,7 @@ export default {
         if (props.addressMode) {
           okText.value = "Save";
           if (data) {
+            if (!data.phone) data.phone = {};
             address.value = data;
           }
         } else {
@@ -166,7 +167,7 @@ export default {
       }
       let address_id = address.value.id;
       var addressUpdated = false;
-      if (extraData.value || (props.addressMode && props.noAddress)) {
+      if (extraData.value || props.addressMode || props.noAddress) {
         addressUpdated = true;
         const _address = await useAddressApi.save(address_id, {
           data: address.value,

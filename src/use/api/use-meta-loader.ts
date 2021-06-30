@@ -2,8 +2,9 @@ import { ref } from "@vue/reactivity";
 import { MetaDataType, useMetaApi } from "./use-meta-data-api";
 
 async function getStatusList(type) {
-  const { items } = await useMetaApi(type).index({}, { cache: true });
-  return items;
+  const data = await useMetaApi(type).index({}, { cache: true });
+
+  return data ? data.items : [];
 }
 const parcelStatus = ref<any[]>([]);
 const shipmentStatus = ref<any[]>([]);

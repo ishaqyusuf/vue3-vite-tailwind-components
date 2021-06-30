@@ -4,7 +4,7 @@
     subtitle="Set default parcel status list"
     :type="MetaDataType.PARCEL_STATUS"
   ></DefaultStatus>
-  <DefaultParcel></DefaultParcel>
+  <!-- <DefaultParcel></DefaultParcel> -->
 </template>
 
 <script lang="ts">

@@ -6,8 +6,8 @@ module.exports = {
   },
   extends: ["plugin:vue/essential", "eslint:recommended", "@vue/typescript"],
   rules: {
-    "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
+    "no-console": process.env.MODE === "production" ? "error" : "off",
+    "no-debugger": process.env.MODE === "production" ? "error" : "off",
     "cypress/no-assigning-return-values": "error",
     "cypress/no-unnecessary-waiting": "error",
     "cypress/assertion-before-screenshot": "warn",

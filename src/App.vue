@@ -14,6 +14,7 @@
       <router-view></router-view>
     </div>
     <Card
+      v-if="devMode"
       class="fixed z-50 bottom-0 m-3 border-purple-500 border p-2 cursor-pointer overflow-auto"
       @click="expand = !expand"
       :class="{
@@ -45,6 +46,7 @@ export default {
     const expand = ref(false);
     return {
       fullScreen,
+      devMode: import.meta.env.MODE !== "production",
       ...userAccount,
       expand,
     };

@@ -1,13 +1,31 @@
 const colors = require("tailwindcss/colors");
 
-const whitelist = [
-  //gray-800 red-700 red-400 green-500 gray-700
-  ["purple", "red", "blue", "black"].map((c) => {}).flat(),
-];
+// const whitelist =
+//   [].reduce <
+//   Array <
+//   any >>
+//     (p, c, i, array)[
+//       //gray-800 red-700 red-400 green-500 gray-700
+//       ("purple", "red", "blue", "black")
+//     ].reduce(
+//       (result, color) =>
+//         result.push(`text-${color}-500`, `bg-${color}-500`) && result
+//     );
+const whites = () => {
+  const list = ["hover:bg-opacity-600"];
+
+  ["purple", "blue"].map((c) => list.push(...[`bg-${c}-600`]));
+  const colors1 = ["indigo", "red", "yellow", "green"];
+  colors1.map((c) => list.push(...[`bg-${c}-100`, `bg-${c}-400`]));
+  const colors2 = ["red", "green", "black", "gray", "yellow", "blue", "purple"];
+  colors2.map((c) => list.push(...[`text-${c}-700`, `bg-${c}-100`]));
+  return list.filter((w, i) => list.indexOf(w) == i);
+};
 module.exports = {
   purge: {
     content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
-    whitelist,
+    // whitelist,
+    safeList: whites(),
   },
   darkMode: "class", // or 'media' or 'class'
   theme: {
@@ -23,9 +41,6 @@ module.exports = {
     },
     extend: {
       colors: {
-        a_primary: "",
-        a_secondary: "",
-        a_accent: "",
         emerald: colors.emerald,
         primary: colors.purple[700],
         secondary: "#212223",

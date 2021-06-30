@@ -25,9 +25,9 @@ const init = async () => {
       delete: async (item) => {
         await useSmartApi.request("delete", ["address-book", item.id]);
       },
-      editAddress: async (item) => {
-        openUserForm(item);
-      },
+      // editAddress: async (item) => {
+      //   openUserForm(item);
+      // },
     });
     isAdmin.value = userAccount.can("readAdmin");
     const addressBook = await useSmartApi.request("get", "address-book", {
@@ -50,6 +50,7 @@ const openUserForm = (
     type: isAdmin.value ? "department" : null,
   }
 ) => {
+  // console.log(form);
   userForm.value.open(form).then((address) => {
     list.updateItem(address.id, address, true);
   });

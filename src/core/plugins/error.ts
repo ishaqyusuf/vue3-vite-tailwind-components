@@ -9,7 +9,7 @@ import { useRouter } from "vue-router";
  * @param {Number} statusCode Throw 500 by default
  */
 export const $error = (error) => {
-  if (import.meta.env.NODE_ENV !== "production") {
+  if (import.meta.env.MODE !== "production") {
     // OPrint custom message if have
     console.error(error);
   } else {
@@ -29,7 +29,7 @@ export const errorHandlingPlugin = {
   install(app) {
     // errorHandler: (err, vm, info) => void
     app.config.errorHandler = (err) => {
-      if (import.meta.env.NODE_ENV !== "production") {
+      if (import.meta.env.MODE !== "production") {
         // Print custom message if have
         console.error(err);
       } else {
@@ -45,7 +45,7 @@ export const errorHandlingPlugin = {
     };
     // warnHandler: (msg, vm, trace) => void
     app.config.warnHandler = (msg) => {
-      if (import.meta.env.NODE_ENV !== "production") {
+      if (import.meta.env.MODE !== "production") {
         console.warn(msg);
       }
     };

@@ -9,133 +9,137 @@
   >
     <slot name="label">
       <div
+        class=""
         :class="{
           'col-span-5': grid,
           'mt-2': !centerGrid && grid,
         }"
       >
         <slot name="grid-label">
-          <Label :dark="dark" class="block" v-if="label">{{ label }}</Label>
+          <slot name="prepend-label"></slot>
+          <Label :dark="dark" class="block" v-if="label"> {{ label }}</Label>
         </slot>
         <slot name="label-info"></slot>
       </div>
     </slot>
     <div
-      class="relative space-x-1 mt-1"
+      class="space-x-1 mt-1"
       :class="{
         'col-span-7 inline-flex': grid,
       }"
     >
       <slot name="prependOuter"></slot>
       <!-- 'w-full': grid, -->
-      <div
-        class="px-2 space-x-2 inline-flex items-center w-full"
-        :class="{
-          'ring-2': focused && !disabled,
-          'bg-white': !dark && !disabled,
-          'rounded-full': rounded,
-          'rounded-md': !tile,
-          'text-black-100 border-black-300': dark,
-          'text-black-700': !dark,
-          'gray-scale bg-gray-100 bg-opacity-50': disabled,
-          'px-2': !dense,
-          'px-1': dense,
-          border: !plain,
-        }"
-      >
-        <span class="font-semibold" v-if="prefix">{{ prefix }}</span>
-        <slot name="prependInner"></slot>
-        <textarea
-          v-if="textarea"
-          ref="input"
-          @input="typing"
-          @focus="inputFocus"
-          @keydown.enter="enter"
-          :type="hideText ? 'password' : 'text'"
-          @blur="inputBlur"
-          v-model="valued"
-          :placeholder="placeholder"
-          @keydown.up="up"
-          @keydown.esc="closeInput"
-          @keydown.down="down"
-          class="focus:outline-none w-full h-full bg-transparent"
-          tabindex="0"
-          autocomplete="new-password"
-          :name="name"
-          :id="id"
-          :readonly="readonly || select"
+      <div class="relative w-full">
+        <div
+          class="px-2 space-x-2 inline-flex items-center w-full"
           :class="{
-            'cursor-pointer': select,
-            'cursor-default': disabled || readonly,
-            'py-1': dense,
-            'py-2': !dense,
+            'ring-2': focused && !disabled,
+            'bg-white': !dark && !disabled,
+            'rounded-full': rounded,
+            'rounded-md': !tile,
+            'text-black-100 border-black-300': dark,
+            'text-black-700': !dark,
+            'gray-scale bg-gray-100 bg-opacity-50': disabled,
+            'px-2': !dense,
+            'px-1': dense,
+            border: !plain,
           }"
-        ></textarea>
-        <input
-          ref="input"
-          v-else
-          @input="typing"
-          @focus="inputFocus"
-          @keydown.enter="enter"
-          :type="hideText ? 'password' : 'text'"
-          :placeholder="placeholder"
-          @blur="inputBlur"
-          v-model="valued"
-          @keydown.up="up"
-          @keydown.esc="closeInput"
-          @keydown.down="down"
-          class="focus:outline-none w-full bg-transparent"
-          tabindex="0"
-          autocomplete="new-password"
-          :name="name"
-          :id="id"
-          :readonly="readonly || select"
-          :class="{
-            'cursor-pointer': select,
-            'cursor-default': disabled || readonly,
-            'py-1': dense,
-            'py-2': !dense,
-            'text-center': centerText,
-          }"
-        />
+        >
+          <span class="font-semibold" v-if="prefix">{{ prefix }}</span>
+          <slot name="prependInner"></slot>
+          <textarea
+            v-if="textarea"
+            ref="input"
+            @input="typing"
+            @focus="inputFocus"
+            @keydown.enter="enter"
+            :type="hideText ? 'password' : 'text'"
+            @blur="inputBlur"
+            v-model="valued"
+            :placeholder="placeholder"
+            @keydown.up="up"
+            @keydown.esc="closeInput"
+            @keydown.down="down"
+            class="focus:outline-none w-full h-full bg-transparent"
+            tabindex="0"
+            autocomplete="new-password"
+            :name="name"
+            :id="id"
+            :readonly="readonly || select"
+            :class="{
+              'cursor-pointer': select,
+              'cursor-default': disabled || readonly,
+              'py-1': dense,
+              'py-2': !dense,
+            }"
+          ></textarea>
+          <input
+            ref="input"
+            v-else
+            @input="typing"
+            @focus="inputFocus"
+            @keydown.enter="enter"
+            :type="hideText ? 'password' : 'text'"
+            :placeholder="placeholder"
+            @blur="inputBlur"
+            v-model="valued"
+            @keydown.up="up"
+            @keydown.esc="closeInput"
+            @keydown.down="down"
+            class="focus:outline-none w-full bg-transparent"
+            tabindex="0"
+            autocomplete="new-password"
+            :name="name"
+            :id="id"
+            :readonly="readonly || select"
+            :class="{
+              'cursor-pointer': select,
+              'cursor-default': disabled || readonly,
+              'py-1': dense,
+              'py-2': !dense,
+              'text-center': centerText,
+            }"
+          />
 
-        <button
-          class="focus:outline-none"
-          v-if="clearable && valued"
-          @click="clearInput"
-        >
-          <i-mdi-close />
-        </button>
-        <button
-          class="focus:outline-none"
-          v-if="password && valued"
-          @click="togglePassword"
-        >
-          <i-mdi-eye-outline v-if="hideText" />
-          <i-mdi-eye-off-outline v-else />
-        </button>
-        <i-mdi-chevron-down
-          v-if="items"
-          class="transform transition-all"
+          <button
+            class="focus:outline-none"
+            v-if="clearable && valued"
+            @click="clearInput"
+          >
+            <i-mdi-close />
+          </button>
+          <button
+            class="focus:outline-none"
+            v-if="password && valued"
+            @click="togglePassword"
+          >
+            <i-mdi-eye-outline v-if="hideText" />
+            <i-mdi-eye-off-outline v-else />
+          </button>
+          <i-mdi-chevron-down
+            v-if="items"
+            class="transform transition-all"
+            :class="{
+              'delay-100 font-semibold text-blue-300 rotate-180': focused,
+            }"
+          />
+          <span class="font-semibold" v-if="suffix">{{ suffix }}</span>
+          <slot name="appendInner"></slot>
+        </div>
+        <InputMenu
+          @selected="valued = $event"
+          v-bind="$props"
+          tabindex="1"
+          v-if="(results && focused) || static"
+          :results="results"
           :class="{
-            'delay-100 font-semibold text-blue-300 rotate-180': focused,
+            'opacity-0': results.length == 0,
           }"
-        />
-        <span class="font-semibold" v-if="suffix">{{ suffix }}</span>
-        <slot name="appendInner"></slot>
+          :state="state"
+        ></InputMenu>
       </div>
       <slot name="appendOuter"></slot>
-      <InputMenu
-        @selected="valued = $event"
-        v-bind="$props"
-        tabindex="1"
-        v-if="results && focused"
-        :results="results"
-        :class="{
-          'opacity-0': results.length == 0,
-        }"
-        :state="state"
-      ></InputMenu>
     </div>
   </div>
 </template>
