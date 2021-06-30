@@ -48,7 +48,7 @@ const updateParcelRecipient = async (
   first = false
 ) => {
   const result = await updateParcel(
-    { user_id: user.id },
+    { to_address_id: user.id },
     track_code,
     list,
     first

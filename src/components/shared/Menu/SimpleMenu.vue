@@ -49,6 +49,7 @@ export default {
     value: { type: Boolean, default: false },
     openOnHover: Boolean,
     persistent: Boolean,
+    plain: Boolean,
     noWidth: Boolean,
     closeOnClick: { type: Boolean, default: true },
     closeOnContentClick: Boolean,

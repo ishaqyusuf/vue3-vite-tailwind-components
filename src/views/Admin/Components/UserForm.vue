@@ -98,6 +98,7 @@ export default {
     employeeData: Boolean,
     passwordUpdate: Boolean,
     addressMode: Boolean,
+    id: Number,
     noAddress: Boolean,
   },
   setup(props, { emit }) {
@@ -123,6 +124,11 @@ export default {
           }
         } else {
           if (data) {
+            if (props.addressMode) {
+              const { data: _data } = await useAddressApi.get(data);
+              plugAddress(_data);
+            } else {
+            }
             const {
               form: frm,
               meta: _meta,
@@ -130,17 +136,19 @@ export default {
             } = await useUsersApi().get(data.id, { edit_mode: true });
             form.value = frm;
             _meta && (meta.value = _meta);
-            if (_address) {
-              const { phone } = _address;
-              !phone?.no && !phone?.code && (_address.phone = { no: phone });
-              address.value = _address;
-            }
+            plugAddress(_address);
           }
         }
         show.value = true;
       });
     };
-
+    const plugAddress = (addr) => {
+      if (addr) {
+        const { phone } = addr;
+        !phone?.no && !phone?.code && (addr.phone = { no: phone });
+        address.value = addr;
+      }
+    };
     onMounted(() => {});
     const setPassword = ref(false);
     const extraData = ref(false);

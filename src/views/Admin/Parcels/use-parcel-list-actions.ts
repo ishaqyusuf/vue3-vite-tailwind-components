@@ -1,4 +1,5 @@
 import useParcel from "@/use/parcels/parcel";
+
 export default function useParceListActions({
   userls,
   parcels,
@@ -6,7 +7,13 @@ export default function useParceListActions({
   labelRef,
   trackingEditor,
   parcelForm,
+  parcelAddress,
 }) {
+  const clientWorker = (item, current = null) => {
+    parcelAddress.value.openForm(item, current).then(async (user) => {
+      await parcels.updateParcelRecipient(item.track_code, user, list);
+    });
+  };
   return {
     delete: {
       action: async (item) => {
@@ -14,12 +21,10 @@ export default function useParceListActions({
       },
     },
     selectClient: {
-      action: (item) => {
-        userls.value.open().then(async (user) => {
-          await parcels.updateParcelRecipient(item.track_code, user, list);
-        });
-      },
+      action: (item) => clientWorker(item),
     },
+    updateClient: async (data: any = {}) =>
+      clientWorker(data.item, data.current),
     openLabel: {
       action: (item) => {
         labelRef.value.open(item);

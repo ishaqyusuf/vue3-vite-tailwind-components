@@ -25,7 +25,6 @@ export function useBaseApi(path, q = {}, api: ApiOptions = {}) {
   }
   return {
     save: async (id, form, options: ApiReqOptions = {}) => {
-      console.log(JSON.stringify(form));
       return await (id ? update(id, form, options) : create(form, options));
     },
     index: async (query = {}, options: ApiReqOptions = {}) => {

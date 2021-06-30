@@ -1,6 +1,7 @@
 <template>
   <ClientCard
     @click="select"
+    :contacts="contacts"
     class="cursor-pointer hover:bg-gray-100"
     :client="client"
   ></ClientCard>
@@ -14,6 +15,7 @@ export default {
     ClientCard,
   },
   props: {
+    contacts: Boolean,
     lsHook: { type: Object, required: true },
     dataId: { required: true, type: Number },
   },

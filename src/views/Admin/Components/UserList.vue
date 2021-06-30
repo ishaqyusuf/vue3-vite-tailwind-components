@@ -28,6 +28,7 @@
               <UserListItem
                 class="p-2"
                 @selected="selectUser"
+                :contacts="contacts"
                 :data-id="id"
                 :ls-hook="listHook"
                 v-for="(id, index) in listHook.ids.value"
@@ -41,6 +42,7 @@
     <UserForm
       title="Create User"
       @back="closeUserForm"
+      address-mode
       ref="userForm"
       can-go-back
     ></UserForm>
@@ -54,6 +56,7 @@ import usersHook from "@/hooks/users";
 import useDebounceRef from "@/use/useDebounceRef";
 import UserListItem from "@/views/Admin/Components/UserListItem.vue";
 import UserForm from "@/views/Admin/Components/UserForm.vue";
+import { useAddressApi, useUsersApi } from "@/use/api/use-api";
 export default {
   components: {
     UserListItem,
@@ -62,6 +65,7 @@ export default {
   props: {
     title: { default: "" },
     query: Object,
+    contacts: Boolean,
   },
   setup(props, { emit }) {
     const listHook = useList();
@@ -71,24 +75,32 @@ export default {
     const resolver = ref();
     const rejecter = ref<any>();
     const loadUsers = async () => {
-      const { items, pager } = await usersHook.getUsers({
+      const api: any = props.contacts ? useAddressApi : useUsersApi();
+      const { items, pager } = await api.index({
         ...(props.query ?? {}),
         q: search.value,
+        finder: true,
       });
+      // await usersHook.getUsers({
+      //   ...(props.query ?? {}),
+      //   q: search.value,
+      // });
       listHook.refresh(items);
     };
-    const open = async (user = null) => {
+    const open = async (id = null) => {
       return new Promise((resolve, reject) => {
-        loadUsers();
         resolver.value = resolve;
         rejecter.value = reject;
+        if (id == null) loadUsers();
+        else openUserForm(id);
         show.value = true;
       });
     };
     const userForm = ref();
-    const openUserForm = () => {
+    const openUserForm = (id = null) => {
       show.value = false;
-      userForm.value.open().then((user) => {
+      console.log(id);
+      userForm.value.open(id).then((user) => {
         show.value = true;
         if (user) {
           selectUser(user.id, user);

@@ -4,9 +4,9 @@
     ref="btn"
     class="focus:outline-none flex rounded-md items-center w-full px-2 py-2 text-sm"
     :class="{
-      'text-gray-900': !active && !focused && !disabled,
-      'text-gray-400': disabled,
-      'bg-purple-500 text-white': (active || focused) && !disabled,
+      'text-gray-900': !plain && !active && !focused && !disabled,
+      'text-gray-400': !plain && disabled,
+      'bg-purple-500 text-white': !plain && (active || focused) && !disabled,
     }"
     @mouseenter="focused = true"
     @mouseleave="focused = false"
@@ -16,7 +16,7 @@
                   class="w-5 h-5 mr-2 text-violet-400"
                   aria-hidden="true"
                 /> -->
-    <slot />
+    <slot :focus="focused" />
   </button>
   <!-- </TMenuItem> -->
 </template>
@@ -27,6 +27,7 @@ export default {
   components: {},
   props: {
     active: Boolean,
+    plain: Boolean,
     disabled: Boolean,
   },
   setup(props, { emit }) {

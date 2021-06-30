@@ -53,8 +53,10 @@
 <script lang="ts">
 import DopeCard from "@/views/Settings/DopeCard.vue";
 import { onMounted, ref } from "vue";
-import useSiteDataApi, { SiteData } from "@/use/api/use-site-data-api";
-import useMetaDataApi, { MetaDataType } from "@/use/api/use-meta-data-api";
+import useMetaDataApi, {
+  MetaDataType,
+  useMetaApi,
+} from "@/use/api/use-meta-data-api";
 import Checkbox from "@/components/shared/Form/Checkbox.vue";
 export default {
   props: {},
@@ -69,12 +71,14 @@ export default {
     const forms = ref<any>({});
     const form = ref<any>({});
     const statusList = ref<any[]>([]);
+
+    const metaApi = useMetaApi(MetaDataType.PARCEL_DATA, true);
     onMounted(async () => {
-      const data = await useSiteDataApi.index({ slug: SiteData.ParcelData });
+      const data = await metaApi.index();
       if (data) {
         form.value = data;
-        content.value = data.content ?? {};
-        forms.value = content.value?.forms ?? {};
+        content.value = data.content?.data ?? {};
+        forms.value = data.content?.forms ?? {};
       }
 
       const { items } = await useMetaDataApi.index({
@@ -84,19 +88,18 @@ export default {
       statusList.value = items;
     });
     const updatePkg = async () => {
-      await useSiteDataApi.save(
+      await metaApi.save(
         form.value.id,
         {
           data: {
-            slug: SiteData.ParcelData,
-            title: SiteData.ParcelData,
             content: {
-              ...content.value,
+              ...{ data: content.value },
               ...{ forms: forms.value, custom: true },
             },
           },
         },
         {
+          showError: true,
           success: "Saved",
         }
       );

@@ -67,8 +67,11 @@
 <script lang="ts">
 import DopeCard from "@/views/Settings/DopeCard.vue";
 import { onMounted, ref } from "vue";
-import useSiteDataApi, { SiteData } from "@/use/api/use-site-data-api";
 import { useGeo } from "@/hooks/useGeo";
+import useMetaDataApi, {
+  MetaDataType,
+  useMetaApi,
+} from "@/use/api/use-meta-data-api";
 export default {
   props: {},
   components: {
@@ -81,16 +84,15 @@ export default {
     const forms = ref<any>({});
     const form = ref<any>({});
     const geo = useGeo();
+    const metaApi = useMetaApi(MetaDataType.PARCEL_CLIENT_DATA, true);
     onMounted(async () => {
-      const data = await useSiteDataApi.index({
-        slug: SiteData.ParcelClientData,
-      });
+      const data = await metaApi.index();
       if (data) {
         form.value = data;
-        var c = data.content ?? {};
+        var c = data.content?.data ?? {};
         if (!c.phone) c.phone = {};
         content.value = c;
-        forms.value = content.value?.forms ?? {};
+        forms.value = data.content?.forms ?? {};
       }
       const { country, state, city } = content.value;
       geo.initialize(
@@ -104,20 +106,19 @@ export default {
       );
     });
     const updatePkg = async () => {
-      await useSiteDataApi.save(
+      await metaApi.save(
         form.value.id,
         {
           data: {
-            slug: SiteData.ParcelClientData,
-            title: SiteData.ParcelClientData,
             content: {
-              ...content.value,
+              ...{ data: content.value },
               ...{ forms: forms.value, custom: true },
             },
           },
         },
         {
           success: "Saved",
+          showError: true,
         }
       );
     };

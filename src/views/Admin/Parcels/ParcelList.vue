@@ -114,7 +114,8 @@
     </TableAction>
     <Pager :data="pager" simple />
     <LabelViewer ref="labelRef"></LabelViewer>
-    <UserList ref="userls" title="Select Client"></UserList>
+    <ParcelAddressForm ref="parcelAddress"></ParcelAddressForm>
+    <UserList contacts ref="userls" title="Select Client"></UserList>
     <EditTracking :parcels-hook="list" ref="trackingEditor"></EditTracking>
     <ParcelFormPrompt :ls-hook="list" ref="parcelForm"></ParcelFormPrompt>
   </Container>
@@ -144,9 +145,11 @@ import useRouteData from "@/use/use-route-data";
 import { useRoute } from "vue-router";
 import useMetaLoader from "@/use/api/use-meta-loader";
 import useList from "@/use/useList";
+import ParcelAddressForm from "@/views/Admin/Parcels/ParcelAddressForm.vue";
 export default {
   components: {
     EditTracking,
+    ParcelAddressForm,
     ClientColumn,
     ParcelFormPrompt,
     UserList,
@@ -177,6 +180,7 @@ export default {
     const parcelForm = ref();
     const labelRef = ref();
     const trackingEditor = ref();
+    const parcelAddress = ref();
     list.initialize(
       [],
       parcels.transform,
@@ -187,6 +191,7 @@ export default {
         labelRef,
         trackingEditor,
         parcelForm,
+        parcelAddress,
       })
     );
 
@@ -238,6 +243,7 @@ export default {
     return {
       saveParcel,
       trackingEditor,
+      parcelAddress,
       userls,
       labelRef,
       parcelForm,

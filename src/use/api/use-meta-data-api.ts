@@ -1,8 +1,10 @@
 import { ApiReqOptions } from "@/@types/Interface";
 import { useBaseApi } from "./use-base-api";
 
-export function useMetaApi(type: MetaDataType) {
-  const uba = useBaseApi("meta-datas", { type });
+export function useMetaApi(type: MetaDataType, single = false) {
+  let q: any = { type };
+  if (single) q.single = true;
+  const uba = useBaseApi("meta-datas", q);
   return {
     ...uba,
     save: async (id, form, options: ApiReqOptions = {}) => {
@@ -31,4 +33,6 @@ export enum MetaDataType {
   TRACKING_LOCATION = "tracking_location",
   UNIT_SYSTEM = "unit_system",
   DEFAULT_INVOICE = "default_invoice",
+  PARCEL_CLIENT_DATA = "parcel_client_data",
+  PARCEL_DATA = "parcel_data",
 }

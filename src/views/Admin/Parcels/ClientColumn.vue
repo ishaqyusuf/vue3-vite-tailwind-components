@@ -1,18 +1,20 @@
 <template>
   <div class="">
-    <router-link
+    <div
+      @click="list.execute('updateClient', { item, client: item.client })"
       class="hover:text-blue-500"
       v-if="item.client"
-      :to="{
+    >
+      <!-- :to="{
         name: 'users',
         params: {
           mode,
           slug: item.client.id,
         },
-      }"
-    >
-      <span class="font-medium">{{ item.client.full_name }}</span>
-    </router-link>
+      }" -->
+      <span class="font-medium">{{ item.client.name }}</span>
+      <Truncify class="text-sm text-gray-500">{{ item.client.state }}</Truncify>
+    </div>
     <template v-else>
       <slot name="empty" :item="item">
         <span
