@@ -1,55 +1,12 @@
-<template>
-  <div
-    class=""
-    :class="{
-      'inline-flex w-full': false,
-    }"
-  >
-    <!-- <SideNavigation></SideNavigation> -->
-    <div class="sm:bg-gray-100 flex-1">
-      <div class="relative z-50">
-        <AlertContainer class="" />
-      </div>
-      <Header v-if="!fullScreen"></Header>
-      <router-view></router-view>
-    </div>
-    <Card
-      v-if="devMode"
-      class="fixed z-50 bottom-0 m-3 border-purple-500 border p-2 cursor-pointer overflow-auto"
-      @click="expand = !expand"
-      :class="{
-        'w-1/3 h-44': expand,
-        'w-1/6 h-10': !expand,
-      }"
-    >
-      <Truncify v-if="!expand">{{ user }}</Truncify>
-      <span v-else>{{ user }}</span>
-    </Card>
-  </div>
-</template>
+<template>HelloWorld</template>
 
 <script lang="ts">
-import { onMounted, ref, computed } from "vue";
-import Header from "@components/navs/Header.vue";
-import userAccount from "@/use/user-account";
-import useConfig from "@/use/configs";
+import { ref } from "vue";
+
 export default {
   props: {},
-  components: {
-    Header,
-  },
   setup(props, { emit }) {
-    onMounted(() => {
-      userAccount.authenticate();
-    });
-    const fullScreen = computed(() => useConfig.fullScreen.value);
-    const expand = ref(false);
-    return {
-      fullScreen,
-      devMode: import.meta.env.MODE !== "production",
-      ...userAccount,
-      expand,
-    };
+    return {};
   },
 };
 </script>

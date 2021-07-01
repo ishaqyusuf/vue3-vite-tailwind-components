@@ -13,16 +13,7 @@
     "types": ["vite/client", "@types/jest", "cypress"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@components/*": ["./src/components/*"],
-      "@views/*": ["./src/views/*"],
-      "@use/*": ["./src/use/*"],
-      "@services/*": ["./src/core/services/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@locales": ["./src/locales/*"],
-      "@core": ["./src/core/*"],
-      "@mixins": ["./src/mixins/*"],
-      "@assets": ["./src/assets/*"]
+      "@/*": ["./src/*"]
     },
     "plugins": [{ "name": "@vuedx/typescript-plugin-vue" }]
   },
