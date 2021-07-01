@@ -1,56 +1,45 @@
-# vite-wind
+# vue3-vite-chrome-extension-boilerplate
 
-WIP 🚧🚧🚧
+![Node.js CI](https://github.com/mubaidr/vue-chrome-extension-boilerplate/workflows/Node.js%20CI/badge.svg)[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
-  <p class="p-4 py-8 text-lg text">
-                It's a <a class="text-purple-500" href="https://v3.vuejs.org/" target="_blank" rel="noopener noreferrer">
-                    Vue 3 </a> boilerplate based on
-                <a class="text-purple-500" href="https://tailwindcss.com" target="_blank" rel="noopener noreferrer">
-                    Tailwindcss</a>
-                +
-                <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener noreferrer" class="text-purple-500">Typescript</a>
-                +
-                <a href="http://vitejs.dev/" target="_blank" rel="noopener noreferrer" class="text-purple-500">Vite</a>
-                +
-                <a href="https://azouaoui-med.github.io/css-pro-layout/" target="_blank" rel="noopener noreferrer" class="text-purple-500">css-pro-layout</a>, You could clone this repository and use the components that are
-                available so far, this template supports also the dark mode. if you like it please show some support by leaving a
-                star
-            </p>
-            
-## Demo 
+Boilerplate for Chrome extension preconfigured with Vue3, vitejs and tailwindcss.
 
-[LIVE DEMO](https://vite-wind.netlify.app/)
- 
-## Usage
+## Scripts
 
-clone this project by running
-
-    git clone https://github.com/boussadjra/vite-wind.git
-
-## Project setup
-
-```
+```json
+// install dependencies
 npm install
-```
 
-### Compiles and hot-reloads for development
-
-```
+// build extension and watch for changes
 npm run dev
-```
 
-### Compiles and minifies for production
-
-```
+// build extension zip
 npm run build
+
+// lint all source files
+npm run lint
 ```
 
-## screenshots
+## Contributors ✨
 
-![1](https://raw.githubusercontent.com/boussadjra/vite-wind/main/src/assets/screenshots/1.jpg)
-![2](https://raw.githubusercontent.com/boussadjra/vite-wind/main/src/assets/screenshots/2.jpg)
-![3](https://raw.githubusercontent.com/boussadjra/vite-wind/main/src/assets/screenshots/3.jpg)
-![4](https://raw.githubusercontent.com/boussadjra/vite-wind/main/src/assets/screenshots/4.jpg)
-![5](https://raw.githubusercontent.com/boussadjra/vite-wind/main/src/assets/screenshots/5.jpg)
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
-"# vue3-vite-tailwind-components" 
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/stealthleads"><img src="https://avatars0.githubusercontent.com/u/57643807?v=4" width="100px;" alt=""/><br /><sub><b>stealthleads</b></sub></a><br /><a href="#infra-stealthleads" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/mubaidr/vue-chrome-extension-boilerplate/commits?author=stealthleads" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/linkerGitHub"><img src="https://avatars3.githubusercontent.com/u/15519222?v=4" width="100px;" alt=""/><br /><sub><b>linkerGitHub</b></sub></a><br /><a href="https://github.com/mubaidr/vue-chrome-extension-boilerplate/commits?author=linkerGitHub" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/andrewmackie"><img src="https://avatars1.githubusercontent.com/u/1217203?v=4" width="100px;" alt=""/><br /><sub><b>Andrew Mackie</b></sub></a><br /><a href="https://github.com/mubaidr/vue-chrome-extension-boilerplate/commits?author=andrewmackie" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://momane.com"><img src="https://avatars3.githubusercontent.com/u/3389447?v=4" width="100px;" alt=""/><br /><sub><b>Hank X</b></sub></a><br /><a href="https://github.com/mubaidr/vue-chrome-extension-boilerplate/commits?author=hankxdev" title="Code">💻</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+# vue3-vite-chrome-extension-boilerplate
