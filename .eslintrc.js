@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  plugins: ["cypress", "@cypress/dev"],
+  plugins: [],
   env: {
     node: true,
   },
@@ -8,11 +8,6 @@ module.exports = {
   rules: {
     "no-console": process.env.MODE === "production" ? "error" : "off",
     "no-debugger": process.env.MODE === "production" ? "error" : "off",
-    "cypress/no-assigning-return-values": "error",
-    "cypress/no-unnecessary-waiting": "error",
-    "cypress/assertion-before-screenshot": "warn",
-    "cypress/no-force": "warn",
-    "cypress/no-async-tests": "error",
   },
   parserOptions: {
     parser: "@typescript-eslint/parser",

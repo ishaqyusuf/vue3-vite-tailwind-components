@@ -6,7 +6,7 @@ import { resolve } from "path";
 
 import ViteComponents from "vite-plugin-components";
 import Icons from "vite-plugin-icons";
-
+import { chromeExtension } from "vite-plugin-chrome-extension";
 import Components from "vite-plugin-components";
 import ViteIcons, { ViteIconsResolver } from "vite-plugin-icons";
 import analyze from "rollup-plugin-analyzer";
@@ -14,6 +14,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       plugins: [analyze()],
+      input: "src/manifest.json",
     },
   },
   resolve: {
@@ -22,6 +23,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    chromeExtension(),
     vue(),
     ViteComponents({
       dirs: ["src/components/shared"],

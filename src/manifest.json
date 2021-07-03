@@ -1,0 +1,30 @@
+{
+  "background": {
+    "service_worker": "background.ts"
+  },
+
+  "content_scripts": [
+    {
+      "js": ["content-scripts/main.ts"],
+      "matches": ["http://*/*", "https://*/*"]
+    }
+  ],
+  "description": "vue-chrome-extension-boilerplate",
+  "icons": {
+    "128": "assets/icons/icon_128.png"
+  },
+  "action": {
+    "default_icon": {
+      "128": "assets/icons/icon_128.png"
+    },
+    "default_title": "Vue Popup"
+  },
+  "manifest_version": 3,
+  "name": "vue-chrome-extension-boilerplate",
+  "options_ui": {
+    "open_in_tab": false,
+    "page": "options/index.html"
+  },
+  "permissions": ["activeTab", "tabs", "storage"],
+  "version": "1.0.0"
+}

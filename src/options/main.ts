@@ -1,5 +1,5 @@
 import App from "./App.vue";
-import "./styles.css";
+import "../assets/styles.css";
 import { createApp } from "vue";
 
 let app = createApp(App);
